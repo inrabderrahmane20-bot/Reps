@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { MapPin, LocateFixed } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/section-header';
 import { GlobalSearchBar } from '@/components/search/global-search-bar';
@@ -8,7 +9,8 @@ import { ActivityCard } from '@/components/cards/activity-card';
 import { ProviderCard } from '@/components/cards/provider-card';
 import { newsItems, communities, activities, providers } from '@/data/mock';
 
-export default function HomePage() {
+export default function HomePage({ params }: { params: { locale: string } }) {
+  setRequestLocale(params.locale);
   const t = useTranslations('home');
 
   return (

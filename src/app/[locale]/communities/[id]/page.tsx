@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, Users, ShieldCheck, MessageCircle, Heart, Flag } from 'lucide-react';
@@ -12,8 +12,9 @@ export function generateStaticParams() {
 export default async function CommunityDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { locale: string; id: string };
 }) {
+  setRequestLocale(params.locale);
   const community = communities.find((c) => c.id === params.id);
   if (!community) notFound();
 

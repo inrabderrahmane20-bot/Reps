@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, Share2, Bookmark } from 'lucide-react';
@@ -13,8 +13,9 @@ export function generateStaticParams() {
 export default async function NewsArticlePage({
   params,
 }: {
-  params: { id: string };
+  params: { locale: string; id: string };
 }) {
+  setRequestLocale(params.locale);
   const article = newsItems.find((item) => item.id === params.id);
   if (!article) notFound();
 

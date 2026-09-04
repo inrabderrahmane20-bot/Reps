@@ -8,7 +8,7 @@
   --font-arabic: 'Cairo', ui-sans-serif, sans-serif;
 }
 
-html[dir='rtl'] body {
+[dir='rtl'] {
   font-family: var(--font-arabic);
 }
 
@@ -39,7 +39,7 @@ body {
 .flip-rtl {
   transform: scaleX(1);
 }
-html[dir='rtl'] .flip-rtl {
+[dir='rtl'] .flip-rtl {
   transform: scaleX(-1);
 }
 

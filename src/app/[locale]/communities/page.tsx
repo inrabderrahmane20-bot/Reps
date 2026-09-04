@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { CommunityCard } from '@/components/cards/community-card';
 import { communities } from '@/data/mock';
 
-export default function CommunitiesPage() {
+export default function CommunitiesPage({ params }: { params: { locale: string } }) {
+  setRequestLocale(params.locale);
   const t = useTranslations('communities');
 
   return (

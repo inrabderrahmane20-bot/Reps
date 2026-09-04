@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { ActivityCard } from '@/components/cards/activity-card';
 import { activities } from '@/data/mock';
 
-export default function ActivitiesPage() {
+export default function ActivitiesPage({ params }: { params: { locale: string } }) {
+  setRequestLocale(params.locale);
   const t = useTranslations('activities');
 
   return (

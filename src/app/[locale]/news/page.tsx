@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { NewsCard } from '@/components/cards/news-card';
 import { newsItems } from '@/data/mock';
 
@@ -13,7 +14,8 @@ const categories = [
   'Education',
 ];
 
-export default function NewsPage() {
+export default function NewsPage({ params }: { params: { locale: string } }) {
+  setRequestLocale(params.locale);
   const t = useTranslations('news');
 
   return (

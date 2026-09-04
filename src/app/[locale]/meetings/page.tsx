@@ -1,11 +1,13 @@
 import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { SectionHeader } from '@/components/ui/section-header';
 import { MeetingProfileCard } from '@/components/cards/meeting-profile-card';
 import { MsnChatRoom } from '@/components/meetings/msn-chat-room';
 import { RoomCard } from '@/components/meetings/room-card';
 import { meetingProfiles, meetingRooms } from '@/data/mock';
 
-export default function MeetingsPage() {
+export default function MeetingsPage({ params }: { params: { locale: string } }) {
+  setRequestLocale(params.locale);
   const t = useTranslations('meetings');
 
   return (

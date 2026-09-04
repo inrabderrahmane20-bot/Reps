@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ChevronLeft, CalendarDays, MapPin, Users, Gauge, MessageCircle, Flag } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -11,8 +11,9 @@ export function generateStaticParams() {
 export default async function ActivityDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { locale: string; id: string };
 }) {
+  setRequestLocale(params.locale);
   const activity = activities.find((a) => a.id === params.id);
   if (!activity) notFound();
 
