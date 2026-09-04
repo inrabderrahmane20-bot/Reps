@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Fraunces', ui-serif, serif;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: 'Cairo', ui-sans-serif, sans-serif;
+}
+
+html[dir='rtl'] body {
+  font-family: var(--font-arabic);
+}
+
+body {
+  @apply bg-sand-50 text-ink-900 antialiased;
+  font-family: var(--font-sans);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Keyboard focus visibility */
+:focus-visible {
+  outline: 2px solid theme('colors.majorelle.600');
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Icons/arrows that indicate direction should mirror in RTL.
+   Apply this class to any chevron/arrow icon that points "forward". */
+.flip-rtl {
+  transform: scaleX(1);
+}
+html[dir='rtl'] .flip-rtl {
+  transform: scaleX(-1);
+}
+
+/* Horseshoe-arch motif used sparingly for hero art and section dividers */
+.arch-top {
+  border-top-left-radius: 40% 60%;
+  border-top-right-radius: 40% 60%;
+}
+
+.zellige-strip {
+  background-image: var(--zellige-pattern, none);
+}
+
+::selection {
+  background: theme('colors.saffron.400');
+  color: theme('colors.ink.900');
+}
