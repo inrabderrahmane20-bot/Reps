@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { CalendarDays, MapPin } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -10,6 +12,8 @@ export function ActivityCard({
   location,
   participants,
   max,
+  joined,
+  onJoin,
 }: {
   id: string;
   title: string;
@@ -18,10 +22,13 @@ export function ActivityCard({
   location: string;
   participants: number;
   max: number;
+  joined?: boolean;
+  onJoin?: () => void;
 }) {
   const t = useTranslations('common');
   const home = useTranslations('home');
   const spotsLeft = max - participants;
+  const full = spotsLeft <= 0 && !joined;
 
   return (
     <article className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-card">
@@ -41,13 +48,17 @@ export function ActivityCard({
       </Link>
       <div className="mt-1 flex items-center justify-between">
         <span className="text-xs font-medium text-ink-700">
-          {participants}/{max} · {spotsLeft} {t('spotsLeft')}
+          {participants}/{max} · {Math.max(spotsLeft, 0)} {t('spotsLeft')}
         </span>
         <button
           type="button"
-          className="rounded-full bg-majorelle-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-majorelle-700"
+          disabled={full}
+          onClick={onJoin}
+          className={`rounded-full px-3.5 py-1.5 text-xs font-semibold text-white transition-colors ${
+            full ? 'cursor-not-allowed bg-ink-300' : joined ? 'bg-ink-700 hover:bg-ink-900' : 'bg-majorelle-600 hover:bg-majorelle-700'
+          }`}
         >
-          {home('join')}
+          {full ? t('full') : joined ? t('leave') : home('join')}
         </button>
       </div>
     </article>

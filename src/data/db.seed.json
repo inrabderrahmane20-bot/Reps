@@ -1,0 +1,936 @@
+{
+  "users": [
+    {
+      "id": "u_admin",
+      "email": "admin@medina.ma",
+      "passwordHash": "aeef3672a86dedf0c6fb2aa328afced76a7a2541e9b677797def09dfdf3ffbca50e06a9b2506669180adae35a0a000bcd9ba8b5df31cb34a324dfbc46393f257",
+      "salt": "d1e5b6b7402b2eee4e0aae1c9a61301a",
+      "firstName": "Yasmine",
+      "lastName": "Admin",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "avatar": "https://i.pravatar.cc/200?u=u_admin",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [],
+      "bio": "Platform administrator.",
+      "role": "admin",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-02-16T12:12:44.980Z"
+    },
+    {
+      "id": "u_demo",
+      "email": "demo@medina.ma",
+      "passwordHash": "299d39d24335b09f17a47737db0081585ff65b1139252bfb87164948cab23c429526e2d70efd6ff7742c2accbb89a208bf8bf530274668546895195e6469a9ef",
+      "salt": "39dd8e0973120b0dc043ae290e830e0c",
+      "firstName": "Abdou",
+      "lastName": "Demo",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "avatar": "https://i.pravatar.cc/200?u=u_demo",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Swimming",
+        "Football",
+        "Photography",
+        "Travel"
+      ],
+      "bio": "Just here to try things out.",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-07-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_p1",
+      "email": "rachid.plumber@medina.ma",
+      "passwordHash": "297ea264675fa6c89b6b990e534f7aca347b64e2fe33ecb3038e626a4afb97f3e7d55cc6f2f8bb149dfee6e21bbcbee60d4a0444fd91a1c6985efd4f446fe728",
+      "salt": "8880cd1b583b0259864b0282d23cc9e5",
+      "firstName": "Rachid",
+      "lastName": "B.",
+      "city": "Marrakech",
+      "neighborhood": "Sidi Youssef Ben Ali",
+      "avatar": "https://i.pravatar.cc/200?u=u_p1",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Football"
+      ],
+      "bio": "Licensed plumber, 12 years in Marrakech.",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "approved",
+      "provider": {
+        "category": "Plumbing",
+        "title": "Licensed plumber, 12 years experience",
+        "description": "Licensed plumber covering leak repairs, installations and full bathroom fit-outs across Marrakech. Same-day response for emergencies within the service area.",
+        "specialties": [
+          "Leak repair",
+          "Water heater installation",
+          "Bathroom renovation",
+          "Emergency callouts"
+        ],
+        "serviceArea": "Guéliz, Hivernage, Medina — within 8 km",
+        "priceRange": "150–400 MAD / callout",
+        "availability": "available",
+        "lat": 31.6423,
+        "lng": -8.0089,
+        "portfolio": [
+          "https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=800&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop"
+        ],
+        "documents": [
+          "id_card.pdf",
+          "plumbing_certificate.pdf"
+        ]
+      },
+      "blockedUserIds": [],
+      "createdAt": "2025-07-31T12:12:44.980Z"
+    },
+    {
+      "id": "u_p2",
+      "email": "amal.electric@medina.ma",
+      "passwordHash": "5d20e1dd7dc93b64e616281cfec42514bf9d92ff0421f0c68038db62b648cedca70a1c1a67e74d6ae3bc0c00072180b21cba5de67fe0f7d745c80fd1ffb16eb3",
+      "salt": "67d563cac089294db037165667df6db2",
+      "firstName": "Amal",
+      "lastName": "E.",
+      "city": "Marrakech",
+      "neighborhood": "Semlalia",
+      "avatar": "https://i.pravatar.cc/200?u=u_p2",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [],
+      "bio": "Certified electrician, residential & commercial.",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "approved",
+      "provider": {
+        "category": "Electricity",
+        "title": "Certified electrician, residential & commercial",
+        "description": "Certified electrician handling wiring, panel upgrades and smart home installations. Comfortable with both older riad wiring and new-build apartments.",
+        "specialties": [
+          "Panel upgrades",
+          "Smart home wiring",
+          "Lighting design",
+          "Safety inspections"
+        ],
+        "serviceArea": "Guéliz, Semlalia — within 10 km",
+        "priceRange": "200–500 MAD / callout",
+        "availability": "later",
+        "lat": 31.6511,
+        "lng": -8.0126,
+        "portfolio": [
+          "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=800&auto=format&fit=crop"
+        ],
+        "documents": [
+          "id_card.pdf",
+          "electrician_license.pdf"
+        ]
+      },
+      "blockedUserIds": [],
+      "createdAt": "2025-11-08T12:12:44.980Z"
+    },
+    {
+      "id": "u_p3",
+      "email": "karim.cleaning@medina.ma",
+      "passwordHash": "5a8ecfc0159a393dda79c6799b545a968dece30d5abbbdbddbae9431f49baf3cb6ee515ebcefe3d6c3c2d22be2c7a738d0850382a87572e0b8c9084f4d363975",
+      "salt": "7b2da01e95cf8fea84f6b719fbcdc1c9",
+      "firstName": "Karim",
+      "lastName": "T.",
+      "city": "Marrakech",
+      "neighborhood": "Medina",
+      "avatar": "https://i.pravatar.cc/200?u=u_p3",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [],
+      "bio": "Home cleaning, weekly or one-off.",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "approved",
+      "provider": {
+        "category": "Cleaning",
+        "title": "Home cleaning, weekly or one-off",
+        "description": "Thorough home cleaning service for apartments, villas and riads. Offers recurring weekly plans as well as one-off deep cleans before or after events.",
+        "specialties": [
+          "Deep cleaning",
+          "Recurring weekly service",
+          "Move-in / move-out cleaning"
+        ],
+        "serviceArea": "Marrakech city center — within 6 km",
+        "priceRange": "120–300 MAD / visit",
+        "availability": "available",
+        "lat": 31.6295,
+        "lng": -7.9811,
+        "portfolio": [
+          "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=800&auto=format&fit=crop"
+        ],
+        "documents": [
+          "id_card.pdf"
+        ]
+      },
+      "blockedUserIds": [],
+      "createdAt": "2025-12-28T12:12:44.980Z"
+    },
+    {
+      "id": "u_p4",
+      "email": "nadia.photo@medina.ma",
+      "passwordHash": "9f091c4e8bb9a60c65ebe2de0e410fa73f3b2d694225f2d73cc66f0520a54d7d507abe5601b2a37d9af8b5ad44b6ef4452a33d78c69c0357c9f2072681081dd7",
+      "salt": "40e4b67be0aced1db8b929cb16486e8f",
+      "firstName": "Nadia",
+      "lastName": "K.",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "avatar": "https://i.pravatar.cc/200?u=u_p4",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [],
+      "bio": "Freelance photographer, just applied to become a provider.",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "pending",
+      "provider": {
+        "category": "Photography",
+        "title": "Event & portrait photographer",
+        "description": "Weddings, portraits and small events around Marrakech.",
+        "specialties": [
+          "Weddings",
+          "Portraits",
+          "Events"
+        ],
+        "serviceArea": "Marrakech — within 15 km",
+        "priceRange": "800–3000 MAD / session",
+        "availability": "available",
+        "lat": 31.6398,
+        "lng": -8.0089,
+        "portfolio": [],
+        "documents": [
+          "id_card.pdf",
+          "portfolio_link.pdf"
+        ]
+      },
+      "blockedUserIds": [],
+      "createdAt": "2026-08-30T12:12:44.980Z"
+    },
+    {
+      "id": "u_p5",
+      "email": "hicham.moving@medina.ma",
+      "passwordHash": "1c2e75f6099e1b3a35ead00edacf727d5828033c10657e2fee91ca2b892bf959705331bee981c68480eda1d02ca3337729112d0a5fc7d5ad1607cb5e0f0f97da",
+      "salt": "e126266ecf866d6b4d4c70b7efe56b25",
+      "firstName": "Hicham",
+      "lastName": "L.",
+      "city": "Marrakech",
+      "neighborhood": "Sidi Ghanem",
+      "avatar": "https://i.pravatar.cc/200?u=u_p5",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "rejected",
+      "provider": {
+        "category": "Moving",
+        "title": "Moving & transport",
+        "description": "Moving services, small truck available.",
+        "specialties": [
+          "Furniture moving"
+        ],
+        "serviceArea": "Marrakech",
+        "priceRange": "300-900 MAD",
+        "availability": "offline",
+        "lat": 31.6675,
+        "lng": -8.0325,
+        "portfolio": [],
+        "documents": [
+          "id_card.pdf"
+        ],
+        "rejectionReason": "Missing valid business registration document — please resubmit."
+      },
+      "blockedUserIds": [],
+      "createdAt": "2026-08-15T12:12:44.980Z"
+    },
+    {
+      "id": "u_sarah",
+      "email": "sarah@medina.ma",
+      "passwordHash": "c2b7ca920762daa1618320e0b5e4ed2d90128ed7c11aeee5fd43fefc8619049beb17a16cc9ad9aa155ef5668f871ead40154ebc743659b7b679aad58c8807ab6",
+      "salt": "49876cb5bd876b97376b53e6dd86cd36",
+      "firstName": "Sarah",
+      "lastName": "M.",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "avatar": "https://i.pravatar.cc/200?u=u_sarah",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Swimming",
+        "Travel",
+        "Photography"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_youssef",
+      "email": "youssef@medina.ma",
+      "passwordHash": "1083b01e9401a026f8b593bab13f30beee7d28ccea8d184a097660dd4f89685105adf7ef3e39466165cd03bfdce7ccdaead26a40136a44b5e2007d10709f58ef",
+      "salt": "e8a5051d1cc13598b9c4cc64825b0646",
+      "firstName": "Youssef",
+      "lastName": "A.",
+      "city": "Marrakech",
+      "neighborhood": "Medina",
+      "avatar": "https://i.pravatar.cc/200?u=u_youssef",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Cycling",
+        "Cooking"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_amine",
+      "email": "amine@medina.ma",
+      "passwordHash": "efa79eec7463de3e8e2b0d5f17808c81af32c557ba2f7c7c242e2ae29c23768ad9e0c16eb9d889e9377753b2134446ae9ae65bb31ea6b5608c96ff6e0e49ef7a",
+      "salt": "b7d86e89d32909978124ffe874a50901",
+      "firstName": "Amine",
+      "lastName": "R.",
+      "city": "Marrakech",
+      "neighborhood": "Hivernage",
+      "avatar": "https://i.pravatar.cc/200?u=u_amine",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Football",
+        "Gaming"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_lina",
+      "email": "lina@medina.ma",
+      "passwordHash": "59a56239f9485cf72d5661026ff57eb926d153be27e1e92025967c2500cb2283dc805b3859dd271a318fd63bddb5542d3d5c1745b7fdbbf622d37ec81a73c970",
+      "salt": "3ffcebe8a22e5dba2dd987eca3efd018",
+      "firstName": "Lina",
+      "lastName": "D.",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "avatar": "https://i.pravatar.cc/200?u=u_lina",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Books",
+        "Cinema"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_salma",
+      "email": "salma@medina.ma",
+      "passwordHash": "6f75d80affccf5c11e0aa25f6dafeae451147852a524f2445fb61947bfde69248d10c5ca68923eac8ff399f8baa51ab67210022c4e06bdca9b3bdfdf5b6a36ac",
+      "salt": "68bcd1712948473970400fefd07ccfb3",
+      "firstName": "Salma",
+      "lastName": "B.",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "avatar": "https://i.pravatar.cc/200?u=u_salma",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Parenting"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_omar",
+      "email": "omar@medina.ma",
+      "passwordHash": "1842db2c03fba12fa2bac2ab33a7d3d01eafa072115c6674ab6d7fee5b1475da9fce1dcda0373fb09e2bf95976ab40bc0667574df7a8faba5f96a178543c33c2",
+      "salt": "7d67a9a212a51e327eadb7fb9c384d97",
+      "firstName": "Omar",
+      "lastName": "S.",
+      "city": "Marrakech",
+      "neighborhood": "Medina",
+      "avatar": "https://i.pravatar.cc/200?u=u_omar",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Swimming"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_ines",
+      "email": "ines@medina.ma",
+      "passwordHash": "1bdfe61c56ea639634d923609392a9a09a0118f70ed981da96f914102016274653d716eed5028d3d1301de276c7db3349cece1075a07d418f97f6ae01aadc5b9",
+      "salt": "04d41bd8e00c37832af9582927e9a3c2",
+      "firstName": "Ines",
+      "lastName": "D.",
+      "city": "Marrakech",
+      "neighborhood": "Hivernage",
+      "avatar": "https://i.pravatar.cc/200?u=u_ines",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Travel"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    },
+    {
+      "id": "u_younes",
+      "email": "younes@medina.ma",
+      "passwordHash": "a8e443e6f5511dfb39236f7ee89f00fd624b361394efd22a79291b252d0dce28f3fedd799a6f92eb71bc43487b7eca62b79ec58704e20b86623ffce2bcdd20a5",
+      "salt": "17edfb246572a6949d285c4056afe7c6",
+      "firstName": "Younes",
+      "lastName": "K.",
+      "city": "Marrakech",
+      "neighborhood": "Medina",
+      "avatar": "https://i.pravatar.cc/200?u=u_younes",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "interests": [
+        "Cycling",
+        "Cooking"
+      ],
+      "bio": "",
+      "role": "user",
+      "status": "active",
+      "providerStatus": "none",
+      "provider": null,
+      "blockedUserIds": [],
+      "createdAt": "2026-06-06T12:12:44.980Z"
+    }
+  ],
+  "sessions": [],
+  "serviceRequests": [
+    {
+      "id": "sr1",
+      "clientId": "u_demo",
+      "providerId": "u_p1",
+      "category": "Plumbing",
+      "description": "Leaking pipe under the kitchen sink.",
+      "location": "Guéliz",
+      "date": "2026-09-05T12:12:44.980Z",
+      "status": "accepted",
+      "createdAt": "2026-09-02T12:12:44.980Z"
+    },
+    {
+      "id": "sr2",
+      "clientId": "u_sarah",
+      "providerId": "u_p1",
+      "category": "Plumbing",
+      "description": "Water heater not turning on.",
+      "location": "Guéliz",
+      "date": "2026-08-25T12:12:44.980Z",
+      "status": "completed",
+      "createdAt": "2026-08-23T12:12:44.980Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rv1",
+      "providerId": "u_p1",
+      "authorId": "u_sarah",
+      "requestId": "sr2",
+      "rating": 5,
+      "content": "Came within the hour, very professional.",
+      "createdAt": "2026-08-26T12:12:44.980Z"
+    }
+  ],
+  "news": [
+    {
+      "id": "n1",
+      "title": "New tramway line to connect Guéliz and the Medina by 2027",
+      "category": "Transportation",
+      "city": "Marrakech",
+      "neighborhood": "Guéliz",
+      "date": "2026-09-04T10:12:44.980Z",
+      "image": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=800&auto=format&fit=crop",
+      "author": "Medina Local Desk",
+      "summary": "The city council confirmed funding for a new tramway line linking Guéliz to the Medina, with construction expected to begin next year.",
+      "content": [
+        "Marrakech’s city council has confirmed funding for a new tramway line that will connect Guéliz to the Medina, aiming to ease congestion along one of the city’s busiest corridors.",
+        "Construction is expected to begin next year, with the first phase covering roughly six kilometers and eight stations.",
+        "A public consultation period will open in the coming weeks, giving residents the chance to review the proposed station locations before final approval."
+      ],
+      "tags": [
+        "Tramway",
+        "Guéliz",
+        "Medina",
+        "Infrastructure"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "n2",
+      "title": "Jemaa el-Fna weekend market extends opening hours for the summer",
+      "category": "Local Life",
+      "city": "Marrakech",
+      "neighborhood": "Medina",
+      "date": "2026-09-04T07:12:44.980Z",
+      "image": "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=800&auto=format&fit=crop",
+      "author": "Medina Local Desk",
+      "summary": "Stalls and food vendors around Jemaa el-Fna will stay open later through the summer months.",
+      "content": [
+        "The weekend market around Jemaa el-Fna will extend its opening hours through the summer, following a request from local merchants.",
+        "The extended hours will apply on Fridays, Saturdays and Sundays."
+      ],
+      "tags": [
+        "Medina",
+        "Market",
+        "Jemaa el-Fna"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "n3",
+      "title": "Hivernage business district opens applications for new shopfronts",
+      "category": "New Businesses",
+      "city": "Marrakech",
+      "neighborhood": "Hivernage",
+      "date": "2026-09-03T12:12:44.980Z",
+      "image": "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=800&auto=format&fit=crop",
+      "author": "Medina Local Desk",
+      "summary": "A new stretch of retail units in Hivernage is now open for applications.",
+      "content": [
+        "The Hivernage business district has opened applications for a new stretch of ground-floor retail units.",
+        "Applications will remain open for the next month."
+      ],
+      "tags": [
+        "Hivernage",
+        "Business",
+        "Opening"
+      ],
+      "status": "published"
+    }
+  ],
+  "communities": [
+    {
+      "id": "c1",
+      "name": "Marrakech Swimming Club",
+      "description": "For anyone who swims for fun, fitness or competition. We organize weekly pool sessions, open-water meetups and the occasional early-morning swim.",
+      "city": "Marrakech",
+      "category": "Hobbies",
+      "cover": "https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=1200&auto=format&fit=crop",
+      "rules": [
+        "Be respectful to other members, in the pool and in chat.",
+        "No promotion of unrelated businesses or services.",
+        "Confirm your spot before joining a session — cancel early if plans change."
+      ],
+      "creatorId": "u_omar",
+      "adminIds": [
+        "u_omar"
+      ],
+      "memberIds": [
+        "u_omar",
+        "u_demo",
+        "u_sarah"
+      ],
+      "lat": 31.6435,
+      "lng": -8.0126,
+      "createdAt": "2026-03-08T12:12:44.980Z"
+    },
+    {
+      "id": "c2",
+      "name": "Guéliz Parents Network",
+      "description": "A support network for parents in and around Guéliz.",
+      "city": "Marrakech",
+      "category": "Family",
+      "cover": "https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=1200&auto=format&fit=crop",
+      "rules": [
+        "No judgment — every parenting style is welcome here.",
+        "Recommendations only, please."
+      ],
+      "creatorId": "u_salma",
+      "adminIds": [
+        "u_salma"
+      ],
+      "memberIds": [
+        "u_salma",
+        "u_lina"
+      ],
+      "lat": 31.6511,
+      "lng": -8.0089,
+      "createdAt": "2026-04-07T12:12:44.980Z"
+    },
+    {
+      "id": "c3",
+      "name": "Medina Photography Walkers",
+      "description": "Weekly photo walks through the alleys, souks and rooftops of the Medina.",
+      "city": "Marrakech",
+      "category": "Hobbies",
+      "cover": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200&auto=format&fit=crop",
+      "rules": [
+        "Be considerate of residents and shopkeepers.",
+        "No spam."
+      ],
+      "creatorId": "u_youssef",
+      "adminIds": [
+        "u_youssef"
+      ],
+      "memberIds": [
+        "u_youssef"
+      ],
+      "lat": 31.6295,
+      "lng": -7.9897,
+      "createdAt": "2026-05-07T12:12:44.980Z"
+    },
+    {
+      "id": "c4",
+      "name": "Marrakech Travelers",
+      "description": "For travelers passing through or newly settled in Marrakech.",
+      "city": "Marrakech",
+      "category": "Lifestyle",
+      "cover": "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?q=80&w=1200&auto=format&fit=crop",
+      "rules": [
+        "Be welcoming.",
+        "No unsolicited DMs to other members."
+      ],
+      "creatorId": "u_ines",
+      "adminIds": [
+        "u_ines"
+      ],
+      "memberIds": [
+        "u_ines",
+        "u_younes"
+      ],
+      "lat": 31.6216,
+      "lng": -8.0022,
+      "createdAt": "2026-05-27T12:12:44.980Z"
+    }
+  ],
+  "communityPosts": [
+    {
+      "id": "cp1",
+      "communityId": "c1",
+      "authorId": "u_omar",
+      "content": "Saturday session moved to 18:00 because of the heat — same pool, see you there!",
+      "createdAt": "2026-09-04T09:12:44.980Z",
+      "likeUserIds": [
+        "u_sarah",
+        "u_demo"
+      ],
+      "comments": [
+        {
+          "id": "cm1",
+          "authorId": "u_sarah",
+          "content": "Perfect, see you there!",
+          "createdAt": "2026-09-04T10:12:44.980Z"
+        }
+      ]
+    },
+    {
+      "id": "cp2",
+      "communityId": "c1",
+      "authorId": "u_demo",
+      "content": "Looking for 2 more people for the open-water swim next weekend near Lalla Takerkoust.",
+      "createdAt": "2026-09-03T12:12:44.980Z",
+      "likeUserIds": [
+        "u_omar"
+      ],
+      "comments": []
+    },
+    {
+      "id": "cp3",
+      "communityId": "c2",
+      "authorId": "u_salma",
+      "content": "Anyone have a good recommendation for a pediatric dentist near Guéliz?",
+      "createdAt": "2026-09-04T06:12:44.980Z",
+      "likeUserIds": [],
+      "comments": []
+    }
+  ],
+  "activities": [
+    {
+      "id": "a1",
+      "creatorId": "u_omar",
+      "title": "Saturday swimming session",
+      "category": "Swimming",
+      "description": "A relaxed weekly swim at a private pool in Guéliz, organized by the Marrakech Swimming Club. All levels welcome.",
+      "date": "Sat · 18:00",
+      "location": "Guéliz",
+      "city": "Marrakech",
+      "lat": 31.6435,
+      "lng": -8.0126,
+      "max": 10,
+      "min": 4,
+      "equipment": [
+        "Swimwear",
+        "Towel",
+        "Goggles (optional)"
+      ],
+      "level": "All levels",
+      "visibility": "public",
+      "status": "open",
+      "participantIds": [
+        "u_omar",
+        "u_sarah",
+        "u_demo"
+      ],
+      "pendingParticipantIds": [],
+      "createdAt": "2026-09-01T12:12:44.980Z"
+    },
+    {
+      "id": "a2",
+      "creatorId": "u_amine",
+      "title": "5-a-side football",
+      "category": "Football",
+      "description": "Friendly 5-a-side match on an artificial pitch in Hivernage. Bring indoor or turf shoes.",
+      "date": "Tonight · 20:00",
+      "location": "Hivernage",
+      "city": "Marrakech",
+      "lat": 31.6295,
+      "lng": -8.0325,
+      "max": 10,
+      "min": 6,
+      "equipment": [
+        "Turf/indoor shoes",
+        "Water bottle"
+      ],
+      "level": "Intermediate",
+      "visibility": "public",
+      "status": "open",
+      "participantIds": [
+        "u_amine",
+        "u_youssef"
+      ],
+      "pendingParticipantIds": [],
+      "createdAt": "2026-09-03T12:12:44.980Z"
+    },
+    {
+      "id": "a3",
+      "creatorId": "u_youssef",
+      "title": "Photography walk in the Medina",
+      "category": "Photography",
+      "description": "A slow-paced walk through the Medina’s alleys and souks. We’ll stop for mint tea halfway through.",
+      "date": "Sun · 09:00",
+      "location": "Medina",
+      "city": "Marrakech",
+      "lat": 31.6295,
+      "lng": -7.9897,
+      "max": 12,
+      "min": 3,
+      "equipment": [
+        "Camera or phone",
+        "Comfortable shoes"
+      ],
+      "level": "All levels",
+      "visibility": "public",
+      "status": "open",
+      "participantIds": [
+        "u_youssef"
+      ],
+      "pendingParticipantIds": [],
+      "createdAt": "2026-09-02T12:12:44.980Z"
+    }
+  ],
+  "meetingProfiles": [
+    {
+      "userId": "u_sarah",
+      "age": 27,
+      "gender": "Female",
+      "maritalStatus": "Single",
+      "profession": "Architect",
+      "lookingFor": "Serious relationship",
+      "preferredAgeMin": 27,
+      "preferredAgeMax": 36,
+      "visibility": "everyone",
+      "active": true
+    },
+    {
+      "userId": "u_younes",
+      "age": 31,
+      "gender": "Male",
+      "maritalStatus": "Single",
+      "profession": "Engineer",
+      "lookingFor": "Marriage",
+      "preferredAgeMin": 24,
+      "preferredAgeMax": 32,
+      "visibility": "everyone",
+      "active": true
+    },
+    {
+      "userId": "u_demo",
+      "age": 29,
+      "gender": "Male",
+      "maritalStatus": "Single",
+      "profession": "Product manager",
+      "lookingFor": "Serious relationship",
+      "preferredAgeMin": 24,
+      "preferredAgeMax": 33,
+      "visibility": "everyone",
+      "active": true
+    }
+  ],
+  "meetingRequests": [
+    {
+      "id": "mr1",
+      "senderId": "u_sarah",
+      "receiverId": "u_demo",
+      "status": "pending",
+      "createdAt": "2026-09-04T07:12:44.980Z"
+    }
+  ],
+  "conversations": [],
+  "messages": [],
+  "rooms": [
+    {
+      "id": "r1",
+      "name": "Marrakech Serious Meetings",
+      "topic": "Serious relationships & marriage",
+      "city": "Marrakech",
+      "memberIds": [
+        "u_sarah",
+        "u_younes",
+        "u_demo"
+      ]
+    },
+    {
+      "id": "r2",
+      "name": "Professionals Marrakech",
+      "topic": "Young professionals",
+      "city": "Marrakech",
+      "memberIds": [
+        "u_sarah",
+        "u_youssef"
+      ]
+    },
+    {
+      "id": "r3",
+      "name": "Travelers Looking to Meet",
+      "topic": "For people who love to travel",
+      "city": "Marrakech",
+      "memberIds": [
+        "u_ines"
+      ]
+    }
+  ],
+  "roomMessages": [
+    {
+      "id": "rm1",
+      "roomId": "r1",
+      "senderId": "u_sarah",
+      "content": "Hello!",
+      "createdAt": "2026-09-04T11:12:44.980Z"
+    },
+    {
+      "id": "rm2",
+      "roomId": "r1",
+      "senderId": "u_younes",
+      "content": "Hi 👋",
+      "createdAt": "2026-09-04T11:12:44.980Z"
+    },
+    {
+      "id": "rm3",
+      "roomId": "r1",
+      "senderId": "u_sarah",
+      "content": "Nice to meet you",
+      "createdAt": "2026-09-04T11:12:44.980Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "nt1",
+      "userId": "u_demo",
+      "type": "meeting_request",
+      "content": "Sarah sent you a meeting request.",
+      "link": "/meetings",
+      "read": false,
+      "createdAt": "2026-09-04T07:12:44.980Z"
+    },
+    {
+      "id": "nt2",
+      "userId": "u_demo",
+      "type": "activity",
+      "content": "A new swimming activity was created near you.",
+      "link": "/activities/a1",
+      "read": false,
+      "createdAt": "2026-09-04T04:12:44.980Z"
+    },
+    {
+      "id": "nt3",
+      "userId": "u_demo",
+      "type": "service_request",
+      "content": "Rachid B. accepted your service request.",
+      "link": "/profile",
+      "read": true,
+      "createdAt": "2026-09-02T12:12:44.980Z"
+    }
+  ],
+  "reports": []
+}

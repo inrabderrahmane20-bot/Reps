@@ -1,11 +1,37 @@
-import { useTranslations } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
-import { CommunityCard } from '@/components/cards/community-card';
-import { communities } from '@/data/mock';
+'use client';
 
-export default function CommunitiesPage({ params }: { params: { locale: string } }) {
-  setRequestLocale(params.locale);
+import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { CommunityCard } from '@/components/cards/community-card';
+import { CreateCommunityModal } from '@/components/communities/create-community-modal';
+import { useAuth } from '@/context/auth-context';
+import { api } from '@/lib/api-client';
+
+interface CommunityRow {
+  id: string;
+  name: string;
+  category: string;
+  memberCount: number;
+  memberIds: string[];
+}
+
+export default function CommunitiesPage() {
   const t = useTranslations('communities');
+  const { user } = useAuth();
+  const [communities, setCommunities] = useState<CommunityRow[]>([]);
+  const [showCreate, setShowCreate] = useState(false);
+
+  function load() {
+    api.get<{ communities: CommunityRow[] }>('/communities').then((r) => setCommunities(r.communities));
+  }
+
+  useEffect(load, []);
+
+  async function toggleJoin(id: string) {
+    if (!user) return (window.location.href = '/login');
+    const res = await api.post<{ joined: boolean; memberCount: number }>(`/communities/${id}/join`);
+    setCommunities((cs) => cs.map((c) => (c.id === id ? { ...c, memberCount: res.memberCount, memberIds: res.joined ? [...c.memberIds, user.id] : c.memberIds.filter((m) => m !== user.id) } : c)));
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
@@ -16,6 +42,7 @@ export default function CommunitiesPage({ params }: { params: { locale: string }
         </div>
         <button
           type="button"
+          onClick={() => (user ? setShowCreate(true) : (window.location.href = '/login'))}
           className="rounded-full bg-majorelle-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-majorelle-700"
         >
           {t('createGroup')}
@@ -23,10 +50,28 @@ export default function CommunitiesPage({ params }: { params: { locale: string }
       </div>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {[...communities, ...communities].map((c, i) => (
-          <CommunityCard key={`${c.id}-${i}`} {...c} />
+        {communities.map((c) => (
+          <CommunityCard
+            key={c.id}
+            id={c.id}
+            name={c.name}
+            members={c.memberCount}
+            category={c.category}
+            joined={!!user && c.memberIds.includes(user.id)}
+            onJoin={() => toggleJoin(c.id)}
+          />
         ))}
       </div>
+
+      {showCreate && (
+        <CreateCommunityModal
+          onClose={() => setShowCreate(false)}
+          onCreated={() => {
+            setShowCreate(false);
+            load();
+          }}
+        />
+      )}
     </div>
   );
 }

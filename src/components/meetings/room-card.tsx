@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { Users2 } from 'lucide-react';
 
@@ -5,15 +7,19 @@ export function RoomCard({
   name,
   topic,
   online,
+  active,
+  onOpen,
 }: {
   name: string;
   topic: string;
   online: number;
+  active?: boolean;
+  onOpen?: () => void;
 }) {
   const t = useTranslations('meetings');
 
   return (
-    <article className="flex items-center justify-between gap-4 rounded-2xl bg-white p-4 shadow-card">
+    <article className={`flex items-center justify-between gap-4 rounded-2xl bg-white p-4 shadow-card ${active ? 'ring-2 ring-majorelle-500' : ''}`}>
       <div className="min-w-0">
         <h3 className="truncate font-display text-base font-semibold text-ink-900">{name}</h3>
         <p className="mt-0.5 truncate text-xs text-ink-500">{topic}</p>
@@ -24,6 +30,7 @@ export function RoomCard({
       </div>
       <button
         type="button"
+        onClick={onOpen}
         className="shrink-0 rounded-full bg-majorelle-600 px-4 py-2 text-xs font-semibold text-white hover:bg-majorelle-700"
       >
         {t('joinRoom')}

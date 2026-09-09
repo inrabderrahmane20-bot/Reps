@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 
 export function MeetingProfileCard({
@@ -7,6 +9,8 @@ export function MeetingProfileCard({
   compatibility,
   sharedInterests,
   lookingFor,
+  requestSent,
+  onSendRequest,
 }: {
   name: string;
   age: number;
@@ -14,6 +18,8 @@ export function MeetingProfileCard({
   compatibility: number;
   sharedInterests: string[];
   lookingFor: string;
+  requestSent?: boolean;
+  onSendRequest?: () => void;
 }) {
   const t = useTranslations('meetings');
 
@@ -31,21 +37,23 @@ export function MeetingProfileCard({
         </span>
       </div>
 
-      <div>
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-300">
-          {t('youBothLike')}
-        </p>
-        <div className="mt-1.5 flex flex-wrap gap-1.5">
-          {sharedInterests.map((interest) => (
-            <span
-              key={interest}
-              className="rounded-full bg-sand-100 px-2.5 py-1 text-xs font-medium text-ink-700"
-            >
-              {interest}
-            </span>
-          ))}
+      {sharedInterests.length > 0 && (
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-300">
+            {t('youBothLike')}
+          </p>
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {sharedInterests.map((interest) => (
+              <span
+                key={interest}
+                className="rounded-full bg-sand-100 px-2.5 py-1 text-xs font-medium text-ink-700"
+              >
+                {interest}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <p className="text-xs text-ink-500">
         {t('bothLookingFor')}: <span className="font-medium text-ink-700">{lookingFor}</span>
@@ -53,9 +61,13 @@ export function MeetingProfileCard({
 
       <button
         type="button"
-        className="mt-1 rounded-full bg-majorelle-600 px-4 py-2 text-sm font-semibold text-white hover:bg-majorelle-700"
+        disabled={requestSent}
+        onClick={onSendRequest}
+        className={`mt-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+          requestSent ? 'cursor-not-allowed bg-sand-100 text-ink-500' : 'bg-majorelle-600 text-white hover:bg-majorelle-700'
+        }`}
       >
-        {t('sendRequest')}
+        {requestSent ? t('requestSent') : t('sendRequest')}
       </button>
     </article>
   );

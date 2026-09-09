@@ -1,211 +1,388 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { Check, ClipboardCheck, LogOut, ShieldCheck, Sparkles, UserRound } from 'lucide-react';
-import { useDemoState } from '@/components/layout/demo-state-provider';
-import { createDemoId, DemoUser, ServiceSubmission } from '@/lib/demo-store';
+import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
+import { BadgeCheck, Clock, XCircle } from 'lucide-react';
+import { useAuth } from '@/context/auth-context';
+import { api, ApiError } from '@/lib/api-client';
 
-const categories = ['Plumber', 'Electrician', 'House cleaning', 'Painting', 'Beauty', 'Childcare'];
+interface ServiceRequestRow {
+  id: string;
+  providerName: string;
+  providerCategory?: string;
+  category: string;
+  description: string;
+  location: string;
+  date: string;
+  status: string;
+  providerId: string;
+  createdAt: string;
+}
 
 export default function ProfilePage() {
-  
-  const { state, setState } = useDemoState();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [adminMode, setAdminMode] = useState(false);
-  const [notice, setNotice] = useState('');
-  const [service, setService] = useState({ category: categories[0], title: '', description: '', area: 'Marrakech city', price: '' });
-  
-  function signIn(event: FormEvent) {
-    event.preventDefault();
-    const user: DemoUser = { name: name.trim() || 'Marrakech neighbour', email: email.trim() || 'you@example.com', role: 'client', city: 'Marrakech' };
-    setState({ ...state, user });
-    setNotice('You are signed in. Your client profile is ready.');
+  const { user, loading, setUser } = useAuth();
+  const router = useRouter();
+  const t = useTranslations('profile');
+  const common = useTranslations('common');
+  const providerT = useTranslations('provider');
+
+  const [editing, setEditing] = useState(false);
+  const [bio, setBio] = useState('');
+  const [interests, setInterests] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const [applying, setApplying] = useState(false);
+  const [requests, setRequests] = useState<ServiceRequestRow[]>([]);
+  const [reviewFor, setReviewFor] = useState<ServiceRequestRow | null>(null);
+
+  useEffect(() => {
+    if (!loading && !user) router.replace('/login');
+  }, [loading, user, router]);
+
+  useEffect(() => {
+    if (user) {
+      setBio(user.bio || '');
+      setInterests((user.interests || []).join(', '));
+      api.get<{ requests: ServiceRequestRow[] }>('/requests?role=client').then((r) => setRequests(r.requests)).catch(() => {});
+    }
+  }, [user]);
+
+  if (loading || !user) {
+    return <div className="mx-auto max-w-4xl px-4 py-16 text-center text-sm text-ink-500">{common('loading')}</div>;
   }
-  
-  function switchToProfessional() {
-    if (!state.user) return;
-    setState({ ...state, user: { ...state.user, role: 'professional' } });
-    setNotice('Professional mode is ready. Submit your service for review below.');
+
+  async function saveProfile() {
+    setSaving(true);
+    try {
+      const res = await api.patch<{ user: typeof user }>('/users/me', {
+        bio,
+        interests: interests.split(',').map((s) => s.trim()).filter(Boolean),
+      });
+      setUser(res.user);
+      setEditing(false);
+    } finally {
+      setSaving(false);
+    }
   }
-  
-  function submitService(event: FormEvent) {
-    event.preventDefault();
-    if (!state.user || !service.title.trim() || !service.description.trim()) return;
-    const submission: ServiceSubmission = {
-      id: createDemoId('service'),
-      ownerEmail: state.user.email,
-      name: state.user.name,
-      category: service.category,
-      title: service.title,
-      description: service.description,
-      serviceArea: service.area,
-      priceRange: service.price || 'Price on request',
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-    };
-    setState({ ...state, submissions: [submission, ...state.submissions], notificationRead: false });
-    setService({ ...service, title: '', description: '', price: '' });
-    setNotice('Submitted to the Medina admin team for verification.');
+
+  async function markComplete(id: string) {
+    await api.patch(`/requests/${id}`, { status: 'completed' });
+    setRequests((rs) => rs.map((r) => (r.id === id ? { ...r, status: 'completed' } : r)));
   }
-  
-  function approveSubmission(id: string) {
-    setState({ ...state, submissions: state.submissions.map((item) => item.id === id ? { ...item, status: 'approved' } : item), notificationRead: false });
-    setNotice('Service approved and published in Services and Map.');
+
+  async function cancelRequest(id: string) {
+    await api.patch(`/requests/${id}`, { status: 'cancelled' });
+    setRequests((rs) => rs.map((r) => (r.id === id ? { ...r, status: 'cancelled' } : r)));
   }
-  
-  function rejectSubmission(id: string) {
-    setState({ ...state, submissions: state.submissions.map((item) => item.id === id ? { ...item, status: 'rejected' } : item) });
-    setNotice('Submission rejected in the demo admin queue.');
-  }
-  
-  function signOut() {
-    setState({ ...state, user: null });
-    setAdminMode(false);
-    setNotice('Signed out of the demo account.');
-  }
-  
-  if (!state.user) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-14 md:px-8">
-        <div className="rounded-3xl bg-white p-7 shadow-card md:p-10">
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-majorelle-100 text-majorelle-700"><UserRound size={24} /></div>
-          <p className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-clay-500">Welcome to Medina</p>
-          <h1 className="mt-2 font-display text-4xl font-semibold text-ink-900">Your city profile</h1>
-          <p className="mt-3 text-sm leading-6 text-ink-500">Sign in as a normal client first. You can become a professional later without creating a second account.</p>
-          <form onSubmit={signIn} className="mt-8 space-y-4">
-            <label className="block text-sm font-semibold text-ink-800">Name<input value={name} onChange={(event) => setName(event.target.value)} className="mt-2 w-full rounded-xl border border-ink-900/10 px-4 py-3" placeholder="Your name" /></label>
-            <label className="block text-sm font-semibold text-ink-800">Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-ink-900/10 px-4 py-3" placeholder="you@example.com" /></label>
-            <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-majorelle-600 px-5 py-3 font-semibold text-white hover:bg-majorelle-700"><Sparkles size={17} /> Continue as client</button>
-          </form>
-          <p className="mt-4 text-xs text-ink-400">Demo mode: no account or password is sent anywhere.</p>
-        </div>
-      </div>
-    );
-  }
-  
-  const pending = state.submissions.filter((item) => item.status === 'pending');
+
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-4 py-10 md:px-8">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><p className="text-sm font-semibold uppercase tracking-[0.16em] text-clay-500">Account centre</p><h1 className="mt-2 font-display text-4xl font-semibold text-ink-900">Hello, {state.user.name}</h1><p className="mt-2 text-sm text-ink-500">{state.user.email} · {state.user.city}</p></div><button type="button" onClick={signOut} className="inline-flex items-center gap-2 self-start rounded-full border border-ink-900/10 bg-white px-4 py-2 text-sm font-semibold text-ink-700 hover:bg-sand-100"><LogOut size={16} /> Sign out</button></div>
-      {notice && <div className="rounded-xl border border-saffron-400/40 bg-saffron-50 px-4 py-3 text-sm font-medium text-ink-800">{notice}</div>}
-      <section className="grid gap-5 md:grid-cols-[1fr_1.2fr]">
-        <div className="rounded-3xl bg-white p-6 shadow-card"><div className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-2xl bg-majorelle-100 text-majorelle-700"><UserRound size={21} /></div><div><h2 className="font-display text-2xl font-semibold">Your profile</h2><span className="text-sm capitalize text-ink-500">{state.user.role} account</span></div></div><div className="mt-6 rounded-2xl bg-sand-50 p-4"><p className="text-xs font-bold uppercase tracking-wider text-ink-400">Current access</p><p className="mt-2 text-sm leading-6 text-ink-700">{state.user.role === 'client' ? 'Discover neighbourhoods, save providers and join activities.' : 'Your professional profile can receive service requests after approval.'}</p></div>{state.user.role === 'client' && <button type="button" onClick={switchToProfessional} className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-majorelle-600 px-4 py-3 text-sm font-semibold text-majorelle-700 hover:bg-majorelle-50"><ShieldCheck size={17} /> I offer a service</button>}{state.user.role === 'professional' && <div className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800"><ShieldCheck size={17} /> Professional mode enabled</div>}</div>
-        {state.user.role === 'professional' && <form onSubmit={submitService} className="rounded-3xl bg-ink-900 p-6 text-white shadow-card"><div className="flex items-center gap-3"><ClipboardCheck className="text-saffron-400" size={22} /><div><h2 className="font-display text-2xl font-semibold">List a service</h2><p className="text-sm text-ink-300">Admins review each listing before it goes live.</p></div></div><div className="mt-5 grid gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-ink-200">Category<select value={service.category} onChange={(event) => setService({ ...service, category: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white">{categories.map((category) => <option key={category} className="text-ink-900">{category}</option>)}</select></label><label className="text-sm font-medium text-ink-200">Service title<input required value={service.title} onChange={(event) => setService({ ...service, title: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white placeholder:text-ink-400" placeholder="e.g. Reliable home plumbing" /></label></div><label className="mt-3 block text-sm font-medium text-ink-200">Description<textarea required value={service.description} onChange={(event) => setService({ ...service, description: event.target.value })} className="mt-2 min-h-24 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white placeholder:text-ink-400" placeholder="What do you offer?" /></label><div className="mt-3 grid gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-ink-200">Service area<input value={service.area} onChange={(event) => setService({ ...service, area: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white" /></label><label className="text-sm font-medium text-ink-200">Price range<input value={service.price} onChange={(event) => setService({ ...service, price: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white placeholder:text-ink-400" placeholder="150–400 MAD" /></label></div><button className="mt-5 inline-flex items-center gap-2 rounded-xl bg-saffron-400 px-4 py-3 text-sm font-bold text-ink-900 hover:bg-saffron-300"><ClipboardCheck size={17} /> Send for verification</button></form>}
-      </section>
-      {state.submissions.length > 0 && <section className="rounded-3xl bg-white p-6 shadow-card"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-display text-2xl font-semibold">Your submissions</h2><p className="mt-1 text-sm text-ink-500">Track every service you have sent to the admin team.</p></div><button type="button" onClick={() => setAdminMode(!adminMode)} className="rounded-full border border-ink-900/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-ink-600 hover:bg-sand-50">{adminMode ? 'Close admin review' : 'Open demo admin review'}</button></div><div className="mt-5 space-y-3">{state.submissions.map((item) => <div key={item.id} className="flex flex-col justify-between gap-3 rounded-2xl border border-ink-900/10 p-4 sm:flex-row sm:items-center"><div><div className="flex flex-wrap items-center gap-2"><p className="font-semibold text-ink-900">{item.title}</p><span className={`rounded-full px-2 py-1 text-xs font-bold capitalize ${item.status === 'approved' ? 'bg-emerald-50 text-emerald-700' : item.status === 'rejected' ? 'bg-red-50 text-red-700' : 'bg-saffron-50 text-ink-700'}`}>{item.status}</span></div><p className="mt-1 text-sm text-ink-500">{item.category} · {item.serviceArea}</p></div>{adminMode && item.status === 'pending' && <div className="flex gap-2"><button type="button" onClick={() => approveSubmission(item.id)} className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-bold text-white"><Check size={14} /> Approve</button><button type="button" onClick={() => rejectSubmission(item.id)} className="rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-700">Reject</button></div>}</div>)}</div>{adminMode && pending.length > 0 && <p className="mt-4 text-xs font-medium text-ink-400">Demo admin queue: {pending.length} pending review{pending.length === 1 ? '' : 's'}.</p>}</section>}
+    <div className="mx-auto max-w-4xl px-4 py-10 md:px-8">
+      <div className="flex items-center gap-4">
+        <img src={user.avatar} alt="" className="h-20 w-20 rounded-full object-cover" />
+        <div className="min-w-0 flex-1">
+          <h1 className="font-display text-2xl font-semibold text-ink-900">
+            {user.firstName} {user.lastName}
+          </h1>
+          <p className="text-sm text-ink-500">
+            {user.city}
+            {user.neighborhood ? ` · ${user.neighborhood}` : ''}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setEditing((e) => !e)}
+          className="shrink-0 rounded-full border border-ink-900/10 bg-white px-4 py-2 text-sm font-semibold text-ink-700 hover:bg-sand-100"
+        >
+          {common('edit')}
+        </button>
+      </div>
+
+      {editing && (
+        <div className="mt-6 space-y-3 rounded-2xl bg-white p-4 shadow-card">
+          <div>
+            <label className="text-xs font-semibold text-ink-700">{t('bio')}</label>
+            <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="mt-1 w-full rounded-xl border border-ink-900/10 p-3 text-sm focus:border-majorelle-500 focus:outline-none" />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-ink-700">{t('interests')}</label>
+            <input value={interests} onChange={(e) => setInterests(e.target.value)} placeholder="Swimming, Photography, Travel" className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+          </div>
+          <button onClick={saveProfile} disabled={saving} className="rounded-full bg-majorelle-600 px-5 py-2 text-sm font-semibold text-white hover:bg-majorelle-700 disabled:opacity-60">
+            {common('saveChanges')}
+          </button>
+        </div>
+      )}
+
+      {!editing && (
+        <div className="mt-6 rounded-2xl bg-white p-4 shadow-card">
+          {user.bio ? <p className="text-sm text-ink-700">{user.bio}</p> : <p className="text-sm text-ink-300">No bio yet.</p>}
+          {user.interests.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {user.interests.map((i) => (
+                <span key={i} className="rounded-full bg-sand-100 px-2.5 py-1 text-xs font-medium text-ink-700">
+                  {i}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Provider status / application */}
+      <div className="mt-6 rounded-2xl bg-white p-4 shadow-card">
+        {user.providerStatus === 'none' && !applying && (
+          <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-display text-base font-semibold text-ink-900">{t('becomeProviderCta')}</p>
+              <p className="mt-1 max-w-lg text-sm text-ink-500">{t('becomeProviderDesc')}</p>
+            </div>
+            <button
+              onClick={() => setApplying(true)}
+              className="shrink-0 rounded-full bg-clay-400 px-5 py-2.5 text-sm font-semibold text-white hover:bg-clay-500"
+            >
+              {common('becomeProvider')}
+            </button>
+          </div>
+        )}
+
+        {user.providerStatus === 'pending' && (
+          <div className="flex items-center gap-3 text-saffron-600">
+            <Clock size={18} />
+            <p className="text-sm font-medium">{t('providerPendingNotice')}</p>
+          </div>
+        )}
+
+        {user.providerStatus === 'approved' && (
+          <div className="flex items-center gap-3 text-zellige-600">
+            <BadgeCheck size={18} />
+            <p className="text-sm font-medium">You are a verified provider. Manage requests from your provider dashboard.</p>
+          </div>
+        )}
+
+        {user.providerStatus === 'rejected' && !applying && (
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3 text-clay-500">
+              <XCircle size={18} className="mt-0.5 shrink-0" />
+              <div>
+                <p className="text-sm font-medium">{t('providerRejectedNotice')}</p>
+                {user.provider?.rejectionReason && (
+                  <p className="mt-1 text-xs text-ink-500">
+                    {providerT('rejectionReason')}: {user.provider.rejectionReason}
+                  </p>
+                )}
+              </div>
+            </div>
+            <button onClick={() => setApplying(true)} className="shrink-0 rounded-full bg-clay-400 px-5 py-2.5 text-sm font-semibold text-white hover:bg-clay-500">
+              {providerT('resubmit')}
+            </button>
+          </div>
+        )}
+
+        {applying && (
+          <ProviderApplicationForm
+            initial={user.provider}
+            onDone={(updatedUser) => {
+              setUser(updatedUser);
+              setApplying(false);
+            }}
+            onCancel={() => setApplying(false)}
+          />
+        )}
+      </div>
+
+      {/* My service requests */}
+      <div className="mt-8">
+        <h2 className="font-display text-lg font-semibold text-ink-900">{t('myRequests')}</h2>
+        {requests.length === 0 ? (
+          <p className="mt-3 text-sm text-ink-500">No service requests yet.</p>
+        ) : (
+          <div className="mt-3 space-y-2">
+            {requests.map((r) => (
+              <div key={r.id} className="rounded-2xl bg-white p-4 shadow-card">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <p className="text-sm font-semibold text-ink-900">
+                      {r.category} — {r.providerName}
+                    </p>
+                    <p className="text-xs text-ink-500">
+                      {r.location} · {r.date}
+                    </p>
+                  </div>
+                  <StatusPill status={r.status} />
+                </div>
+                <p className="mt-2 text-sm text-ink-700">{r.description}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {r.status === 'pending' && (
+                    <button onClick={() => cancelRequest(r.id)} className="rounded-full border border-ink-900/10 px-3.5 py-1.5 text-xs font-semibold text-ink-700 hover:bg-sand-100">
+                      {common('cancel')}
+                    </button>
+                  )}
+                  {r.status === 'accepted' && (
+                    <button onClick={() => markComplete(r.id)} className="rounded-full bg-zellige-500 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-zellige-600">
+                      {providerT('markComplete')}
+                    </button>
+                  )}
+                  {r.status === 'completed' && (
+                    <button onClick={() => setReviewFor(r)} className="rounded-full bg-majorelle-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-majorelle-700">
+                      Leave a review
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {reviewFor && <ReviewModal request={reviewFor} onClose={() => setReviewFor(null)} />}
     </div>
   );
 }
-/*
-  import { FormEvent, useState } from 'react';
-  import { Check, ClipboardCheck, LogOut, ShieldCheck, Sparkles, UserRound } from 'lucide-react';
-  import { useDemoState } from '@/components/layout/demo-state-provider';
-  import { createDemoId, DemoUser, ServiceSubmission } from '@/lib/demo-store';
 
-  const categories = ['Plumber', 'Electrician', 'House cleaning', 'Painting', 'Beauty', 'Childcare'];
+function StatusPill({ status }: { status: string }) {
+  const styles: Record<string, string> = {
+    pending: 'bg-saffron-500/10 text-saffron-600',
+    accepted: 'bg-majorelle-600/10 text-majorelle-700',
+    refused: 'bg-clay-400/10 text-clay-500',
+    completed: 'bg-zellige-500/10 text-zellige-600',
+    cancelled: 'bg-ink-900/5 text-ink-500',
+  };
+  return <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${styles[status] || ''}`}>{status}</span>;
+}
 
-  const { state, setState } = useDemoState();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [adminMode, setAdminMode] = useState(false);
-  const [notice, setNotice] = useState('');
-  const [service, setService] = useState({ category: categories[0], title: '', description: '', area: 'Marrakech city', price: '' });
+function ProviderApplicationForm({
+  initial,
+  onDone,
+  onCancel,
+}: {
+  initial: any;
+  onDone: (u: any) => void;
+  onCancel: () => void;
+}) {
+  const t = useTranslations('provider');
+  const common = useTranslations('common');
+  const [form, setForm] = useState({
+    category: initial?.category || '',
+    title: initial?.title || '',
+    description: initial?.description || '',
+    specialties: (initial?.specialties || []).join(', '),
+    serviceArea: initial?.serviceArea || '',
+    priceRange: initial?.priceRange || '',
+    documents: (initial?.documents || []).join(', '),
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
-  function signIn(event: FormEvent) {
-    event.preventDefault();
-    const user: DemoUser = { name: name.trim() || 'Marrakech neighbour', email: email.trim() || 'you@example.com', role: 'client', city: 'Marrakech' };
-    setState({ ...state, user });
-    setNotice('You are signed in. Your client profile is ready.');
+  function set<K extends keyof typeof form>(key: K, value: string) {
+    setForm((f) => ({ ...f, [key]: value }));
   }
 
-  function switchToProfessional() {
-    if (!state.user) return;
-    setState({ ...state, user: { ...state.user, role: 'professional' } });
-    setNotice('Professional mode is ready. Submit your service for review below.');
+  async function submit() {
+    setError(null);
+    setSaving(true);
+    try {
+      const res = await api.post<{ user: any }>('/providers/apply', {
+        ...form,
+        specialties: form.specialties.split(',').map((s) => s.trim()).filter(Boolean),
+        documents: form.documents.split(',').map((s) => s.trim()).filter(Boolean),
+      });
+      onDone(res.user);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+    } finally {
+      setSaving(false);
+    }
   }
 
-  function submitService(event: FormEvent) {
-    event.preventDefault();
-    if (!state.user || !service.title.trim() || !service.description.trim()) return;
-    const submission: ServiceSubmission = {
-      id: createDemoId('service'),
-      ownerEmail: state.user.email,
-      name: state.user.name,
-      category: service.category,
-      title: service.title,
-      description: service.description,
-      serviceArea: service.area,
-      priceRange: service.price || 'Price on request',
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-    };
-    setState({ ...state, submissions: [submission, ...state.submissions], notificationRead: false });
-    setService({ ...service, title: '', description: '', price: '' });
-    setNotice('Submitted to the Medina admin team for verification.');
-  }
-
-  function approveSubmission(id: string) {
-    setState({
-      ...state,
-      submissions: state.submissions.map((item) => item.id === id ? { ...item, status: 'approved' } : item),
-      notificationRead: false,
-    });
-    setNotice('Service approved and published in Services and Map.');
-  }
-
-  function rejectSubmission(id: string) {
-    setState({ ...state, submissions: state.submissions.map((item) => item.id === id ? { ...item, status: 'rejected' } : item) });
-    setNotice('Submission rejected in the demo admin queue.');
-  }
-
-  function signOut() {
-    setState({ ...state, user: null });
-    setAdminMode(false);
-    setNotice('Signed out of the demo account.');
-  }
-
-  if (!state.user) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-14 md:px-8">
-        <div className="rounded-3xl bg-white p-7 shadow-card md:p-10">
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-majorelle-100 text-majorelle-700"><UserRound size={24} /></div>
-          <p className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-clay-500">Welcome to Medina</p>
-          <h1 className="mt-2 font-display text-4xl font-semibold text-ink-900">Your city profile</h1>
-          <p className="mt-3 text-sm leading-6 text-ink-500">Sign in as a normal client first. You can become a professional later without creating a second account.</p>
-          <form onSubmit={signIn} className="mt-8 space-y-4">
-            <label className="block text-sm font-semibold text-ink-800">Name<input value={name} onChange={(event) => setName(event.target.value)} className="mt-2 w-full rounded-xl border border-ink-900/10 px-4 py-3" placeholder="Your name" /></label>
-            <label className="block text-sm font-semibold text-ink-800">Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-ink-900/10 px-4 py-3" placeholder="you@example.com" /></label>
-            <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-majorelle-600 px-5 py-3 font-semibold text-white hover:bg-majorelle-700"><Sparkles size={17} /> Continue as client</button>
-          </form>
-          <p className="mt-4 text-xs text-ink-400">Demo mode: no account or password is sent anywhere.</p>
-        </div>
-      </div>
-    );
-  }
-
-  const pending = state.submissions.filter((item) => item.status === 'pending');
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-4 py-10 md:px-8">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-        <div><p className="text-sm font-semibold uppercase tracking-[0.16em] text-clay-500">Account centre</p><h1 className="mt-2 font-display text-4xl font-semibold text-ink-900">Hello, {state.user.name}</h1><p className="mt-2 text-sm text-ink-500">{state.user.email} · {state.user.city}</p></div>
-        <button type="button" onClick={signOut} className="inline-flex items-center gap-2 self-start rounded-full border border-ink-900/10 bg-white px-4 py-2 text-sm font-semibold text-ink-700 hover:bg-sand-100"><LogOut size={16} /> Sign out</button>
-      </div>
-      {notice && <div className="rounded-xl border border-saffron-400/40 bg-saffron-50 px-4 py-3 text-sm font-medium text-ink-800">{notice}</div>}
-
-      <section className="grid gap-5 md:grid-cols-[1fr_1.2fr]">
-        <div className="rounded-3xl bg-white p-6 shadow-card">
-          <div className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-2xl bg-majorelle-100 text-majorelle-700"><UserRound size={21} /></div><div><h2 className="font-display text-2xl font-semibold">Your profile</h2><span className="text-sm capitalize text-ink-500">{state.user.role} account</span></div></div>
-          <div className="mt-6 rounded-2xl bg-sand-50 p-4"><p className="text-xs font-bold uppercase tracking-wider text-ink-400">Current access</p><p className="mt-2 text-sm leading-6 text-ink-700">{state.user.role === 'client' ? 'Discover neighbourhoods, save providers and join activities.' : 'Your professional profile can receive service requests after approval.'}</p></div>
-          {state.user.role === 'client' && <button type="button" onClick={switchToProfessional} className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-majorelle-600 px-4 py-3 text-sm font-semibold text-majorelle-700 hover:bg-majorelle-50"><ShieldCheck size={17} /> I offer a service</button>}
-          {state.user.role === 'professional' && <div className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800"><ShieldCheck size={17} /> Professional mode enabled</div>}
+    <div>
+      <h3 className="font-display text-base font-semibold text-ink-900">{t('applyTitle')}</h3>
+      <p className="mt-1 text-sm text-ink-500">{t('applySubtitle')}</p>
+      <div className="mt-4 space-y-3">
+        <div>
+          <label className="text-xs font-semibold text-ink-700">{t('categoryLabel')}</label>
+          <input value={form.category} onChange={(e) => set('category', e.target.value)} placeholder="Plumbing, Electricity, Cleaning…" className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
         </div>
-
-        {state.user.role === 'professional' && <form onSubmit={submitService} className="rounded-3xl bg-ink-900 p-6 text-white shadow-card"><div className="flex items-center gap-3"><ClipboardCheck className="text-saffron-400" size={22} /><div><h2 className="font-display text-2xl font-semibold">List a service</h2><p className="text-sm text-ink-300">Admins review each listing before it goes live.</p></div></div><div className="mt-5 grid gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-ink-200">Category<select value={service.category} onChange={(event) => setService({ ...service, category: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white">{categories.map((category) => <option key={category} className="text-ink-900">{category}</option>)}</select></label><label className="text-sm font-medium text-ink-200">Service title<input required value={service.title} onChange={(event) => setService({ ...service, title: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white placeholder:text-ink-400" placeholder="e.g. Reliable home plumbing" /></label></div><label className="mt-3 block text-sm font-medium text-ink-200">Description<textarea required value={service.description} onChange={(event) => setService({ ...service, description: event.target.value })} className="mt-2 min-h-24 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white placeholder:text-ink-400" placeholder="What do you offer?" /></label><div className="mt-3 grid gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-ink-200">Service area<input value={service.area} onChange={(event) => setService({ ...service, area: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white" /></label><label className="text-sm font-medium text-ink-200">Price range<input value={service.price} onChange={(event) => setService({ ...service, price: event.target.value })} className="mt-2 w-full rounded-xl border-0 bg-white/10 px-3 py-3 text-white placeholder:text-ink-400" placeholder="150–400 MAD" /></label></div><button className="mt-5 inline-flex items-center gap-2 rounded-xl bg-saffron-400 px-4 py-3 text-sm font-bold text-ink-900 hover:bg-saffron-300"><ClipboardCheck size={17} /> Send for verification</button></form>}
-      </section>
-
-      {state.submissions.length > 0 && <section className="rounded-3xl bg-white p-6 shadow-card"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-display text-2xl font-semibold">Your submissions</h2><p className="mt-1 text-sm text-ink-500">Track every service you have sent to the admin team.</p></div><button type="button" onClick={() => setAdminMode(!adminMode)} className="rounded-full border border-ink-900/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-ink-600 hover:bg-sand-50">{adminMode ? 'Close admin review' : 'Open demo admin review'}</button></div><div className="mt-5 space-y-3">{state.submissions.map((item) => <div key={item.id} className="flex flex-col justify-between gap-3 rounded-2xl border border-ink-900/10 p-4 sm:flex-row sm:items-center"><div><div className="flex flex-wrap items-center gap-2"><p className="font-semibold text-ink-900">{item.title}</p><span className={`rounded-full px-2 py-1 text-xs font-bold capitalize ${item.status === 'approved' ? 'bg-emerald-50 text-emerald-700' : item.status === 'rejected' ? 'bg-red-50 text-red-700' : 'bg-saffron-50 text-ink-700'}`}>{item.status}</span></div><p className="mt-1 text-sm text-ink-500">{item.category} · {item.serviceArea}</p></div>{adminMode && item.status === 'pending' && <div className="flex gap-2"><button type="button" onClick={() => approveSubmission(item.id)} className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-bold text-white"><Check size={14} /> Approve</button><button type="button" onClick={() => rejectSubmission(item.id)} className="rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-700">Reject</button></div>}</div>)}</div>{adminMode && pending.length > 0 && <p className="mt-4 text-xs font-medium text-ink-400">Demo admin queue: {pending.length} pending review{pending.length === 1 ? '' : 's'}.</p>}</section>}
+        <div>
+          <label className="text-xs font-semibold text-ink-700">{t('titleLabel')}</label>
+          <input value={form.title} onChange={(e) => set('title', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+        </div>
+        <div>
+          <label className="text-xs font-semibold text-ink-700">{t('descriptionLabel')}</label>
+          <textarea value={form.description} onChange={(e) => set('description', e.target.value)} rows={3} className="mt-1 w-full rounded-xl border border-ink-900/10 p-3 text-sm focus:border-majorelle-500 focus:outline-none" />
+        </div>
+        <div>
+          <label className="text-xs font-semibold text-ink-700">{t('specialtiesLabel')}</label>
+          <input value={form.specialties} onChange={(e) => set('specialties', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs font-semibold text-ink-700">{t('serviceAreaLabel')}</label>
+            <input value={form.serviceArea} onChange={(e) => set('serviceArea', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-ink-700">{t('priceRangeLabel')}</label>
+            <input value={form.priceRange} onChange={(e) => set('priceRange', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+          </div>
+        </div>
+        <div>
+          <label className="text-xs font-semibold text-ink-700">{t('documentsLabel')}</label>
+          <input value={form.documents} onChange={(e) => set('documents', e.target.value)} placeholder="id_card.pdf, certificate.pdf" className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+        </div>
+        {error && <p className="text-sm text-clay-500">{error}</p>}
+        <div className="flex gap-2">
+          <button onClick={submit} disabled={saving} className="rounded-full bg-clay-400 px-5 py-2.5 text-sm font-semibold text-white hover:bg-clay-500 disabled:opacity-60">
+            {t('submitApplication')}
+          </button>
+          <button onClick={onCancel} className="rounded-full border border-ink-900/10 px-5 py-2.5 text-sm font-semibold text-ink-700 hover:bg-sand-100">
+            {common('cancel')}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
-*/
+
+function ReviewModal({ request, onClose }: { request: ServiceRequestRow; onClose: () => void }) {
+  const [rating, setRating] = useState(5);
+  const [content, setContent] = useState('');
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit() {
+    setError(null);
+    try {
+      await api.post('/reviews', { requestId: request.id, rating, content });
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 px-4" onClick={onClose}>
+      <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <h3 className="font-display text-lg font-semibold text-ink-900">Rate {request.providerName}</h3>
+        {sent ? (
+          <p className="mt-4 text-sm text-ink-700">Thanks for your review!</p>
+        ) : (
+          <>
+            <div className="mt-3 flex gap-1">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button key={n} onClick={() => setRating(n)} className={`text-2xl ${n <= rating ? 'text-saffron-500' : 'text-ink-300'}`}>
+                  ★
+                </button>
+              ))}
+            </div>
+            <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={3} placeholder="How did it go?" className="mt-3 w-full rounded-xl border border-ink-900/10 p-3 text-sm focus:border-majorelle-500 focus:outline-none" />
+            {error && <p className="mt-2 text-xs text-clay-500">{error}</p>}
+            <button onClick={submit} className="mt-3 w-full rounded-full bg-majorelle-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-majorelle-700">
+              Submit review
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

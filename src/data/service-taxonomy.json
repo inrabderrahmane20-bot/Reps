@@ -1,0 +1,1134 @@
+[
+  {
+    "name": "MAISON & BÂTIMENT",
+    "children": [
+      {
+        "name": "Plomberie",
+        "children": [
+          {
+            "name": "Installation plomberie"
+          },
+          {
+            "name": "Réparation fuite d'eau"
+          },
+          {
+            "name": "Débouchage canalisation"
+          },
+          {
+            "name": "Réparation robinetterie"
+          },
+          {
+            "name": "Installation chauffe-eau"
+          },
+          {
+            "name": "Réparation chauffe-eau"
+          },
+          {
+            "name": "Installation sanitaire"
+          },
+          {
+            "name": "WC"
+          },
+          {
+            "name": "Salle de bain"
+          },
+          {
+            "name": "Recherche de fuite"
+          }
+        ]
+      },
+      {
+        "name": "Électricité",
+        "children": [
+          {
+            "name": "Installation électrique"
+          },
+          {
+            "name": "Dépannage électrique"
+          },
+          {
+            "name": "Tableau électrique"
+          },
+          {
+            "name": "Prises & interrupteurs"
+          },
+          {
+            "name": "Éclairage"
+          },
+          {
+            "name": "Court-circuit"
+          },
+          {
+            "name": "Mise aux normes"
+          },
+          {
+            "name": "Installation domotique"
+          },
+          {
+            "name": "Électricité industrielle"
+          }
+        ]
+      },
+      {
+        "name": "Maçonnerie",
+        "children": [
+          {
+            "name": "Construction"
+          },
+          {
+            "name": "Rénovation"
+          },
+          {
+            "name": "Mur"
+          },
+          {
+            "name": "Cloison"
+          },
+          {
+            "name": "Fondation"
+          },
+          {
+            "name": "Béton"
+          },
+          {
+            "name": "Réparation"
+          }
+        ]
+      },
+      {
+        "name": "Peinture",
+        "children": [
+          {
+            "name": "Peinture intérieure"
+          },
+          {
+            "name": "Peinture extérieure"
+          },
+          {
+            "name": "Façade"
+          },
+          {
+            "name": "Enduit"
+          },
+          {
+            "name": "Décoration murale"
+          },
+          {
+            "name": "Stucco"
+          },
+          {
+            "name": "Tadelakt"
+          },
+          {
+            "name": "Peinture traditionnelle marocaine"
+          }
+        ]
+      },
+      {
+        "name": "Menuiserie",
+        "children": [
+          {
+            "name": "Menuiserie bois"
+          },
+          {
+            "name": "Menuiserie aluminium"
+          },
+          {
+            "name": "PVC"
+          },
+          {
+            "name": "Portes"
+          },
+          {
+            "name": "Fenêtres"
+          },
+          {
+            "name": "Placards"
+          },
+          {
+            "name": "Dressing"
+          },
+          {
+            "name": "Cuisine"
+          },
+          {
+            "name": "Sur mesure"
+          }
+        ]
+      },
+      {
+        "name": "Métallerie & Ferronnerie",
+        "children": [
+          {
+            "name": "Portails"
+          },
+          {
+            "name": "Grilles"
+          },
+          {
+            "name": "Garde-corps"
+          },
+          {
+            "name": "Escaliers"
+          },
+          {
+            "name": "Structures métalliques"
+          },
+          {
+            "name": "Sur mesure"
+          }
+        ]
+      },
+      {
+        "name": "Carrelage & Sol",
+        "children": [
+          {
+            "name": "Carrelage"
+          },
+          {
+            "name": "Faïence"
+          },
+          {
+            "name": "Marbre"
+          },
+          {
+            "name": "Zellige"
+          },
+          {
+            "name": "Parquet"
+          },
+          {
+            "name": "Sol PVC"
+          },
+          {
+            "name": "Pose & rénovation"
+          }
+        ]
+      },
+      {
+        "name": "Étanchéité",
+        "children": [
+          {
+            "name": "Toiture"
+          },
+          {
+            "name": "Terrasse"
+          },
+          {
+            "name": "Salle de bain"
+          },
+          {
+            "name": "Piscine"
+          },
+          {
+            "name": "Murs"
+          }
+        ]
+      },
+      {
+        "name": "Climatisation & Chauffage",
+        "children": [
+          {
+            "name": "Installation climatisation"
+          },
+          {
+            "name": "Entretien climatisation"
+          },
+          {
+            "name": "Réparation climatisation"
+          },
+          {
+            "name": "Climatisation centralisée"
+          },
+          {
+            "name": "Chauffage"
+          },
+          {
+            "name": "Chaudière"
+          },
+          {
+            "name": "Ventilation"
+          }
+        ]
+      },
+      {
+        "name": "Piscine",
+        "children": [
+          {
+            "name": "Construction"
+          },
+          {
+            "name": "Entretien"
+          },
+          {
+            "name": "Nettoyage"
+          },
+          {
+            "name": "Pompe"
+          },
+          {
+            "name": "Filtration"
+          },
+          {
+            "name": "Réparation"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "NETTOYAGE & ENTRETIEN",
+    "children": [
+      {
+        "name": "Nettoyage maison"
+      },
+      {
+        "name": "Nettoyage appartement"
+      },
+      {
+        "name": "Nettoyage villa"
+      },
+      {
+        "name": "Nettoyage riad"
+      },
+      {
+        "name": "Nettoyage bureau"
+      },
+      {
+        "name": "Nettoyage après travaux"
+      },
+      {
+        "name": "Nettoyage vitres"
+      },
+      {
+        "name": "Nettoyage tapis"
+      },
+      {
+        "name": "Nettoyage canapé"
+      },
+      {
+        "name": "Nettoyage matelas"
+      },
+      {
+        "name": "Nettoyage voiture"
+      },
+      {
+        "name": "Désinfection"
+      },
+      {
+        "name": "Désinsectisation"
+      },
+      {
+        "name": "Dératisation"
+      },
+      {
+        "name": "Entretien régulier"
+      }
+    ]
+  },
+  {
+    "name": "JARDIN & EXTÉRIEUR",
+    "children": [
+      {
+        "name": "Jardinier",
+        "children": [
+          {
+            "name": "Entretien jardin"
+          },
+          {
+            "name": "Taille"
+          },
+          {
+            "name": "Plantation"
+          },
+          {
+            "name": "Gazon"
+          },
+          {
+            "name": "Arrosage"
+          }
+        ]
+      },
+      {
+        "name": "Paysagiste"
+      },
+      {
+        "name": "Élagage"
+      },
+      {
+        "name": "Système d'irrigation"
+      },
+      {
+        "name": "Installation goutte-à-goutte"
+      },
+      {
+        "name": "Terrasses"
+      },
+      {
+        "name": "Entretien espaces verts"
+      }
+    ]
+  },
+  {
+    "name": "AUTOMOBILE & MOTO",
+    "children": [
+      {
+        "name": "Mécanicien",
+        "children": [
+          {
+            "name": "Révision"
+          },
+          {
+            "name": "Freins"
+          },
+          {
+            "name": "Moteur"
+          },
+          {
+            "name": "Embrayage"
+          },
+          {
+            "name": "Batterie"
+          },
+          {
+            "name": "Diagnostic"
+          }
+        ]
+      },
+      {
+        "name": "Électricien automobile"
+      },
+      {
+        "name": "Carrossier"
+      },
+      {
+        "name": "Peintre automobile"
+      },
+      {
+        "name": "Pneumatique"
+      },
+      {
+        "name": "Vidange"
+      },
+      {
+        "name": "Climatisation automobile"
+      },
+      {
+        "name": "Lavage automobile"
+      },
+      {
+        "name": "Nettoyage intérieur"
+      },
+      {
+        "name": "Polissage"
+      },
+      {
+        "name": "Débosselage"
+      },
+      {
+        "name": "Vitres automobiles"
+      },
+      {
+        "name": "Dépannage / remorquage"
+      },
+      {
+        "name": "Moto"
+      },
+      {
+        "name": "Scooter"
+      }
+    ]
+  },
+  {
+    "name": "INFORMATIQUE & TECHNOLOGIE",
+    "children": [
+      {
+        "name": "Informatique",
+        "children": [
+          {
+            "name": "Réparation ordinateur"
+          },
+          {
+            "name": "Installation Windows"
+          },
+          {
+            "name": "Nettoyage ordinateur"
+          },
+          {
+            "name": "Récupération données"
+          },
+          {
+            "name": "Installation logiciels"
+          }
+        ]
+      },
+      {
+        "name": "Téléphone",
+        "children": [
+          {
+            "name": "Écran"
+          },
+          {
+            "name": "Batterie"
+          },
+          {
+            "name": "Connecteur"
+          },
+          {
+            "name": "Déblocage"
+          }
+        ]
+      },
+      {
+        "name": "Réseau & Wi-Fi"
+      },
+      {
+        "name": "Installation caméra"
+      },
+      {
+        "name": "Alarme & sécurité"
+      },
+      {
+        "name": "Smart Home"
+      },
+      {
+        "name": "Développement web"
+      },
+      {
+        "name": "Développement mobile"
+      },
+      {
+        "name": "Graphisme"
+      },
+      {
+        "name": "Montage vidéo"
+      },
+      {
+        "name": "Photographie"
+      },
+      {
+        "name": "Assistance informatique"
+      }
+    ]
+  },
+  {
+    "name": "SERVICES À DOMICILE",
+    "children": [
+      {
+        "name": "Aide ménagère"
+      },
+      {
+        "name": "Cuisinier à domicile"
+      },
+      {
+        "name": "Chef privé"
+      },
+      {
+        "name": "Courses / commissions"
+      },
+      {
+        "name": "Repassage"
+      },
+      {
+        "name": "Lessive"
+      },
+      {
+        "name": "Garde d'enfants"
+      },
+      {
+        "name": "Aide aux personnes âgées"
+      },
+      {
+        "name": "Pet sitting"
+      },
+      {
+        "name": "Dog walking"
+      },
+      {
+        "name": "Assistance quotidienne"
+      }
+    ]
+  },
+  {
+    "name": "BEAUTÉ & BIEN-ÊTRE",
+    "children": [
+      {
+        "name": "Coiffeur",
+        "children": [
+          {
+            "name": "Homme"
+          },
+          {
+            "name": "Femme"
+          },
+          {
+            "name": "Coupe"
+          },
+          {
+            "name": "Brushing"
+          },
+          {
+            "name": "Coloration"
+          },
+          {
+            "name": "Coiffure événementielle"
+          }
+        ]
+      },
+      {
+        "name": "Barbier"
+      },
+      {
+        "name": "Maquilleuse"
+      },
+      {
+        "name": "Esthéticienne"
+      },
+      {
+        "name": "Manucure"
+      },
+      {
+        "name": "Pédicure"
+      },
+      {
+        "name": "Massage"
+      },
+      {
+        "name": "Hammam"
+      },
+      {
+        "name": "Spa à domicile"
+      },
+      {
+        "name": "Beauté événementielle"
+      }
+    ]
+  },
+  {
+    "name": "MODE & ARTISANAT",
+    "children": [
+      {
+        "name": "Couturier / Couturière",
+        "children": [
+          {
+            "name": "Retouches"
+          },
+          {
+            "name": "Confection"
+          },
+          {
+            "name": "Caftan"
+          },
+          {
+            "name": "Djellaba"
+          },
+          {
+            "name": "Tenues sur mesure"
+          }
+        ]
+      },
+      {
+        "name": "Broderie"
+      },
+      {
+        "name": "Tapis"
+      },
+      {
+        "name": "Cuir"
+      },
+      {
+        "name": "Maroquinerie"
+      },
+      {
+        "name": "Bijoux"
+      },
+      {
+        "name": "Artisanat marocain"
+      },
+      {
+        "name": "Zellige"
+      },
+      {
+        "name": "Poterie"
+      },
+      {
+        "name": "Bois sculpté"
+      },
+      {
+        "name": "Décoration artisanale"
+      }
+    ]
+  },
+  {
+    "name": "MARIAGE & ÉVÉNEMENTS",
+    "children": [
+      {
+        "name": "Wedding planner"
+      },
+      {
+        "name": "Décoration"
+      },
+      {
+        "name": "Traiteur"
+      },
+      {
+        "name": "Serveurs"
+      },
+      {
+        "name": "DJ"
+      },
+      {
+        "name": "Musiciens"
+      },
+      {
+        "name": "Groupe traditionnel"
+      },
+      {
+        "name": "Dakka Marrakchia"
+      },
+      {
+        "name": "Photographe"
+      },
+      {
+        "name": "Vidéaste"
+      },
+      {
+        "name": "Animation"
+      },
+      {
+        "name": "Location mobilier"
+      },
+      {
+        "name": "Location vaisselle"
+      },
+      {
+        "name": "Tentes & chapiteaux"
+      },
+      {
+        "name": "Fleurs"
+      },
+      {
+        "name": "Gâteaux"
+      },
+      {
+        "name": "Invitations"
+      },
+      {
+        "name": "Feu d'artifice / effets événementiels"
+      },
+      {
+        "name": "Personnel événementiel"
+      }
+    ]
+  },
+  {
+    "name": "CUISINE & ALIMENTATION",
+    "children": [
+      {
+        "name": "Traiteur"
+      },
+      {
+        "name": "Cuisinier"
+      },
+      {
+        "name": "Pâtissier"
+      },
+      {
+        "name": "Boulanger"
+      },
+      {
+        "name": "Gâteaux personnalisés"
+      },
+      {
+        "name": "Cuisine marocaine"
+      },
+      {
+        "name": "Cuisine internationale"
+      },
+      {
+        "name": "Chef à domicile"
+      },
+      {
+        "name": "Meal prep"
+      },
+      {
+        "name": "Livraison repas"
+      }
+    ]
+  },
+  {
+    "name": "TRANSPORT & LOGISTIQUE",
+    "children": [
+      {
+        "name": "Chauffeur",
+        "children": [
+          {
+            "name": "Chauffeur privé"
+          },
+          {
+            "name": "Aéroport"
+          },
+          {
+            "name": "Journée"
+          },
+          {
+            "name": "Événement"
+          },
+          {
+            "name": "Longue distance"
+          }
+        ]
+      },
+      {
+        "name": "Déménagement"
+      },
+      {
+        "name": "Transport de marchandises"
+      },
+      {
+        "name": "Livraison"
+      },
+      {
+        "name": "Courses"
+      },
+      {
+        "name": "Transport mobilier"
+      },
+      {
+        "name": "Transport événementiel"
+      },
+      {
+        "name": "Manutention"
+      }
+    ]
+  },
+  {
+    "name": "SÉCURITÉ",
+    "children": [
+      {
+        "name": "Agent de sécurité"
+      },
+      {
+        "name": "Gardien"
+      },
+      {
+        "name": "Surveillance"
+      },
+      {
+        "name": "Sécurité événementielle"
+      },
+      {
+        "name": "Caméras"
+      },
+      {
+        "name": "Alarmes"
+      },
+      {
+        "name": "Contrôle d'accès"
+      },
+      {
+        "name": "Gardiennage"
+      }
+    ]
+  },
+  {
+    "name": "ÉDUCATION & FORMATION",
+    "children": [
+      {
+        "name": "Soutien scolaire"
+      },
+      {
+        "name": "Mathématiques"
+      },
+      {
+        "name": "Physique"
+      },
+      {
+        "name": "Français"
+      },
+      {
+        "name": "Anglais"
+      },
+      {
+        "name": "Arabe"
+      },
+      {
+        "name": "Informatique"
+      },
+      {
+        "name": "Programmation"
+      },
+      {
+        "name": "Préparation examens"
+      },
+      {
+        "name": "Formation professionnelle"
+      },
+      {
+        "name": "Musique"
+      },
+      {
+        "name": "Cours particuliers"
+      }
+    ]
+  },
+  {
+    "name": "ANIMAUX",
+    "children": [
+      {
+        "name": "Vétérinaire"
+      },
+      {
+        "name": "Toiletteur"
+      },
+      {
+        "name": "Pet sitter"
+      },
+      {
+        "name": "Promenade"
+      },
+      {
+        "name": "Pension"
+      },
+      {
+        "name": "Dressage"
+      },
+      {
+        "name": "Transport animalier"
+      }
+    ]
+  },
+  {
+    "name": "LOCATION DE MATÉRIEL",
+    "children": [
+      {
+        "name": "Outils"
+      },
+      {
+        "name": "Matériel de construction"
+      },
+      {
+        "name": "Échelles"
+      },
+      {
+        "name": "Échafaudages"
+      },
+      {
+        "name": "Matériel événementiel"
+      },
+      {
+        "name": "Tables & chaises"
+      },
+      {
+        "name": "Sonorisation"
+      },
+      {
+        "name": "Éclairage"
+      },
+      {
+        "name": "Photographie / vidéo"
+      },
+      {
+        "name": "Tentes"
+      },
+      {
+        "name": "Machines"
+      }
+    ]
+  },
+  {
+    "name": "DÉPANNAGE URGENT",
+    "children": [
+      {
+        "name": "Serrurier"
+      },
+      {
+        "name": "Plombier"
+      },
+      {
+        "name": "Électricien"
+      },
+      {
+        "name": "Vitrier"
+      },
+      {
+        "name": "Climatisation"
+      },
+      {
+        "name": "Chauffe-eau"
+      },
+      {
+        "name": "Électroménager"
+      },
+      {
+        "name": "Voiture"
+      },
+      {
+        "name": "Ouverture de porte"
+      }
+    ]
+  },
+  {
+    "name": "SERRURERIE & VITRERIE",
+    "children": [
+      {
+        "name": "Serrurier"
+      },
+      {
+        "name": "Ouverture de porte"
+      },
+      {
+        "name": "Changement serrure"
+      },
+      {
+        "name": "Installation serrure"
+      },
+      {
+        "name": "Porte blindée"
+      },
+      {
+        "name": "Double de clés"
+      },
+      {
+        "name": "Vitre cassée"
+      },
+      {
+        "name": "Remplacement vitre"
+      },
+      {
+        "name": "Miroirs"
+      }
+    ]
+  },
+  {
+    "name": "ÉLECTROMÉNAGER",
+    "children": [
+      {
+        "name": "Réfrigérateur"
+      },
+      {
+        "name": "Machine à laver"
+      },
+      {
+        "name": "Lave-vaisselle"
+      },
+      {
+        "name": "Four"
+      },
+      {
+        "name": "Plaque de cuisson"
+      },
+      {
+        "name": "Climatisation"
+      },
+      {
+        "name": "Chauffe-eau"
+      },
+      {
+        "name": "Petit électroménager"
+      }
+    ]
+  },
+  {
+    "name": "MEUBLES & DÉCORATION",
+    "children": [
+      {
+        "name": "Fabrication meubles"
+      },
+      {
+        "name": "Montage meubles"
+      },
+      {
+        "name": "Réparation meubles"
+      },
+      {
+        "name": "Restauration meubles"
+      },
+      {
+        "name": "Tapissier"
+      },
+      {
+        "name": "Canapés"
+      },
+      {
+        "name": "Rideaux"
+      },
+      {
+        "name": "Décoration intérieure"
+      },
+      {
+        "name": "Décoration traditionnelle marocaine"
+      },
+      {
+        "name": "Home staging"
+      }
+    ]
+  },
+  {
+    "name": "ENTREPRISES & PROFESSIONNELS",
+    "children": [
+      {
+        "name": "Comptabilité"
+      },
+      {
+        "name": "Conseil"
+      },
+      {
+        "name": "Marketing"
+      },
+      {
+        "name": "Community management"
+      },
+      {
+        "name": "Création site web"
+      },
+      {
+        "name": "Traduction"
+      },
+      {
+        "name": "Secrétariat"
+      },
+      {
+        "name": "Assistance administrative"
+      },
+      {
+        "name": "Photographie professionnelle"
+      },
+      {
+        "name": "Impression"
+      },
+      {
+        "name": "Services B2B"
+      }
+    ]
+  },
+  {
+    "name": "AUTRES SERVICES",
+    "children": [
+      {
+        "name": "Services administratifs"
+      },
+      {
+        "name": "Interprétation"
+      },
+      {
+        "name": "Traduction"
+      },
+      {
+        "name": "Événementiel"
+      },
+      {
+        "name": "Services touristiques"
+      },
+      {
+        "name": "Services aux entreprises"
+      },
+      {
+        "name": "Services saisonniers"
+      },
+      {
+        "name": "Autre"
+      }
+    ]
+  }
+]
