@@ -35,7 +35,7 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     });
 
     if (!result) return jsonError('Activity not found.', 404);
-    if ('error' in result) return jsonError(result.error);
+    if ('error' in result) return jsonError(result.error ?? 'Unable to join this activity.');
     return NextResponse.json(result);
   });
 }

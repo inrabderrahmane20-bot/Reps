@@ -284,8 +284,8 @@ function ProviderApplicationForm({
     try {
       const res = await api.post<{ user: any }>('/providers/apply', {
         ...form,
-        specialties: form.specialties.split(',').map((s) => s.trim()).filter(Boolean),
-        documents: form.documents.split(',').map((s) => s.trim()).filter(Boolean),
+        specialties: form.specialties.split(',').map((s: string) => s.trim()).filter(Boolean),
+        documents: form.documents.split(',').map((s: string) => s.trim()).filter(Boolean),
       });
       onDone(res.user);
     } catch (err) {
