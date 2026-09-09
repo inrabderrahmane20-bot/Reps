@@ -27,18 +27,11 @@ function emptyDb(): Db {
   };
 }
 
-function ensureDb(): void {
-  if (fs.existsSync(DB_PATH)) return;
-  if (fs.existsSync(SEED_PATH)) {
-    fs.copyFileSync(SEED_PATH, DB_PATH);
-  } else {
-    fs.writeFileSync(DB_PATH, JSON.stringify(emptyDb(), null, 2));
-  }
-}
-
 export function readDb(): Db {
-  ensureDb();
-  const raw = fs.readFileSync(DB_PATH, 'utf-8');
+  // Vercel's runtime filesystem is read-only. Use the committed seed directly
+  // when no local writable database exists instead of bootstrapping a copy.
+  const sourcePath = fs.existsSync(DB_PATH) ? DB_PATH : SEED_PATH;
+  const raw = fs.existsSync(sourcePath) ? fs.readFileSync(sourcePath, 'utf-8') : JSON.stringify(emptyDb());
   const parsed = JSON.parse(raw);
   return { ...emptyDb(), ...parsed };
 }
