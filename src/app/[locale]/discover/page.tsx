@@ -26,7 +26,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
-      <h1 className="font-display text-3xl font-semibold text-ink-900">Discover</h1>
+      <h1 className="font-display text-[2.1rem] font-semibold leading-tight text-ink-900 sm:text-4xl">Discover</h1>
       <p className="mt-1.5 max-w-xl text-sm text-ink-500">
         Not sure what you're looking for? Browse everything happening around you.
       </p>

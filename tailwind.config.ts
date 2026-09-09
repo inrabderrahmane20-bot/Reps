@@ -65,6 +65,10 @@ const config: Config = {
       },
       boxShadow: {
         card: '0 1px 2px rgba(29,26,22,0.06), 0 8px 24px -12px rgba(29,26,22,0.18)',
+        float: '0 2px 4px rgba(29,26,22,0.05), 0 24px 48px -20px rgba(18,35,76,0.35)',
+      },
+      letterSpacing: {
+        tightest: '-0.03em',
       },
       backgroundImage: {
         zellige: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%231B3F8B' stroke-opacity='0.08' stroke-width='1'%3E%3Cpath d='M28 0L38 10L28 20L18 10Z'/%3E%3Cpath d='M28 36L38 46L28 56L18 46Z'/%3E%3Cpath d='M0 28L10 18L20 28L10 38Z'/%3E%3Cpath d='M36 28L46 18L56 28L46 38Z'/%3E%3C/g%3E%3C/svg%3E\")",

@@ -114,7 +114,7 @@ export default function CommunityDetailPage({ params }: { params: { id: string }
             <span className="text-[11px] font-semibold uppercase tracking-wide text-zellige-600">
               {community.category} · {community.city}
             </span>
-            <h1 className="mt-1 font-display text-3xl font-semibold text-ink-900">{community.name}</h1>
+            <h1 className="mt-1 font-display text-[2.1rem] font-semibold leading-tight text-ink-900 sm:text-4xl">{community.name}</h1>
             <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm text-ink-500">
               <Users size={14} />
               {community.memberCount.toLocaleString()} {t('membersLabel')}

@@ -15,6 +15,20 @@ html[dir='rtl'] body {
 body {
   @apply bg-sand-50 text-ink-900 antialiased;
   font-family: var(--font-sans);
+  font-feature-settings: 'ss01' 1, 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+/* Denser, larger-optical-size Fraunces for the biggest display moments */
+.font-display-hero {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144;
+  letter-spacing: -0.02em;
 }
 
 /* Respect reduced motion preferences */
@@ -56,4 +70,30 @@ html[dir='rtl'] .flip-rtl {
 ::selection {
   background: theme('colors.saffron.400');
   color: theme('colors.ink.900');
+}
+
+/* Layered hero surface: deep Majorelle field + warm glow + zellige lattice */
+.hero-surface {
+  background-color: theme('colors.majorelle.700');
+  background-image:
+    radial-gradient(120% 140% at 92% -10%, rgba(232, 163, 61, 0.22) 0%, transparent 55%),
+    radial-gradient(90% 120% at -10% 110%, rgba(62, 139, 118, 0.18) 0%, transparent 50%),
+    theme('backgroundImage.zellige');
+  background-size: auto, auto, 56px 56px;
+}
+
+/* Thin decorative arch outline, used once as a hero accent */
+.arch-motif {
+  aspect-ratio: 1 / 1.35;
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+}
+
+.card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(29, 26, 22, 0.06), 0 16px 32px -14px rgba(29, 26, 22, 0.24);
 }

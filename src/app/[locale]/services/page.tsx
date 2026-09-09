@@ -41,7 +41,7 @@ export default function ServicesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
-      <h1 className="font-display text-3xl font-semibold text-ink-900">{t('title')}</h1>
+      <h1 className="font-display text-[2.1rem] font-semibold leading-tight text-ink-900 sm:text-4xl">{t('title')}</h1>
       <p className="mt-1.5 max-w-xl text-sm text-ink-500">{t('subtitle')}</p>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">

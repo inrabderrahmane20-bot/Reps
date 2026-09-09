@@ -6,37 +6,39 @@ export function Footer() {
   const nav = useTranslations('nav');
 
   return (
-    <footer className="mt-16 hidden border-t border-ink-900/10 bg-white md:block">
-      <div className="mx-auto max-w-7xl px-8 py-12">
+    <footer className="mt-20 hidden bg-majorelle-800 md:block">
+      <div className="mx-auto max-w-7xl px-8 py-16">
         <div className="grid grid-cols-4 gap-8">
           <div className="col-span-2">
-            <div className="flex items-center gap-2">
-              <span className="grid h-7 w-7 place-items-center rounded-arch bg-majorelle-600 text-xs font-bold text-white">
+            <div className="flex items-center gap-2.5">
+              <span className="grid h-8 w-8 place-items-center rounded-arch bg-saffron-400 text-sm font-bold text-majorelle-900">
                 M
               </span>
-              <span className="font-display text-lg font-semibold text-ink-900">Medina</span>
+              <span className="font-display text-xl font-semibold text-white">Medina</span>
             </div>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-500">{t('tagline')}</p>
+            <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-majorelle-100/70">{t('tagline')}</p>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-ink-900">{t('product')}</h3>
-            <ul className="mt-3 space-y-2 text-sm text-ink-500">
-              <li><Link href="/news" className="hover:text-majorelle-700">{nav('news')}</Link></li>
-              <li><Link href="/services" className="hover:text-majorelle-700">{nav('services')}</Link></li>
-              <li><Link href="/communities" className="hover:text-majorelle-700">{nav('communities')}</Link></li>
-              <li><Link href="/meetings" className="hover:text-majorelle-700">{nav('meetings')}</Link></li>
+            <h3 className="text-sm font-semibold text-majorelle-100">{t('product')}</h3>
+            <ul className="mt-4 space-y-2.5 text-sm text-majorelle-100/70">
+              <li><Link href="/news" className="transition-colors hover:text-saffron-400">{nav('news')}</Link></li>
+              <li><Link href="/services" className="transition-colors hover:text-saffron-400">{nav('services')}</Link></li>
+              <li><Link href="/communities" className="transition-colors hover:text-saffron-400">{nav('communities')}</Link></li>
+              <li><Link href="/meetings" className="transition-colors hover:text-saffron-400">{nav('meetings')}</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-ink-900">{t('legal')}</h3>
-            <ul className="mt-3 space-y-2 text-sm text-ink-500">
-              <li><Link href="/terms" className="hover:text-majorelle-700">{t('terms')}</Link></li>
-              <li><Link href="/privacy" className="hover:text-majorelle-700">{t('privacy')}</Link></li>
-              <li><Link href="/rules" className="hover:text-majorelle-700">{t('rules')}</Link></li>
+            <h3 className="text-sm font-semibold text-majorelle-100">{t('legal')}</h3>
+            <ul className="mt-4 space-y-2.5 text-sm text-majorelle-100/70">
+              <li><Link href="/terms" className="transition-colors hover:text-saffron-400">{t('terms')}</Link></li>
+              <li><Link href="/privacy" className="transition-colors hover:text-saffron-400">{t('privacy')}</Link></li>
+              <li><Link href="/rules" className="transition-colors hover:text-saffron-400">{t('rules')}</Link></li>
             </ul>
           </div>
         </div>
-        <p className="mt-10 text-xs text-ink-300">© {new Date().getFullYear()} Medina. {t('rights')}</p>
+        <div className="mt-12 border-t border-white/10 pt-6">
+          <p className="text-xs text-majorelle-100/50">© {new Date().getFullYear()} Medina. {t('rights')}</p>
+        </div>
       </div>
     </footer>
   );

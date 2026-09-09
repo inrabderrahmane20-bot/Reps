@@ -28,12 +28,14 @@ export function MobileTabBar() {
           <Link
             key={href}
             href={href}
-            className={`flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium ${
+            className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors ${
               active ? 'text-majorelle-700' : 'text-ink-500'
             }`}
             aria-current={active ? 'page' : undefined}
           >
-            <Icon size={20} strokeWidth={active ? 2.4 : 2} />
+            <span className={`grid h-7 w-9 place-items-center rounded-full transition-colors ${active ? 'bg-majorelle-600/10' : ''}`}>
+              <Icon size={19} strokeWidth={active ? 2.4 : 2} />
+            </span>
             {label}
           </Link>
         );

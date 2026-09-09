@@ -13,18 +13,20 @@ export function SectionHeader({
   seeAllLabel?: string;
 }) {
   return (
-    <div className="mb-5 flex items-end justify-between gap-4">
+    <div className="mb-6 flex items-end justify-between gap-4">
       <div>
-        <h2 className="font-display text-2xl font-semibold text-ink-900">{title}</h2>
-        {subtitle && <p className="mt-1 text-sm text-ink-500">{subtitle}</p>}
+        <h2 className="font-display text-[1.75rem] font-semibold leading-tight text-ink-900 sm:text-3xl">
+          {title}
+        </h2>
+        {subtitle && <p className="mt-1.5 text-[15px] text-ink-500">{subtitle}</p>}
       </div>
       {seeAllHref && (
         <Link
           href={seeAllHref}
-          className="flex shrink-0 items-center gap-1 text-sm font-semibold text-majorelle-700 hover:text-majorelle-800"
+          className="group flex shrink-0 items-center gap-1 text-sm font-semibold text-majorelle-700 hover:text-majorelle-800"
         >
           {seeAllLabel}
-          <ArrowRight size={15} className="flip-rtl" />
+          <ArrowRight size={15} className="flip-rtl transition-transform group-hover:translate-x-0.5" />
         </Link>
       )}
     </div>

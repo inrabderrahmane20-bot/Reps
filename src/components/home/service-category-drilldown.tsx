@@ -1,7 +1,33 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ChevronRight, Search, RotateCcw } from 'lucide-react';
+import {
+  ChevronRight,
+  Search,
+  RotateCcw,
+  Hammer,
+  Sparkles,
+  Trees,
+  Car,
+  Laptop,
+  HomeIcon,
+  Scissors,
+  Shirt,
+  PartyPopper,
+  UtensilsCrossed,
+  Truck,
+  ShieldCheck,
+  GraduationCap,
+  PawPrint,
+  Boxes,
+  Siren,
+  KeyRound,
+  Refrigerator,
+  Sofa,
+  Building2,
+  MoreHorizontal,
+  type LucideIcon,
+} from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import taxonomyData from '@/data/service-taxonomy.json';
 
@@ -16,6 +42,40 @@ const taxonomy = taxonomyData as TaxNode[];
 // We still label steps using the requested progression — deeper labels simply
 // don't appear until/unless the data goes that deep for a given branch.
 const LEVEL_LABELS = ['Category', 'Subcategory', 'Profession', 'Service', 'Specialty'];
+
+// Top-level categories get a matching icon so the first grid reads at a glance
+// instead of as a wall of text. Matched by keyword since the source data is French.
+const CATEGORY_ICONS: [string, LucideIcon][] = [
+  ['MAISON', Hammer],
+  ['NETTOYAGE', Sparkles],
+  ['JARDIN', Trees],
+  ['AUTOMOBILE', Car],
+  ['INFORMATIQUE', Laptop],
+  ['DOMICILE', HomeIcon],
+  ['BEAUT', Scissors],
+  ['MODE', Shirt],
+  ['MARIAGE', PartyPopper],
+  ['CUISINE', UtensilsCrossed],
+  ['TRANSPORT', Truck],
+  ['SÉCURIT', ShieldCheck],
+  ['SECURIT', ShieldCheck],
+  ['ÉDUCATION', GraduationCap],
+  ['EDUCATION', GraduationCap],
+  ['ANIMAUX', PawPrint],
+  ['LOCATION', Boxes],
+  ['DÉPANNAGE', Siren],
+  ['DEPANNAGE', Siren],
+  ['SERRURERIE', KeyRound],
+  ['ÉLECTROMÉNA', Refrigerator],
+  ['ELECTROMENA', Refrigerator],
+  ['MEUBLES', Sofa],
+  ['ENTREPRISES', Building2],
+];
+
+function iconFor(name: string): LucideIcon {
+  const match = CATEGORY_ICONS.find(([key]) => name.toUpperCase().includes(key));
+  return match ? match[1] : MoreHorizontal;
+}
 
 export function ServiceCategoryDrilldown() {
   const router = useRouter();
@@ -37,9 +97,9 @@ export function ServiceCategoryDrilldown() {
   }
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-card sm:p-5">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-1.5 text-xs font-medium text-ink-500">
+    <div className="border-t border-ink-900/[0.06] pt-3.5">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+        <div className="flex flex-wrap items-center gap-1 text-xs font-medium text-ink-500">
           <button
             type="button"
             onClick={() => goToDepth(0)}
@@ -48,7 +108,7 @@ export function ServiceCategoryDrilldown() {
             All services
           </button>
           {path.map((node, i) => (
-            <span key={`${node.name}-${i}`} className="flex items-center gap-1.5">
+            <span key={`${node.name}-${i}`} className="flex items-center gap-1">
               <ChevronRight size={12} className="shrink-0 text-ink-300 flip-rtl" />
               <button
                 type="button"
@@ -71,21 +131,33 @@ export function ServiceCategoryDrilldown() {
         )}
       </div>
 
-      <p className="mb-2 mt-4 text-[11px] font-semibold uppercase tracking-wide text-ink-300">{levelLabel}</p>
+      <p className="mb-2.5 mt-4 px-1 text-[11px] font-semibold uppercase tracking-wide text-ink-300">
+        {levelLabel}
+      </p>
 
       {!isLeaf ? (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-          {currentChildren.map((node) => (
-            <button
-              key={node.name}
-              type="button"
-              onClick={() => selectNode(node)}
-              className="flex items-center justify-between gap-2 rounded-xl border border-ink-900/5 bg-sand-50 px-3.5 py-2.5 text-start text-sm font-medium text-ink-700 transition-colors hover:border-majorelle-300 hover:bg-white"
-            >
-              <span className="truncate">{node.name}</span>
-              {node.children && <ChevronRight size={14} className="shrink-0 text-ink-300 flip-rtl" />}
-            </button>
-          ))}
+          {currentChildren.map((node) => {
+            const Icon = depth === 0 ? iconFor(node.name) : null;
+            return (
+              <button
+                key={node.name}
+                type="button"
+                onClick={() => selectNode(node)}
+                className="card-hover group flex items-center gap-2.5 rounded-xl border border-ink-900/[0.06] bg-sand-50 px-3.5 py-3 text-start text-sm font-medium text-ink-700 hover:border-majorelle-200 hover:bg-white"
+              >
+                {Icon && (
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-majorelle-600/10 text-majorelle-700 group-hover:bg-majorelle-600 group-hover:text-white transition-colors">
+                    <Icon size={16} />
+                  </span>
+                )}
+                <span className="min-w-0 flex-1 truncate">{node.name}</span>
+                {node.children && (
+                  <ChevronRight size={14} className="shrink-0 text-ink-300 flip-rtl" />
+                )}
+              </button>
+            );
+          })}
         </div>
       ) : (
         <div className="flex flex-col gap-3 rounded-xl bg-sand-50 p-4 sm:flex-row sm:items-center sm:justify-between">

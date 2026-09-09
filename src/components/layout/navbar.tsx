@@ -34,23 +34,23 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-900/10 bg-sand-50/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-4 md:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-arch bg-majorelle-600 text-sm font-bold text-white">
+    <header className="sticky top-0 z-40 border-b border-ink-900/[0.07] bg-sand-50/90 backdrop-blur">
+      <div className="mx-auto flex h-[68px] max-w-7xl items-center gap-8 px-4 md:px-8">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+          <span className="grid h-9 w-9 place-items-center rounded-arch bg-majorelle-600 font-display text-base font-bold text-white">
             M
           </span>
-          <span className="font-display text-xl font-semibold tracking-tight text-ink-900">
+          <span className="font-display text-[22px] font-semibold tracking-tight text-ink-900">
             Medina
           </span>
         </Link>
 
-        <nav className="hidden flex-1 items-center gap-1 lg:flex" aria-label="Primary">
+        <nav className="hidden flex-1 items-center gap-0.5 lg:flex" aria-label="Primary">
           {primaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-white hover:text-majorelle-700"
+              className="rounded-full px-3.5 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-white hover:text-majorelle-700"
             >
               {link.label}
             </Link>

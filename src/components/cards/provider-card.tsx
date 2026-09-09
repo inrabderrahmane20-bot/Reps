@@ -27,18 +27,18 @@ export function ProviderCard({
   const services = useTranslations('services');
 
   return (
-    <article className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-card">
+    <article className="card-hover flex items-center gap-4 rounded-2xl border border-ink-900/[0.05] bg-white p-4 shadow-card sm:p-5">
       <Link href={`/services/${id}`} className="flex min-w-0 flex-1 items-center gap-4">
         <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-majorelle-600/10 font-display text-lg font-semibold text-majorelle-700">
           {name.charAt(0)}
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <h3 className="truncate font-display text-base font-semibold text-ink-900">{name}</h3>
+            <h3 className="truncate font-display text-[17px] font-semibold text-ink-900">{name}</h3>
             {verified && <BadgeCheck size={16} className="shrink-0 text-zellige-500" aria-label={t('verified')} />}
           </div>
-          <p className="text-xs text-ink-500">{category}</p>
-          <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <p className="mt-0.5 text-[13px] text-ink-500">{category}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
             <Rating value={rating} count={reviews} />
             <AvailabilityBadge status={availability} />
             <span className="text-xs text-ink-500">
@@ -49,7 +49,7 @@ export function ProviderCard({
       </Link>
       <Link
         href={`/services/${id}`}
-        className="hidden shrink-0 rounded-full bg-majorelle-600 px-4 py-2 text-xs font-semibold text-white hover:bg-majorelle-700 sm:block"
+        className="hidden shrink-0 rounded-full bg-majorelle-600 px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-majorelle-700 sm:block"
       >
         {services('requestService')}
       </Link>

@@ -32,34 +32,52 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="relative overflow-hidden border-b border-ink-900/10 bg-majorelle-700 bg-zellige">
-        <div className="mx-auto max-w-7xl px-4 py-14 md:px-8 md:py-20">
-          <p className="text-sm font-semibold uppercase tracking-wide text-saffron-400">
+      <section className="hero-surface relative overflow-hidden">
+        {/* Decorative horseshoe arch, cropped at the edge — a single quiet nod to Marrakech architecture */}
+        <div
+          className="pointer-events-none absolute -end-24 top-1/2 hidden h-[130%] w-[42%] -translate-y-1/2 md:block"
+          aria-hidden
+        >
+          <div className="arch-motif h-full w-full" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 pb-28 pt-14 md:px-8 md:pb-36 md:pt-20">
+          <div className="flex items-center gap-2 text-sm font-medium text-majorelle-100/90">
+            <MapPin size={15} className="text-saffron-400" />
             {user ? `${t('heroKicker')} · ${user.firstName}` : t('heroKicker')}
+          </div>
+
+          <h1 className="font-display-hero mt-5 max-w-2xl text-[2.75rem] font-semibold leading-[1.05] text-white sm:text-6xl md:text-7xl">
+            {t('heroTitle')}
+          </h1>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-majorelle-100/85">
+            {t('heroSubtitle')}
           </p>
-          <h1 className="mt-3 max-w-2xl font-display text-4xl font-semibold leading-tight text-white md:text-5xl">{t('heroTitle')}</h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-majorelle-100">{t('heroSubtitle')}</p>
-
-          <div className="mt-8 max-w-2xl">
-            <GlobalSearchBar placeholder={t('searchPlaceholder')} submitLabel={t('searchButton')} />
-          </div>
-
-          <div className="mt-4 max-w-3xl">
-            <ServiceCategoryDrilldown />
-          </div>
-
-          <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-majorelle-100">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5">
-              <MapPin size={14} /> {user?.city || 'Marrakech'}
-            </span>
-          </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl space-y-14 px-4 py-12 md:px-8">
+      {/* Search + category drilldown float over the hero's lower edge */}
+      <div className="relative mx-auto -mt-16 max-w-5xl px-4 md:-mt-20 md:px-8">
+        <div className="rounded-3xl bg-white p-3 shadow-float ring-1 ring-black/5 sm:p-4">
+          <GlobalSearchBar
+            placeholder={t('searchPlaceholder')}
+            submitLabel={t('searchButton')}
+            wrapperClassName="flex flex-1 flex-col gap-2 sm:flex-row"
+            className="flex flex-1 items-center gap-2.5 rounded-2xl bg-sand-50 px-4 py-3.5"
+            inputClassName="w-full bg-transparent text-[15px] text-ink-900 outline-none placeholder:text-ink-300"
+            iconClassName="shrink-0 text-ink-500"
+            buttonClassName="rounded-2xl bg-clay-400 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-clay-500"
+          />
+          <div className="mt-3">
+            <ServiceCategoryDrilldown />
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl space-y-20 px-4 pb-20 pt-16 md:px-8 md:pt-20">
         <section>
           <SectionHeader title={t('sectionServices')} seeAllHref="/services" seeAllLabel={t('seeAll')} />
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-2">
             {providers.map((p) => (
               <ProviderCard
                 key={p.id}
@@ -76,7 +94,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section>
+        <section className="-mx-4 bg-sand-100/70 px-4 py-14 md:-mx-8 md:px-8 md:rounded-[2.5rem]">
           <SectionHeader title={t('sectionCommunities')} seeAllHref="/communities" seeAllLabel={t('seeAll')} />
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {communities.map((c) => (
