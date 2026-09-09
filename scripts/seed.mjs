@@ -15,6 +15,16 @@ const now = new Date();
 const iso = (daysAgo = 0, hoursAgo = 0) =>
   new Date(now.getTime() - daysAgo * 86400000 - hoursAgo * 3600000).toISOString();
 
+const taxonomy = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'service-taxonomy.json'), 'utf8')
+);
+
+function leafServices(nodes) {
+  return nodes.flatMap((node) => (node.children?.length ? leafServices(node.children) : [node.name]));
+}
+
+const catalogServices = leafServices(taxonomy);
+
 const users = [];
 const notifications = [];
 
@@ -203,6 +213,78 @@ addUser({
     documents: ['id_card.pdf'],
     rejectionReason: 'Missing valid business registration document — please resubmit.',
   },
+});
+
+const catalogProviders = [];
+const providerNames = [
+  ['Meryem', 'A.'],
+  ['Othmane', 'R.'],
+  ['Khadija', 'N.'],
+  ['Mehdi', 'T.'],
+];
+
+catalogServices.forEach((service, serviceIndex) => {
+  for (let variant = 0; variant < 2; variant += 1) {
+    const id = `u_catalog_${serviceIndex + 1}_${variant + 1}`;
+    const [firstName, lastName] = providerNames[(serviceIndex * 2 + variant) % providerNames.length];
+    addUser({
+      id,
+      email: `${id}@medina.ma`,
+      password: 'demo1234',
+      firstName,
+      lastName,
+      neighborhood: variant === 0 ? 'Guéliz' : 'Medina',
+      bio: `${service} specialist serving Marrakech residents.`,
+      providerStatus: 'approved',
+      createdAt: iso(40 + serviceIndex),
+      provider: {
+        category: service,
+        title: `${service} specialist`,
+        description: `Reliable ${service.toLowerCase()} services for homes, businesses and local events in Marrakech.`,
+        specialties: [service, 'Fast response', 'Clear pricing'],
+        serviceArea: variant === 0 ? 'Guéliz, Hivernage, Medina' : 'Marrakech city — within 15 km',
+        priceRange: variant === 0 ? '150–450 MAD / service' : '200–600 MAD / service',
+        availability: variant === 0 ? 'available' : 'later',
+        lat: 31.63 + (serviceIndex % 10) * 0.002,
+        lng: -8.02 + (variant * 0.01),
+        portfolio: [],
+        documents: ['id_card.pdf'],
+      },
+    });
+    catalogProviders.push({ id, service, serviceIndex, variant });
+  }
+});
+
+['Plumbing', 'Electricity', 'Cleaning', 'Painting', 'Photography', 'Moving'].forEach((service, serviceIndex) => {
+  for (let variant = 0; variant < 2; variant += 1) {
+    const id = `u_legacy_catalog_${serviceIndex + 1}_${variant + 1}`;
+    const [firstName, lastName] = providerNames[(serviceIndex + variant) % providerNames.length];
+    addUser({
+      id,
+      email: `${id}@medina.ma`,
+      password: 'demo1234',
+      firstName,
+      lastName,
+      neighborhood: variant === 0 ? 'Guéliz' : 'Hivernage',
+      bio: `${service} provider serving Marrakech residents.`,
+      providerStatus: 'approved',
+      createdAt: iso(18 + serviceIndex),
+      provider: {
+        category: service,
+        title: `${service} provider for homes and businesses`,
+        description: `Experienced ${service.toLowerCase()} provider with flexible appointments across Marrakech.`,
+        specialties: [service, 'Home visits', 'Transparent quotes'],
+        serviceArea: 'Marrakech city — within 12 km',
+        priceRange: '180–500 MAD / service',
+        availability: variant === 0 ? 'available' : 'later',
+        lat: 31.64 + serviceIndex * 0.001,
+        lng: -8.01 - variant * 0.006,
+        portfolio: [],
+        documents: ['id_card.pdf'],
+      },
+    });
+    catalogProviders.push({ id, service, serviceIndex: catalogServices.length + serviceIndex, variant });
+  }
 });
 
 // --- A few more plain community members, for join counts / posts / chat ---
@@ -538,7 +620,41 @@ const serviceRequests = [
   },
 ];
 
+const generatedServiceRequests = [];
+const generatedReviews = [];
+catalogProviders.forEach(({ id: providerId, service, serviceIndex, variant }) => {
+  for (let requestIndex = 0; requestIndex < 2; requestIndex += 1) {
+    const requestId = `sr_catalog_${serviceIndex + 1}_${variant + 1}_${requestIndex + 1}`;
+    const status = requestIndex === 0 ? 'completed' : variant === 0 ? 'accepted' : 'pending';
+    generatedServiceRequests.push({
+      id: requestId,
+      clientId: requestIndex === 0 ? 'u_demo' : 'u_sarah',
+      providerId,
+      category: service,
+      description: `Sample ${service.toLowerCase()} request for testing the provider workflow.`,
+      location: requestIndex === 0 ? 'Guéliz' : 'Medina',
+      date: iso(requestIndex === 0 ? 8 : -7),
+      status,
+      createdAt: iso(12 + serviceIndex),
+    });
+    if (status === 'completed') {
+      generatedReviews.push({
+        id: `rv_catalog_${serviceIndex + 1}_${variant + 1}`,
+        providerId,
+        authorId: 'u_demo',
+        requestId,
+        rating: variant === 0 ? 5 : 4,
+        content: `Helpful and professional ${service.toLowerCase()} service.`,
+        createdAt: iso(5 + serviceIndex),
+      });
+    }
+  }
+});
+
+serviceRequests.push(...generatedServiceRequests);
+
 const reviews = [
+  ...generatedReviews,
   {
     id: 'rv1',
     providerId: 'u_p1',
