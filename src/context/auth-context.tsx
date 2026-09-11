@@ -7,7 +7,7 @@ import type { PublicUser } from '@/lib/types';
 interface AuthContextValue {
   user: PublicUser | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<PublicUser>;
   register: (data: {
     firstName: string;
     lastName: string;
@@ -46,6 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     const res = await api.post<{ user: PublicUser }>('/auth/login', { email, password });
     setUser(res.user);
+    return res.user;
   }, []);
 
   const register = useCallback(async (data: Parameters<AuthContextValue['register']>[0]) => {

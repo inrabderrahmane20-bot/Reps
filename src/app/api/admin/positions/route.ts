@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb } from '@/lib/db';
 import { withErrors } from '@/lib/api-helpers';
-import { nearestZoneId } from '@/lib/zones';
+import { classifyZone, getZone } from '@/lib/zones';
 
 export async function GET() {
   return withErrors(async () => {
@@ -19,7 +19,8 @@ export async function GET() {
         availability: u.provider!.availability,
         lat: u.provider!.lat,
         lng: u.provider!.lng,
-        zoneId: nearestZoneId(u.provider!.lat, u.provider!.lng),
+        zoneId: classifyZone(u.provider!.lat, u.provider!.lng, u.neighborhood),
+        zoneName: getZone(classifyZone(u.provider!.lat, u.provider!.lng, u.neighborhood))?.name,
       }));
     return NextResponse.json({ positions });
   });

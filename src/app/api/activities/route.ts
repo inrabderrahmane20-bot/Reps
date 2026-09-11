@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
-import { nearestZoneId } from '@/lib/zones';
+import { classifyZone } from '@/lib/zones';
 
 function enrich(a: any) {
-  return { ...a, participants: a.participantIds.length, zoneId: nearestZoneId(a.lat, a.lng) };
+  return { ...a, participants: a.participantIds.length, zoneId: classifyZone(a.lat, a.lng, a.location) };
 }
 
 export async function GET(req: NextRequest) {
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   const db = readDb();
   let list = db.activities.filter((a) => a.status !== 'cancelled');
   if (category) list = list.filter((a) => a.category === category);
-  if (zone && zone !== 'all') list = list.filter((a) => nearestZoneId(a.lat, a.lng) === zone);
+  if (zone && zone !== 'all') list = list.filter((a) => classifyZone(a.lat, a.lng, a.location) === zone);
   return NextResponse.json({ activities: list.map(enrich) });
 }
 

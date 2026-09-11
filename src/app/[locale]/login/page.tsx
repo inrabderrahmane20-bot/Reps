@@ -21,8 +21,8 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
     try {
-      await login(email, password);
-      router.push('/profile');
+      const u = await login(email, password);
+      router.push(u.role === 'admin' ? '/admin' : '/profile');
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Something went wrong.');
     } finally {

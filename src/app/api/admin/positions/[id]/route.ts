@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { updateDb } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
+import { classifyZone, getZone } from '@/lib/zones';
 
 const IN_RANGE = { lat: (v: number) => Math.abs(v) <= 90, lng: (v: number) => Math.abs(v) <= 180 };
 
@@ -20,7 +21,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       if (!u || !u.provider) return null;
       u.provider.lat = latNum;
       u.provider.lng = lngNum;
-      return { ok: true };
+      u.neighborhood = getZone(classifyZone(latNum, lngNum, u.neighborhood))?.name ?? u.neighborhood;
+      return { ok: true, zoneName: getZone(classifyZone(latNum, lngNum, u.neighborhood))?.name };
     });
     if (!result) return jsonError('Provider not found.', 404);
     return NextResponse.json(result);

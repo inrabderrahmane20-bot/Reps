@@ -17,48 +17,48 @@ export const ZONES: Zone[] = [
     id: 'gueliz',
     name: 'Guéliz',
     city: 'Marrakech',
-    lat: 31.6345,
-    lng: -8.012,
+    lat: 31.6359,
+    lng: -8.0085,
     neighborhoods: ['Guéliz', 'Gueliz'],
   },
   {
     id: 'hivernage',
     name: 'Hivernage',
     city: 'Marrakech',
-    lat: 31.624,
-    lng: -8.002,
+    lat: 31.619,
+    lng: -8.003,
     neighborhoods: ['Hivernage'],
   },
   {
     id: 'medina',
     name: 'Medina',
     city: 'Marrakech',
-    lat: 31.6253,
-    lng: -7.9881,
+    lat: 31.6257,
+    lng: -7.9891,
     neighborhoods: ['Medina', 'Médina'],
   },
   {
     id: 'semlalia',
     name: 'Semlalia',
     city: 'Marrakech',
-    lat: 31.651,
-    lng: -8.013,
+    lat: 31.648,
+    lng: -8.002,
     neighborhoods: ['Semlalia'],
   },
   {
     id: 'sidi-ghanem',
     name: 'Sidi Ghanem',
     city: 'Marrakech',
-    lat: 31.667,
-    lng: -8.032,
+    lat: 31.661,
+    lng: -7.972,
     neighborhoods: ['Sidi Ghanem'],
   },
   {
     id: 'sidi-youssef',
     name: 'Sidi Youssef Ben Ali',
     city: 'Marrakech',
-    lat: 31.608,
-    lng: -7.949,
+    lat: 31.614,
+    lng: -7.962,
     neighborhoods: ['Sidi Youssef Ben Ali', 'Sidi Youssef'],
   },
 ];
@@ -92,6 +92,18 @@ export function nearestZoneId(lat: number, lng: number): string {
     }
   }
   return best;
+}
+
+/**
+ * Best-effort zone classification for an entity. A neighborhood / location
+ * label is the most accurate signal we have (it is what residents and the
+ * marketplace actually use), so it takes priority; coordinates are used as a
+ * fallback for anything without a label.
+ */
+export function classifyZone(lat: number, lng: number, label?: string | null): string {
+  const labeled = zoneFromNeighborhood(label);
+  if (labeled) return labeled;
+  return nearestZoneId(lat, lng);
 }
 
 /** Derive a zone id from a free-text neighborhood string (or null). */

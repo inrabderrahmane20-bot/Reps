@@ -15,6 +15,31 @@ const now = new Date();
 const iso = (daysAgo = 0, hoursAgo = 0) =>
   new Date(now.getTime() - daysAgo * 86400000 - hoursAgo * 3600000).toISOString();
 
+// Marrakech zone anchors — must mirror src/lib/zones.ts.
+const ZONES = [
+  { name: 'Guéliz', lat: 31.6359, lng: -8.0085 },
+  { name: 'Hivernage', lat: 31.619, lng: -8.003 },
+  { name: 'Medina', lat: 31.6257, lng: -7.9891 },
+  { name: 'Semlalia', lat: 31.648, lng: -8.002 },
+  { name: 'Sidi Ghanem', lat: 31.661, lng: -7.972 },
+  { name: 'Sidi Youssef Ben Ali', lat: 31.614, lng: -7.962 },
+];
+
+// Deterministic pseudo-random offset in [-0.5, 0.5).
+function jitter(seed) {
+  const x = Math.abs(Math.sin(seed * 12.9898) * 43758.5453);
+  return (x % 1) - 0.5;
+}
+
+// Realistic point inside the given zone (~±0.7 km from the anchor).
+function point(zoneIndex, seedA, seedB) {
+  const z = ZONES[zoneIndex];
+  return {
+    lat: +(z.lat + jitter(seedA) * 0.012).toFixed(6),
+    lng: +(z.lng + jitter(seedB) * 0.012).toFixed(6),
+  };
+}
+
 const taxonomy = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'service-taxonomy.json'), 'utf8')
 );
@@ -101,8 +126,8 @@ addUser({
     serviceArea: 'Guéliz, Hivernage, Medina — within 8 km',
     priceRange: '150–400 MAD / callout',
     availability: 'available',
-    lat: 31.6423,
-    lng: -8.0089,
+    lat: 31.6135,
+    lng: -7.9615,
     portfolio: [
       'https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop',
@@ -130,8 +155,8 @@ addUser({
     serviceArea: 'Guéliz, Semlalia — within 10 km',
     priceRange: '200–500 MAD / callout',
     availability: 'later',
-    lat: 31.6511,
-    lng: -8.0126,
+    lat: 31.6475,
+    lng: -8.0025,
     portfolio: ['https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=800&auto=format&fit=crop'],
     documents: ['id_card.pdf', 'electrician_license.pdf'],
   },
@@ -156,8 +181,8 @@ addUser({
     serviceArea: 'Marrakech city center — within 6 km',
     priceRange: '120–300 MAD / visit',
     availability: 'available',
-    lat: 31.6295,
-    lng: -7.9811,
+    lat: 31.6265,
+    lng: -7.987,
     portfolio: ['https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=800&auto=format&fit=crop'],
     documents: ['id_card.pdf'],
   },
@@ -207,8 +232,8 @@ addUser({
     serviceArea: 'Marrakech',
     priceRange: '300-900 MAD',
     availability: 'offline',
-    lat: 31.6675,
-    lng: -8.0325,
+    lat: 31.6605,
+    lng: -7.9715,
     portfolio: [],
     documents: ['id_card.pdf'],
     rejectionReason: 'Missing valid business registration document — please resubmit.',
@@ -233,31 +258,34 @@ catalogServices.forEach((service, serviceIndex) => {
   for (let variant = 0; variant < 5; variant += 1) {
     const id = `u_catalog_${serviceIndex + 1}_${variant + 1}`;
     const [firstName, lastName] = providerNames[(serviceIndex * 2 + variant) % providerNames.length];
+    const zoneIndex = (serviceIndex + variant) % ZONES.length;
+    const zone = ZONES[zoneIndex];
+    const { lat, lng } = point(zoneIndex, serviceIndex * 13 + variant, serviceIndex * 31 + variant * 7);
     addUser({
       id,
       email: `${id}@medina.ma`,
       password: 'demo1234',
       firstName,
       lastName,
-      neighborhood: variant === 0 ? 'Guéliz' : 'Medina',
-      bio: `${service} specialist serving Marrakech residents.`,
+      neighborhood: zone.name,
+      bio: `${service} specialist serving ${zone.name} residents.`,
       providerStatus: 'approved',
       createdAt: iso(40 + serviceIndex),
       provider: {
         category: service,
         title: `${service} specialist`,
-        description: `Reliable ${service.toLowerCase()} services for homes, businesses and local events in Marrakech.`,
+        description: `Reliable ${service.toLowerCase()} services for homes, businesses and local events in ${zone.name}.`,
         specialties: [service, 'Fast response', 'Clear pricing'],
-        serviceArea: variant === 0 ? 'Guéliz, Hivernage, Medina' : 'Marrakech city — within 15 km',
-        priceRange: variant === 0 ? '150–450 MAD / service' : '200–600 MAD / service',
+        serviceArea: `${zone.name} & nearby — within 8 km`,
+        priceRange: '150–600 MAD / service',
         availability: variant === 0 ? 'available' : 'later',
-        lat: 31.63 + (serviceIndex % 10) * 0.002,
-        lng: -8.02 + (variant * 0.004),
+        lat,
+        lng,
         portfolio: [],
         documents: ['id_card.pdf'],
       },
     });
-    catalogProviders.push({ id, service, serviceIndex, variant });
+    catalogProviders.push({ id, service, serviceIndex, variant, zoneIndex });
   }
 });
 
@@ -265,14 +293,17 @@ catalogServices.forEach((service, serviceIndex) => {
   for (let variant = 0; variant < 2; variant += 1) {
     const id = `u_legacy_catalog_${serviceIndex + 1}_${variant + 1}`;
     const [firstName, lastName] = providerNames[(serviceIndex + variant) % providerNames.length];
+    const zoneIndex = (serviceIndex + variant) % ZONES.length;
+    const zone = ZONES[zoneIndex];
+    const { lat, lng } = point(zoneIndex, serviceIndex * 7 + variant * 3, serviceIndex * 19 + variant);
     addUser({
       id,
       email: `${id}@medina.ma`,
       password: 'demo1234',
       firstName,
       lastName,
-      neighborhood: variant === 0 ? 'Guéliz' : 'Hivernage',
-      bio: `${service} provider serving Marrakech residents.`,
+      neighborhood: zone.name,
+      bio: `${service} provider serving ${zone.name} residents.`,
       providerStatus: 'approved',
       createdAt: iso(18 + serviceIndex),
       provider: {
@@ -280,16 +311,16 @@ catalogServices.forEach((service, serviceIndex) => {
         title: `${service} provider for homes and businesses`,
         description: `Experienced ${service.toLowerCase()} provider with flexible appointments across Marrakech.`,
         specialties: [service, 'Home visits', 'Transparent quotes'],
-        serviceArea: 'Marrakech city — within 12 km',
+        serviceArea: `${zone.name} & nearby — within 10 km`,
         priceRange: '180–500 MAD / service',
         availability: variant === 0 ? 'available' : 'later',
-        lat: 31.64 + serviceIndex * 0.001,
-        lng: -8.01 - variant * 0.006,
+        lat,
+        lng,
         portfolio: [],
         documents: ['id_card.pdf'],
       },
     });
-    catalogProviders.push({ id, service, serviceIndex: catalogServices.length + serviceIndex, variant });
+    catalogProviders.push({ id, service, serviceIndex: catalogServices.length + serviceIndex, variant, zoneIndex });
   }
 });
 
@@ -406,8 +437,8 @@ const communities = [
     creatorId: 'u_salma',
     adminIds: ['u_salma'],
     memberIds: ['u_salma', 'u_lina'],
-    lat: 31.6511,
-    lng: -8.0089,
+    lat: 31.6355,
+    lng: -8.008,
     createdAt: iso(150),
   },
   {
@@ -506,8 +537,8 @@ const activities = [
     date: 'Tonight · 20:00',
     location: 'Hivernage',
     city: 'Marrakech',
-    lat: 31.6295,
-    lng: -8.0325,
+    lat: 31.619,
+    lng: -8.003,
     max: 10,
     min: 6,
     equipment: ['Turf/indoor shoes', 'Water bottle'],
@@ -546,18 +577,20 @@ const catalogActivities = [];
 catalogServices.forEach((service, serviceIndex) => {
   catalogProviders
     .filter((provider) => provider.serviceIndex === serviceIndex)
-    .forEach(({ id: creatorId, variant }) => {
+    .forEach(({ id: creatorId, variant, zoneIndex }) => {
+      const zone = ZONES[zoneIndex];
+      const { lat, lng } = point(zoneIndex, serviceIndex * 89 + variant * 3, serviceIndex * 47 + variant * 11);
       catalogActivities.push({
         id: `activity_catalog_${serviceIndex + 1}_${variant + 1}`,
         creatorId,
         title: `${service} appointment ${variant + 1}`,
         category: service,
-        description: `${service} specialist activity for Marrakech residents, with practical advice and an on-site consultation.`,
+        description: `${service} specialist activity for ${zone.name} residents, with practical advice and an on-site consultation.`,
         date: `Next ${['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'][variant]} · ${variant % 2 === 0 ? '10:00' : '16:00'}`,
-        location: ['Guéliz', 'Medina', 'Hivernage', 'Semlalia', 'Sidi Ghanem'][variant],
+        location: zone.name,
         city: 'Marrakech',
-        lat: 31.63 + (serviceIndex % 10) * 0.002,
-        lng: -8.02 + (variant * 0.004),
+        lat,
+        lng,
         max: 8,
         min: 1,
         equipment: ['Consultation notes', 'Phone'],

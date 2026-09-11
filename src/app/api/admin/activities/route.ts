@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
-import { nearestZoneId } from '@/lib/zones';
+import { classifyZone } from '@/lib/zones';
 
 function enrich(a: any) {
-  return { ...a, participants: a.participantIds?.length ?? 0, zoneId: nearestZoneId(a.lat, a.lng) };
+  return { ...a, participants: a.participantIds?.length ?? 0, zoneId: classifyZone(a.lat, a.lng, a.location) };
 }
 
 export async function GET(req: NextRequest) {
