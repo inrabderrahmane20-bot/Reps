@@ -19,7 +19,7 @@ export function ProviderCard({
   category: string;
   rating: number;
   reviews: number;
-  distanceKm: number;
+  distanceKm: number | null;
   availability: Availability;
   verified: boolean;
 }) {
@@ -41,9 +41,11 @@ export function ProviderCard({
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
             <Rating value={rating} count={reviews} />
             <AvailabilityBadge status={availability} />
-            <span className="text-xs text-ink-500">
-              {distanceKm} {t('away')}
-            </span>
+            {distanceKm != null && (
+              <span className="text-xs text-ink-500">
+                {distanceKm.toFixed(1)} {t('away')}
+              </span>
+            )}
           </div>
         </div>
       </Link>

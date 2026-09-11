@@ -108,6 +108,7 @@
     "requestService": "Request service",
     "empty": "No available providers were found in this area.",
     "expandSearch": "Expand search area",
+    "showingInZone": "Showing providers available in",
     "about": "About",
     "specialties": "Specialties",
     "portfolio": "Portfolio",
@@ -257,7 +258,24 @@
     "title": "Map",
     "layerServices": "Services",
     "layerActivities": "Activities",
-    "layerCommunities": "Communities"
+    "layerCommunities": "Communities",
+    "zoneDetected": "Showing everything in"
+  },
+  "zones": {
+    "subtitle": "Share your position and pick your house — services will adjust to what's available around it.",
+    "all": "All zones",
+    "shareLocation": "Share my location",
+    "locating": "Locating…",
+    "denied": "Location unavailable. Choose your zone manually below, or drop the 🏠 pin on the map.",
+    "houseLabel": "Your house",
+    "saveZoneHint": "Drag me to adjust your position",
+    "signInToSave": "Sign in to save your zone",
+    "saveZone": "Save as my zone",
+    "zoneSaved": "Zone saved ✓",
+    "loadingMap": "Loading map…",
+    "setZonePrompt": "Set your zone to see which services are available near your house.",
+    "setYourZone": "Set your zone",
+    "change": "Change zone"
   },
   "requestFlow": {
     "title": "Request this service",

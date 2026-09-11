@@ -3,6 +3,7 @@ import { readDb, updateDb, newId } from '@/lib/db';
 import { hashPassword, createSessionCookie } from '@/lib/auth';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
+import { zoneFromNeighborhood } from '@/lib/zones';
 
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
@@ -44,6 +45,7 @@ export async function POST(req: NextRequest) {
         providerStatus: 'none',
         provider: null,
         blockedUserIds: [],
+        zoneId: zoneFromNeighborhood(neighborhood || '') ?? undefined,
         createdAt: new Date().toISOString(),
       });
     });

@@ -19,10 +19,16 @@ export default function HomePage() {
   const [providers, setProviders] = useState<any[]>([]);
 
   function loadAll() {
+    const params = new URLSearchParams();
+    if (user?.zoneId) params.set('zone', user.zoneId);
+    if (user?.homeLat != null && user.homeLng != null) {
+      params.set('lat', String(user.homeLat));
+      params.set('lng', String(user.homeLng));
+    }
     api.get<{ communities: any[] }>('/communities').then((r) => setCommunities(r.communities.slice(0, 4)));
-    api.get<{ providers: any[] }>('/providers').then((r) => setProviders(r.providers.slice(0, 6)));
+    api.get<{ providers: any[] }>(`/providers?${params.toString()}`).then((r) => setProviders(r.providers.slice(0, 6)));
   }
-  useEffect(loadAll, []);
+  useEffect(loadAll, [user?.zoneId, user?.homeLat, user?.homeLng]);
 
   async function toggleJoinCommunity(id: string) {
     if (!user) return (window.location.href = '/login');
@@ -86,7 +92,7 @@ export default function HomePage() {
                 category={p.provider.category}
                 rating={p.rating ?? 0}
                 reviews={p.reviewCount ?? 0}
-                distanceKm={2.3}
+                distanceKm={p.distanceKm ?? null}
                 availability={p.provider.availability}
                 verified={p.providerStatus === 'approved'}
               />

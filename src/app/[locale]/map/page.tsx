@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import { useTranslations, useLocale } from 'next-intl';
 import { api } from '@/lib/api-client';
+import { useAuth } from '@/context/auth-context';
+import { ZONES, nearestZoneId, getZone } from '@/lib/zones';
+import { Link } from '@/i18n/navigation';
 
 interface MapPoint {
   id: string;
@@ -14,6 +17,7 @@ interface MapPoint {
   date?: string;
   lat: number;
   lng: number;
+  zoneId?: string;
 }
 
 const availabilityColor: Record<string, string> = {
@@ -24,11 +28,20 @@ const availabilityColor: Record<string, string> = {
 
 export default function MapPage() {
   const t = useTranslations('map');
+  const z = useTranslations('zones');
   const locale = useLocale();
+  const { user, setUser } = useAuth();
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
+  const homeLayerRef = useRef<any>(null);
+  const initializedRef = useRef(false);
   const layerGroupsRef = useRef<{ providers: any; activities: any; communities: any } | null>(null);
   const [leafletReady, setLeafletReady] = useState(false);
+  const [zone, setZone] = useState<string>('all');
+  const [home, setHome] = useState<{ lat: number; lng: number } | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [geoDenied, setGeoDenied] = useState(false);
+  const [zoneSaved, setZoneSaved] = useState(false);
   const [points, setPoints] = useState<{ providers: MapPoint[]; activities: MapPoint[]; communities: MapPoint[] }>({
     providers: [],
     activities: [],
@@ -36,11 +49,24 @@ export default function MapPage() {
   });
   const [layers, setLayers] = useState({ providers: true, activities: true, communities: false });
 
+  const selectedZone = getZone(zone);
+  const houseLabel = z('houseLabel');
+  const saveZoneHint = z('saveZoneHint');
+
   useEffect(() => {
+    if (!initializedRef.current && user?.zoneId) {
+      initializedRef.current = true;
+      setZone(user.zoneId);
+      if (user.homeLat != null && user.homeLng != null) setHome({ lat: user.homeLat, lng: user.homeLng });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const params = zone && zone !== 'all' ? `?zone=${encodeURIComponent(zone)}` : '';
     api
-      .get<{ providers: MapPoint[]; activities: MapPoint[]; communities: MapPoint[] }>('/map/points')
+      .get<{ providers: MapPoint[]; activities: MapPoint[]; communities: MapPoint[] }>(`/map/points${params}`)
       .then(setPoints);
-  }, []);
+  }, [zone]);
 
   // Initialize the Leaflet map once the CDN script has loaded.
   useEffect(() => {
@@ -57,7 +83,30 @@ export default function MapPage() {
       activities: L.layerGroup().addTo(map),
       communities: L.layerGroup(),
     };
+    homeLayerRef.current = L.layerGroup().addTo(map);
   }, [leafletReady]);
+
+  // Draw the "my house" marker whenever home coordinates change.
+  useEffect(() => {
+    if (!leafletReady || !mapRef.current || !homeLayerRef.current || !home) return;
+    const L = (window as any).L;
+    const layer = homeLayerRef.current;
+    layer.clearLayers();
+    L.marker([home.lat, home.lng], {
+      icon: houseIcon(),
+      draggable: true,
+    })
+      .on('dragend', (e: any) => {
+        const ll = e.target.getLatLng();
+        const next = { lat: ll.lat, lng: ll.lng };
+        setHome(next);
+        setZone(nearestZoneId(next.lat, next.lng));
+        if (mapRef.current) mapRef.current.setView(ll, Math.max(mapRef.current.getZoom(), 14));
+      })
+      .bindPopup(`<strong>${escapeHtml(houseLabel)}</strong>${selectedZone ? `<br/>${escapeHtml(saveZoneHint)}` : ''}`)
+      .addTo(layer);
+    if (mapRef.current) mapRef.current.setView([home.lat, home.lng], Math.max(mapRef.current.getZoom(), 14));
+  }, [home, leafletReady, locale, houseLabel, saveZoneHint, selectedZone]);
 
   // Repaint markers whenever data or the current locale changes.
   useEffect(() => {
@@ -116,12 +165,100 @@ export default function MapPage() {
     });
   }, [layers]);
 
+  function shareLocation() {
+    if (!('geolocation' in navigator)) {
+      setGeoDenied(true);
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const next = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        setHome(next);
+        setZone(nearestZoneId(next.lat, next.lng));
+        setGeoDenied(false);
+        setLocating(false);
+      },
+      () => {
+        setGeoDenied(true);
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  async function saveZone() {
+    if (!user) return;
+    const res = await api.patch<{ user: any }>('/users/me', {
+      zoneId: zone,
+      ...(home ? { homeLat: home.lat, homeLng: home.lng } : {}),
+    });
+    setUser(res.user);
+    setZoneSaved(true);
+  }
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
       <Script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" strategy="afterInteractive" onLoad={() => setLeafletReady(true)} />
 
-      <h1 className="font-display text-2xl font-semibold text-ink-900">{t('title')}</h1>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl font-semibold text-ink-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-ink-500">{z('subtitle')}</p>
+        </div>
+        <button
+          type="button"
+          onClick={shareLocation}
+          disabled={locating}
+          className="inline-flex items-center gap-2 rounded-full bg-majorelle-600 px-5 py-2.5 text-sm font-semibold text-white shadow-card transition-colors hover:bg-majorelle-700 disabled:opacity-60"
+        >
+          <span aria-hidden>{locating ? '…' : '📌'}</span>
+          {locating ? z('locating') : z('shareLocation')}
+        </button>
+      </div>
+
+      {geoDenied && (
+        <p className="mt-3 rounded-xl bg-saffron-500/10 px-4 py-2.5 text-sm text-saffron-700">⚠️ {z('denied')}</p>
+      )}
+
+      {selectedZone && (
+        <div className="mt-3 flex flex-wrap items-center gap-3 rounded-2xl bg-sand-100 px-4 py-3">
+          <p className="flex-1 text-sm text-ink-700">
+            {t('zoneDetected')} <span className="font-semibold text-majorelle-700">{selectedZone.name}</span>
+          </p>
+          {user ? (
+            <button
+              type="button"
+              onClick={saveZone}
+              disabled={zoneSaved && user.zoneId === zone && (home ? user.homeLat === home.lat : true)}
+              className="rounded-full bg-clay-400 px-4 py-2 text-xs font-semibold text-white hover:bg-clay-500 disabled:opacity-60"
+            >
+              {zoneSaved ? z('zoneSaved') : z('saveZone')}
+            </button>
+          ) : (
+            <Link href="/login" className="text-xs font-semibold text-majorelle-700 hover:underline">
+              {z('signInToSave')}
+            </Link>
+          )}
+        </div>
+      )}
+
+      {/* Zone filter */}
+      <div className="mt-5 flex flex-wrap gap-2">
+        <ZoneChip active={zone === 'all'} label={z('all')} onClick={() => setZone('all')} />
+        {ZONES.map((zr) => (
+          <ZoneChip
+            key={zr.id}
+            active={zone === zr.id}
+            label={zr.name}
+            onClick={() => {
+              setZone(zr.id);
+              setGeoDenied(false);
+            }}
+          />
+        ))}
+      </div>
 
       <div className="mt-4 flex flex-wrap gap-4">
         <LayerToggle label={t('layerServices')} checked={layers.providers} onChange={(v) => setLayers((l) => ({ ...l, providers: v }))} color={availabilityColor.available} />
@@ -136,8 +273,31 @@ export default function MapPage() {
       </div>
 
       <div ref={containerRef} className="mt-4 h-[70vh] w-full overflow-hidden rounded-2xl shadow-card" />
-      {!leafletReady && <p className="mt-2 text-center text-xs text-ink-300">Loading map…</p>}
+      {!leafletReady && <p className="mt-2 text-center text-xs text-ink-300">{z('loadingMap')}</p>}
     </div>
+  );
+}
+
+function houseIcon() {
+  return (window as any).L.divIcon({
+    className: '',
+    html: '<span style="display:flex;align-items:center;justify-content:center;height:36px;width:36px;border-radius:9999px;background:#4C3AA8;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35);font-size:18px;line-height:1">🏠</span>',
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+  });
+}
+
+function ZoneChip({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+        active ? 'bg-clay-400 text-white' : 'bg-white text-ink-700 shadow-card hover:bg-sand-100'
+      }`}
+    >
+      {label}
+    </button>
   );
 }
 

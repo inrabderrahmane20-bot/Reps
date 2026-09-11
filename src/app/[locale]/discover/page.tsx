@@ -18,11 +18,16 @@ export default function DiscoverPage() {
   const [providers, setProviders] = useState<any[]>([]);
 
   useEffect(() => {
+    const params = new URLSearchParams();
+    if (user?.homeLat != null && user.homeLng != null) {
+      params.set('lat', String(user.homeLat));
+      params.set('lng', String(user.homeLng));
+    }
     api.get<{ news: any[] }>('/news').then((r) => setNews(r.news.slice(0, 3)));
     api.get<{ communities: any[] }>('/communities').then((r) => setCommunities(r.communities.slice(0, 4)));
     api.get<{ activities: any[] }>('/activities').then((r) => setActivities(r.activities.slice(0, 3)));
-    api.get<{ providers: any[] }>('/providers').then((r) => setProviders(r.providers.slice(0, 4)));
-  }, []);
+    api.get<{ providers: any[] }>(`/providers?${params.toString()}`).then((r) => setProviders(r.providers.slice(0, 4)));
+  }, [user?.homeLat, user?.homeLng]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
@@ -63,7 +68,7 @@ export default function DiscoverPage() {
           <SectionHeader title="Services" seeAllHref="/services" seeAllLabel="See all" />
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
             {providers.map((p) => (
-              <ProviderCard key={p.id} id={p.id} name={`${p.firstName} ${p.lastName}`} category={p.provider.category} rating={p.rating ?? 0} reviews={p.reviewCount ?? 0} distanceKm={2.4} availability={p.provider.availability} verified={p.providerStatus === 'approved'} />
+              <ProviderCard key={p.id} id={p.id} name={`${p.firstName} ${p.lastName}`} category={p.provider.category} rating={p.rating ?? 0} reviews={p.reviewCount ?? 0} distanceKm={p.distanceKm ?? null} availability={p.provider.availability} verified={p.providerStatus === 'approved'} />
             ))}
           </div>
         </section>

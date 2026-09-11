@@ -97,3 +97,11 @@ html[dir='rtl'] .flip-rtl {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(29, 26, 22, 0.06), 0 16px 32px -14px rgba(29, 26, 22, 0.24);
 }
+
+/* Shared admin form control */
+.adm-input {
+  @apply w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm text-ink-900 focus:border-majorelle-500 focus:outline-none;
+}
+.adm-input:disabled {
+  @apply opacity-60;
+}

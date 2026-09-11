@@ -108,6 +108,7 @@
     "requestService": "Demander ce service",
     "empty": "Aucun prestataire disponible n’a été trouvé dans cette zone.",
     "expandSearch": "Élargir la zone de recherche",
+    "showingInZone": "Prestataires disponibles dans",
     "about": "À propos",
     "specialties": "Spécialités",
     "portfolio": "Réalisations",
@@ -257,7 +258,24 @@
     "title": "Carte",
     "layerServices": "Services",
     "layerActivities": "Activités",
-    "layerCommunities": "Communautés"
+    "layerCommunities": "Communautés",
+    "zoneDetected": "Afficher tout dans"
+  },
+  "zones": {
+    "subtitle": "Partagez votre position et choisissez votre maison — les services s’adapteront à ce qui est disponible autour.",
+    "all": "Toutes les zones",
+    "shareLocation": "Partager ma position",
+    "locating": "Localisation…",
+    "denied": "Localisation indisponible. Choisissez votre zone manuellement ci-dessous, ou placez le 🏠 sur la carte.",
+    "houseLabel": "Votre maison",
+    "saveZoneHint": "Glissez le marqueur pour ajuster votre position",
+    "signInToSave": "Connectez-vous pour enregistrer votre zone",
+    "saveZone": "Enregistrer comme ma zone",
+    "zoneSaved": "Zone enregistrée ✓",
+    "loadingMap": "Chargement de la carte…",
+    "setZonePrompt": "Définissez votre zone pour voir quels services sont disponibles près de votre maison.",
+    "setYourZone": "Définir ma zone",
+    "change": "Changer de zone"
   },
   "requestFlow": {
     "title": "Demander ce service",

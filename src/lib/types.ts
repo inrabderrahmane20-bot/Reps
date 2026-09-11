@@ -40,6 +40,9 @@ export interface User {
   providerStatus: ProviderStatus;
   provider: ProviderProfile | null;
   blockedUserIds: string[];
+  homeLat?: number;
+  homeLng?: number;
+  zoneId?: string;
   createdAt: string;
 }
 
@@ -243,6 +246,9 @@ export interface PublicUser {
   status: AccountStatus;
   providerStatus: ProviderStatus;
   provider: ProviderProfile | null;
+  homeLat?: number;
+  homeLng?: number;
+  zoneId?: string;
   createdAt: string;
 }
 
