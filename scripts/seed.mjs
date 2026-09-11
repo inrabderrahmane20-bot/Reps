@@ -221,10 +221,16 @@ const providerNames = [
   ['Othmane', 'R.'],
   ['Khadija', 'N.'],
   ['Mehdi', 'T.'],
+  ['Amina', 'B.'],
+  ['Yassine', 'C.'],
+  ['Hafsa', 'D.'],
+  ['Nabil', 'E.'],
+  ['Salma', 'F.'],
+  ['Ilyas', 'G.'],
 ];
 
 catalogServices.forEach((service, serviceIndex) => {
-  for (let variant = 0; variant < 2; variant += 1) {
+  for (let variant = 0; variant < 5; variant += 1) {
     const id = `u_catalog_${serviceIndex + 1}_${variant + 1}`;
     const [firstName, lastName] = providerNames[(serviceIndex * 2 + variant) % providerNames.length];
     addUser({
@@ -246,7 +252,7 @@ catalogServices.forEach((service, serviceIndex) => {
         priceRange: variant === 0 ? '150–450 MAD / service' : '200–600 MAD / service',
         availability: variant === 0 ? 'available' : 'later',
         lat: 31.63 + (serviceIndex % 10) * 0.002,
-        lng: -8.02 + (variant * 0.01),
+        lng: -8.02 + (variant * 0.004),
         portfolio: [],
         documents: ['id_card.pdf'],
       },
@@ -535,6 +541,37 @@ const activities = [
     createdAt: iso(2),
   },
 ];
+
+const catalogActivities = [];
+catalogServices.forEach((service, serviceIndex) => {
+  catalogProviders
+    .filter((provider) => provider.serviceIndex === serviceIndex)
+    .forEach(({ id: creatorId, variant }) => {
+      catalogActivities.push({
+        id: `activity_catalog_${serviceIndex + 1}_${variant + 1}`,
+        creatorId,
+        title: `${service} appointment ${variant + 1}`,
+        category: service,
+        description: `${service} specialist activity for Marrakech residents, with practical advice and an on-site consultation.`,
+        date: `Next ${['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'][variant]} · ${variant % 2 === 0 ? '10:00' : '16:00'}`,
+        location: ['Guéliz', 'Medina', 'Hivernage', 'Semlalia', 'Sidi Ghanem'][variant],
+        city: 'Marrakech',
+        lat: 31.63 + (serviceIndex % 10) * 0.002,
+        lng: -8.02 + (variant * 0.004),
+        max: 8,
+        min: 1,
+        equipment: ['Consultation notes', 'Phone'],
+        level: 'All levels',
+        visibility: 'public',
+        status: 'open',
+        participantIds: [creatorId],
+        pendingParticipantIds: [],
+        createdAt: iso(variant + serviceIndex),
+      });
+    });
+});
+
+activities.push(...catalogActivities);
 
 // --- Meeting profiles ---
 const meetingProfiles = [
