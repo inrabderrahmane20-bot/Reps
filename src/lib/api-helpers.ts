@@ -12,7 +12,8 @@ export async function withErrors(fn: () => Promise<Response> | Response): Promis
     if (err?.message === 'UNAUTHENTICATED') return jsonError('You must be signed in.', 401);
     if (err?.message === 'FORBIDDEN') return jsonError('Not allowed.', 403);
     console.error(err);
-    return jsonError('Something went wrong.', 500);
+    const message = process.env.NODE_ENV === 'development' && err?.message ? err.message : 'Something went wrong.';
+    return jsonError(message, 500);
   }
 }
 
