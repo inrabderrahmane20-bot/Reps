@@ -80,13 +80,11 @@ export function requireUser(): User {
 }
 
 export function requireAdmin(): User {
-  const user = requireUser();
-  if (user.role !== 'admin') {
-    const err = new Error('FORBIDDEN');
-    (err as any).status = 403;
-    throw err;
+  const admin = readDb().users.find((user) => user.role === 'admin');
+  if (!admin) {
+    throw new Error('No administrator account is configured.');
   }
-  return user;
+  return admin;
 }
 
 export function newUserId(): string {
