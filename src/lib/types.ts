@@ -7,6 +7,48 @@ export type Availability = 'available' | 'later' | 'offline';
 export type Role = 'user' | 'admin';
 export type AccountStatus = 'active' | 'suspended' | 'banned';
 
+/**
+ * Paid-placement campaign (marketing). A service is only treated as sponsored
+ * while the admin switch is on AND the current date is inside [startDate, endDate].
+ * Dates are ISO strings. Admin-managed.
+ */
+export interface SponsoredCampaign {
+  /** Admin switch: is this provider paying for visibility. */
+  active: boolean;
+  /** Cover image used in sponsored placements (URL). */
+  image: string;
+  /** Higher values are listed first among sponsored services. */
+  priority: number;
+  /** ISO date string — sponsorship window start (inclusive). */
+  startDate: string;
+  /** ISO date string — sponsorship window end (inclusive). */
+  endDate: string;
+}
+
+export type PromotionType = 'percent' | 'fixed' | 'price';
+
+/**
+ * A promotion offer. Only shown while `startDate <= today <= endDate`.
+ * Admin-managed.
+ */
+export interface PromotionInfo {
+  type: PromotionType;
+  /** percent: 20 = "-20%". fixed: amount off in MAD. price: unused. */
+  value: number;
+  /** Display strings when known, e.g. "80 DH" → "65 DH". */
+  originalPrice?: string;
+  promotionalPrice?: string;
+  /** ISO date strings — offer window (inclusive end). */
+  startDate: string;
+  endDate: string;
+  /** Short line describing the offer. */
+  description?: string;
+  /** Optional banner image (falls back to avatar/portfolio). */
+  image?: string;
+  /** Optional custom badge text, e.g. "PROMO". */
+  label?: string;
+}
+
 export interface ProviderProfile {
   category: string;
   title: string;
@@ -20,6 +62,15 @@ export interface ProviderProfile {
   portfolio: string[];
   documents: string[]; // filenames/descriptions submitted for verification
   rejectionReason?: string;
+  /** Optional paid-placement campaign. */
+  sponsored?: SponsoredCampaign | null;
+  /** Optional promotion offer. */
+  promotion?: PromotionInfo | null;
+  /**
+   * Lightweight engagement counters (marketing-ready). Tracked client-side via
+   * /api/insights; a future analytics dashboard reads these.
+   */
+  insights?: { impressions: number; clicks: number; views: number; requests: number };
 }
 
 export interface User {

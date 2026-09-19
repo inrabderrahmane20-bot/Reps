@@ -98,6 +98,36 @@ html[dir='rtl'] .flip-rtl {
   box-shadow: 0 4px 10px rgba(29, 26, 22, 0.06), 0 16px 32px -14px rgba(29, 26, 22, 0.24);
 }
 
+/* Subtle reveal for the category drill-down pane (direction-neutral, RTL-safe) */
+@keyframes drill-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.drill-reveal {
+  animation: drill-reveal 180ms ease-out;
+}
+
+/* Gentle rise for content sections entering the viewport (optional utility) */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 300ms ease-out;
+}
+
 /* Shared admin form control */
 .adm-input {
   @apply w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm text-ink-900 focus:border-majorelle-500 focus:outline-none;

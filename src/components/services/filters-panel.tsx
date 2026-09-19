@@ -110,12 +110,12 @@ export function FiltersPanel({
 
   return (
     <div className="flex flex-col gap-6">
-      {/* CATEGORY — two-pane drilldown */}
+      {/* CATEGORY — two-pane drilldown (right pane hidden until a top is picked) */}
       <section aria-label={t('category')}>
         <h3 className="text-[11px] font-bold uppercase tracking-wider text-ink-300">{t('category')}</h3>
-        <div className="mt-2.5 grid grid-cols-2 gap-2">
+        <div className="mt-2.5 flex gap-2">
           {/* Original list: all top-level groups */}
-          <div className="flex min-w-0 flex-col gap-0.5">
+          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
             <CategoryRow label={t('allCategories')} selected={!activeCat} onSelect={selectAll} />
             <div className="max-h-[300px] space-y-0.5 overflow-y-auto pe-1" role="list">
               {topNames.map((top) => (
@@ -129,51 +129,52 @@ export function FiltersPanel({
             </div>
           </div>
 
-          {/* The rest: contextual subcategory / leaf pane */}
-          <div className="flex min-h-[220px] min-w-0 flex-col rounded-xl border border-ink-900/[0.08] bg-sand-100/60 p-1.5">
-            {!drillTop ? (
-              <p className="mx-auto my-auto max-w-[9rem] text-center text-[11.5px] leading-snug text-ink-300">
-                {t('selectCategoryHint')}
-              </p>
-            ) : !drillSub ? (
-              <>
-                <DrillHeader label={drillTop} onBack={() => setDrillTop(null)} backLabel={t('allCategories')} />
-                <div className="mt-1 max-h-[236px] space-y-0.5 overflow-y-auto" role="list">
-                  {subcategoriesOf(drillTop).map((sub) => {
-                    const hasChildren = (sub.children ?? []).length > 0;
-                    const selected = normalizeCategory(activeCat ?? '') === normalizeCategory(sub.name);
-                    return (
+          {/* The rest: contextual pane — only appears once a top-level is chosen */}
+          {drillTop && (
+            <div
+              key={drillTop}
+              className="drill-reveal flex min-h-[220px] w-[44%] min-w-[9.5rem] flex-col rounded-xl border border-ink-900/[0.08] bg-sand-100/60 p-1.5"
+            >
+              {!drillSub ? (
+                <>
+                  <DrillHeader label={drillTop} onBack={() => setDrillTop(null)} backLabel={t('allCategories')} />
+                  <div className="mt-1 max-h-[236px] space-y-0.5 overflow-y-auto" role="list">
+                    {subcategoriesOf(drillTop).map((sub) => {
+                      const hasChildren = (sub.children ?? []).length > 0;
+                      const selected = normalizeCategory(activeCat ?? '') === normalizeCategory(sub.name);
+                      return (
+                        <DrillRow
+                          key={sub.name}
+                          label={sub.name}
+                          selected={selected}
+                          hasNext={hasChildren}
+                          onSelect={() => {
+                            onChange({ ...value, cat: sub.name });
+                            if (hasChildren) setDrillSub(sub.name);
+                            else setDrillSub(null);
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <DrillHeader label={drillSub} onBack={() => setDrillSub(null)} backLabel={drillTop} />
+                  <div className="mt-1 max-h-[236px] space-y-0.5 overflow-y-auto" role="list">
+                    {findNodeChildren(drillTop, drillSub).map((leaf) => (
                       <DrillRow
-                        key={sub.name}
-                        label={sub.name}
-                        selected={selected}
-                        hasNext={hasChildren}
-                        onSelect={() => {
-                          onChange({ ...value, cat: sub.name });
-                          if (hasChildren) setDrillSub(sub.name);
-                          else setDrillSub(null);
-                        }}
+                        key={leaf.name}
+                        label={leaf.name}
+                        selected={normalizeCategory(activeCat ?? '') === normalizeCategory(leaf.name)}
+                        onSelect={() => onChange({ ...value, cat: leaf.name })}
                       />
-                    );
-                  })}
-                </div>
-              </>
-            ) : (
-              <>
-                <DrillHeader label={drillSub} onBack={() => setDrillSub(null)} backLabel={drillTop} />
-                <div className="mt-1 max-h-[236px] space-y-0.5 overflow-y-auto" role="list">
-                  {findNodeChildren(drillTop, drillSub).map((leaf) => (
-                    <DrillRow
-                      key={leaf.name}
-                      label={leaf.name}
-                      selected={normalizeCategory(activeCat ?? '') === normalizeCategory(leaf.name)}
-                      onSelect={() => onChange({ ...value, cat: leaf.name })}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

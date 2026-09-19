@@ -6,6 +6,7 @@ import { locales, localeDirection, type Locale } from '@/i18n/config';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { MobileTabBar } from '@/components/layout/mobile-tab-bar';
+import { FirstVisitLanguageModal } from '@/components/layout/first-visit-language-modal';
 import { AuthProvider } from '@/context/auth-context';
 import '../globals.css';
 
@@ -49,6 +50,7 @@ export default async function LocaleLayout({
             <main className="flex-1 pb-16 md:pb-0">{children}</main>
             <Footer />
             <MobileTabBar />
+            <FirstVisitLanguageModal />
           </AuthProvider>
         </NextIntlClientProvider>
       </body>

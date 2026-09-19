@@ -182,7 +182,17 @@
         ],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 30,
+          "originalPrice": "150 DH",
+          "promotionalPrice": "105 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Premier nettoyage complet -30% pour les nouveaux clients.",
+          "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-01-04T21:38:43.194Z"
@@ -305,7 +315,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=900&auto=format&fit=crop",
+          "priority": 0,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-08-02T21:38:43.194Z"
@@ -346,7 +363,24 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=900&auto=format&fit=crop",
+          "priority": 5,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        },
+        "promotion": {
+          "type": "percent",
+          "value": 20,
+          "originalPrice": "250 DH",
+          "promotionalPrice": "200 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Plomberie : -20% ce mois-ci.",
+          "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-08-02T21:38:43.194Z"
@@ -428,7 +462,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 20,
+          "originalPrice": "300 DH",
+          "promotionalPrice": "240 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Installation sanitaire -20%.",
+          "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-08-02T21:38:43.194Z"
@@ -2355,7 +2399,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=900&auto=format&fit=crop",
+          "priority": 7,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-07-23T21:38:43.194Z"
@@ -2396,7 +2447,15 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 20,
+          "startDate": "2026-11-01T00:00:00.000Z",
+          "endDate": "2026-12-31T23:59:59.000Z",
+          "description": "Offre de novembre à venir.",
+          "image": "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-07-23T21:38:43.194Z"
@@ -2478,7 +2537,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "fixed",
+          "value": 50,
+          "originalPrice": "200 DH",
+          "promotionalPrice": "150 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Dépannage électrique : -50 DH.",
+          "image": "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-07-23T21:38:43.194Z"
@@ -2519,7 +2588,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=900&auto=format&fit=crop",
+          "priority": 8,
+          "startDate": "2026-07-01T00:00:00.000Z",
+          "endDate": "2026-08-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-07-23T21:38:43.194Z"
@@ -15475,7 +15551,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=900&auto=format&fit=crop",
+          "priority": 4,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-20T21:38:43.194Z"
@@ -15516,7 +15599,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 25,
+          "originalPrice": "200 DH",
+          "promotionalPrice": "150 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Nettoyage de printemps -25%.",
+          "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-20T21:38:43.194Z"
@@ -15557,7 +15650,15 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 15,
+          "startDate": "2026-07-01T00:00:00.000Z",
+          "endDate": "2026-08-31T23:59:59.000Z",
+          "description": "Offre d’août terminée.",
+          "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-20T21:38:43.194Z"
@@ -15639,7 +15740,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=900&auto=format&fit=crop",
+          "priority": 9,
+          "startDate": "2026-11-01T00:00:00.000Z",
+          "endDate": "2026-12-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-20T21:38:43.194Z"
@@ -18550,7 +18658,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 15,
+          "originalPrice": "200 DH",
+          "promotionalPrice": "170 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Entretien de jardin à -15% en septembre.",
+          "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-05T21:38:43.194Z"
@@ -18591,7 +18709,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "fixed",
+          "value": 25,
+          "originalPrice": "100 DH",
+          "promotionalPrice": "75 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Taille de haies : -25 DH.",
+          "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-05T21:38:43.194Z"
@@ -18714,7 +18842,24 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=900&auto=format&fit=crop",
+          "priority": 1,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        },
+        "promotion": {
+          "type": "fixed",
+          "value": 50,
+          "originalPrice": "180 DH",
+          "promotionalPrice": "130 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Entretien de jardin : -50 DH.",
+          "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-05-05T21:38:43.194Z"
@@ -20846,7 +20991,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "fixed",
+          "value": 101,
+          "originalPrice": "500 DH",
+          "promotionalPrice": "399 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Révision complète : 500 DH → 399 DH.",
+          "image": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-04-24T21:38:43.194Z"
@@ -20887,7 +21042,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=900&auto=format&fit=crop",
+          "priority": 2,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-04-24T21:38:43.194Z"
@@ -24946,7 +25108,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1593642532744-d377ab507dc8?q=80&w=900&auto=format&fit=crop",
+          "priority": 3,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-04-04T21:38:43.194Z"
@@ -25028,7 +25197,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 10,
+          "originalPrice": "250 DH",
+          "promotionalPrice": "225 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Réparation ordinateur à -10%.",
+          "image": "https://images.unsplash.com/photo-1593642532744-d377ab507dc8?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-04-04T21:38:43.194Z"
@@ -25110,7 +25289,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "price",
+          "value": 0,
+          "originalPrice": "249 DH",
+          "promotionalPrice": "149 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Installation Windows + nettoyage antivirus à 149 DH.",
+          "image": "https://images.unsplash.com/photo-1593642532744-d377ab507dc8?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-04-03T21:38:43.194Z"
@@ -31055,7 +31244,17 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "promotion": {
+          "type": "percent",
+          "value": 20,
+          "originalPrice": "100 DH",
+          "promotionalPrice": "80 DH",
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z",
+          "description": "Coupe + coiffage à prix réduit cette semaine.",
+          "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=900&auto=format&fit=crop"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-03-05T21:38:43.194Z"
@@ -31260,7 +31459,14 @@
         "portfolio": [],
         "documents": [
           "id_card.pdf"
-        ]
+        ],
+        "sponsored": {
+          "active": true,
+          "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=900&auto=format&fit=crop",
+          "priority": 6,
+          "startDate": "2026-09-01T00:00:00.000Z",
+          "endDate": "2026-10-31T23:59:59.000Z"
+        }
       },
       "blockedUserIds": [],
       "createdAt": "2026-03-04T21:38:43.194Z"

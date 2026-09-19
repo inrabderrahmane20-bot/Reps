@@ -16,7 +16,10 @@
     "signIn": "Sign in",
     "joinMedina": "Join Medina",
     "openMenu": "Open menu",
-    "language": "Language"
+    "language": "Language",
+    "promotions": "Promotions",
+    "cityLine": "Marrakech · Medina",
+    "utilityTagline": "Find trusted services near you"
   },
   "home": {
     "heroKicker": "Marrakech",
@@ -35,7 +38,12 @@
     "seeAll": "See all",
     "join": "Join",
     "viewAll": "View all",
-    "searchButton": "Search"
+    "searchButton": "Search",
+    "sectionPopularCategories": "Popular categories",
+    "sectionFeatured": "Featured services",
+    "sectionSponsored": "Sponsored partners",
+    "sectionPromotions": "Deals & promotions",
+    "viewAllPromotions": "See all promotions"
   },
   "common": {
     "loading": "Loading…",
@@ -84,7 +92,8 @@
     "unblock": "Unblock",
     "message": "Message",
     "seeMore": "See more",
-    "creating": "Creating…"
+    "creating": "Creating…",
+    "sponsored": "Sponsored"
   },
   "news": {
     "title": "Local news",
@@ -150,7 +159,9 @@
     "priceRangeLabel": "Price range",
     "clientReviews": "Client reviews",
     "backToServices": "Back to services",
-    "contactProvider": "Contact provider"
+    "contactProvider": "Contact provider",
+    "sponsoredSection": "Sponsored services",
+    "takeAdvantage": "Take advantage"
   },
   "communities": {
     "title": "Communities",
@@ -365,5 +376,19 @@
     "preferredMinAge": "Preferred min age",
     "preferredMaxAge": "Preferred max age",
     "saveLabel": "Save"
+  },
+  "promotions": {
+    "title": "Promotions",
+    "subtitle": "The best deals right now",
+    "offersCount": "active offers",
+    "emptyTitle": "No promotions available right now",
+    "emptyBody": "Come back soon to discover the next offers.",
+    "moreSoon": "More offers are added regularly"
+  },
+  "gate": {
+    "title": "Welcome to Medina",
+    "intro": "Choose your language to personalize your experience.",
+    "continue": "Continue",
+    "skip": "Close"
   }
 }

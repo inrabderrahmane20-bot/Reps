@@ -16,7 +16,10 @@
     "signIn": "Se connecter",
     "joinMedina": "Rejoindre Medina",
     "openMenu": "Ouvrir le menu",
-    "language": "Langue"
+    "language": "Langue",
+    "promotions": "Solde",
+    "cityLine": "Marrakech · Médina",
+    "utilityTagline": "Trouvez des services de confiance près de chez vous"
   },
   "home": {
     "heroKicker": "Marrakech",
@@ -35,7 +38,12 @@
     "seeAll": "Tout voir",
     "join": "Rejoindre",
     "viewAll": "Voir tout",
-    "searchButton": "Rechercher"
+    "searchButton": "Rechercher",
+    "sectionPopularCategories": "Catégories populaires",
+    "sectionFeatured": "Services à la une",
+    "sectionSponsored": "Services sponsorisés",
+    "sectionPromotions": "Solde & promotions",
+    "viewAllPromotions": "Voir toutes les promotions"
   },
   "common": {
     "loading": "Chargement…",
@@ -84,7 +92,8 @@
     "unblock": "Débloquer",
     "message": "Message",
     "seeMore": "Voir plus",
-    "creating": "Création…"
+    "creating": "Création…",
+    "sponsored": "Sponsorisé"
   },
   "news": {
     "title": "Actualités locales",
@@ -150,7 +159,9 @@
     "priceRangeLabel": "Fourchette de prix",
     "clientReviews": "Avis clients",
     "backToServices": "Retour aux services",
-    "contactProvider": "Contacter le prestataire"
+    "contactProvider": "Contacter le prestataire",
+    "sponsoredSection": "Services sponsorisés",
+    "takeAdvantage": "Profiter"
   },
   "communities": {
     "title": "Communautés",
@@ -365,5 +376,19 @@
     "preferredMinAge": "Âge min. préféré",
     "preferredMaxAge": "Âge max. préféré",
     "saveLabel": "Enregistrer"
+  },
+  "promotions": {
+    "title": "Solde",
+    "subtitle": "Les meilleures offres du moment",
+    "offersCount": "offres actives",
+    "emptyTitle": "Aucune promotion disponible pour le moment",
+    "emptyBody": "Revenez bientôt pour découvrir les prochaines offres.",
+    "moreSoon": "De nouvelles offres sont ajoutées régulièrement"
+  },
+  "gate": {
+    "title": "Bienvenue sur Medina",
+    "intro": "Choisissez votre langue pour personnaliser votre expérience.",
+    "continue": "Continuer",
+    "skip": "Fermer"
   }
 }

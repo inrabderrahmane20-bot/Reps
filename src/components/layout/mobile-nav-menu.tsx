@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X, Search, Percent } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LanguageSwitcher } from './language-switcher';
 import { useAuth } from '@/context/auth-context';
@@ -27,6 +27,7 @@ export function MobileNavMenu() {
     { href: '/', label: t('home') },
     { href: '/news', label: t('news') },
     { href: '/services', label: t('services') },
+    { href: '/promotions', label: t('promotions'), hot: true },
     { href: '/communities', label: t('communities') },
     { href: '/activities', label: t('activities') },
     { href: '/meetings', label: t('meetings') },
@@ -83,10 +84,15 @@ export function MobileNavMenu() {
                     <Link
                       href={link.href}
                       aria-current={active ? 'page' : undefined}
-                      className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[15px] font-medium transition-colors ${
-                        active ? 'bg-majorelle-600 text-white' : 'text-ink-700 hover:bg-white'
+                      className={`flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[15px] font-medium transition-colors ${
+                        active
+                          ? 'bg-majorelle-600 text-white'
+                          : link.hot
+                            ? 'text-saffron-700 hover:bg-white'
+                            : 'text-ink-700 hover:bg-white'
                       }`}
                     >
+                      {link.hot && <Percent size={15} strokeWidth={2.4} aria-hidden />}
                       {link.label}
                     </Link>
                   </li>

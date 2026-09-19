@@ -3,6 +3,7 @@ import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
 import { classifyZone, haversineKm } from '@/lib/zones';
 import { expandCategory } from '@/lib/service-categories';
+import { activePromotion, isSponsorshipActive } from '@/lib/marketing';
 import type { Availability } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -19,8 +20,14 @@ export const dynamic = 'force-dynamic';
 //   minRating     — only providers with an average rating >= this value
 //   zone          — restrict to a named zone
 //   lat, lng      — used for distance display; not a filter
-//   sort          — newest | rating | available | alpha
+//   sort          — newest | rating | available | alpha | sponsored
+//   sponsored=1   — only providers whose sponsorship window is currently active
+//   promotion=1   — only providers with a currently active promotion
 //   limit, offset — pagination; the response includes the filtered total
+//
+//   Each row is annotated with `sponsored` (boolean) and `promotion`
+//   (PromotionInfo, only while active) so clients can render badges without
+//   re-deriving date logic.
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q')?.toLowerCase();
@@ -30,6 +37,8 @@ export async function GET(req: NextRequest) {
   const zone = searchParams.get('zone');
   const lat = searchParams.get('lat') ? Number(searchParams.get('lat')) : null;
   const lng = searchParams.get('lng') ? Number(searchParams.get('lng')) : null;
+  const requestedSponsored = searchParams.get('sponsored') === '1';
+  const requestedPromotion = searchParams.get('promotion') === '1';
   const sort = searchParams.get('sort') ?? 'newest';
   const limit = searchParams.get('limit') ? Math.max(1, Number(searchParams.get('limit'))) : 24;
   const offset = searchParams.get('offset') ? Math.max(0, Number(searchParams.get('offset'))) : 0;
@@ -72,16 +81,40 @@ export async function GET(req: NextRequest) {
     const rating = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : null;
     const zoneId = classifyZone(u.provider!.lat, u.provider!.lng, u.neighborhood);
     const distanceKm = lat !== null && lng !== null ? haversineKm(lat, lng, u.provider!.lat, u.provider!.lng) : null;
-    return { ...toPublicUser(u), zoneId, distanceKm, rating, reviewCount: reviews.length };
+    return {
+      ...toPublicUser(u),
+      zoneId,
+      distanceKm,
+      rating,
+      reviewCount: reviews.length,
+      sponsored: isSponsorshipActive(u.provider!.sponsored),
+      promotion: activePromotion(u.provider!.promotion),
+    };
   });
 
   if (minRating != null && !Number.isNaN(minRating)) {
     result = result.filter((p) => (p.rating ?? 0) >= minRating);
   }
+  if (requestedSponsored) {
+    // Only currently-active sponsorship windows.
+    result = result.filter((p) => p.sponsored);
+  }
+  if (requestedPromotion) {
+    // Only currently-active promotions.
+    result = result.filter((p) => p.promotion);
+  }
 
   switch (sort) {
     case 'rating':
       result.sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1) || b.reviewCount - a.reviewCount);
+      break;
+    case 'sponsored':
+      // sponsorPriority descending, then rating — used for sponsored strips.
+      result.sort((a, b) => {
+        const pa = (a.provider!.sponsored?.priority ?? 0);
+        const pb = (b.provider!.sponsored?.priority ?? 0);
+        return pb - pa || (b.rating ?? -1) - (a.rating ?? -1);
+      });
       break;
     case 'available': {
       const rank: Record<Availability, number> = { available: 0, later: 1, offline: 2 };

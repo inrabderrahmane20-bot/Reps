@@ -18,6 +18,8 @@ import {
 } from '@/components/services/filters-panel';
 import { MobileFilterDrawer } from '@/components/services/mobile-filter-drawer';
 import { ClientSearchesPanel } from '@/components/services/client-searches-panel';
+import { SponsoredStrip } from '@/components/services/sponsored-strip';
+import type { PromotionInfo } from '@/lib/types';
 import {
   ServiceListRow,
   ServiceGridCard,
@@ -30,7 +32,14 @@ import {
 const PAGE_SIZE = 24;
 type SortKey = 'newest' | 'rating' | 'available' | 'alpha';
 
-type ProviderRow = PublicUser & { rating: number | null; reviewCount: number; distanceKm: number | null };
+type ProviderRow = PublicUser & {
+  rating: number | null;
+  reviewCount: number;
+  distanceKm: number | null;
+  zoneId?: string;
+  sponsored?: boolean;
+  promotion?: PromotionInfo | null;
+};
 
 export default function ServicesPage() {
   const t = useTranslations('services');
@@ -53,16 +62,24 @@ export default function ServicesPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
   const [clientSearchesKey, setClientSearchesKey] = useState(0);
+  const [sponsored, setSponsored] = useState<ServiceListing[]>([]);
+  const [sponsoredLoading, setSponsoredLoading] = useState(true);
 
   const requestSeq = useRef(0);
 
-  // Read ?q= on first mount (homepage category drilldown sends it there).
+  // Read ?q= and ?cat= on first mount (homepage drilldown sends ?q= there;
+  // category shortcut chips send ?cat=).
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const initialQ = new URLSearchParams(window.location.search).get('q');
+    const params = new URLSearchParams(window.location.search);
+    const initialQ = params.get('q');
     if (initialQ) {
       setQ(initialQ);
       setDebouncedQ(initialQ);
+    }
+    const initialCat = params.get('cat');
+    if (initialCat) {
+      setFilters((f) => ({ ...f, cat: initialCat }));
     }
   }, []);
 
@@ -111,7 +128,19 @@ export default function ServicesPage() {
     description: p.provider!.description,
     priceRange: p.provider!.priceRange,
     portfolio: p.provider!.portfolio,
+    zoneId: p.zoneId,
+    sponsored: p.sponsored ?? false,
+    promotion: p.promotion ?? null,
   }), []);
+
+  // Sponsored placements — a fixed strip above organic results.
+  useEffect(() => {
+    api
+      .get<{ providers: ProviderRow[] }>('/providers?sponsored=1&sort=sponsored&limit=6')
+      .then((r) => setSponsored(r.providers.map(mapRow)))
+      .catch(() => setSponsored([]))
+      .finally(() => setSponsoredLoading(false));
+  }, [mapRow]);
 
   // Fetch the first page whenever any query dimension changes.
   useEffect(() => {
@@ -178,7 +207,7 @@ export default function ServicesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
+    <div className="mx-auto max-w-[1720px] px-4 py-8 md:px-6 xl:px-8">
       {/* Header */}
       <h1 className="font-display text-[2.1rem] font-semibold leading-tight text-ink-900 sm:text-4xl">{t('title')}</h1>
       <p className="mt-1.5 max-w-xl text-sm text-ink-500">{t('subtitle')}</p>
@@ -264,7 +293,7 @@ export default function ServicesPage() {
         </button>
       </div>
 
-      <div className="mt-5 gap-8 lg:mt-8 lg:grid lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[320px_minmax(0,1fr)]">
+      <div className="mt-5 gap-8 lg:mt-8 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[310px_minmax(0,1fr)] 2xl:grid-cols-[330px_minmax(0,1fr)]">
         {/* Desktop sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto rounded-2xl border border-ink-900/[0.06] bg-white/70 p-4 shadow-card">
@@ -274,8 +303,10 @@ export default function ServicesPage() {
         </aside>
 
         {/* Results */}
-        <section aria-label={t('results')}>
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <section aria-label={t('results')} className="min-w-0">
+          <SponsoredStrip items={sponsored} loading={sponsoredLoading} onRequest={setRequesting} />
+
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm font-medium text-ink-700">
               <span className="font-display text-lg font-semibold text-ink-900">{total}</span>{' '}
               {t('resultCount', { count: total })}

@@ -6,6 +6,9 @@ import { BadgeCheck, List, LayoutGrid, MapPin, Rows3 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Rating } from '@/components/ui/rating';
 import { AvailabilityBadge, type Availability } from '@/components/ui/availability-badge';
+import { getZone } from '@/lib/zones';
+import type { PromotionInfo } from '@/lib/types';
+import { PromotionBadge, PromoPrice, SponsoredTag } from './marketing-badges';
 
 /** Enriched provider row as displayed across all service view modes. */
 export interface ServiceListing {
@@ -22,6 +25,11 @@ export interface ServiceListing {
   description?: string;
   priceRange?: string;
   portfolio?: string[];
+  zoneId?: string;
+  /** True while the sponsorship window is active (server-computed). */
+  sponsored?: boolean;
+  /** The promotion while it is active; null otherwise (server-computed). */
+  promotion?: PromotionInfo | null;
 }
 
 export type ViewMode = 'list' | 'grid' | 'large';
@@ -84,19 +92,33 @@ export function ServiceListRow({
 }) {
   const t = useTranslations('services');
   const common = useTranslations('common');
+  const zoneName = item.zoneId ? getZone(item.zoneId)?.name : undefined;
   return (
     <article className="group flex items-center gap-3 px-3 py-2.5 transition-colors hover:bg-white sm:gap-4 sm:px-4">
       <Link href={`/services/${item.id}`} className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
         <ProviderAvatar item={item} size="md" />
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
             <h3 className="truncate font-display text-[15px] font-semibold text-ink-900 transition-colors group-hover:text-majorelle-700">
               {item.name}
             </h3>
             {item.verified && <BadgeCheck size={15} className="shrink-0 text-zellige-500" aria-label={common('verified')} />}
+            {item.sponsored && <SponsoredTag />}
+            {item.promotion && <PromotionBadge promo={item.promotion} />}
           </div>
           <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12.5px] leading-snug text-ink-500">
             <span className="truncate font-medium text-ink-700">{item.category}</span>
+            {zoneName && (
+              <>
+                <span className="text-ink-300" aria-hidden>
+                  ·
+                </span>
+                <span className="inline-flex items-center gap-0.5">
+                  <MapPin size={11} className="text-ink-400" aria-hidden />
+                  {zoneName}
+                </span>
+              </>
+            )}
             <span className="hidden text-ink-300 sm:inline" aria-hidden>
               ·
             </span>
@@ -110,6 +132,11 @@ export function ServiceListRow({
               <AvailabilityBadge status={item.availability} />
             </span>
           </p>
+          {item.promotion?.promotionalPrice && (
+            <p className="mt-0.5 sm:hidden">
+              <PromoPrice promo={item.promotion} />
+            </p>
+          )}
         </div>
         {/* Mobile: keep rating + availability visible without shrinking the row */}
         <div className="flex shrink-0 flex-col items-end gap-1 sm:hidden">
@@ -122,6 +149,12 @@ export function ServiceListRow({
         <span className="hidden shrink-0 items-center gap-1 text-xs text-ink-500 xl:flex">
           <MapPin size={12} />
           {item.distanceKm.toFixed(1)} {common('away')}
+        </span>
+      )}
+
+      {item.promotion && (
+        <span className="hidden md:inline-flex">
+          <PromoPrice promo={item.promotion} />
         </span>
       )}
 
@@ -146,19 +179,31 @@ export function ServiceGridCard({
 }) {
   const t = useTranslations('services');
   const common = useTranslations('common');
+  const zoneName = item.zoneId ? getZone(item.zoneId)?.name : undefined;
   return (
-    <article className="card-hover group flex flex-col rounded-2xl border border-ink-900/[0.06] bg-white p-4 shadow-card sm:p-5">
+    <article className="card-hover group relative flex flex-col rounded-2xl border border-ink-900/[0.06] bg-white p-4 shadow-card sm:p-5">
+      {item.sponsored && (
+        <span className="absolute end-3 top-3 z-10">
+          <SponsoredTag />
+        </span>
+      )}
       <Link href={`/services/${item.id}`} className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-3">
           <ProviderAvatar item={item} size="lg" />
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               <h3 className="truncate font-display text-[16px] font-semibold text-ink-900 transition-colors group-hover:text-majorelle-700">
                 {item.name}
               </h3>
               {item.verified && <BadgeCheck size={15} className="shrink-0 text-zellige-500" aria-label={common('verified')} />}
             </div>
             <p className="mt-0.5 truncate text-[13px] text-ink-500">{item.category}</p>
+            {zoneName && (
+              <p className="mt-0.5 inline-flex items-center gap-0.5 text-xs text-ink-400">
+                <MapPin size={11} aria-hidden />
+                {zoneName}
+              </p>
+            )}
           </div>
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5">
@@ -170,7 +215,14 @@ export function ServiceGridCard({
               {item.distanceKm.toFixed(1)} {common('away')}
             </span>
           )}
+          {item.promotion && <PromotionBadge promo={item.promotion} />}
         </div>
+        {item.promotion && (
+          <p className="mt-2 flex flex-wrap items-center gap-2">
+            <PromoPrice promo={item.promotion} />
+            <span className="text-[11px] text-ink-400">{item.promotion.description}</span>
+          </p>
+        )}
       </Link>
       <button
         type="button"

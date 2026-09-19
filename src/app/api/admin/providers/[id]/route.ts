@@ -4,7 +4,7 @@ import { updateDb } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 import { pushNotification } from '@/lib/notify';
 
-const PROVIDER_FIELDS = ['category', 'title', 'description', 'specialties', 'serviceArea', 'priceRange', 'availability', 'documents', 'portfolio'] as const;
+const PROVIDER_FIELDS = ['category', 'title', 'description', 'specialties', 'serviceArea', 'priceRange', 'availability', 'documents', 'portfolio', 'sponsored', 'promotion'] as const;
 const AVAILABILITY = ['available', 'later', 'offline'];
 
 // Admin approves/rejects a provider application (SRS §14) OR edits the

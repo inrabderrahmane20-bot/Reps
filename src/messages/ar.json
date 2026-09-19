@@ -16,7 +16,10 @@
     "signIn": "تسجيل الدخول",
     "joinMedina": "انضم إلى مدينة",
     "openMenu": "فتح القائمة",
-    "language": "اللغة"
+    "language": "اللغة",
+    "promotions": "التخفيضات",
+    "cityLine": "مراكش · المدينة القديمة",
+    "utilityTagline": "اعثر على خدمات موثوقة بالقرب منك"
   },
   "home": {
     "heroKicker": "مراكش",
@@ -35,7 +38,12 @@
     "seeAll": "عرض الكل",
     "join": "انضمام",
     "viewAll": "عرض الكل",
-    "searchButton": "بحث"
+    "searchButton": "بحث",
+    "sectionPopularCategories": "فئات شائعة",
+    "sectionFeatured": "خدمات مختارة",
+    "sectionSponsored": "شركاء مميزون",
+    "sectionPromotions": "تخفيضات وعروض",
+    "viewAllPromotions": "عرض كل التخفيضات"
   },
   "common": {
     "loading": "جارٍ التحميل…",
@@ -84,7 +92,8 @@
     "unblock": "إلغاء الحظر",
     "message": "رسالة",
     "seeMore": "عرض المزيد",
-    "creating": "جارٍ الإنشاء…"
+    "creating": "جارٍ الإنشاء…",
+    "sponsored": "مموّل"
   },
   "news": {
     "title": "الأخبار المحلية",
@@ -150,7 +159,9 @@
     "priceRangeLabel": "نطاق السعر",
     "clientReviews": "آراء العملاء",
     "backToServices": "العودة إلى الخدمات",
-    "contactProvider": "التواصل مع مزود الخدمة"
+    "contactProvider": "التواصل مع مزود الخدمة",
+    "sponsoredSection": "خدمات مموّلة",
+    "takeAdvantage": "استفد من العرض"
   },
   "communities": {
     "title": "المجتمعات",
@@ -365,5 +376,19 @@
     "preferredMinAge": "الحد الأدنى للعمر المفضل",
     "preferredMaxAge": "الحد الأقصى للعمر المفضل",
     "saveLabel": "حفظ"
+  },
+  "promotions": {
+    "title": "التخفيضات",
+    "subtitle": "أفضل العروض الآن",
+    "offersCount": "عروض نشطة",
+    "emptyTitle": "لا توجد تخفيضات متاحة حالياً",
+    "emptyBody": "عُد قريباً لاكتشاف العروض القادمة.",
+    "moreSoon": "تُضاف عروض جديدة باستمرار"
+  },
+  "gate": {
+    "title": "مرحباً بكم في Medina",
+    "intro": "اختر لغتك لتخصيص تجربتك.",
+    "continue": "متابعة",
+    "skip": "إغلاق"
   }
 }

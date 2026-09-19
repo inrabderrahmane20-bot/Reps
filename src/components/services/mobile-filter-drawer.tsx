@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import { FiltersPanel, type FiltersState } from './filters-panel';
@@ -22,6 +23,19 @@ export function MobileFilterDrawer({
 }) {
   const t = useTranslations('services');
   const common = useTranslations('common');
+
+  // Escape closes the sheet; lock body scroll while it is open.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose();
+    }
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
 
   return (
     <div className="fixed inset-0 z-50 bg-ink-900/40 lg:hidden" onClick={onClose}>
