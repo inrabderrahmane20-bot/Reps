@@ -7,16 +7,37 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { GlobalSearchBar } from '@/components/search/global-search-bar';
 import { ServiceCategoryDrilldown } from '@/components/home/service-category-drilldown';
 import { CommunityCard } from '@/components/cards/community-card';
-import { ProviderCard } from '@/components/cards/provider-card';
+import { ServiceListRow, type ServiceListing } from '@/components/services/service-views';
+import { RequestServiceModal } from '@/components/ui/request-service-modal';
 import { useAuth } from '@/context/auth-context';
 import { api } from '@/lib/api-client';
+
+type HomeProvider = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+  providerStatus?: string;
+  rating?: number | null;
+  reviewCount?: number;
+  distanceKm?: number | null;
+  provider?: {
+    category: string;
+    title: string;
+    availability: string;
+    description?: string;
+    priceRange?: string;
+    portfolio?: string[];
+  };
+};
 
 export default function HomePage() {
   const t = useTranslations('home');
   const { user } = useAuth();
 
   const [communities, setCommunities] = useState<any[]>([]);
-  const [providers, setProviders] = useState<any[]>([]);
+  const [providers, setProviders] = useState<HomeProvider[]>([]);
+  const [requesting, setRequesting] = useState<ServiceListing | null>(null);
 
   function loadAll() {
     const params = new URLSearchParams();
@@ -26,9 +47,29 @@ export default function HomePage() {
       params.set('lng', String(user.homeLng));
     }
     api.get<{ communities: any[] }>('/communities').then((r) => setCommunities(r.communities.slice(0, 4)));
-    api.get<{ providers: any[] }>(`/providers?${params.toString()}`).then((r) => setProviders(r.providers.slice(0, 6)));
+    api.get<{ providers: HomeProvider[] }>(`/providers?${params.toString()}&limit=6`).then((r) =>
+      setProviders(r.providers)
+    );
   }
   useEffect(loadAll, [user?.zoneId, user?.homeLat, user?.homeLng]);
+
+  function toListing(p: HomeProvider): ServiceListing {
+    return {
+      id: p.id,
+      name: `${p.firstName} ${p.lastName}`,
+      category: p.provider?.category ?? '',
+      title: p.provider?.title ?? '',
+      rating: p.rating ?? null,
+      reviewCount: p.reviewCount ?? 0,
+      availability: (p.provider?.availability ?? 'later') as ServiceListing['availability'],
+      distanceKm: p.distanceKm ?? null,
+      verified: p.providerStatus === 'approved',
+      avatar: p.avatar ?? '',
+      description: p.provider?.description,
+      priceRange: p.provider?.priceRange,
+      portfolio: p.provider?.portfolio,
+    };
+  }
 
   async function toggleJoinCommunity(id: string) {
     if (!user) return (window.location.href = '/login');
@@ -83,19 +124,10 @@ export default function HomePage() {
       <div className="mx-auto max-w-7xl space-y-20 px-4 pb-20 pt-16 md:px-8 md:pt-20">
         <section>
           <SectionHeader title={t('sectionServices')} seeAllHref="/services" seeAllLabel={t('seeAll')} />
-          <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-2">
+          {/* Dense directory rows — same compact language as the Services page */}
+          <div className="mt-4 divide-y divide-ink-900/[0.06] overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-sand-50/60">
             {providers.map((p) => (
-              <ProviderCard
-                key={p.id}
-                id={p.id}
-                name={`${p.firstName} ${p.lastName}`}
-                category={p.provider.category}
-                rating={p.rating ?? 0}
-                reviews={p.reviewCount ?? 0}
-                distanceKm={p.distanceKm ?? null}
-                availability={p.provider.availability}
-                verified={p.providerStatus === 'approved'}
-              />
+              <ServiceListRow key={p.id} item={toListing(p)} onRequest={setRequesting} />
             ))}
           </div>
         </section>
@@ -117,6 +149,15 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+
+      {/* Request modal */}
+      {requesting && (
+        <RequestServiceModal
+          providerId={requesting.id}
+          category={requesting.category}
+          onClose={() => setRequesting(null)}
+        />
+      )}
     </div>
   );
 }

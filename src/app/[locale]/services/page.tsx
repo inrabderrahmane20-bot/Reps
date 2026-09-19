@@ -17,6 +17,7 @@ import {
   type FiltersState,
 } from '@/components/services/filters-panel';
 import { MobileFilterDrawer } from '@/components/services/mobile-filter-drawer';
+import { ClientSearchesPanel } from '@/components/services/client-searches-panel';
 import {
   ServiceListRow,
   ServiceGridCard,
@@ -51,6 +52,7 @@ export default function ServicesPage() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
+  const [clientSearchesKey, setClientSearchesKey] = useState(0);
 
   const requestSeq = useRef(0);
 
@@ -123,6 +125,12 @@ export default function ServicesPage() {
         setProviders(r.providers.map(mapRow));
         setTotal(r.total);
         setLoaded(true);
+        // A query that finds nothing is valuable signal for the "Recherche
+        // client" section: record it so other clients and providers see it.
+        if (r.total === 0 && debouncedQ.trim()) {
+          api.post('/client-searches', { query: debouncedQ }).catch(() => {});
+          setClientSearchesKey((k) => k + 1);
+        }
       })
       .catch((err) => {
         if (requestSeq.current !== seq) return;
@@ -256,11 +264,12 @@ export default function ServicesPage() {
         </button>
       </div>
 
-      <div className="mt-5 gap-8 lg:mt-8 lg:grid lg:grid-cols-[250px_minmax(0,1fr)] xl:grid-cols-[272px_minmax(0,1fr)]">
+      <div className="mt-5 gap-8 lg:mt-8 lg:grid lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[320px_minmax(0,1fr)]">
         {/* Desktop sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto rounded-2xl border border-ink-900/[0.06] bg-white/70 p-4 shadow-card">
             <FiltersPanel value={filters} onChange={setFilters} onReset={resetAll} />
+            <ClientSearchesPanel refreshKey={clientSearchesKey} />
           </div>
         </aside>
 
@@ -295,6 +304,9 @@ export default function ServicesPage() {
           {!loading && !error && total === 0 && (
             <div className="mt-6">
               <EmptyState icon={PackageSearch} title={t('empty')} />
+              {debouncedQ.trim() !== '' && (
+                <p className="mt-3 text-center text-sm text-ink-500">{t('searchRecorded', { query: debouncedQ })}</p>
+              )}
               <div className="mt-4 text-center">
                 <button
                   type="button"
@@ -360,6 +372,7 @@ export default function ServicesPage() {
           onChange={setFilters}
           onReset={resetAll}
           onClose={() => setDrawerOpen(false)}
+          clientSearchesKey={clientSearchesKey}
         />
       )}
 

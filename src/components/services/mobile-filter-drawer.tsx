@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import { FiltersPanel, type FiltersState } from './filters-panel';
+import { ClientSearchesPanel } from './client-searches-panel';
 
 /** Mobile-only bottom-sheet filter drawer. Shares the desktop filter panel. */
 export function MobileFilterDrawer({
@@ -10,11 +11,14 @@ export function MobileFilterDrawer({
   onChange,
   onReset,
   onClose,
+  clientSearchesKey = 0,
 }: {
   value: FiltersState;
   onChange: (next: FiltersState) => void;
   onReset: () => void;
   onClose: () => void;
+  /** Bump to refresh the "Recherche client" list shown inside the drawer. */
+  clientSearchesKey?: number;
 }) {
   const t = useTranslations('services');
   const common = useTranslations('common');
@@ -48,6 +52,7 @@ export function MobileFilterDrawer({
             showApply
             onApply={onClose}
           />
+          <ClientSearchesPanel refreshKey={clientSearchesKey} />
         </div>
       </div>
     </div>
