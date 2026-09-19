@@ -52,8 +52,9 @@ export function RequestServiceModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 px-4" onClick={onClose}>
-      <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-ink-900/40" onClick={onClose}>
+      <div className="flex min-h-full items-center justify-center px-4 py-6">
+        <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-semibold text-ink-900">{t('title')}</h3>
           <button onClick={onClose} aria-label={common('close')} className="text-ink-500 hover:text-ink-900">
@@ -87,6 +88,7 @@ export function RequestServiceModal({
             </button>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
