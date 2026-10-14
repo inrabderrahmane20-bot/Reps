@@ -3,6 +3,8 @@ import { requireUser } from '@/lib/auth';
 import { readDb } from '@/lib/db';
 import { withErrors } from '@/lib/api-helpers';
 
+export const dynamic = 'force-dynamic';
+
 function score(mine: any, other: any, meInterests: string[], otherInterests: string[]) {
   let s = 0;
   const shared = meInterests.filter((i) => otherInterests.includes(i));

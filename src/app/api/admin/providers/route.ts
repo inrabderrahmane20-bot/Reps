@@ -4,6 +4,8 @@ import { readDb } from '@/lib/db';
 import { withErrors } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
     requireAdmin();
