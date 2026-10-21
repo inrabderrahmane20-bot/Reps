@@ -1,5 +1,24 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SearchResults } from '@/components/search/search-results';
+import { buildMetadata } from '@/lib/seo';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildMetadata({
+    locale,
+    path: '/search',
+    title: 'title.search',
+    description: 'description.search',
+    // Internal search results must never create indexable variants.
+    robots: { index: false, follow: true },
+  });
+}
 
 function SearchFallback() {
   return (

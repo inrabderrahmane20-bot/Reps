@@ -20,7 +20,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-ink-900/10 bg-white/95 backdrop-blur md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex w-full min-w-0 items-stretch justify-around overflow-hidden border-t border-ink-900/10 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
     >
       {tabs.map(({ href, label, icon: Icon }) => {
         const active = pathname === href;
@@ -28,15 +28,19 @@ export function MobileTabBar() {
           <Link
             key={href}
             href={href}
-            className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors ${
-              active ? 'text-majorelle-700' : 'text-ink-500'
+            className={`flex min-h-[52px] min-w-0 flex-1 flex-col items-center justify-center gap-1 overflow-hidden px-0.5 py-2 text-[11px] font-medium transition-colors ${
+              active ? 'text-sunset-700' : 'text-ink-500'
             }`}
             aria-current={active ? 'page' : undefined}
           >
-            <span className={`grid h-7 w-9 place-items-center rounded-full transition-colors ${active ? 'bg-majorelle-600/10' : ''}`}>
+            <span
+              className={`grid h-7 w-9 shrink-0 place-items-center rounded-full transition-colors ${
+                active ? 'bg-peach-100 text-sunset-600' : ''
+              }`}
+            >
               <Icon size={19} strokeWidth={active ? 2.4 : 2} />
             </span>
-            {label}
+            <span className="w-full truncate text-center leading-tight">{label}</span>
           </Link>
         );
       })}

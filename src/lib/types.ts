@@ -23,7 +23,18 @@ export interface SponsoredCampaign {
   startDate: string;
   /** ISO date string — sponsorship window end (inclusive). */
   endDate: string;
+  /** Internal campaign name (admin only). */
+  title?: string;
+  /** Optional landing destination; defaults to the provider's service page. */
+  href?: string;
+  /** Where the campaign is displayed: 'home' | 'services' | 'both'. */
+  placement?: SponsoredPlacement;
+  /** Free-form internal notes (never shown publicly). */
+  notes?: string;
 }
+
+/** Where a sponsored campaign is allowed to appear. */
+export type SponsoredPlacement = 'home' | 'services' | 'both';
 
 export type PromotionType = 'percent' | 'fixed' | 'price';
 
@@ -38,6 +49,12 @@ export interface PromotionInfo {
   /** Display strings when known, e.g. "80 DH" → "65 DH". */
   originalPrice?: string;
   promotionalPrice?: string;
+  /**
+   * Numeric prices in MAD. Optional so existing records keep working; when
+   * absent the display strings are parsed (see lib/marketing.parsePriceAmount).
+   */
+  originalPriceValue?: number;
+  promotionalPriceValue?: number;
   /** ISO date strings — offer window (inclusive end). */
   startDate: string;
   endDate: string;

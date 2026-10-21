@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Medina — services, actualités et vie de Marrakech au même endroit">
+  <defs>
+    <linearGradient id="sunset" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="55%" stop-color="#FB923C"/>
+      <stop offset="100%" stop-color="#FBBF24"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFCF8"/>
+      <stop offset="100%" stop-color="#F0E5DC"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#sand)"/>
+  <circle cx="1090" cy="120" r="240" fill="#FED7AA" opacity="0.45"/>
+  <circle cx="120" cy="560" r="220" fill="#FBC9A6" opacity="0.35"/>
+
+  <g transform="translate(96 120)">
+    <rect width="88" height="88" rx="28" fill="url(#sunset)"/>
+    <text x="44" y="60" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="700" fill="#ffffff">M</text>
+    <text x="116" y="60" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="600" fill="#24201E">Medina</text>
+  </g>
+
+  <text x="96" y="320" font-family="Georgia, 'Times New Roman', serif" font-size="62" font-weight="600" fill="#24201E">Marrakech, tout au même endroit</text>
+  <text x="96" y="386" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#4B443E">Services vérifiés · Actualités locales · Communautés · Activités</text>
+
+  <g transform="translate(96 440)">
+    <rect width="230" height="56" rx="28" fill="#EA580C"/>
+    <text x="115" y="37" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#ffffff">Trouver un prestataire</text>
+  </g>
+
+  <g transform="translate(96 530)">
+    <circle cx="10" cy="10" r="10" fill="#2E6B5E"/>
+    <text x="34" y="18" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#4B443E">Prestataires vérifiés et avis clients réels</text>
+  </g>
+</svg>

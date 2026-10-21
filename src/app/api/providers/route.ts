@@ -25,9 +25,10 @@ export const dynamic = 'force-dynamic';
 //   promotion=1   — only providers with a currently active promotion
 //   limit, offset — pagination; the response includes the filtered total
 //
-//   Each row is annotated with `sponsored` (boolean) and `promotion`
-//   (PromotionInfo, only while active) so clients can render badges without
-//   re-deriving date logic.
+//   Each row is annotated with `sponsored` (boolean), `sponsoredCampaign`
+//   (the public metadata of the running campaign — title, image, priority,
+//   placement, href) and `promotion` (PromotionInfo, only while active) so
+//   clients can render badges without re-deriving date logic.
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q')?.toLowerCase();
@@ -81,13 +82,29 @@ export async function GET(req: NextRequest) {
     const rating = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : null;
     const zoneId = classifyZone(u.provider!.lat, u.provider!.lng, u.neighborhood);
     const distanceKm = lat !== null && lng !== null ? haversineKm(lat, lng, u.provider!.lat, u.provider!.lng) : null;
+    const campaign = u.provider!.sponsored;
+    const sponsored = isSponsorshipActive(campaign);
     return {
       ...toPublicUser(u),
       zoneId,
       distanceKm,
       rating,
       reviewCount: reviews.length,
-      sponsored: isSponsorshipActive(u.provider!.sponsored),
+      sponsored,
+      // Metadata of the running campaign, so placements can honour the
+      // `placement` and the `href` without a second request. Only exposed
+      // while the campaign is actually running — never the internal fields
+      // (notes) and never an external destination.
+      sponsoredCampaign:
+        sponsored && campaign
+          ? {
+              title: campaign.title,
+              image: campaign.image,
+              priority: campaign.priority,
+              placement: campaign.placement ?? 'both',
+              href: campaign.href && campaign.href.startsWith('/') ? campaign.href : undefined,
+            }
+          : null,
       promotion: activePromotion(u.provider!.promotion),
     };
   });

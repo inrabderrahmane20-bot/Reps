@@ -28,6 +28,10 @@ export interface ServiceListing {
   zoneId?: string;
   /** True while the sponsorship window is active (server-computed). */
   sponsored?: boolean;
+  /** Where the paid campaign is allowed to appear (server-computed). */
+  sponsoredPlacement?: 'home' | 'services' | 'both';
+  /** Destination the paid campaign points at, when the admin set one. */
+  sponsoredHref?: string;
   /** The promotion while it is active; null otherwise (server-computed). */
   promotion?: PromotionInfo | null;
 }

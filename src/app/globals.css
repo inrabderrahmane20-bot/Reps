@@ -6,6 +6,19 @@
   --font-display: 'Fraunces', ui-serif, serif;
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --font-arabic: 'Cairo', ui-sans-serif, sans-serif;
+
+  /* REPS sunset identity */
+  --sunset: #f97316;
+  --sunset-deep: #ea580c;
+  --amber: #fbbf24;
+  --peach: #fff0e5;
+  --surface: #fffcf8;
+  --border: #f0e5dc;
+
+  /* Floating search geometry */
+  --search-pill-height: 54px;
+  --search-bottom-mobile: 84px;
+  --search-bottom-desktop: 28px;
 }
 
 html[dir='rtl'] body {
@@ -24,11 +37,24 @@ h1, h2, h3 {
   letter-spacing: -0.015em;
 }
 
+html[dir='rtl'] h1,
+html[dir='rtl'] h2,
+html[dir='rtl'] h3 {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+
 /* Denser, larger-optical-size Fraunces for the biggest display moments */
 .font-display-hero {
   font-family: var(--font-display);
   font-variation-settings: 'opsz' 144;
   letter-spacing: -0.02em;
+}
+
+html[dir='rtl'] .font-display-hero {
+  font-family: var(--font-arabic);
+  font-variation-settings: normal;
+  letter-spacing: 0;
 }
 
 /* Respect reduced motion preferences */
@@ -43,7 +69,7 @@ h1, h2, h3 {
 
 /* Keyboard focus visibility */
 :focus-visible {
-  outline: 2px solid theme('colors.majorelle.600');
+  outline: 2px solid theme('colors.sunset.600');
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -68,24 +94,76 @@ html[dir='rtl'] .flip-rtl {
 }
 
 ::selection {
-  background: theme('colors.saffron.400');
+  background: theme('colors.sunset.300');
   color: theme('colors.ink.900');
 }
 
-/* Layered hero surface: deep Majorelle field + warm glow + zellige lattice */
+/* ------------------------------------------------------------------ *
+ * Liquid glass surfaces (floating search)
+ * ------------------------------------------------------------------ */
+
+.glass {
+  position: relative;
+  background-color: rgba(255, 246, 238, 0.62);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 -1px 0 rgba(255, 255, 255, 0.3) inset,
+    0 2px 6px rgba(124, 45, 18, 0.06),
+    0 18px 40px -16px rgba(124, 45, 18, 0.3);
+}
+
+/* Fallback for engines without backdrop-filter: opaque warm surface. */
+@supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))) {
+  .glass {
+    background-color: rgba(255, 252, 248, 0.96);
+    border-color: rgba(240, 229, 220, 0.9);
+  }
+}
+
+/* Delicate top highlight — the "lit edge" of the glass. */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0) 42%
+  );
+}
+
+.glass-strong {
+  background-color: rgba(255, 248, 242, 0.86);
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero / surfaces
+ * ------------------------------------------------------------------ */
+
+/* Layered hero surface: warm sunset field + amber glow + faint lattice */
 .hero-surface {
-  background-color: theme('colors.majorelle.700');
+  background-color: #7c2d12;
   background-image:
-    radial-gradient(120% 140% at 92% -10%, rgba(232, 163, 61, 0.22) 0%, transparent 55%),
-    radial-gradient(90% 120% at -10% 110%, rgba(62, 139, 118, 0.18) 0%, transparent 50%),
+    radial-gradient(120% 140% at 88% -20%, rgba(251, 191, 36, 0.30) 0%, transparent 55%),
+    radial-gradient(90% 130% at -10% 115%, rgba(249, 115, 22, 0.35) 0%, transparent 55%),
     theme('backgroundImage.zellige');
   background-size: auto, auto, 56px 56px;
+}
+
+/* Soft peach panel used for homepage content bands */
+.peach-surface {
+  background-image: theme('backgroundImage.sunset-soft');
 }
 
 /* Thin decorative arch outline, used once as a hero accent */
 .arch-motif {
   aspect-ratio: 1 / 1.35;
-  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
   border-bottom: none;
   border-radius: 50% 50% 0 0 / 38% 38% 0 0;
 }
@@ -95,7 +173,7 @@ html[dir='rtl'] .flip-rtl {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(29, 26, 22, 0.06), 0 16px 32px -14px rgba(29, 26, 22, 0.24);
+  box-shadow: 0 4px 10px rgba(36, 32, 30, 0.06), 0 16px 32px -14px rgba(124, 45, 18, 0.26);
 }
 
 /* Subtle reveal for the category drill-down pane (direction-neutral, RTL-safe) */
@@ -128,9 +206,49 @@ html[dir='rtl'] .flip-rtl {
   animation: fade-up 300ms ease-out;
 }
 
+/* Floating search: results fade + slide in above the pill */
+@keyframes fs-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.fs-panel-in {
+  animation: fs-panel-in 260ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes fs-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fs-fade-in {
+  animation: fs-fade-in 200ms ease-out;
+}
+
+/* Mobile drawer — always slides in from the physical left edge */
+@keyframes drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.drawer-in {
+  animation: drawer-in 260ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 /* Shared admin form control */
 .adm-input {
-  @apply w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm text-ink-900 focus:border-majorelle-500 focus:outline-none;
+  @apply w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm text-ink-900 focus:border-sunset-500 focus:outline-none;
 }
 .adm-input:disabled {
   @apply opacity-60;

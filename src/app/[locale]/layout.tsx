@@ -3,10 +3,12 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, localeDirection, type Locale } from '@/i18n/config';
+import { buildMetadata } from '@/lib/seo';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { MobileTabBar } from '@/components/layout/mobile-tab-bar';
 import { FirstVisitLanguageModal } from '@/components/layout/first-visit-language-modal';
+import { FloatingSearch } from '@/components/search/floating-search';
 import { AuthProvider } from '@/context/auth-context';
 import '../globals.css';
 
@@ -14,11 +16,24 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  title: 'Medina — Marrakech, all in one place',
-  description:
-    'Local news, trusted services, communities, activities and meetings — one platform for daily life in Marrakech.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!locales.includes(locale as Locale)) {
+    return {};
+  }
+
+  return buildMetadata({
+    locale,
+    path: '/',
+    title: 'defaultTitle',
+    description: 'defaultDescription',
+    includeSiteName: false,
+  });
+}
 
 export default async function LocaleLayout({
   children,
@@ -50,6 +65,7 @@ export default async function LocaleLayout({
             <main className="flex-1 pb-16 md:pb-0">{children}</main>
             <Footer />
             <MobileTabBar />
+            <FloatingSearch />
             <FirstVisitLanguageModal />
           </AuthProvider>
         </NextIntlClientProvider>

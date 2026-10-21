@@ -6,7 +6,7 @@ import { Link } from '@/i18n/navigation';
 import { getZone } from '@/lib/zones';
 import { AvailabilityBadge } from '@/components/ui/availability-badge';
 import { type ServiceListing } from './service-views';
-import { PromotionBadge, PromoPrice, SponsoredTag } from './marketing-badges';
+import { PromotionBadge, PromoPrice, PromoValidity, SponsoredTag } from './marketing-badges';
 import { trackProvider } from '@/lib/track-insight';
 
 function cardImage(item: ServiceListing, promoImage?: string | null) {
@@ -14,11 +14,12 @@ function cardImage(item: ServiceListing, promoImage?: string | null) {
 }
 
 function RatingLine({ item }: { item: ServiceListing }) {
-  const t = useTranslations('common');
+  // No rating yet → show nothing rather than a fake "—".
+  if (item.rating == null) return null;
   return (
     <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-ink-700">
       <Star size={13} className="fill-saffron-400 text-saffron-400" aria-hidden />
-      {item.rating != null ? item.rating.toFixed(1) : '—'}
+      {item.rating.toFixed(1)}
       {item.reviewCount > 0 && <span className="font-normal text-ink-400">({item.reviewCount})</span>}
     </span>
   );
@@ -45,7 +46,7 @@ export function SponsoredCard({
   return (
     <article className={`card-hover group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card sm:w-[300px] ${className}`}>
       <Link
-        href={`/services/${item.id}`}
+        href={item.sponsoredHref || `/services/${item.id}`}
         aria-label={item.name}
         onClick={() => trackProvider(item.id, 'clicks')}
         className="relative block aspect-[16/9] w-full overflow-hidden bg-sand-100"
@@ -53,7 +54,7 @@ export function SponsoredCard({
         {image ? (
           <img src={image} alt={item.category} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" loading="lazy" />
         ) : (
-          <div className="grid h-full w-full place-items-center font-display text-4xl font-bold text-majorelle-600/30">
+          <div className="grid h-full w-full place-items-center font-display text-4xl font-bold text-sunset-600/30">
             {item.name.charAt(0)}
           </div>
         )}
@@ -63,9 +64,9 @@ export function SponsoredCard({
       </Link>
 
       <div className="flex flex-1 flex-col p-4">
-        <Link href={`/services/${item.id}`} onClick={() => trackProvider(item.id, 'clicks')} className="min-w-0 flex-1">
+        <Link href={item.sponsoredHref || `/services/${item.id}`} onClick={() => trackProvider(item.id, 'clicks')} className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <h3 className="truncate font-display text-[15.5px] font-semibold text-ink-900 transition-colors group-hover:text-majorelle-700">
+            <h3 className="truncate font-display text-[15.5px] font-semibold text-ink-900 transition-colors group-hover:text-sunset-700">
               {item.name}
             </h3>
             {item.verified && <BadgeCheck size={15} className="shrink-0 text-zellige-500" aria-label={common('verified')} />}
@@ -88,7 +89,7 @@ export function SponsoredCard({
             trackProvider(item.id, ['clicks', 'requests']);
             onRequest(item);
           }}
-          className="mt-3.5 w-full rounded-full bg-majorelle-600 px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-majorelle-700"
+          className="mt-3.5 w-full rounded-full bg-sunset-500 px-4 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
         >
           {t('requestService')}
         </button>
@@ -125,7 +126,7 @@ export function PromotionCard({
         {image ? (
           <img src={image} alt={item.category} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" loading="lazy" />
         ) : (
-          <div className="grid h-full w-full place-items-center font-display text-5xl font-bold text-majorelle-600/30">
+          <div className="grid h-full w-full place-items-center font-display text-5xl font-bold text-sunset-600/30">
             {item.name.charAt(0)}
           </div>
         )}
@@ -137,7 +138,7 @@ export function PromotionCard({
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <Link href={`/services/${item.id}`} className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <h3 className="truncate font-display text-[16px] font-semibold text-ink-900 transition-colors group-hover:text-majorelle-700">
+            <h3 className="truncate font-display text-[16px] font-semibold text-ink-900 transition-colors group-hover:text-sunset-700">
               {item.name}
             </h3>
             {item.verified && <BadgeCheck size={15} className="shrink-0 text-zellige-500" aria-label={common('verified')} />}
@@ -156,12 +157,15 @@ export function PromotionCard({
           <p className="mt-2.5">
             <PromoPrice promo={promo} className="text-[13px]" />
           </p>
+          <div className="mt-2">
+            <PromoValidity promo={promo} />
+          </div>
         </Link>
         <div className="mt-3 flex gap-2">
           <button
             type="button"
             onClick={() => onRequest(item)}
-            className="flex-1 rounded-full bg-saffron-500 px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-saffron-600"
+            className="flex-1 rounded-full bg-sunset-500 px-4 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
           >
             {t('takeAdvantage')}
           </button>

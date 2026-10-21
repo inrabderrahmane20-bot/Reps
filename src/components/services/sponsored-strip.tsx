@@ -34,10 +34,10 @@ export function SponsoredStrip({
   if (!loading && items.length === 0) return null;
 
   return (
-    <section aria-label={t('sponsoredSection')} className={loading ? undefined : 'rounded-2xl border border-ink-900/[0.06] bg-gradient-to-b from-majorelle-50 to-sand-50 p-4'}>
-      <h2 className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-majorelle-700">
+    <section aria-label={t('sponsoredSection')} className={loading ? undefined : 'rounded-2xl border border-sunset-200/70 bg-gradient-to-b from-peach-50 to-sand-50 p-4'}>
+      <h2 className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest text-sunset-700">
         {t('sponsoredSection')}
-        <span className="h-px flex-1 bg-majorelle-600/15" aria-hidden />
+        <span className="h-px flex-1 bg-sunset-500/20" aria-hidden />
       </h2>
       {loading ? (
         <div className="mt-3 flex gap-3 overflow-hidden">

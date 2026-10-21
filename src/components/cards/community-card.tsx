@@ -31,7 +31,7 @@ export function CommunityCard({
         <span className="text-[11px] font-semibold uppercase tracking-wide text-zellige-600">
           {category}
         </span>
-        <h3 className="mt-1.5 font-display text-[17px] font-semibold leading-snug text-ink-900">{name}</h3>
+        <h3 className="mt-1.5 break-words font-display text-[17px] font-semibold leading-snug text-ink-900">{name}</h3>
         <p className="mt-1 text-xs text-ink-500">
           {members.toLocaleString()} {t('members')}
         </p>

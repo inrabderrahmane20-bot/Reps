@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BadgeCheck, Users, Flag, Newspaper, ExternalLink, CalendarDays, MapPin } from 'lucide-react';
+import { LayoutDashboard, BadgeCheck, Users, Flag, Newspaper, ExternalLink, CalendarDays, MapPin, Megaphone } from 'lucide-react';
 
 const links = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/providers', label: 'Provider verification', icon: BadgeCheck },
+  { href: '/admin/campaigns', label: 'Campaigns', icon: Megaphone },
   { href: '/admin/positions', label: 'Provider positions', icon: MapPin },
   { href: '/admin/users', label: 'Users', icon: Users },
   { href: '/admin/activities', label: 'Activities', icon: CalendarDays },
