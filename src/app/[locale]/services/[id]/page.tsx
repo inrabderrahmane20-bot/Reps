@@ -38,8 +38,8 @@ export default async function ProviderDetailPage({
           {provider.name.charAt(0)}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <h1 className="font-display text-2xl font-semibold text-ink-900">{provider.name}</h1>
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <h1 className="min-w-0 break-words font-display text-2xl font-semibold text-ink-900">{provider.name}</h1>
             {provider.verified && (
               <BadgeCheck size={19} className="shrink-0 text-zellige-500" aria-label={common('verified')} />
             )}
@@ -55,7 +55,7 @@ export default async function ProviderDetailPage({
         </div>
         <button
           type="button"
-          className="shrink-0 rounded-full bg-majorelle-600 px-6 py-3 text-sm font-semibold text-white hover:bg-majorelle-700"
+          className="max-w-full shrink-0 rounded-full bg-majorelle-600 px-6 py-3 text-center text-sm font-semibold text-white hover:bg-majorelle-700"
         >
           {t('requestService')}
         </button>

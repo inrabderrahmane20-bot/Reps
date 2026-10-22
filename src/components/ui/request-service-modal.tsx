@@ -52,7 +52,7 @@ export function RequestServiceModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-ink-900/40" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] overflow-y-auto bg-ink-900/40" onClick={onClose}>
       <div className="flex min-h-full items-center justify-center px-4 py-6">
         <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between">

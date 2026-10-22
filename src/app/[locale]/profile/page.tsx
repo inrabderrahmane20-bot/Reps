@@ -361,7 +361,7 @@ function ReviewModal({ request, onClose }: { request: ServiceRequestRow; onClose
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 px-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-ink-900/40 px-4" onClick={onClose}>
       <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
         <h3 className="font-display text-lg font-semibold text-ink-900">Rate {request.providerName}</h3>
         {sent ? (

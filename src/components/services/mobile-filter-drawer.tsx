@@ -38,7 +38,7 @@ export function MobileFilterDrawer({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-ink-900/40 lg:hidden" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] bg-ink-900/40 lg:hidden" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"

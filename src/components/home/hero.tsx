@@ -98,10 +98,10 @@ export function Hero({
 
         {/* ------------------------ Layered visuals ------------------------ */}
         <div className="relative mx-auto w-full max-w-[520px] lg:max-w-none">
-          <div className="relative aspect-[4/4.4] w-full">
+          <div className="relative flex w-full flex-col gap-3 lg:aspect-[4/4.4] lg:block">
             {/* Back card */}
             {secondary[1] && (
-              <div className="absolute bottom-[4%] end-[2%] w-[46%] overflow-hidden rounded-[1.6rem] border border-white/25 bg-white/10 shadow-float backdrop-blur-sm">
+              <div className="absolute bottom-[4%] end-[2%] hidden w-[46%] overflow-hidden rounded-[1.6rem] border border-white/25 bg-white/10 shadow-float backdrop-blur-sm lg:block">
                 <HeroImage item={secondary[1]} />
               </div>
             )}
@@ -110,7 +110,7 @@ export function Hero({
             {lead ? (
               <Link
                 href={`/services/${lead.id}`}
-                className="group absolute inset-x-[6%] top-0 block overflow-hidden rounded-[1.9rem] border border-white/30 bg-white/95 shadow-float transition-transform duration-300 hover:-translate-y-1"
+                className="group relative block w-[88%] self-center overflow-hidden rounded-[1.9rem] border border-white/30 bg-white/95 shadow-float transition-transform duration-300 hover:-translate-y-1 lg:absolute lg:inset-x-[6%] lg:top-0 lg:w-auto"
               >
                 <div className="relative aspect-[4/3.2] w-full overflow-hidden bg-sand-100">
                   <HeroImage item={lead} />
@@ -135,14 +135,14 @@ export function Hero({
                 </div>
               </Link>
             ) : (
-              <div className="absolute inset-x-[6%] top-0 h-[62%] rounded-[1.9rem] border border-white/25 bg-white/10 backdrop-blur-sm" />
+              <div className="absolute inset-x-[6%] top-0 hidden h-[62%] rounded-[1.9rem] border border-white/25 bg-white/10 backdrop-blur-sm lg:block" />
             )}
 
             {/* Floating promo chip */}
             {secondary[0] && (
               <Link
                 href={`/services/${secondary[0].id}`}
-                className="absolute bottom-[16%] start-0 flex max-w-[62%] items-center gap-2.5 rounded-2xl border border-white/40 bg-white/95 px-3.5 py-2.5 shadow-float transition-transform duration-300 hover:-translate-y-1"
+                className="relative flex w-[88%] max-w-[88%] self-center items-center gap-2.5 rounded-2xl border border-white/40 bg-white/95 px-3.5 py-2.5 shadow-float transition-transform duration-300 hover:-translate-y-1 lg:absolute lg:bottom-[16%] lg:start-0 lg:w-auto lg:max-w-[62%]"
               >
                 <span className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-xl bg-peach-100 text-sunset-600">
                   <Sparkles size={16} aria-hidden />

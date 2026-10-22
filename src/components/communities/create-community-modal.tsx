@@ -27,7 +27,7 @@ export function CreateCommunityModal({ onClose, onCreated }: { onClose: () => vo
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 px-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-ink-900/40 px-4" onClick={onClose}>
       <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-semibold text-ink-900">Create a community</h3>

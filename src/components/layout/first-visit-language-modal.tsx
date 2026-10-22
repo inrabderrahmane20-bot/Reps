@@ -101,7 +101,7 @@ export function FirstVisitLanguageModal() {
     // The outer layer scrolls; the inner layer centers with min-h-full so a
     // dialog taller than the viewport can scroll without its top being cut off.
     <div
-      className="fixed inset-0 z-[70] overflow-y-auto bg-ink-900/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[80] overflow-y-auto bg-ink-900/50 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label={t('title')}

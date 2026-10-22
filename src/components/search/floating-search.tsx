@@ -371,7 +371,7 @@ export function FloatingSearch() {
   /* Geometry                                                            */
   /* ------------------------------------------------------------------ */
 
-  const baseBottom = isDesktop ? 28 : 84; // 84px clears the mobile tab bar
+  const baseBottom = isDesktop ? 28 : 68;
   const keyboardOpen = keyboardInset > 120;
   const bottom = baseBottom + (keyboardOpen ? keyboardInset + 10 : 0);
 
@@ -404,7 +404,9 @@ export function FloatingSearch() {
 
       <div
         className="pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col items-center px-3"
-        style={{ paddingBottom: bottom }}
+        style={{
+          paddingBottom: isDesktop ? bottom : `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
+        }}
       >
         <div
           className="pointer-events-auto flex flex-col"

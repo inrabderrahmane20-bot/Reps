@@ -68,7 +68,7 @@ export function MobileNavMenu() {
   const drawer =
     open &&
     createPortal(
-      <div className="fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label={t('openMenu')}>
+      <div className="fixed inset-0 z-[90]" role="dialog" aria-modal="true" aria-label={t('openMenu')}>
         <div
           className="absolute inset-0 bg-ink-900/45 backdrop-blur-[2px]"
           onClick={() => setOpen(false)}
