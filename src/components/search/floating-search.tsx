@@ -381,7 +381,6 @@ export function FloatingSearch() {
     : Math.max(200, Math.min(ih * 0.6, 520, ih - 210));
 
   const mobileIdle = !isDesktop && !open;
-  const mobileOpen = !isDesktop && open;
   return (
     <>
       {/* Backdrop — separates the active search from the page behind it. */}
@@ -419,7 +418,7 @@ export function FloatingSearch() {
           {open && (
             <div
               className={`fs-panel-in mb-3 overflow-hidden rounded-[26px] border p-1.5 shadow-[0_18px_55px_rgba(35,25,20,0.24)] ${
-                mobileOpen
+                open
                   ? 'border-ink-900/10 bg-white'
                   : 'glass border-white/30'
               }`}
@@ -612,9 +611,7 @@ export function FloatingSearch() {
             className={`${
               mobileIdle
                 ? 'relative flex items-center justify-center rounded-full border-2 border-white bg-sunset-500 text-white shadow-[0_8px_28px_rgba(60,35,20,0.36)] ring-1 ring-sunset-700/30 mobile-search-pulse'
-                : mobileOpen
-                  ? 'relative overflow-hidden rounded-full border border-ink-900/10 bg-white shadow-[0_14px_40px_rgba(35,25,20,0.22)]'
-                  : 'glass relative overflow-hidden rounded-full'
+                : 'relative overflow-hidden rounded-full border border-ink-900/10 bg-white shadow-[0_14px_40px_rgba(35,25,20,0.22)]'
             } w-full`}
             style={{ height: mobileIdle ? 60 : 54 }}
           >
