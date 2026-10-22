@@ -55,7 +55,6 @@ export default function ServicesPage() {
 
   const [providers, setProviders] = useState<ServiceListing[]>([]);
   const [total, setTotal] = useState(0);
-  const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -164,7 +163,6 @@ export default function ServicesPage() {
         if (requestSeq.current !== seq) return;
         setProviders(r.providers.map(mapRow));
         setTotal(r.total);
-        setLoaded(true);
         // A query that finds nothing is valuable signal for the "Recherche
         // client" section: record it so other clients and providers see it.
         if (r.total === 0 && debouncedQ.trim()) {
@@ -175,12 +173,11 @@ export default function ServicesPage() {
       .catch((err) => {
         if (requestSeq.current !== seq) return;
         setError(err?.message ?? 'error');
-        setLoaded(true);
       })
       .finally(() => {
         if (requestSeq.current === seq) setLoading(false);
       });
-  }, [buildQuery, mapRow]);
+  }, [buildQuery, debouncedQ, mapRow]);
 
   async function loadMore() {
     const seq = requestSeq.current;

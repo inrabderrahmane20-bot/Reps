@@ -225,7 +225,6 @@ function CategoryRow({
   return (
     <button
       type="button"
-      role="listitem"
       aria-pressed={selected}
       onClick={onSelect}
       className={`flex min-h-9 w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-start text-[13px] transition-colors ${

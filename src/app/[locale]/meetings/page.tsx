@@ -4,7 +4,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { MeetingProfileCard } from '@/components/cards/meeting-profile-card';
 import { MsnChatRoom } from '@/components/meetings/msn-chat-room';
 import { RoomCard } from '@/components/meetings/room-card';
-import { meetingProfiles, meetingRooms } from '@/data/mock';
+import { contacts, meetingProfiles, meetingRooms, sampleConversation } from '@/data/mock';
 
 export default function MeetingsPage({ params }: { params: { locale: string } }) {
   setRequestLocale(params.locale);
@@ -43,7 +43,16 @@ export default function MeetingsPage({ params }: { params: { locale: string } })
           {meetingRooms[0].name}
         </h2>
         <p className="mb-5 text-sm text-ink-500">{meetingRooms[0].topic}</p>
-        <MsnChatRoom />
+        <MsnChatRoom
+          title={meetingRooms[0].name}
+          contacts={contacts}
+          messages={sampleConversation.map((message, index) => ({
+            id: `sample-${index}`,
+            authorName: message.author,
+            content: message.text,
+            me: message.me,
+          }))}
+        />
       </section>
     </div>
   );

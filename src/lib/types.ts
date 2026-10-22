@@ -321,6 +321,23 @@ export interface PublicUser {
 }
 
 export function toPublicUser(u: User): PublicUser {
-  const { passwordHash, salt, blockedUserIds, email, ...rest } = u;
-  return rest;
+  return {
+    id: u.id,
+    firstName: u.firstName,
+    lastName: u.lastName,
+    city: u.city,
+    neighborhood: u.neighborhood,
+    avatar: u.avatar,
+    languages: u.languages,
+    interests: u.interests,
+    bio: u.bio,
+    role: u.role,
+    status: u.status,
+    providerStatus: u.providerStatus,
+    provider: u.provider,
+    homeLat: u.homeLat,
+    homeLng: u.homeLng,
+    zoneId: u.zoneId,
+    createdAt: u.createdAt,
+  };
 }

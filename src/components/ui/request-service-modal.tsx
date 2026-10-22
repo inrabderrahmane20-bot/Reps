@@ -63,7 +63,7 @@ export function RequestServiceModal({
         </div>
 
         {status === 'sent' ? (
-          <p className="mt-4 text-sm text-ink-700">{t('requestSentTitle')} You'll be notified when the provider responds.</p>
+          <p className="mt-4 text-sm text-ink-700">{t('requestSentTitle')} You&apos;ll be notified when the provider responds.</p>
         ) : (
           <div className="mt-4 space-y-3">
             <div>

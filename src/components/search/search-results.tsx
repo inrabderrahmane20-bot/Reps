@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ChevronRight, Loader2, Search as SearchIcon } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { EmptyState } from '@/components/ui/empty-state';
-import type { SearchGroup, SearchItem, SearchKind } from '@/lib/search-types';
+import type { SearchGroup, SearchKind } from '@/lib/search-types';
 
 /**
  * Full-page search results.

@@ -47,7 +47,6 @@ export default function ProviderDashboardPage() {
 
   const today = requests.filter((r) => r.status === 'pending' || r.status === 'accepted');
   const completed = requests.filter((r) => r.status === 'completed');
-  const revenue = completed.length; // demo: no real pricing/payment layer yet
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 md:px-8">
@@ -59,7 +58,7 @@ export default function ProviderDashboardPage() {
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Requests" value={requests.length} />
         <Stat label="Missions" value={completed.length} />
-        <Stat label="Rating" value={requests.length ? '—' : '—'} />
+        <Stat label="Rating" value="—" />
         <Stat label="Availability" value={user.provider?.availability ?? '—'} />
       </div>
 

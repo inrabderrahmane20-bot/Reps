@@ -24,7 +24,7 @@ export default function ProviderDetailPage({ params }: { params: { id: string } 
 
   async function messageProvider() {
     if (!user) return router.push('/login');
-    const res = await api.post<{ id: string }>('/conversations', { userId: provider.id });
+    await api.post('/conversations', { userId: provider.id });
     router.push('/messages');
   }
 

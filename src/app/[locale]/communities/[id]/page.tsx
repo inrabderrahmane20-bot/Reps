@@ -20,7 +20,6 @@ export default async function CommunityDetailPage({
 
   const t = await getTranslations('communities');
   const common = await getTranslations('common');
-  const home = await getTranslations('home');
 
   return (
     <div>

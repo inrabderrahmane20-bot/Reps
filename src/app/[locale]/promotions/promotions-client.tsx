@@ -16,7 +16,6 @@ import {
 import { PromoFilterDrawer } from '@/components/promotions/promo-filter-drawer';
 import { PromoActiveFilters } from '@/components/promotions/promo-active-filters';
 import { PromoSortSelect, type PromoSort } from '@/components/promotions/promo-sort-select';
-import { api } from '@/lib/api-client';
 import type { PublicUser, PromotionInfo } from '@/lib/types';
 import type { ServiceListing } from '@/components/services/service-views';
 

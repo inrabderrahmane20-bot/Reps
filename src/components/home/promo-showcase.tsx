@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 import { ArrowRight, Percent } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { SectionHeader } from '@/components/ui/section-header';
 import { PromotionCard, PromotionCardSkeleton } from '@/components/services/marketing-cards';
 import type { ServiceListing } from '@/components/services/service-views';
 

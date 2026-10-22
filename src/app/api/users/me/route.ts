@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
-import { withErrors, jsonError } from '@/lib/api-helpers';
+import { withErrors } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
 import { zoneFromNeighborhood } from '@/lib/zones';
 

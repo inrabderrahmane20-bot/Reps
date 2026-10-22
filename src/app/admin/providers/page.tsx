@@ -535,7 +535,7 @@ export default function AdminProvidersPage() {
             </div>
 
             <p className="mt-3 text-xs text-ink-500">
-              Changing the position updates the provider's zone. Saving a rejected/suspended provider moves it back to pending review.
+              Changing the position updates the provider&apos;s zone. Saving a rejected/suspended provider moves it back to pending review.
             </p>
             <div className="mt-4 flex gap-2">
               <button

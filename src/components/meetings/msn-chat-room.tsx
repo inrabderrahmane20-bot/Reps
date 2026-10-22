@@ -34,19 +34,25 @@ export function MsnChatRoom({
   title: string;
   contacts: MsnContact[];
   messages: MsnMessage[];
-  onSend: (content: string) => void;
+  onSend?: (content: string) => void;
 }) {
   const t = useTranslations('meetings');
   const [draft, setDraft] = useState('');
+  const [chatMessages, setChatMessages] = useState(messages);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages.length]);
+  }, [chatMessages.length]);
 
   function send() {
-    if (!draft.trim()) return;
-    onSend(draft);
+    const content = draft.trim();
+    if (!content) return;
+    onSend?.(content);
+    setChatMessages((current) => [
+      ...current,
+      { id: crypto.randomUUID(), authorName: 'You', content, me: true },
+    ]);
     setDraft('');
   }
 
@@ -78,8 +84,8 @@ export function MsnChatRoom({
 
         <div className="flex flex-1 flex-col">
           <div className="flex-1 space-y-2.5 overflow-y-auto p-4">
-            {messages.length === 0 && <p className="text-center text-xs text-ink-300">No messages yet — say hello!</p>}
-            {messages.map((m) => (
+            {chatMessages.length === 0 && <p className="text-center text-xs text-ink-300">No messages yet — say hello!</p>}
+            {chatMessages.map((m) => (
               <div key={m.id} className={`flex ${m.me ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[75%] rounded-2xl px-3.5 py-2 text-sm shadow-sm ${m.me ? 'rounded-ee-sm bg-majorelle-600 text-white' : 'rounded-ss-sm bg-white text-ink-900'}`}>
                   {!m.me && <p className="mb-0.5 text-[11px] font-semibold text-majorelle-700">{m.authorName}</p>}
