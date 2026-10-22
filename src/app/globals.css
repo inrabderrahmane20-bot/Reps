@@ -17,6 +17,45 @@ body {
   font-family: var(--font-sans);
 }
 
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3 {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+
+.font-display-hero {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144;
+  letter-spacing: -0.02em;
+}
+
+[dir='rtl'] .font-display-hero {
+  font-family: var(--font-arabic);
+  font-variation-settings: normal;
+  letter-spacing: 0;
+}
+
+.hero-surface {
+  background-color: #7c2d12;
+  background-image:
+    radial-gradient(120% 140% at 88% -20%, rgba(251, 191, 36, 0.3) 0%, transparent 55%),
+    radial-gradient(90% 130% at -10% 115%, rgba(249, 115, 22, 0.35) 0%, transparent 55%),
+    linear-gradient(rgba(124, 45, 18, 0.94), rgba(124, 45, 18, 0.94));
+}
+
+.arch-motif {
+  aspect-ratio: 1 / 1.35;
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+}
+
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

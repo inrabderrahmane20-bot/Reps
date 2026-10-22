@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ChevronRight, Clock, CornerDownLeft, Search, X } from 'lucide-react';
 import { highlightRanges } from '@/lib/search';
 import { OPEN_SEARCH_EVENT } from '@/lib/open-search';
@@ -93,6 +93,7 @@ export function FloatingSearch() {
   const t = useTranslations('floatingSearch');
   const tSearch = useTranslations('search');
   const locale = useLocale();
+  const pathname = usePathname();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -385,6 +386,7 @@ export function FloatingSearch() {
     : Math.max(200, Math.min(ih * 0.6, 520, ih - 210));
 
   const showCompactGlyph = compact && !open && !isDesktop;
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/` || pathname === '/';
 
   return (
     <>
@@ -403,7 +405,9 @@ export function FloatingSearch() {
       )}
 
       <div
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col items-center px-3"
+        className={`pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col items-center px-3 ${
+          isHomePage && !open ? 'hidden' : ''
+        }`}
         style={{
           paddingBottom: isDesktop ? bottom : `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
         }}

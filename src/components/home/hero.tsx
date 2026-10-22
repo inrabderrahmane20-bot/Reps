@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { ArrowRight, MapPin, Percent, Search, Sparkles } from 'lucide-react';
+import { ArrowRight, MapPin, Percent, Search } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { openGlobalSearch } from '@/lib/open-search';
 import { promotionBadge } from '@/lib/marketing';
@@ -96,68 +96,65 @@ export function Hero({
           </dl>
         </div>
 
-        {/* ------------------------ Layered visuals ------------------------ */}
-        <div className="relative mx-auto w-full max-w-[520px] lg:max-w-none">
-          <div className="relative flex w-full flex-col gap-3 lg:aspect-[4/4.4] lg:block">
-            {/* Back card */}
-            {secondary[1] && (
-              <div className="absolute bottom-[4%] end-[2%] hidden w-[46%] overflow-hidden rounded-[1.6rem] border border-white/25 bg-white/10 shadow-float backdrop-blur-sm lg:block">
-                <HeroImage item={secondary[1]} />
+        {/* ------------------------ Featured services ------------------------ */}
+        <div className="mx-auto grid w-full max-w-[520px] gap-3 lg:max-w-none">
+          {lead ? (
+            <Link
+              href={`/services/${lead.id}`}
+              className="group block min-w-0 overflow-hidden rounded-[1.5rem] border border-white/30 bg-white shadow-float transition-transform duration-300 hover:-translate-y-1"
+            >
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-sand-100 sm:aspect-[16/10] lg:aspect-[4/3]">
+                <HeroImage item={lead} />
+                <span className="absolute start-3 top-3 inline-flex items-center gap-1 rounded-full bg-sunset-500 px-2.5 py-1 text-[11.5px] font-bold text-white shadow-sunset">
+                  <Percent size={12} strokeWidth={2.6} aria-hidden />
+                  {lead.promotion ? promotionBadge(lead.promotion) : ''}
+                </span>
               </div>
-            )}
+              <div className="flex items-center gap-3 px-4 py-3.5">
+                <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-peach-100 font-display font-semibold text-sunset-700">
+                  {lead.avatar ? (
+                    <img src={lead.avatar} alt="" className="h-full w-full object-cover" loading="lazy" />
+                  ) : (
+                    lead.name.charAt(0)
+                  )}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-display text-[15px] font-semibold text-ink-900">{lead.name}</span>
+                  <span className="block truncate text-[12.5px] text-ink-500">{lead.category}</span>
+                </span>
+                <ArrowRight size={16} className="flip-rtl shrink-0 text-sunset-500 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              </div>
+            </Link>
+          ) : (
+            <div className="grid aspect-[4/3] w-full place-items-center rounded-[1.5rem] border border-white/20 bg-white/10 text-sm text-white/70 sm:aspect-[16/10] lg:aspect-[4/3]">
+              {t('heroKicker')}
+            </div>
+          )}
 
-            {/* Lead card */}
-            {lead ? (
-              <Link
-                href={`/services/${lead.id}`}
-                className="group relative block w-[88%] self-center overflow-hidden rounded-[1.9rem] border border-white/30 bg-white/95 shadow-float transition-transform duration-300 hover:-translate-y-1 lg:absolute lg:inset-x-[6%] lg:top-0 lg:w-auto"
-              >
-                <div className="relative aspect-[4/3.2] w-full overflow-hidden bg-sand-100">
-                  <HeroImage item={lead} />
-                  <span className="absolute start-3 top-3 inline-flex items-center gap-1 rounded-full bg-sunset-500 px-2.5 py-1 text-[11.5px] font-bold text-white shadow-sunset">
-                    <Percent size={12} strokeWidth={2.6} aria-hidden />
-                    {lead.promotion ? promotionBadge(lead.promotion) : ''}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 px-4 py-3.5">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-peach-100 font-display font-semibold text-sunset-700">
-                    {lead.avatar ? (
-                      <img src={lead.avatar} alt="" className="h-full w-full object-cover" loading="lazy" />
-                    ) : (
-                      lead.name.charAt(0)
-                    )}
+          {secondary.length > 0 && (
+            <div className="grid min-w-0 gap-3 sm:grid-cols-2">
+              {secondary.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/services/${item.id}`}
+                  className="group flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-white/30 bg-white px-3 py-3 shadow-float transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-peach-100">
+                    <HeroImage item={item} />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate font-display text-[15px] font-semibold text-ink-900">{lead.name}</span>
-                    <span className="block truncate text-[12.5px] text-ink-500">{lead.category}</span>
+                    <span className="block truncate text-[13px] font-semibold text-ink-900">{item.name}</span>
+                    <span className="mt-0.5 block truncate text-[11.5px] font-medium text-sunset-700">
+                      {item.promotion ? promotionBadge(item.promotion) : item.category}
+                    </span>
                   </span>
-                  <ArrowRight size={16} className="flip-rtl shrink-0 text-sunset-500 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                </div>
-              </Link>
-            ) : (
-              <div className="absolute inset-x-[6%] top-0 hidden h-[62%] rounded-[1.9rem] border border-white/25 bg-white/10 backdrop-blur-sm lg:block" />
-            )}
+                  <ArrowRight size={15} className="flip-rtl shrink-0 text-sunset-600" aria-hidden />
+                </Link>
+              ))}
+            </div>
+          )}
 
-            {/* Floating promo chip */}
-            {secondary[0] && (
-              <Link
-                href={`/services/${secondary[0].id}`}
-                className="relative flex w-[88%] max-w-[88%] self-center items-center gap-2.5 rounded-2xl border border-white/40 bg-white/95 px-3.5 py-2.5 shadow-float transition-transform duration-300 hover:-translate-y-1 lg:absolute lg:bottom-[16%] lg:start-0 lg:w-auto lg:max-w-[62%]"
-              >
-                <span className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-xl bg-peach-100 text-sunset-600">
-                  <Sparkles size={16} aria-hidden />
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-[13px] font-semibold text-ink-900">{secondary[0].name}</span>
-                  <span className="block truncate text-[11.5px] font-medium text-sunset-600">
-                    {secondary[0].promotion ? promotionBadge(secondary[0].promotion) : secondary[0].category}
-                  </span>
-                </span>
-              </Link>
-            )}
-
-            <span className="sr-only">{nav('promotions')}</span>
-          </div>
+          <span className="sr-only">{nav('promotions')}</span>
         </div>
       </div>
     </section>
