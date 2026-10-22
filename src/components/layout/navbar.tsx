@@ -30,13 +30,14 @@ import { usePrimaryNav } from './nav-links';
 export function Navbar() {
   const t = useTranslations('nav');
   const links = usePrimaryNav();
+  const desktopLinks = links.filter((link) => !link.opensSearch);
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
 
   // The first four destinations are always visible; the rest live in "Plus".
-  const primary = links.slice(0, 4);
-  const overflow = links.slice(4);
+  const primary = desktopLinks.slice(0, 4);
+  const overflow = desktopLinks.slice(4);
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -86,7 +87,7 @@ export function Navbar() {
         <nav aria-label={t('primaryNav')} className="flex min-w-0 items-center gap-0.5">
           {/* Complete list from 1280 up */}
           <ul className="hidden items-center gap-0.5 xl:flex">
-            {links.map((link) => (
+            {desktopLinks.map((link) => (
               <li key={link.href}>
                 <NavItem link={link} active={isActive(link.href)} />
               </li>

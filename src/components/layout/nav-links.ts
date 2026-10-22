@@ -12,13 +12,14 @@ export interface NavLink {
 }
 
 /**
- * Primary navigation order — Promotions, Search, then the remaining
+ * Primary navigation order — Home, Promotions, Search, then the remaining
  * destinations in a logical order. Shared by the desktop bar, the compact
  * "Plus" menu and the mobile drawer so the two never drift apart.
  */
 export function usePrimaryNav(): NavLink[] {
   const t = useTranslations('nav');
   return [
+    { href: '/', label: t('home') },
     { href: '/promotions', label: t('promotions'), hot: true },
     { href: '/search', label: t('search'), opensSearch: true },
     { href: '/services', label: t('services') },

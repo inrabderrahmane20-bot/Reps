@@ -103,7 +103,6 @@ export function FloatingSearch() {
   const [loading, setLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [recent, setRecent] = useState<string[]>([]);
-  const [compact, setCompact] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [keyboardInset, setKeyboardInset] = useState(0);
@@ -146,24 +145,6 @@ export function FloatingSearch() {
     };
   }, []);
 
-  // Compact the idle pill once the page is scrolled down (mobile only).
-  useEffect(() => {
-    let frame = 0;
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        setCompact(window.scrollY > 140);
-      });
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
-
   useEffect(() => {
     setRecent(readRecent());
     try {
@@ -186,7 +167,6 @@ export function FloatingSearch() {
     // after opening; real dismissals happen later than that.
     openedAtRef.current = Date.now();
     setOpen(true);
-    setCompact(false);
   }, []);
 
   const closeSearch = useCallback(() => {
@@ -393,15 +373,14 @@ export function FloatingSearch() {
 
   const idleWidth = isDesktop ? 'min(72vw, 520px)' : 'min(92vw, 420px)';
   const openWidth = isDesktop ? 'min(84vw, 560px)' : 'min(94vw, 440px)';
-  const shellWidth = open ? openWidth : compact && !isDesktop ? '54px' : idleWidth;
+  const shellWidth = open ? openWidth : idleWidth;
 
   const ih = viewportHeight || 800;
   const panelMaxHeight = keyboardOpen
     ? Math.max(170, Math.min(ih * 0.52, 430))
     : Math.max(200, Math.min(ih * 0.6, 520, ih - 210));
 
-  const showCompactGlyph = compact && !open && !isDesktop;
-
+  const mobileIdle = !isDesktop && !open;
   return (
     <>
       {/* Backdrop — separates the active search from the page behind it. */}
@@ -419,8 +398,10 @@ export function FloatingSearch() {
       )}
 
       <div
-        className={`pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col items-center px-3 ${
-          dismissed && !open ? 'hidden' : ''
+        className={`pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col px-3 ${
+          open || isDesktop ? 'items-center' : 'items-end'
+        } ${
+          dismissed && !open && !isDesktop ? 'hidden' : ''
         }`}
         style={{
           paddingBottom: isDesktop ? bottom : `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
@@ -429,7 +410,7 @@ export function FloatingSearch() {
         <div
           className="pointer-events-auto flex flex-col"
           style={{
-            width: shellWidth,
+            width: mobileIdle ? '54px' : shellWidth,
             transition: 'width 320ms cubic-bezier(0.32, 0.72, 0, 1)',
           }}
         >
@@ -622,10 +603,17 @@ export function FloatingSearch() {
           {/* `w-full` is essential: the faces inside are absolutely positioned,
               so without an explicit width the pill would collapse to its own
               padding (a 2px sliver) instead of filling the shell.            */}
-          <div className="glass relative w-full overflow-hidden rounded-full" style={{ height: 54 }}>
+          <div
+            className={`${
+              mobileIdle
+                ? 'relative flex items-center justify-center rounded-full bg-white text-sunset-600 shadow-[0_8px_28px_rgba(60,35,20,0.22)] ring-1 ring-ink-900/10 mobile-search-pulse'
+                : 'glass relative overflow-hidden rounded-full'
+            } w-full`}
+            style={{ height: 54 }}
+          >
             {/* Idle face */}
             <div
-              className={`absolute inset-0 transition-opacity duration-200 ${
+              className={`${mobileIdle ? 'relative h-full w-full' : 'absolute inset-0'} transition-opacity duration-200 ${
                 open ? 'pointer-events-none opacity-0' : 'opacity-100'
               }`}
               aria-hidden={open}
@@ -635,11 +623,11 @@ export function FloatingSearch() {
                 onClick={openSearch}
                 aria-label={t('openLabel')}
                 className={`flex h-full w-full items-center gap-3 text-start ${
-                  showCompactGlyph ? 'justify-center' : 'ps-5 pe-12'
+                  mobileIdle ? 'justify-center rounded-full' : 'ps-5 pe-12'
                 }`}
               >
                 <Search size={18} className="shrink-0 text-sunset-600" aria-hidden />
-                {!showCompactGlyph && (
+                {!mobileIdle && (
                   <>
                     <span className="min-w-0 flex-1 truncate text-[15px] text-ink-500">{t('placeholder')}</span>
                     {!isDesktop && (
@@ -650,22 +638,22 @@ export function FloatingSearch() {
                   </>
                 )}
               </button>
-              <button
-                type="button"
-                onClick={dismissSearch}
-                aria-label={t('dismissButton')}
-                title={t('dismissButton')}
-                className={`absolute end-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-ink-400 transition-colors hover:bg-white/70 hover:text-ink-700 ${
-                  showCompactGlyph ? 'hidden' : ''
-                }`}
-              >
-                <X size={15} aria-hidden />
-              </button>
+              {mobileIdle && (
+                <button
+                  type="button"
+                  onClick={dismissSearch}
+                  aria-label={t('dismissButton')}
+                  title={t('dismissButton')}
+                  className="absolute -left-2 -top-2 grid h-7 w-7 place-items-center rounded-full border border-ink-900/10 bg-white text-ink-500 shadow-md transition-colors hover:text-ink-900"
+                >
+                  <X size={13} aria-hidden />
+                </button>
+              )}
             </div>
 
             {/* Active face */}
             <div
-              className={`absolute inset-0 transition-opacity duration-200 ${
+              className={`${mobileIdle ? 'hidden' : 'absolute inset-0'} transition-opacity duration-200 ${
                 open ? 'opacity-100' : 'pointer-events-none opacity-0'
               }`}
               aria-hidden={!open}
