@@ -460,6 +460,7 @@
     "placeholder": "Rechercher un service, une catégorie, une actualité…",
     "shortcut": "Recherche",
     "openLabel": "Ouvrir la recherche",
+    "dismissButton": "Masquer la recherche flottante",
     "inputLabel": "Recherche globale",
     "clear": "Effacer la recherche",
     "cancel": "Fermer la recherche",

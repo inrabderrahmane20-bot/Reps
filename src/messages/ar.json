@@ -460,6 +460,7 @@
     "placeholder": "ابحث عن خدمة أو فئة أو خبر…",
     "shortcut": "بحث",
     "openLabel": "فتح البحث",
+    "dismissButton": "إخفاء البحث العائم",
     "inputLabel": "البحث الشامل",
     "clear": "مسح البحث",
     "cancel": "إغلاق البحث",

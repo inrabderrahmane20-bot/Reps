@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ChevronRight, Clock, CornerDownLeft, Search, X } from 'lucide-react';
 import { highlightRanges } from '@/lib/search';
 import { OPEN_SEARCH_EVENT } from '@/lib/open-search';
@@ -30,6 +30,7 @@ import type { SearchGroup, SearchItem, SearchKind } from '@/lib/search-types';
  */
 
 const RECENT_KEY = 'medina.recentSearches';
+const DISMISSED_KEY = 'medina.floatingSearch.dismissed';
 const MAX_RECENT = 6;
 const MAX_RECENT_LENGTH = 60;
 
@@ -93,7 +94,6 @@ export function FloatingSearch() {
   const t = useTranslations('floatingSearch');
   const tSearch = useTranslations('search');
   const locale = useLocale();
-  const pathname = usePathname();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -104,6 +104,7 @@ export function FloatingSearch() {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [recent, setRecent] = useState<string[]>([]);
   const [compact, setCompact] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [keyboardInset, setKeyboardInset] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
@@ -165,6 +166,11 @@ export function FloatingSearch() {
 
   useEffect(() => {
     setRecent(readRecent());
+    try {
+      setDismissed(window.localStorage.getItem(DISMISSED_KEY) === 'true');
+    } catch {
+      setDismissed(false);
+    }
   }, []);
 
   /* ------------------------------------------------------------------ */
@@ -334,6 +340,15 @@ export function FloatingSearch() {
     writeRecent([]);
   }, []);
 
+  const dismissSearch = useCallback(() => {
+    setDismissed(true);
+    try {
+      window.localStorage.setItem(DISMISSED_KEY, 'true');
+    } catch {
+      // Keep the dismissal for this page when browser storage is unavailable.
+    }
+  }, []);
+
   const go = useCallback(
     (item: SearchItem) => {
       remember(query);
@@ -386,7 +401,6 @@ export function FloatingSearch() {
     : Math.max(200, Math.min(ih * 0.6, 520, ih - 210));
 
   const showCompactGlyph = compact && !open && !isDesktop;
-  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/` || pathname === '/';
 
   return (
     <>
@@ -406,7 +420,7 @@ export function FloatingSearch() {
 
       <div
         className={`pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col items-center px-3 ${
-          isHomePage && !open ? 'hidden' : ''
+          dismissed && !open ? 'hidden' : ''
         }`}
         style={{
           paddingBottom: isDesktop ? bottom : `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
@@ -621,7 +635,7 @@ export function FloatingSearch() {
                 onClick={openSearch}
                 aria-label={t('openLabel')}
                 className={`flex h-full w-full items-center gap-3 text-start ${
-                  showCompactGlyph ? 'justify-center' : 'px-5'
+                  showCompactGlyph ? 'justify-center' : 'ps-5 pe-12'
                 }`}
               >
                 <Search size={18} className="shrink-0 text-sunset-600" aria-hidden />
@@ -635,6 +649,17 @@ export function FloatingSearch() {
                     )}
                   </>
                 )}
+              </button>
+              <button
+                type="button"
+                onClick={dismissSearch}
+                aria-label={t('dismissButton')}
+                title={t('dismissButton')}
+                className={`absolute end-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-ink-400 transition-colors hover:bg-white/70 hover:text-ink-700 ${
+                  showCompactGlyph ? 'hidden' : ''
+                }`}
+              >
+                <X size={15} aria-hidden />
               </button>
             </div>
 

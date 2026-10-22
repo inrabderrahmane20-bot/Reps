@@ -3,14 +3,13 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
-import { Home, Compass, CalendarDays, MessageCircle, User } from 'lucide-react';
+import { Compass, CalendarDays, MessageCircle, User } from 'lucide-react';
 
 export function MobileTabBar() {
   const t = useTranslations('nav');
   const pathname = usePathname();
 
   const tabs = [
-    { href: '/', label: t('home'), icon: Home },
     { href: '/discover', label: t('discover'), icon: Compass },
     { href: '/activities', label: t('activities'), icon: CalendarDays },
     { href: '/messages', label: t('messages'), icon: MessageCircle },

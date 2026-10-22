@@ -460,6 +460,7 @@
     "placeholder": "Search a service, a category, some news…",
     "shortcut": "Search",
     "openLabel": "Open search",
+    "dismissButton": "Hide floating search",
     "inputLabel": "Global search",
     "clear": "Clear search",
     "cancel": "Close search",
