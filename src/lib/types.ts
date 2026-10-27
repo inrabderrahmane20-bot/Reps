@@ -281,6 +281,87 @@ export interface Report {
   createdAt: string;
 }
 
+export interface FavoriteItem {
+  id: string;
+  userId: string;
+  type: 'provider' | 'listing' | 'news' | 'community' | 'activity' | 'place' | 'event' | 'product';
+  targetId: string;
+  meta?: Record<string, any>;
+  createdAt: string;
+}
+
+export interface Invitation {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  type: 'activity' | 'community' | 'meeting' | 'general';
+  relatedId?: string | null;
+  message?: string;
+  status: 'pending' | 'accepted' | 'declined' | 'cancelled';
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface SavedSearch {
+  id: string;
+  userId: string;
+  query: string;
+  filters?: Record<string, any>;
+  createdAt: string;
+}
+
+export interface CategoryNode {
+  id: string;
+  parentId: string | null;
+  slug: string;
+  type: string;
+  labels: Record<string, string>; // locale -> label
+  icon?: string;
+  order: number;
+  active: boolean;
+  filters?: string[];
+  meta?: Record<string, any>;
+}
+
+export interface Place {
+  id: string;
+  name: string;
+  slug?: string;
+  category: string;
+  subcategory?: string;
+  city: string;
+  neighborhood?: string;
+  description?: string;
+  address?: string;
+  lat?: number;
+  lng?: number;
+  images?: string[];
+  price?: string;
+  capacity?: number;
+  openingHours?: string;
+  tags?: string[];
+  status: 'active' | 'inactive';
+  createdAt: string;
+}
+
+export interface Listing {
+  id: string;
+  type: 'vehicle' | 'parts' | 'property' | 'other';
+  category: string;
+  subcategory?: string;
+  title: string;
+  description: string;
+  price: number;
+  currency: string;
+  city: string;
+  neighborhood?: string;
+  images?: string[];
+  sellerId: string;
+  status: 'available' | 'sold' | 'expired' | 'removed';
+  meta?: Record<string, any>;
+  createdAt: string;
+}
+
 export interface Db {
   users: User[];
   sessions: Session[];
@@ -298,6 +379,12 @@ export interface Db {
   roomMessages: RoomMessage[];
   notifications: Notification[];
   reports: Report[];
+  favorites: FavoriteItem[];
+  invitations: Invitation[];
+  savedSearches: SavedSearch[];
+  categories: CategoryNode[];
+  places: Place[];
+  listings: Listing[];
 }
 
 export interface PublicUser {

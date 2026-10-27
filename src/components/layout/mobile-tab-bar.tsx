@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
-import { Compass, CalendarDays, MessageCircle, User } from 'lucide-react';
+import { Compass, CalendarDays, MessageCircle, User, Star } from 'lucide-react';
 
 export function MobileTabBar() {
   const t = useTranslations('nav');
@@ -12,6 +12,7 @@ export function MobileTabBar() {
   const tabs = [
     { href: '/discover', label: t('discover'), icon: Compass },
     { href: '/activities', label: t('activities'), icon: CalendarDays },
+    { href: '/favorites', label: t('favorites'), icon: Star },
     { href: '/messages', label: t('messages'), icon: MessageCircle },
     { href: '/profile', label: t('profile'), icon: User },
   ];

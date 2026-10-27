@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Users } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { FavoriteButton } from '@/components/ui/favorite-button';
 
 export function CommunityCard({
   id,
@@ -23,7 +24,10 @@ export function CommunityCard({
   const home = useTranslations('home');
 
   return (
-    <article className="card-hover flex flex-col justify-between rounded-2xl border border-ink-900/[0.05] bg-white p-4 shadow-card sm:p-5">
+    <article className="card-hover relative flex flex-col justify-between rounded-2xl border border-ink-900/[0.05] bg-white p-4 shadow-card sm:p-5">
+      <div className="absolute end-3 top-3">
+        <FavoriteButton type="community" targetId={id} meta={{ title: name }} />
+      </div>
       <Link href={`/communities/${id}`} className="block">
         <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-arch bg-zellige-500/10 text-zellige-600">
           <Users size={18} />

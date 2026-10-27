@@ -9,6 +9,7 @@ import { Footer } from '@/components/layout/footer';
 import { MobileTabBar } from '@/components/layout/mobile-tab-bar';
 import { FirstVisitLanguageModal } from '@/components/layout/first-visit-language-modal';
 import { FloatingSearch } from '@/components/search/floating-search';
+import { CategorySearchRoot } from '@/components/search/category-search-root';
 import { AuthProvider } from '@/context/auth-context';
 import '../globals.css';
 
@@ -65,6 +66,7 @@ export default async function LocaleLayout({
             <Footer />
             <MobileTabBar />
             <FloatingSearch />
+            <CategorySearchRoot />
             <FirstVisitLanguageModal />
           </AuthProvider>
         </NextIntlClientProvider>

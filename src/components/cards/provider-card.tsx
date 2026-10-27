@@ -3,6 +3,7 @@ import { BadgeCheck } from 'lucide-react';
 import { Rating } from '@/components/ui/rating';
 import { AvailabilityBadge, type Availability } from '@/components/ui/availability-badge';
 import { Link } from '@/i18n/navigation';
+import { FavoriteButton } from '@/components/ui/favorite-button';
 
 export function ProviderCard({
   id,
@@ -27,7 +28,10 @@ export function ProviderCard({
   const services = useTranslations('services');
 
   return (
-    <article className="card-hover flex items-center gap-4 rounded-2xl border border-ink-900/[0.05] bg-white p-4 shadow-card sm:p-5">
+    <article className="card-hover relative flex items-center gap-4 rounded-2xl border border-ink-900/[0.05] bg-white p-4 shadow-card sm:p-5">
+      <div className="absolute end-3 top-3">
+        <FavoriteButton type="provider" targetId={id} meta={{ title: name }} />
+      </div>
       <Link href={`/services/${id}`} className="flex min-w-0 flex-1 items-center gap-4">
         <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-majorelle-600/10 font-display text-lg font-semibold text-majorelle-700">
           {name.charAt(0)}

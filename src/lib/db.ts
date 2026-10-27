@@ -44,6 +44,12 @@ function emptyDb(): Db {
     roomMessages: [],
     notifications: [],
     reports: [],
+    favorites: [],
+    invitations: [],
+    savedSearches: [],
+    categories: [],
+    places: [],
+    listings: [],
   };
 }
 

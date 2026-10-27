@@ -16,10 +16,37 @@ export default function ActivitiesPage({ params }: { params: { locale: string } 
         </div>
         <button
           type="button"
-          className="rounded-full bg-clay-400 px-5 py-2.5 text-sm font-semibold text-white hover:bg-clay-500"
+          className="rounded-full bg-sunset-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-sunset-600"
         >
           {t('create')}
         </button>
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-center gap-2">
+        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
+          <option>Ville</option>
+          <option>Marrakech</option>
+          <option>Casablanca</option>
+          <option>Rabat</option>
+          <option>Fès</option>
+          <option>Agadir</option>
+        </select>
+        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
+          <option>Date</option>
+          <option>À venir</option>
+          <option>Cette semaine</option>
+        </select>
+        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
+          <option>Catégorie</option>
+          <option>Sport</option>
+          <option>Culture</option>
+          <option>Sortie</option>
+        </select>
+        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
+          <option>Prix</option>
+          <option>Gratuit</option>
+          <option>Payant</option>
+        </select>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { CalendarDays, MapPin } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { FavoriteButton } from '@/components/ui/favorite-button';
 
 export function ActivityCard({
   id,
@@ -31,7 +32,10 @@ export function ActivityCard({
   const full = spotsLeft <= 0 && !joined;
 
   return (
-    <article className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-card">
+    <article className="relative flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-card">
+      <div className="absolute end-3 top-3">
+        <FavoriteButton type="activity" targetId={id} meta={{ title }} />
+      </div>
       <Link href={`/activities/${id}`} className="flex flex-1 flex-col gap-3">
         <span className="w-fit rounded-full bg-clay-400/10 px-2.5 py-1 text-[11px] font-semibold text-clay-500">
           {category}

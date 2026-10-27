@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
-import { ChevronDown, Percent, Search } from 'lucide-react';
-import { openGlobalSearch } from '@/lib/open-search';
+import { ChevronDown, Percent, Search, Star } from 'lucide-react';
+import { openCategorySearch } from '@/lib/open-category-search';
 import { Brand } from './brand';
 import { LanguageSwitcher } from './language-switcher';
 import { AccountMenu } from './account-menu';
@@ -73,6 +73,13 @@ export function Navbar() {
         <Brand />
 
         <div className="ms-auto flex items-center gap-1.5">
+          <Link
+            href="/favorites"
+            aria-label={t('favorites')}
+            className="grid h-9 w-9 place-items-center rounded-full text-ink-600 transition-colors hover:bg-white hover:text-sunset-700"
+          >
+            <Star size={18} />
+          </Link>
           <LanguageSwitcher variant="short" />
           <AccountMenu compact />
         </div>
@@ -137,6 +144,14 @@ export function Navbar() {
 
         {/* Utility group */}
         <div className="ms-auto flex shrink-0 items-center gap-1.5">
+          <Link
+            href="/favorites"
+            aria-label={t('favorites')}
+            className="grid h-9 w-9 place-items-center rounded-full text-ink-600 transition-colors hover:bg-white hover:text-sunset-700"
+            title={t('favorites')}
+          >
+            <Star size={18} />
+          </Link>
           <NotificationsBell />
           <LanguageSwitcher />
           <AccountMenu />
@@ -183,7 +198,7 @@ function NavItem({
     return (
       <button
         type="button"
-        onClick={openGlobalSearch}
+        onClick={openCategorySearch}
         aria-label={link.label}
         className={`${shared} ${tone}`}
       >

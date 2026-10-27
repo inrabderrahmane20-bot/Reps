@@ -1,0 +1,12 @@
+var fs = require('fs');
+var p = 'src/messages/en.json';
+var d = JSON.parse(fs.readFileSync(p));
+if(!d.nav) d.nav = {};
+d.nav.favorites = 'Favorites';
+fs.writeFileSync(p, JSON.stringify(d));
+var p2 = 'src/messages/ar.json';
+var d2 = JSON.parse(fs.readFileSync(p2));
+if(!d2.nav) d2.nav = {};
+d2.nav.favorites = 'المفضلة';
+fs.writeFileSync(p2, JSON.stringify(d2));
+console.log('ok');
