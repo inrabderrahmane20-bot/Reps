@@ -29,23 +29,25 @@ export default function ActivitiesPage() {
   }, []);
 
   const filtered = items.filter((a) => {
+    let ok = true;
     if (city && city !== '') {
       const aCity = (a.city || a.location || '').toString().toLowerCase();
       const c = city.toLowerCase();
-      if (aCity.includes(c) || c.includes(aCity) || aCity === c) return true;
-      // if Marrakech selected, show items without city? or allow
-      if (c === 'marrakech' && !aCity) return true;
-      // be permissive for nearby
-      if (c === 'marrakech') return true;
-      return false;
+      const cityOk =
+        aCity.includes(c) ||
+        c.includes(aCity) ||
+        aCity === c ||
+        (c === 'marrakech' && !aCity) ||
+        c === 'marrakech';
+      if (!cityOk) ok = false;
     }
-    if (category && category !== '') {
+    if (ok && category && category !== '') {
       const ac = (a.category || '').toString().toLowerCase();
       const cc = category.toLowerCase();
-      if (ac === cc || ac.includes(cc)) return true;
-      return false;
+      const catOk = ac === cc || ac.includes(cc);
+      if (!catOk) ok = false;
     }
-    return true;
+    return ok;
   });
 
   return (

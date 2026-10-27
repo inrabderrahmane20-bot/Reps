@@ -1,0 +1,16 @@
+const fs = require('fs');
+const s = JSON.parse(fs.readFileSync('src/data/db.seed.json','utf8'));
+console.log('places:', s.places.length);
+console.log(JSON.stringify(s.places.slice(0,2), null, 2));
+console.log('---');
+console.log('listings:', s.listings.length);
+console.log(JSON.stringify(s.listings.slice(0,3), null, 2));
+console.log('---');
+console.log('activities total:', s.activities.length);
+console.log('activities with appointment:', s.activities.filter(a=>a.title && a.title.match(/appointment/i)).length);
+console.log(JSON.stringify(s.activities.filter(a=>a.title && a.title.match(/appointment/i)).slice(0,2), null, 2));
+console.log('---');
+console.log('fav:', s.favorites ? s.favorites.length : 0);
+console.log(JSON.stringify(s.favorites && s.favorites.slice(0,2), null, 2));
+console.log('---');
+console.log('cats:', s.categories ? s.categories.length : 0);

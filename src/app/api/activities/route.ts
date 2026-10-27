@@ -12,9 +12,33 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get('category');
   const zone = searchParams.get('zone');
+  const city = searchParams.get('city');
   const db = readDb();
   let list = db.activities.filter((a) => a.status !== 'cancelled');
-  if (category) list = list.filter((a) => a.category === category);
+  // Filter out service appointment/catalog entries that are mislabeled as activities
+  list = list.filter((a) => {
+    const title = (a.title || '').toString().toLowerCase();
+    const cat = (a.category || '').toString().toLowerCase();
+    if (title.includes('appointment')) return false;
+    if (cat.includes('installation plomberie') || cat.includes('plomberie') && title.includes('appointment')) return false;
+    // common patterns from catalog
+    if (a.id && a.id.startsWith('activity_catalog_')) {
+      // keep only if clearly a community activity? catalog ones are appointments
+      return false;
+    }
+    return true;
+  });
+  if (category) {
+    const cc = category.toLowerCase();
+    list = list.filter((a) => ((a.category || '').toString().toLowerCase() === cc) || ((a.category || '').toString().toLowerCase().includes(cc)));
+  }
+  if (city && city !== '' && city !== 'all') {
+    const c = city.toLowerCase();
+    list = list.filter((a) => {
+      const aCity = ((a.city || a.location || '') as string).toLowerCase();
+      return aCity.includes(c) || c.includes(aCity) || aCity === c;
+    });
+  }
   if (zone && zone !== 'all') list = list.filter((a) => classifyZone(a.lat, a.lng, a.location) === zone);
   return NextResponse.json({ activities: list.map(enrich) });
 }

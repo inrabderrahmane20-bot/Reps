@@ -70,6 +70,7 @@ export default function FavoritesPage() {
     place: favorites.filter((f) => f.type === 'place'),
     activity: favorites.filter((f) => f.type === 'activity' || f.type === 'event'),
     community: favorites.filter((f) => f.type === 'community'),
+    news: favorites.filter((f) => f.type === 'news'),
   };
 
   const sections = [
@@ -78,6 +79,7 @@ export default function FavoritesPage() {
     { key: 'places', label: t('places'), items: grouped.place },
     { key: 'activities', label: t('activities'), items: grouped.activity },
     { key: 'communities', label: t('communities'), items: grouped.community },
+    { key: 'news', label: t('news') || 'Actualités', items: grouped.news },
   ];
 
   if (!user) {

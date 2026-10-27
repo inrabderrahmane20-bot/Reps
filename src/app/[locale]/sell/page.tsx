@@ -9,18 +9,22 @@ export default function SellPage() {
     {
       title: t('voitures'),
       items: [t('voitures_list'), t('pieces_voiture'), t('roues_voiture')],
+      slug: 'voitures',
     },
     {
       title: t('motos'),
       items: [t('motos_list'), t('pieces_moto'), t('roues_moto')],
+      slug: 'motos',
     },
     {
       title: t('velos'),
       items: [t('velos_list'), t('pieces_velo'), t('roues_velo')],
+      slug: 'velos',
     },
     {
       title: t('camions'),
       items: [t('camions_list'), t('remorques'), t('pieces_accessoires')],
+      slug: 'camions-remorques',
     },
   ];
 
@@ -38,7 +42,9 @@ export default function SellPage() {
             <ul className="divide-y divide-ink-900/[0.04]">
               {group.items.map((item) => (
                 <li key={item} className="px-4 py-2.5 text-sm text-ink-700 hover:bg-sand-50">
-                  {item}
+                  <a href={`/fr/a-vendre/${group.slug}`} className="block w-full">
+                    {item}
+                  </a>
                 </li>
               ))}
             </ul>
