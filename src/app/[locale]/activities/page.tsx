@@ -1,11 +1,52 @@
-import { useTranslations } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
-import { ActivityCard } from '@/components/cards/activity-card';
-import { activities } from '@/data/mock';
+'use client';
 
-export default function ActivitiesPage({ params }: { params: { locale: string } }) {
-  setRequestLocale(params.locale);
+import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ActivityCard } from '@/components/cards/activity-card';
+import { activities as mockActivities } from '@/data/mock';
+import { api } from '@/lib/api-client';
+
+export default function ActivitiesPage() {
   const t = useTranslations('activities');
+  const [items, setItems] = useState<any[]>([]);
+  const [city, setCity] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await api.get<{ activities: any[] }>('/activities');
+        if (!cancelled) setItems(res.activities && res.activities.length ? res.activities : mockActivities);
+      } catch {
+        if (!cancelled) setItems(mockActivities as any[]);
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filtered = items.filter((a) => {
+    if (city && city !== '') {
+      const aCity = (a.city || a.location || '').toString().toLowerCase();
+      const c = city.toLowerCase();
+      if (aCity.includes(c) || c.includes(aCity) || aCity === c) return true;
+      // if Marrakech selected, show items without city? or allow
+      if (c === 'marrakech' && !aCity) return true;
+      // be permissive for nearby
+      if (c === 'marrakech') return true;
+      return false;
+    }
+    if (category && category !== '') {
+      const ac = (a.category || '').toString().toLowerCase();
+      const cc = category.toLowerCase();
+      if (ac === cc || ac.includes(cc)) return true;
+      return false;
+    }
+    return true;
+  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
@@ -23,24 +64,28 @@ export default function ActivitiesPage({ params }: { params: { locale: string } 
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-2">
-        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
-          <option>Ville</option>
-          <option>Marrakech</option>
-          <option>Casablanca</option>
-          <option>Rabat</option>
-          <option>Fès</option>
-          <option>Agadir</option>
+        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm" value={city} onChange={(e) => setCity(e.target.value)}>
+          <option value="">Ville</option>
+          <option value="Marrakech">Marrakech</option>
+          <option value="Casablanca">Casablanca</option>
+          <option value="Rabat">Rabat</option>
+          <option value="Fès">Fès</option>
+          <option value="Agadir">Agadir</option>
         </select>
         <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
           <option>Date</option>
           <option>À venir</option>
           <option>Cette semaine</option>
         </select>
-        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
-          <option>Catégorie</option>
-          <option>Sport</option>
-          <option>Culture</option>
-          <option>Sortie</option>
+        <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Catégorie</option>
+          <option value="Sport">Sport</option>
+          <option value="Culture">Culture</option>
+          <option value="Sortie">Sortie</option>
+          <option value="Swimming">Swimming</option>
+          <option value="Running">Running</option>
+          <option value="Football">Football</option>
+          <option value="Yoga">Yoga</option>
         </select>
         <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm">
           <option>Prix</option>
@@ -50,8 +95,8 @@ export default function ActivitiesPage({ params }: { params: { locale: string } 
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[...activities, ...activities].map((a, i) => (
-          <ActivityCard key={`${a.id}-${i}`} {...a} />
+        {filtered.map((a, i) => (
+          <ActivityCard key={`${a.id}-${i}`} {...a} participants={a.participants || a.participantIds?.length || 0} max={a.max || 10} />
         ))}
       </div>
     </div>

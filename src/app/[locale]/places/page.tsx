@@ -1,16 +1,16 @@
-import { setRequestLocale } from 'next-intl/server';
+'use client';
+
 import { useTranslations } from 'next-intl';
 
-export default function PlacesPage({ params }: { params: { locale: string } }) {
-  setRequestLocale(params.locale);
+export default function PlacesPage() {
   const t = useTranslations('places');
 
   const sections = [
-    { key: 'jardin', title: t('jardin'), items: ['Jardin Majorelle', 'Jardin de la Ménara', 'Jardins de l\'Agdal', 'Jardin Secret', 'Cyber Park Arsat Moulay Abdeslam', 'Palmeraie de Marrakech', 'Parc Lalla Hasna', 'Oliveraie de la Ménara'] },
-    { key: 'monuments', title: t('monuments'), items: ['Koutoubia', 'Médersa Ben Youssef', 'Palais de la Bahia', 'Palais El Badiî', 'Tombeaux Saadiens', 'Porte Bab Agnaou', 'Bab Boujloud'] },
-    { key: 'musees', title: t('musees'), items: ['Musée Yves Saint Laurent Marrakech', 'Musée MACAAL', 'Musée Tiskiwin', 'Maison de la Photographie'] },
-    { key: 'excursions', title: t('excursions'), items: ['Désert d\'Agafay', 'Vallée de l\'Ourika', 'Cascades d\'Ouzoud', 'Imlil', 'Aït Ben Haddou', 'Ouarzazate'] },
-    { key: 'experiences', title: t('experiences'), items: ['Hammam marocain traditionnel', 'Spectacle de fantasia', 'Dîner dans le désert d\'Agafay', 'Vol en montgolfière autour de Marrakech', 'Balade en calèche'] },
+    { key: 'jardin', title: t('jardin'), items: ['Jardin Majorelle', 'Jardin de la Ménara', 'Jardins de l\'Agdal', 'Le Jardin Secret', 'Cyber Park Arsat Moulay Abdeslam', 'Palmeraie de Marrakech', 'Parc Lalla Hasna', 'Oliveraie de la Ménara'] },
+    { key: 'monuments', title: t('monuments'), items: ['Koutoubia', 'Médersa Ben Youssef', 'Palais de la Bahia', 'Palais El Badiî', 'Tombeaux Saadiens', 'Bab Agnaou', 'Bab Boujloud', 'Musée de Marrakech', 'Musée de Mouassine', 'Dar El Bacha', 'Maison de la Photographie', 'Musée Dar Si Saïd', 'Musée de la Femme', 'Souk Semmarine', 'Souk des Teinturiers', 'Souk des Bijoutiers', 'Souk Haddadine', 'Place des Épices', 'Place des Ferblantiers', 'Quartier de la Kasbah', 'Quartier de Mouassine', 'Quartier Mellah', 'Synagogue Lazama'] },
+    { key: 'musees', title: t('musees'), items: ['Musée Yves Saint Laurent Marrakech', 'Musée Mohammed VI pour la civilisation de l\'eau au Maroc', 'Musée des Confluences – Dar El Bacha', 'Musée de Marrakech', 'Maison de la Photographie', 'Musée Dar Si Saïd', 'Musée de la Femme de Marrakech', 'Musée MACAAL', 'Musée Tiskiwin'] },
+    { key: 'excursions', title: t('excursions'), items: ['Désert d\'Agafay', 'Vallée de l\'Ourika', 'Setti Fatma', 'Cascades d\'Ouzoud', 'Lac Lalla Takerkoust', 'Plateau du Kik', 'Imlil', 'Parc national du Toubkal', 'Asni', 'Ouirgane', 'Aït Ben Haddou', 'Ouarzazate', 'Vallée du Zat', 'Palmeraie de Marrakech', 'Circuit en quad dans la Palmeraie', 'Balade à dos de chameau', 'Vol en montgolfière autour de Marrakech', 'Excursion en buggy'] },
+    { key: 'experiences', title: t('experiences'), items: ['Dîner traditionnel marocain', 'Spectacle de fantasia', 'Hammam marocain traditionnel', 'Rooftop avec vue sur la médina', 'Coucher de soleil à Jemaa el-Fna', 'Dîner dans le désert d\'Agafay', 'Balade en calèche', 'Spa traditionnel marocain', 'Dégustation de thé à la menthe', 'Découverte de la cuisine de rue de la médina', 'Balade nocturne dans la médina'] },
     { key: 'autres', title: t('autres'), items: ['Cafés', 'Restaurants', 'Parcs', 'Piscines', 'Hôtels', 'Salles de sport (Karaté, Yoga, Musculation)'] },
   ];
 

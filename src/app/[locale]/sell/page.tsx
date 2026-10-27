@@ -1,8 +1,8 @@
-import { setRequestLocale } from 'next-intl/server';
+'use client';
+
 import { useTranslations } from 'next-intl';
 
-export default function SellPage({ params }: { params: { locale: string } }) {
-  setRequestLocale(params.locale);
+export default function SellPage() {
   const t = useTranslations('sell');
 
   const groups = [

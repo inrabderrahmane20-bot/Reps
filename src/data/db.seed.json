@@ -155862,5 +155862,430 @@
       "createdAt": "2026-09-09T21:38:43.194Z"
     }
   ],
-  "reports": []
+  "reports": [],
+  "favorites": [],
+  "invitations": [],
+  "savedSearches": [],
+  "categories": [],
+  "places": [
+    {
+      "id": "pl_mvqrcy3r9xk9",
+      "name": "Musée de Marrakech",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.807Z"
+    },
+    {
+      "id": "pl_mvqrcy3sn2a0",
+      "name": "Musée de Mouassine",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s0lw1",
+      "name": "Dar El Bacha",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s2eir",
+      "name": "Maison de la Photographie",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sc0my",
+      "name": "Musée Dar Si Saïd",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3shu5d",
+      "name": "Musée de la Femme",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3si8pm",
+      "name": "Souk Semmarine",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3stu5u",
+      "name": "Souk des Teinturiers",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sc89s",
+      "name": "Souk des Bijoutiers",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3suhns",
+      "name": "Souk Haddadine",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s3ko0",
+      "name": "Place des Épices",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3shne4",
+      "name": "Place des Ferblantiers",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sqrnn",
+      "name": "Quartier de la Kasbah",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sytye",
+      "name": "Quartier de Mouassine",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sn62k",
+      "name": "Quartier Mellah",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s74z1",
+      "name": "Synagogue Lazama",
+      "category": "Monuments historiques et patrimoine",
+      "subcategory": "monuments",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3snte2",
+      "name": "Musée Mohammed VI pour la civilisation de l'eau au Maroc",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s221l",
+      "name": "Musée des Confluences – Dar El Bacha",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3snfyp",
+      "name": "Musée MACAAL",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3szz7b",
+      "name": "Musée Tiskiwin",
+      "category": "Musées et culture",
+      "subcategory": "musees",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s3acj",
+      "name": "Setti Fatma",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s0lx5",
+      "name": "Lac Lalla Takerkoust",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sos0v",
+      "name": "Plateau du Kik",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sbaej",
+      "name": "Parc national du Toubkal",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s3to6",
+      "name": "Asni",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sx520",
+      "name": "Ouirgane",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sf2t8",
+      "name": "Vallée du Zat",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sfxue",
+      "name": "Circuit en quad dans la Palmeraie",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3svedf",
+      "name": "Balade à dos de chameau",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s1jr7",
+      "name": "Vol en montgolfière autour de Marrakech",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sjn47",
+      "name": "Excursion en buggy",
+      "category": "Excursions et environs",
+      "subcategory": "excursions",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3ssvhe",
+      "name": "Dîner traditionnel marocain",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3srtwi",
+      "name": "Spectacle de fantasia",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3saj88",
+      "name": "Hammam marocain traditionnel",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sxit8",
+      "name": "Rooftop avec vue sur la médina",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sflah",
+      "name": "Coucher de soleil à Jemaa el-Fna",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sz61k",
+      "name": "Dîner dans le désert d'Agafay",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3solye",
+      "name": "Balade en calèche",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3snoq7",
+      "name": "Spa traditionnel marocain",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3s2eva",
+      "name": "Dégustation de thé à la menthe",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sydgv",
+      "name": "Découverte de la cuisine de rue de la médina",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    },
+    {
+      "id": "pl_mvqrcy3sn21j",
+      "name": "Balade nocturne dans la médina",
+      "category": "Expériences à faire",
+      "subcategory": "experiences",
+      "city": "Marrakech",
+      "status": "active",
+      "createdAt": "2026-10-27T14:05:36.808Z"
+    }
+  ],
+  "listings": [
+    {
+      "id": "lst_1",
+      "type": "vehicle",
+      "category": "Voiture",
+      "title": "Renault Clio 2018",
+      "description": "Bon état",
+      "price": 45000,
+      "currency": "MAD",
+      "city": "Marrakech",
+      "sellerId": "u_demo",
+      "status": "available",
+      "createdAt": "2026-10-27T14:05:46.737Z"
+    },
+    {
+      "id": "lst_2",
+      "type": "parts",
+      "category": "Pièces de voiture",
+      "title": "Phare avant Clio",
+      "description": "D'occasion",
+      "price": 450,
+      "currency": "MAD",
+      "city": "Marrakech",
+      "sellerId": "u_demo",
+      "status": "available",
+      "createdAt": "2026-10-27T14:05:46.738Z"
+    },
+    {
+      "id": "lst_3",
+      "type": "vehicle",
+      "category": "Moto",
+      "title": "Yamaha 125",
+      "description": "Très bon état",
+      "price": 12000,
+      "currency": "MAD",
+      "city": "Marrakech",
+      "sellerId": "u_demo",
+      "status": "available",
+      "createdAt": "2026-10-27T14:05:46.738Z"
+    }
+  ]
 }
