@@ -28,7 +28,7 @@ export function usePrimaryNav(): NavLink[] {
     { href: '/activities', label: t('activities') },
     { href: '/meetings', label: t('meetings') },
     { href: '/map', label: t('map') },
-    { href: '/places', label: t('places') || 'Endroits à visiter' },
-    { href: '/sell', label: t('sell') || 'À vendre' },
+    { href: '/places', label: t('places') },
+    { href: '/sell', label: t('sell') },
   ];
 }

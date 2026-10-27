@@ -86,7 +86,7 @@ const SERVICE_TECHNIQUE: SearchCategoryNode = makeNode('services.technique', 'te
 ]);
 
 export const SEARCH_CATEGORIES: SearchCategoryNode[] = [
-  makeNode('root.services', 'services', 'SERVICES', [SERVICE_TECHNIQUE]),
+  SERVICE_TECHNIQUE,
   makeNode('root.immobilier', 'immobilier', 'IMMOBILIER', [
     makeNode('immobilier.acheter', 'acheter', 'ACHETER', [
       makeNode('immobilier.acheter.appartement', 'appartement', 'Appartement'),

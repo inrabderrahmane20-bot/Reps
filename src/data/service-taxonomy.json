@@ -1,111 +1,106 @@
 [
   {
-    "name": "Services",
+    "name": "Technique",
     "children": [
       {
-        "name": "Technique",
+        "name": "Électricien",
         "children": [
+          { "name": "Appartement" },
+          { "name": "Maison" },
+          { "name": "Immeuble" },
+          { "name": "Automobile" },
+          { "name": "Moto" },
+          { "name": "Piscine" }
+        ]
+      },
+      {
+        "name": "Mécanicien",
+        "children": [
+          { "name": "Automobile" },
+          { "name": "Machine" }
+        ]
+      },
+      {
+        "name": "Soudeur"
+      },
+      {
+        "name": "Cycliste"
+      },
+      {
+        "name": "Menuisier aluminium"
+      },
+      {
+        "name": "Menuisier bois"
+      },
+      {
+        "name": "Carrossier-tôlier",
+        "children": [
+          { "name": "Automobile" },
+          { "name": "Moto" }
+        ]
+      },
+      {
+        "name": "Tapissier",
+        "children": [
+          { "name": "Automobile" },
+          { "name": "Fauteuil" }
+        ]
+      },
+      {
+        "name": "Couturier",
+        "children": [
+          { "name": "Vêtements traditionnels pour homme" },
+          { "name": "Vêtements traditionnels pour femme" },
+          { "name": "Retouche / tailleur" },
+          { "name": "Costume" }
+        ]
+      },
+      {
+        "name": "Styliste",
+        "children": [
+          { "name": "Homme" },
+          { "name": "Femme" },
+          { "name": "Enfant" },
+          { "name": "Sac" },
+          { "name": "Jaquette" },
+          { "name": "Accessoires pour animaux" }
+        ]
+      },
+      {
+        "name": "Résiniste",
+        "children": [
+          { "name": "Créateur résine" },
           {
-            "name": "Électricien",
+            "name": "Réparateur résine",
             "children": [
-              { "name": "Appartement" },
-              { "name": "Maison" },
-              { "name": "Immeuble" },
-              { "name": "Automobile" },
-              { "name": "Moto" },
-              { "name": "Piscine" }
-            ]
-          },
-          {
-            "name": "Mécanicien",
-            "children": [
-              { "name": "Automobile" },
-              { "name": "Machine" }
-            ]
-          },
-          {
-            "name": "Soudeur"
-          },
-          {
-            "name": "Cycliste"
-          },
-          {
-            "name": "Menuisier aluminium"
-          },
-          {
-            "name": "Menuisier bois"
-          },
-          {
-            "name": "Carrossier-tôlier",
-            "children": [
-              { "name": "Automobile" },
-              { "name": "Moto" }
-            ]
-          },
-          {
-            "name": "Tapissier",
-            "children": [
-              { "name": "Automobile" },
-              { "name": "Fauteuil" }
-            ]
-          },
-          {
-            "name": "Couturier",
-            "children": [
-              { "name": "Vêtements traditionnels pour homme" },
-              { "name": "Vêtements traditionnels pour femme" },
-              { "name": "Retouche / tailleur" },
-              { "name": "Costume" }
-            ]
-          },
-          {
-            "name": "Styliste",
-            "children": [
-              { "name": "Homme" },
-              { "name": "Femme" },
-              { "name": "Enfant" },
-              { "name": "Sac" },
-              { "name": "Jaquette" },
-              { "name": "Accessoires pour animaux" }
-            ]
-          },
-          {
-            "name": "Résiniste",
-            "children": [
-              { "name": "Créateur résine" },
-              {
-                "name": "Réparateur résine",
-                "children": [
-                  { "name": "Réparation de voiture" },
-                  { "name": "Réparation de moto" },
-                  { "name": "Réparation de planche de surf" }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "Serrurier",
-            "children": [
-              { "name": "Serrurier porte en métal" },
-              { "name": "Serrurier porte en bois" },
-              { "name": "Serrurier porte intelligente (Smart)" },
-              { "name": "Serrurier voiture" },
-              { "name": "Serrurier moto" },
-              { "name": "Serrurier système de sécurisation" },
-              { "name": "Serrurier coffre-fort" }
-            ]
-          },
-          {
-            "name": "Peintre",
-            "children": [
-              { "name": "Peintre intérieur de maison" },
-              { "name": "Peintre extérieur de maison" },
-              { "name": "Peintre d’immeuble" },
-              { "name": "Peintre de voiture" },
-              { "name": "Peintre de moto" },
-              { "name": "Peintre de terrasse étanche" }
+              { "name": "Réparation de voiture" },
+              { "name": "Réparation de moto" },
+              { "name": "Réparation de planche de surf" }
             ]
           }
+        ]
+      },
+      {
+        "name": "Serrurier",
+        "children": [
+          { "name": "Serrurier porte en métal" },
+          { "name": "Serrurier porte en bois" },
+          { "name": "Serrurier porte intelligente (Smart)" },
+          { "name": "Serrurier voiture" },
+          { "name": "Serrurier moto" },
+          { "name": "Serrurier système de sécurisation" },
+          { "name": "Serrurier coffre-fort" }
+        ]
+      },
+      {
+        "name": "Peintre",
+        "children": [
+          { "name": "Peintre intérieur de maison" },
+          { "name": "Peintre extérieur de maison" },
+          { "name": "Peintre d’immeuble" },
+          { "name": "Peintre de voiture" },
+          { "name": "Peintre de moto" },
+          { "name": "Peintre de terrasse étanche" }
         ]
       }
     ]
