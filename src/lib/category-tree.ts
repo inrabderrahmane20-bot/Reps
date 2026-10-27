@@ -1,5 +1,3 @@
-
-
 export type SearchCategoryNode = {
   id: string;
   slug: string;
@@ -11,240 +9,275 @@ export type SearchCategoryNode = {
   meta?: any;
 };
 
-const SERVICE_TREE: SearchCategoryNode = {
-  id: 'root.services',
-  slug: 'services',
-  labels: { fr: 'Services', en: 'Services', ar: 'الخدمات' },
-  type: 'services',
-  children: [
-    {
-      id: 'services.technique',
-      slug: 'technique',
-      labels: { fr: 'Technique', en: 'Technical', ar: 'تقني' },
-      children: [
-        { id: 'services.electricien', slug: 'electricien', labels: { fr: 'Électricien', en: 'Electrician', ar: 'كهربائي' }, meta: { needsSpec: true, specs: [{ key: 'bien', labels: { fr: "Type d'intervention ou de bien", en: 'Type of intervention/property', ar: 'نوع التدخل أو العقار' }, options: ['Appartement','Maison','Immeuble','Automobile','Moto','Piscine'] }] } },
-        { id: 'services.mecanicien', slug: 'mecanicien', labels: { fr: 'Mécanicien', en: 'Mechanic', ar: 'ميكانيكي' }, meta: { needsSpec: true, specs: [{ key: 'specialite', labels: { fr: 'Spécialité', en: 'Specialty', ar: 'التخصص' }, options: ['Automobile','Machines'] }] } },
-        { id: 'services.soudeur', slug: 'soudeur', labels: { fr: 'Soudeur', en: 'Welder', ar: 'لحام' } },
-        { id: 'services.reparateur-cycles', slug: 'reparateur-cycles', labels: { fr: 'Réparateur de cycles', en: 'Bicycle repair', ar: 'إصلاح الدراجات' } },
-        { id: 'services.menuisier-aluminium', slug: 'menuisier-aluminium', labels: { fr: 'Menuisier aluminium', en: 'Aluminium carpenter', ar: 'نجار ألومنيوم' } },
-        { id: 'services.menuisier-bois', slug: 'menuisier-bois', labels: { fr: 'Menuisier bois', en: 'Wood carpenter', ar: 'نجار خشب' } },
-        { id: 'services.carrossier', slug: 'carrossier', labels: { fr: 'Carrossier-tôlier', en: 'Bodyworker/panel beater', ar: 'سمكري سيارات' }, meta: { needsSpec: true, specs: [{ key: 'vehicule', labels: { fr: 'Type de véhicule', en: 'Vehicle type', ar: 'نوع المركبة' }, options: ['Automobile','Moto'] }] } },
-        { id: 'services.tapissier', slug: 'tapissier', labels: { fr: 'Tapissier', en: 'Upholsterer', ar: 'منجد' }, meta: { needsSpec: true, specs: [{ key: 'support', labels: { fr: 'Support', en: 'Support', ar: 'دعم' }, options: ['Automobile','Fauteuil'] }] } },
-        { id: 'services.couturier', slug: 'couturier', labels: { fr: 'Couturier', en: 'Tailor', ar: 'خياط' }, meta: { needsSpec: true, specs: [{ key: 'specialite', labels: { fr: 'Spécialité', en: 'Specialty', ar: 'التخصص' }, options: ['Vêtements traditionnels pour homme','Vêtements traditionnels pour femme','Retouches et travaux de tailleur','Costumes'] }] } },
-        { id: 'services.styliste', slug: 'styliste', labels: { fr: 'Styliste', en: 'Stylist', ar: 'مصمم أزياء' }, meta: { needsSpec: true, specs: [{ key: 'specialite', labels: { fr: 'Spécialité', en: 'Specialty', ar: 'التخصص' }, options: ['Homme','Femme','Enfant','Sacs','Vestes','Accessoires pour animaux'] }] } },
-        { id: 'services.resiniste', slug: 'resiniste', labels: { fr: 'Résiniste', en: 'Resin worker', ar: 'عامل الراتنج' }, meta: { needsSpec: true, specs: [{ key: 'type', labels: { fr: 'Type de prestation', en: 'Service type', ar: 'نوع الخدمة' }, options: ['Création en résine','Réparation en résine'] }], conditional: [{ when: { specKey: 'type', value: 'Réparation en résine' }, nextSpec: { key: 'objet', labels: { fr: 'Objet à réparer', en: 'Item to repair', ar: 'عنصر الإصلاح' }, options: ['Réparation de résine automobile','Réparation de résine moto','Réparation de planche de surf'] } }] } },
-        { id: 'services.serrurier', slug: 'serrurier', labels: { fr: 'Serrurier', en: 'Locksmith', ar: 'قفل' }, meta: { needsSpec: true, specs: [{ key: 'type', labels: { fr: 'Type de prestation', en: 'Service type', ar: 'نوع الخدمة' }, options: ['Serrurerie de porte métallique','Serrurerie de porte en bois','Serrure connectée ou intelligente','Serrurerie automobile','Serrurerie moto','Systèmes de sécurité','Coffres-forts'] }] } },
-        { id: 'services.peintre', slug: 'peintre', labels: { fr: 'Peintre', en: 'Painter', ar: 'دهان' }, meta: { needsSpec: true, specs: [{ key: 'specialite', labels: { fr: 'Spécialité', en: 'Specialty', ar: 'التخصص' }, options: ['Peinture intérieure','Peinture extérieure','Peinture d\'immeubles','Peinture automobile','Peinture moto','Étanchéité et peinture de terrasse'] }] } },
-        { id: 'services.plombier', slug: 'plombier', labels: { fr: 'Plombier', en: 'Plumber', ar: 'سباك' } },
-      ],
-    },
-  ],
-};
+function makeNode(id: string, slug: string, fr: string, children?: SearchCategoryNode[], meta?: any): SearchCategoryNode {
+  return {
+    id,
+    slug,
+    labels: { fr, en: fr, ar: fr },
+    children,
+    meta,
+  };
+}
+
+const SERVICE_TECHNIQUE: SearchCategoryNode = makeNode('services.technique', 'technique', 'TECHNIQUE', [
+  makeNode('services.electricien', 'electricien', 'ÉLECTRICIEN', [
+    makeNode('services.electricien.appartement', 'appartement', 'Appartement'),
+    makeNode('services.electricien.maison', 'maison', 'Maison'),
+    makeNode('services.electricien.immeuble', 'immeuble', 'Immeuble'),
+    makeNode('services.electricien.automobile', 'automobile', 'Automobile'),
+    makeNode('services.electricien.moto', 'moto', 'Moto'),
+    makeNode('services.electricien.piscine', 'piscine', 'Piscine'),
+  ]),
+  makeNode('services.mecanicien', 'mecanicien', 'MÉCANICIEN', [
+    makeNode('services.mecanicien.automobile', 'automobile', 'Automobile'),
+    makeNode('services.mecanicien.machine', 'machine', 'Machine'),
+  ]),
+  makeNode('services.soudeur', 'soudeur', 'SOUDEUR'),
+  makeNode('services.cycliste', 'cycliste', 'CYCLISTE'),
+  makeNode('services.menuisier-aluminium', 'menuisier-aluminium', 'MENUISIER ALUMINIUM'),
+  makeNode('services.menuisier-bois', 'menuisier-bois', 'MENUISIER BOIS'),
+  makeNode('services.carrossier-tolier', 'carrossier-tolier', 'CARROSSIER-TÔLIER', [
+    makeNode('services.carrossier-tolier.automobile', 'automobile', 'Automobile'),
+    makeNode('services.carrossier-tolier.moto', 'moto', 'Moto'),
+  ]),
+  makeNode('services.tapissier', 'tapissier', 'TAPISSIER', [
+    makeNode('services.tapissier.automobile', 'automobile', 'Automobile'),
+    makeNode('services.tapissier.fauteuil', 'fauteuil', 'Fauteuil'),
+  ]),
+  makeNode('services.couturier', 'couturier', 'COUTURIER', [
+    makeNode('services.couturier.traditionnelle-homme', 'traditionnelle-homme', 'Traditionnelle pour homme'),
+    makeNode('services.couturier.traditionnelle-femme', 'traditionnelle-femme', 'Traditionnelle pour femme'),
+    makeNode('services.couturier.retouche-tailleur', 'retouche-tailleur', 'Retouche / tailleur'),
+    makeNode('services.couturier.costume', 'costume', 'Costume'),
+  ]),
+  makeNode('services.styliste', 'styliste', 'STYLISTE', [
+    makeNode('services.styliste.homme', 'homme', 'Homme'),
+    makeNode('services.styliste.femme', 'femme', 'Femme'),
+    makeNode('services.styliste.enfant', 'enfant', 'Enfant'),
+    makeNode('services.styliste.sac', 'sac', 'Sac'),
+    makeNode('services.styliste.jaquette', 'jaquette', 'Jaquette'),
+    makeNode('services.styliste.animal', 'animal', 'Animal'),
+  ]),
+  makeNode('services.resiniste', 'resiniste', 'RÉSINISTE', [
+    makeNode('services.resiniste.createur', 'createur-resine', 'Créateur résine'),
+    makeNode('services.resiniste.reparateur', 'reparateur-resine', 'Réparateur résine', [
+      makeNode('services.resiniste.reparateur.voiture', 'reparation-voiture', 'Réparation de voiture'),
+      makeNode('services.resiniste.reparateur.moto', 'reparation-moto', 'Réparation de moto'),
+      makeNode('services.resiniste.reparateur.planche', 'reparation-planche-surf', 'Réparation de planche de surf'),
+    ]),
+  ]),
+  makeNode('services.serrurier', 'serrurier', 'SERRURIER', [
+    makeNode('services.serrurier.porte-metal', 'porte-metal', 'Porte en métal'),
+    makeNode('services.serrurier.porte-bois', 'porte-bois', 'Porte en bois'),
+    makeNode('services.serrurier.porte-smart', 'porte-intelligente', 'Porte intelligente (Smart)'),
+    makeNode('services.serrurier.voiture', 'serrurier-voiture', 'Serrurier voiture'),
+    makeNode('services.serrurier.moto', 'serrurier-moto', 'Serrurier moto'),
+    makeNode('services.serrurier.securisation', 'systeme-securisation', 'Système de sécurisation'),
+    makeNode('services.serrurier.coffre-fort', 'coffre-fort', 'Coffre-fort'),
+  ]),
+  makeNode('services.peintre', 'peintre', 'PEINTRE', [
+    makeNode('services.peintre.interieur', 'interieur-maison', "Intérieur de maison"),
+    makeNode('services.peintre.exterieur', 'exterieur-maison', "Extérieur de maison"),
+    makeNode('services.peintre.immeuble', 'peintre-immeuble', "Peintre d'immeuble"),
+    makeNode('services.peintre.voiture', 'peintre-voiture', "Peintre de voiture"),
+    makeNode('services.peintre.moto', 'peintre-moto', "Peintre de moto"),
+    makeNode('services.peintre.terrasse', 'terrasse-etanche', "Terrasse étanche"),
+  ]),
+]);
 
 export const SEARCH_CATEGORIES: SearchCategoryNode[] = [
-  SERVICE_TREE,
-  {
-    id: 'root.immobilier',
-    slug: 'immobilier',
-    labels: { fr: 'Immobilier', en: 'Real Estate', ar: 'عقارات' },
-    type: 'real_estate',
-    children: [
-      {
-        id: 'immobilier.transaction',
-        slug: 'transaction',
-        labels: { fr: 'Type de transaction', en: 'Transaction type', ar: 'نوع المعاملة' },
-        children: [
-          { id: 'immobilier.acheter', slug: 'acheter', labels: { fr: 'Acheter', en: 'Buy', ar: 'شراء' } },
-          { id: 'immobilier.louer', slug: 'louer', labels: { fr: 'Louer', en: 'Rent', ar: 'إيجار' } },
-        ],
-      },
-      {
-        id: 'immobilier.type',
-        slug: 'type-bien',
-        labels: { fr: 'Type de bien', en: 'Property type', ar: 'نوع العقار' },
-        children: [
-          { id: 'immobilier.appartement', slug: 'appartement', labels: { fr: 'Appartement', en: 'Apartment', ar: 'شقة' } },
-          { id: 'immobilier.maison', slug: 'maison', labels: { fr: 'Maison', en: 'House', ar: 'منزل' } },
-          { id: 'immobilier.villa', slug: 'villa', labels: { fr: 'Villa', en: 'Villa', ar: 'فيلا' } },
-          { id: 'immobilier.terrain', slug: 'terrain', labels: { fr: 'Terrain', en: 'Land', ar: 'أرض' } },
-          { id: 'immobilier.riad', slug: 'riad', labels: { fr: 'Riad', en: 'Riad', ar: 'رياض' } },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'root.mobility',
-    slug: 'mobilite-vehicules',
-    labels: { fr: 'Mobilité et véhicules', en: 'Mobility & vehicles', ar: 'التنقل والمركبات' },
-    type: 'mobility',
-    children: [
-      { id: 'mobility.type', slug: 'type', labels: { fr: 'Type', en: 'Type', ar: 'نوع' }, children: [
-        { id: 'mobility.voiture', slug: 'voiture', labels: { fr: 'Voiture', en: 'Car', ar: 'سيارة' } },
-        { id: 'mobility.moto', slug: 'moto', labels: { fr: 'Moto', en: 'Motorcycle', ar: 'دراجة نارية' } },
-        { id: 'mobility.velo', slug: 'velo', labels: { fr: 'Vélo', en: 'Bike', ar: 'دراجة' } },
-      ]},
-      { id: 'mobility.action', slug: 'action', labels: { fr: 'Action ou besoin', en: 'Action/need', ar: 'إجراء أو حاجة' }, children: [
-        { id: 'mobility.acheter', slug: 'acheter', labels: { fr: 'Acheter', en: 'Buy', ar: 'شراء' } },
-        { id: 'mobility.louer', slug: 'louer', labels: { fr: 'Louer', en: 'Rent', ar: 'إيجار' } },
-        { id: 'mobility.reparateur', slug: 'trouver-reparateur', labels: { fr: 'Trouver un réparateur', en: 'Find a repairer', ar: 'البحث عن مصلح' } },
-        { id: 'mobility.pieces', slug: 'pieces', labels: { fr: 'Trouver des pièces', en: 'Find parts', ar: 'البحث عن قطع الغيار' } },
-      ]},
-    ],
-  },
-  {
-    id: 'root.events',
-    slug: 'evenements',
-    labels: { fr: 'Événements', en: 'Events', ar: 'فعاليات' },
-    type: 'events',
-    children: [
-      { id: 'events.besoin', slug: 'besoin', labels: { fr: 'Type de besoin', en: 'Need type', ar: 'نوع الحاجة' }, children: [
-        { id: 'events.sonorisation', slug: 'sonorisation', labels: { fr: 'Éclairage et sonorisation', en: 'Lighting & sound', ar: 'الإضاءة والصوت' } },
-        { id: 'events.decoration', slug: 'decoration', labels: { fr: 'Décoration', en: 'Decoration', ar: 'ديكور' } },
-        { id: 'events.photographe', slug: 'photographe', labels: { fr: 'Photographe', en: 'Photographer', ar: 'مصور' } },
-        { id: 'events.negafa', slug: 'negafa', labels: { fr: 'Negafa', en: 'Negafa', ar: 'نقافة' } },
-        { id: 'events.lieu', slug: 'lieu-reception', labels: { fr: 'Lieu de réception', en: 'Reception venue', ar: 'مكان الاستقبال' } },
-      ]},
-      { id: 'events.decoration-occasion', slug: 'decoration-occasion', labels: { fr: 'Occasion', en: 'Occasion', ar: 'مناسبة' }, children: [
-        { id: 'events.fiançailles', slug: 'fiancailles', labels: { fr: 'Fiançailles', en: 'Engagement', ar: 'خطوبة' } },
-        { id: 'events.mariage', slug: 'mariage', labels: { fr: 'Mariage', en: 'Wedding', ar: 'زفاف' } },
-        { id: 'events.naissance', slug: 'naissance', labels: { fr: 'Naissance', en: 'Birth', ar: 'ولادة' } },
-      ]},
-      { id: 'events.lieu-type', slug: 'lieu-type', labels: { fr: 'Type', en: 'Type', ar: 'نوع' }, children: [
-        { id: 'events.salle', slug: 'salle-fetes', labels: { fr: 'Salle des fêtes', en: 'Party hall', ar: 'قاعة الحفلات' } },
-        { id: 'events.villa-evenement', slug: 'villa-evenement', labels: { fr: 'Villa pour événements', en: 'Villa for events', ar: 'فيلا للفعاليات' } },
-        { id: 'events.chapiteau', slug: 'chapiteau', labels: { fr: 'Chapiteau de mariage', en: 'Wedding marquee', ar: 'خيمة الزفاف' } },
-      ]},
-    ],
-  },
-  {
-    id: 'root.communities',
-    slug: 'communautes',
-    labels: { fr: 'Communautés', en: 'Communities', ar: 'المجتمعات' },
-    type: 'communities',
-    children: [
-      { id: 'communities.partenaires', slug: 'partenaires-activite', labels: { fr: "Partenaires d'activité", en: 'Activity partners', ar: 'شركاء النشاط' }, children: [
-        { id: 'communities.demenagement', slug: 'aide-demenagement', labels: { fr: 'Aide au déménagement', en: 'Moving help', ar: 'مساعدة في النقل' } },
-        { id: 'communities.entraînement', slug: 'partenaire-entrainement', labels: { fr: "Recherche d'un partenaire d'entraînement", en: 'Find a workout partner', ar: 'البحث عن شريك تمرين' } },
-        { id: 'communities.linguistique', slug: 'partenaire-linguistique', labels: { fr: 'Recherche d\'un partenaire linguistique', en: 'Language exchange partner', ar: 'شريك تبادل لغوي' } },
-        { id: 'communities.football', slug: 'tournoi-football', labels: { fr: 'Tournoi de football', en: 'Football tournament', ar: 'بطولة كرة القدم' } },
-        { id: 'communities.basketball', slug: 'tournoi-basketball', labels: { fr: 'Tournoi de basketball', en: 'Basketball tournament', ar: 'بطولة كرة السلة' } },
-        { id: 'communities.tennis', slug: 'partenaire-tennis', labels: { fr: "Recherche d'un partenaire de tennis", en: 'Tennis partner', ar: 'شريك تنس' } },
-        { id: 'communities.velo', slug: 'partenaire-velo', labels: { fr: "Recherche d'un compagnon de vélo", en: 'Cycling partner', ar: 'شريك ركوب الدراجات' } },
-      ]},
-      { id: 'communities.garde', slug: 'garde-enfants', labels: { fr: "Garde d'enfants", en: 'Childcare', ar: 'رعاية الأطفال' }, children: [
-        { id: 'communities.garderie', slug: 'garderie', labels: { fr: 'Garderie', en: 'Daycare', ar: 'حضانة' } },
-        { id: 'communities.parc-jeux', slug: 'parc-jeux', labels: { fr: 'Parc de jeux', en: 'Playground', ar: 'ملعب أطفال' } },
-        { id: 'communities.garde-domicile', slug: 'garde-domicile', labels: { fr: "Service de garde d'enfants à domicile", en: 'In-home childcare', ar: 'رعاية منزلية للأطفال' } },
-      ]},
-      { id: 'communities.classes', slug: 'classes-ateliers', labels: { fr: 'Classes et ateliers', en: 'Classes & workshops', ar: 'دروس وورش عمل' }, children: [
-        { id: 'communities.jardinage', slug: 'cours-jardinage', labels: { fr: 'Cours de jardinage gratuit', en: 'Free gardening course', ar: 'دورة زراعة مجانية' } },
-        { id: 'communities.fiscale', slug: 'cours-preparation-fiscale', labels: { fr: 'Cours de préparation fiscale', en: 'Tax preparation course', ar: 'دورة إعداد الضرائب' } },
-        { id: 'communities.cuisine', slug: 'cours-cuisine-marocaine', labels: { fr: 'Cours de cuisine marocaine', en: 'Moroccan cooking class', ar: 'دورة الطبخ المغربي' } },
-        { id: 'communities.poterie', slug: 'atelier-poterie', labels: { fr: 'Atelier de création de poterie', en: 'Pottery workshop', ar: 'ورشة الفخار' } },
-        { id: 'communities.parfum', slug: 'atelier-parfum', labels: { fr: 'Atelier de création de parfum personnalisé', en: 'Custom perfume workshop', ar: 'ورشة العطور المخصصة' } },
-      ]},
-      { id: 'communities.evenements-com', slug: 'evenements', labels: { fr: 'Événements', en: 'Events', ar: 'فعاليات' }, children: [
-        { id: 'communities.conferences', slug: 'conferences', labels: { fr: 'Conférences', en: 'Conferences', ar: 'مؤتمرات' } },
-        { id: 'communities.theatre', slug: 'theatre', labels: { fr: 'Théâtre', en: 'Theater', ar: 'مسرح' } },
-        { id: 'communities.encheres', slug: 'ventes-encheres', labels: { fr: 'Ventes aux enchères', en: 'Auctions', ar: 'مزادات' } },
-        { id: 'communities.annuels', slug: 'evenements-annuels', labels: { fr: 'Événements annuels', en: 'Annual events', ar: 'فعاليات سنوية' } },
-        { id: 'communities.golf', slug: 'festival-golf', labels: { fr: 'Festival annuel de golf', en: 'Annual golf festival', ar: 'مهرجان الجولف السنوي' } },
-        { id: 'communities.airshow', slug: 'marrakech-air-show', labels: { fr: 'Marrakech Air Show', en: 'Marrakech Air Show', ar: 'معرض مراكش الجوي' } },
-      ]},
-    ],
-  },
-  {
-    id: 'root.activities',
-    slug: 'activites-sorties',
-    labels: { fr: 'Activités et sorties', en: 'Activities & outings', ar: 'الأنشطة والرحلات' },
-    type: 'activities',
-    children: [],
-  },
-  {
-    id: 'root.places',
-    slug: 'endroits-visiter',
-    labels: { fr: 'Endroits à visiter', en: 'Places to visit', ar: 'أماكن للزيارة' },
-    type: 'places',
-    children: [
-      { id: 'places.jardin', slug: 'jardin-nature', labels: { fr: 'Jardin et nature', en: 'Garden & nature', ar: 'حدائق وطبيعة' }, children: [
-        { id: 'places.majorelle', slug: 'jardin-majorelle', labels: { fr: 'Jardin Majorelle', en: 'Majorelle Garden', ar: 'حديقة ماجوريل' } },
-        { id: 'places.menara', slug: 'jardin-menara', labels: { fr: 'Jardin de la Ménara', en: 'Menara Gardens', ar: 'حدائق المنارة' } },
-        { id: 'places.agdal', slug: 'jardins-agdal', labels: { fr: 'Jardins de l\'Agdal', en: 'Agdal Gardens', ar: 'حدائق أكدال' } },
-        { id: 'places.secret', slug: 'jardin-secret', labels: { fr: 'Jardin Secret', en: 'Secret Garden', ar: 'الحديقة السرية' } },
-        { id: 'places.arsat', slug: 'cyber-park-arsat', labels: { fr: 'Cyber Park Arsat Moulay Abdeslam', en: 'Cyber Park Arsat Moulay Abdeslam', ar: 'حديقة أرسات مولاي عبد السلام' } },
-        { id: 'places.palmeraie', slug: 'palmeraie-marrakech', labels: { fr: 'Palmeraie de Marrakech', en: 'Palm Grove of Marrakech', ar: 'نخيل مراكش' } },
-        { id: 'places.lallahhasna', slug: 'parc-lalla-hasna', labels: { fr: 'Parc Lalla Hasna', en: 'Lalla Hasna Park', ar: 'حديقة للا حسناء' } },
-        { id: 'places.oliveraie', slug: 'oliveraie-menara', labels: { fr: 'Oliveraie de la Ménara', en: 'Menara Olive Grove', ar: 'بستان الزيتون بالمنارة' } },
-      ]},
-      { id: 'places.monuments', slug: 'monuments-patrimoine', labels: { fr: 'Monuments historiques et patrimoine', en: 'Historic monuments & heritage', ar: 'المعالم التاريخية والتراث' }, children: [
-        { id: 'places.koutoubia', slug: 'koutoubia', labels: { fr: 'Koutoubia', en: 'Koutoubia', ar: 'الكوتوبية' } },
-        { id: 'places.benyoussef', slug: 'medersa-ben-youssef', labels: { fr: 'Médersa Ben Youssef', en: 'Ben Youssef Madrasa', ar: 'مدرسة بن يوسف' } },
-        { id: 'places.bahia', slug: 'palais-bahia', labels: { fr: 'Palais de la Bahia', en: 'Bahia Palace', ar: 'قصر الباهية' } },
-        { id: 'places.elbadii', slug: 'palais-el-badii', labels: { fr: 'Palais El Badiî', en: 'El Badi Palace', ar: 'قصر البديع' } },
-        { id: 'places.saadiens', slug: 'tombeaux-sadiens', labels: { fr: 'Tombeaux Saadiens', en: 'Saadian Tombs', ar: 'ضريح السعديين' } },
-        { id: 'places.babagnaou', slug: 'bab-agnaou', labels: { fr: 'Porte Bab Agnaou', en: 'Bab Agnaou Gate', ar: 'باب اكناو' } },
-        { id: 'places.babboujloud', slug: 'bab-boujloud', labels: { fr: 'Bab Boujloud', en: 'Bab Boujloud', ar: 'باب بوجلود' } },
-      ]},
-      { id: 'places.musees', slug: 'musees-culture', labels: { fr: 'Musées et culture', en: 'Museums & culture', ar: 'متاحف وثقافة' }, children: [
-        { id: 'places.ysl', slug: 'musee-ysl', labels: { fr: 'Musée Yves Saint Laurent Marrakech', en: 'Yves Saint Laurent Museum Marrakech', ar: 'متحف إيف سان لوران مراكش' } },
-        { id: 'places.macaal', slug: 'musee-macaal', labels: { fr: 'Musée MACAAL', en: 'MACAAL Museum', ar: 'متحف ماكال' } },
-        { id: 'places.tiskiwin', slug: 'musee-tiskiwin', labels: { fr: 'Musée Tiskiwin', en: 'Tiskiwin Museum', ar: 'متحف تيسكيوين' } },
-      ]},
-      { id: 'places.excursions', slug: 'excursions', labels: { fr: 'Excursions autour de la ville', en: 'Excursions around the city', ar: 'رحلات حول المدينة' }, children: [
-        { id: 'places.agafay', slug: 'desert-agafay', labels: { fr: 'Désert d\'Agafay', en: 'Agafay Desert', ar: 'صحراء أكافاي' } },
-        { id: 'places.ourika', slug: 'vallee-ourika', labels: { fr: 'Vallée de l\'Ourika', en: 'Ourika Valley', ar: 'وادي أوريكا' } },
-        { id: 'places.ouzoud', slug: 'cascades-ouzoud', labels: { fr: 'Cascades d\'Ouzoud', en: 'Ouzoud Falls', ar: 'شلالات أوزود' } },
-        { id: 'places.imlil', slug: 'imlil', labels: { fr: 'Imlil', en: 'Imlil', ar: 'إمليل' } },
-        { id: 'places.aitbenhaddou', slug: 'ait-benhaddou', labels: { fr: 'Aït Ben Haddou', en: 'Aït Ben Haddou', ar: 'آيت بن حدو' } },
-      ]},
-      { id: 'places.experiences', slug: 'experiences', labels: { fr: 'Expériences à vivre', en: 'Experiences', ar: 'تجارب للعيش' }, children: [
-        { id: 'places.hammam', slug: 'hammam-traditionnel', labels: { fr: 'Hammam marocain traditionnel', en: 'Traditional Moroccan hammam', ar: 'حمام مغربي تقليدي' } },
-        { id: 'places.fantasia', slug: 'spectacle-fantasia', labels: { fr: 'Spectacle de fantasia', en: 'Fantasia show', ar: 'عرض الفانتازيا' } },
-        { id: 'places.diner-desert', slug: 'diner-desert-agafay', labels: { fr: 'Dîner dans le désert d\'Agafay', en: 'Dinner in Agafay desert', ar: 'عشاء في صحراء أكافاي' } },
-        { id: 'places.balloon', slug: 'montgolfiere', labels: { fr: 'Vol en montgolfière', en: 'Hot air balloon', ar: 'بالون هوائي' } },
-      ]},
-      { id: 'places.autres', slug: 'autres', labels: { fr: 'Autres', en: 'Others', ar: 'أخرى' }, children: [
-        { id: 'places.cafes', slug: 'cafes', labels: { fr: 'Cafés', en: 'Cafes', ar: 'مقاهي' } },
-        { id: 'places.restaurants', slug: 'restaurants', labels: { fr: 'Restaurants', en: 'Restaurants', ar: 'مطاعم' } },
-        { id: 'places.parcs', slug: 'parcs', labels: { fr: 'Parcs', en: 'Parks', ar: 'حدائق' } },
-        { id: 'places.piscines', slug: 'piscines', labels: { fr: 'Piscines', en: 'Pools', ar: 'مسابح' } },
-        { id: 'places.hotels', slug: 'hotels', labels: { fr: 'Hôtels', en: 'Hotels', ar: 'فنادق' } },
-        { id: 'places.salles-sport', slug: 'salles-sport', labels: { fr: 'Salles de sport', en: 'Gyms', ar: 'صالات رياضية' }, children: [
-          { id: 'places.karate', slug: 'karate', labels: { fr: 'Karaté', en: 'Karate', ar: 'كاراتيه' } },
-          { id: 'places.yoga', slug: 'yoga', labels: { fr: 'Yoga', en: 'Yoga', ar: 'يوغا' } },
-          { id: 'places.musculation', slug: 'musculation', labels: { fr: 'Musculation', en: 'Fitness', ar: 'لياقة بدنية' } },
-        ]},
-      ]},
-    ],
-  },
-  {
-    id: 'root.vendre',
-    slug: 'a-vendre',
-    labels: { fr: 'À vendre', en: 'For sale', ar: 'للبيع' },
-    type: 'marketplace',
-    children: [
-      { id: 'vendre.voitures', slug: 'voitures', labels: { fr: 'Voitures', en: 'Cars', ar: 'سيارات' }, children: [
-        { id: 'vendre.voitures-annonces', slug: 'voitures-annonces', labels: { fr: 'Voitures', en: 'Cars', ar: 'سيارات' } },
-        { id: 'vendre.voitures-pieces', slug: 'pieces-voiture', labels: { fr: 'Pièces de voiture', en: 'Car parts', ar: 'قطع غيار السيارات' } },
-        { id: 'vendre.voitures-roues', slug: 'roues-pneus-voiture', labels: { fr: 'Roues et pneus de voiture', en: 'Wheels & tires', ar: 'إطارات وعجلات' } },
-      ]},
-      { id: 'vendre.motos', slug: 'motos', labels: { fr: 'Motos', en: 'Motorcycles', ar: 'دراجات نارية' }, children: [
-        { id: 'vendre.motos-annonces', slug: 'motos-annonces', labels: { fr: 'Motos', en: 'Motorcycles', ar: 'دراجات نارية' } },
-        { id: 'vendre.motos-pieces', slug: 'pieces-moto', labels: { fr: 'Pièces de moto', en: 'Motorcycle parts', ar: 'قطع غيار الدراجات النارية' } },
-        { id: 'vendre.motos-roues', slug: 'roues-pneus-moto', labels: { fr: 'Roues et pneus de moto', en: 'Motorcycle wheels & tires', ar: 'إطارات ودراجات نارية' } },
-      ]},
-      { id: 'vendre.velos', slug: 'velos', labels: { fr: 'Vélos', en: 'Bikes', ar: 'دراجات' }, children: [
-        { id: 'vendre.velos-annonces', slug: 'velos-annonces', labels: { fr: 'Vélos', en: 'Bikes', ar: 'دراجات' } },
-        { id: 'vendre.velos-pieces', slug: 'pieces-velo', labels: { fr: 'Pièces de vélo', en: 'Bike parts', ar: 'قطع غيار الدراجات' } },
-        { id: 'vendre.velos-roues', slug: 'roues-pneus-velo', labels: { fr: 'Roues et pneus de vélo', en: 'Bike wheels & tires', ar: 'إطارات الدراجات' } },
-      ]},
-      { id: 'vendre.camions', slug: 'camions-remorques', labels: { fr: 'Camions et remorques', en: 'Trucks & trailers', ar: 'الشاحنات والمقطورات' }, children: [
-        { id: 'vendre.camions-annonces', slug: 'camions', labels: { fr: 'Camions', en: 'Trucks', ar: 'شاحنات' } },
-        { id: 'vendre.remorques', slug: 'remorques', labels: { fr: 'Remorques', en: 'Trailers', ar: 'مقطورات' } },
-        { id: 'vendre.camions-pieces', slug: 'pieces-accessoires', labels: { fr: 'Pièces et accessoires', en: 'Parts & accessories', ar: 'قطع الغيار والإكسسوارات' } },
-      ]},
-    ],
-  },
+  makeNode('root.services', 'services', 'SERVICES', [SERVICE_TECHNIQUE]),
+  makeNode('root.immobilier', 'immobilier', 'IMMOBILIER', [
+    makeNode('immobilier.acheter', 'acheter', 'ACHETER', [
+      makeNode('immobilier.acheter.appartement', 'appartement', 'Appartement'),
+      makeNode('immobilier.acheter.maison', 'maison', 'Maison'),
+      makeNode('immobilier.acheter.villa', 'villa', 'Villa'),
+      makeNode('immobilier.acheter.terrain', 'terrain', 'Terrain'),
+      makeNode('immobilier.acheter.riad', 'riad', 'Riad'),
+    ]),
+    makeNode('immobilier.louer', 'louer', 'LOUER', [
+      makeNode('immobilier.louer.appartement', 'appartement', 'Appartement'),
+      makeNode('immobilier.louer.maison', 'maison', 'Maison'),
+      makeNode('immobilier.louer.villa', 'villa', 'Villa'),
+      makeNode('immobilier.louer.terrain', 'terrain', 'Terrain'),
+      makeNode('immobilier.louer.riad', 'riad', 'Riad'),
+    ]),
+  ]),
+  makeNode('root.mobilite', 'mobilite', 'MOBILITÉ', [
+    makeNode('mobilite.voiture', 'voiture', 'Voiture'),
+    makeNode('mobilite.moto', 'moto', 'Moto'),
+    makeNode('mobilite.velo', 'velo', 'Vélo'),
+  ]),
+  makeNode('root.evenement', 'evenement', 'ÉVÉNEMENT', [
+    makeNode('evenement.lumiere', 'lumiere', 'Lumière'),
+    makeNode('evenement.decoration', 'decoration', 'Décoration', [
+      makeNode('evenement.decoration.fiancailles', 'fiancailles', 'Fiançailles'),
+      makeNode('evenement.decoration.mariage', 'mariage', 'Mariage'),
+      makeNode('evenement.decoration.naissance', 'naissance', 'Naissance'),
+    ]),
+    makeNode('evenement.photographe', 'photographe', 'Photographe'),
+    makeNode('evenement.negafa', 'negafa', 'Negafa'),
+    makeNode('evenement.local', 'local', 'Local', [
+      makeNode('evenement.local.salle', 'salle-fetes', 'Salle des fêtes'),
+      makeNode('evenement.local.villa', 'villa-fetes', 'Villa des fêtes'),
+      makeNode('evenement.local.chapiteau', 'chapiteau', 'Chapiteau de mariage'),
+    ]),
+  ]),
+  makeNode('root.communaute', 'communaute', 'COMMUNAUTÉ', [
+    makeNode('communaute.partenaire', "partenaire-d-activite", "PARTENAIRE D'ACTIVITÉ", [
+      makeNode('communaute.partenaire.demenagement', 'aide-demenagement', 'Aide au déménagement'),
+      makeNode('communaute.partenaire.entrainement', "partenaire-d-entrainement", "Partenaire d'entraînement"),
+      makeNode('communaute.partenaire.linguistique', 'partenaire-linguistique', 'Partenaire linguistique', [
+        makeNode('communaute.partenaire.linguistique.neerlandais', 'neerlandais', 'Néerlandais'),
+        makeNode('communaute.partenaire.linguistique.italien', 'italien', 'Italien'),
+        makeNode('communaute.partenaire.linguistique.anglais', 'anglais', 'Anglais'),
+        makeNode('communaute.partenaire.linguistique.autres', 'autres-langues', 'Autres langues'),
+      ]),
+      makeNode('communaute.partenaire.football', 'tournoi-football', 'Tournoi de football'),
+      makeNode('communaute.partenaire.basketball', 'tournoi-basketball', 'Tournoi de basketball'),
+      makeNode('communaute.partenaire.tennis', 'partenaire-tennis', 'Partenaire de tennis'),
+      makeNode('communaute.partenaire.velo', 'compagnon-velo', 'Compagnon de vélo'),
+    ]),
+    makeNode('communaute.garde', "garde-d-enfant", "GARDE D'ENFANT", [
+      makeNode('communaute.garde.garderie', 'garderie', 'Garderie'),
+      makeNode('communaute.garde.parc', 'parc-jeux', 'Parc de jeux'),
+      makeNode('communaute.garde.domicile', "garde-d-enfant-a-domicile", "Garde d'enfant à domicile"),
+    ]),
+    makeNode('communaute.classes', 'classes', 'CLASSES', [
+      makeNode('communaute.classes.jardinage', 'cours-jardinage', 'Cours de jardinage gratuit'),
+      makeNode('communaute.classes.fiscale', 'cours-preparation-fiscale', 'Cours de préparation fiscale'),
+      makeNode('communaute.classes.cuisine', 'cours-cuisine-marocaine', 'Cours de cuisine marocaine'),
+      makeNode('communaute.classes.poterie', 'creation-poterie', 'Création de poterie'),
+      makeNode('communaute.classes.parfum', 'creation-parfum', 'Création de son propre parfum'),
+    ]),
+    makeNode('communaute.evenements', 'evenements', 'ÉVÉNEMENTS', [
+      makeNode('communaute.evenements.conference', 'conference', 'Conférence'),
+      makeNode('communaute.evenements.theatre', 'theatre', 'Théâtre'),
+      makeNode('communaute.evenements.encheres', 'ventes-encheres', 'Vente aux enchères'),
+      makeNode('communaute.evenements.golf', 'festival-golf', 'Festival annuel de golf'),
+      makeNode('communaute.evenements.airshow', 'marrakech-air-show', 'Marrakech Air Show'),
+    ]),
+  ]),
+  makeNode('root.endroits', 'endroits', 'ENDROITS', [
+    makeNode('endroits.visiter', 'endroits-a-visiter', 'ENDROITS À VISITER', [
+      makeNode('endroits.visiter.jardins', 'jardins-nature', 'JARDINS ET NATURE', [
+        makeNode('endroits.visiter.jardins.majorelle', 'jardin-majorelle', 'Jardin Majorelle'),
+        makeNode('endroits.visiter.jardins.menara', 'jardin-menara', 'Jardin de la Ménara'),
+        makeNode('endroits.visiter.jardins.agdal', 'jardins-agdal', "Jardins de l'Agdal"),
+        makeNode('endroits.visiter.jardins.secret', 'jardin-secret', 'Jardin Secret'),
+        makeNode('endroits.visiter.jardins.arsat', 'cyber-park-arsat', 'Cyber Park Arsat Moulay Abdeslam'),
+        makeNode('endroits.visiter.jardins.palmeraie', 'palmeraie-marrakech', 'Palmeraie de Marrakech'),
+        makeNode('endroits.visiter.jardins.lallahhasna', 'parc-lalla-hasna', 'Parc Lalla Hasna'),
+        makeNode('endroits.visiter.jardins.oliveraie', 'oliveraie-menara', 'Oliveraie de la Ménara'),
+      ]),
+      makeNode('endroits.visiter.monuments', 'monuments-patrimoine', 'MONUMENTS HISTORIQUES ET PATRIMOINE', [
+        makeNode('endroits.visiter.monuments.koutoubia', 'koutoubia', 'Koutoubia'),
+        makeNode('endroits.visiter.monuments.benyoussef', 'medersa-ben-youssef', 'Médersa Ben Youssef'),
+        makeNode('endroits.visiter.monuments.bahia', 'palais-bahia', 'Palais de la Bahia'),
+        makeNode('endroits.visiter.monuments.elbadii', 'palais-el-badii', 'Palais El Badiî'),
+        makeNode('endroits.visiter.monuments.saadiens', 'tombeaux-sadiens', 'Tombeaux Saadiens'),
+        makeNode('endroits.visiter.monuments.babagnaou', 'bab-agnaou', 'Porte Bab Agnaou'),
+        makeNode('endroits.visiter.monuments.babboujloud', 'bab-boujloud', 'Bab Boujloud'),
+        makeNode('endroits.visiter.monuments.museemarrakech', 'musee-de-marrakech', 'Musée de Marrakech'),
+        makeNode('endroits.visiter.monuments.museemouassine', 'musee-de-mouassine', 'Musée de Mouassine'),
+        makeNode('endroits.visiter.monuments.jardinsecret', 'jardin-secret-2', 'Jardin Secret'),
+        makeNode('endroits.visiter.monuments.darelbacha', 'dar-el-bacha', 'Dar El Bacha'),
+        makeNode('endroits.visiter.monuments.photographie', 'maison-de-la-photographie', 'Maison de la Photographie'),
+        makeNode('endroits.visiter.monuments.darsisaid', 'musee-dar-si-said', 'Musée Dar Si Saïd'),
+        makeNode('endroits.visiter.monuments.femme', 'musee-de-la-femme', 'Musée de la Femme'),
+        makeNode('endroits.visiter.monuments.semmarine', 'souk-semmarine', 'Souk Semmarine'),
+        makeNode('endroits.visiter.monuments.teinturiers', 'souk-des-teinturiers', 'Souk des Teinturiers'),
+        makeNode('endroits.visiter.monuments.bijoutiers', 'souk-des-bijoutiers', 'Souk des Bijoutiers'),
+        makeNode('endroits.visiter.monuments.haddadine', 'souk-haddadine', 'Souk Haddadine'),
+        makeNode('endroits.visiter.monuments.epices', 'place-des-epices', 'Place des Épices (Rahba Kedima)'),
+        makeNode('endroits.visiter.monuments.ferblantiers', 'place-des-ferblantiers', 'Place des Ferblantiers'),
+        makeNode('endroits.visiter.monuments.kasbah', 'quartier-de-la-kasbah', 'Quartier de la Kasbah'),
+        makeNode('endroits.visiter.monuments.mouassine', 'quartier-de-mouassine', 'Quartier de Mouassine'),
+        makeNode('endroits.visiter.monuments.mellah', 'quartier-mellah', 'Quartier Mellah'),
+        makeNode('endroits.visiter.monuments.lazama', 'synagogue-lazama', 'Synagogue Lazama'),
+      ]),
+      makeNode('endroits.visiter.musees', 'musees-culture', 'MUSÉES ET CULTURE', [
+        makeNode('endroits.visiter.musees.ysl', 'musee-ysl', 'Musée Yves Saint Laurent Marrakech'),
+        makeNode('endroits.visiter.musees.mohammedvi', 'musee-mohammed-vi', "Musée Mohammed VI pour la civilisation de l'eau"),
+        makeNode('endroits.visiter.musees.confluences', 'musee-confluences', 'Musée des Confluences – Dar El Bacha'),
+        makeNode('endroits.visiter.musees.marrakech', 'musee-marrakech', 'Musée de Marrakech'),
+        makeNode('endroits.visiter.musees.photographie', 'maison-photographie', 'Maison de la Photographie'),
+        makeNode('endroits.visiter.musees.darsisaid', 'musee-dar-si-said', 'Musée Dar Si Saïd'),
+        makeNode('endroits.visiter.musees.femme', 'musee-femme', 'Musée de la Femme de Marrakech'),
+        makeNode('endroits.visiter.musees.macaal', 'musee-macaal', 'Musée MACAAL'),
+        makeNode('endroits.visiter.musees.tiskiwin', 'musee-tiskiwin', 'Musée Tiskiwin'),
+      ]),
+      makeNode('endroits.visiter.excursions', 'excursions', 'EXCURSIONS AUTOUR DE LA VILLE', [
+        makeNode('endroits.visiter.excursions.agafay', 'desert-agafay', "Désert d'Agafay"),
+        makeNode('endroits.visiter.excursions.ourika', 'vallee-ourika', "Vallée de l'Ourika"),
+        makeNode('endroits.visiter.excursions.settifatma', 'setti-fatma', 'Setti Fatma'),
+        makeNode('endroits.visiter.excursions.ouzoud', 'cascades-ouzoud', "Cascades d'Ouzoud"),
+        makeNode('endroits.visiter.excursions.lallatakerkoust', 'lac-lalla-takerkoust', 'Lac Lalla Takerkoust'),
+        makeNode('endroits.visiter.excursions.kik', 'plateau-kik', 'Plateau du Kik'),
+        makeNode('endroits.visiter.excursions.imlil', 'imlil', 'Imlil'),
+        makeNode('endroits.visiter.excursions.toubkal', 'parc-toubkal', 'Parc national du Toubkal'),
+        makeNode('endroits.visiter.excursions.asni', 'asni', 'Asni'),
+        makeNode('endroits.visiter.excursions.ouirgane', 'ouirgane', 'Ouirgane'),
+        makeNode('endroits.visiter.excursions.aitbenhaddou', 'ait-ben-haddou', 'Aït Ben Haddou'),
+        makeNode('endroits.visiter.excursions.ouarzazate', 'ouarzazate', 'Ouarzazate'),
+        makeNode('endroits.visiter.excursions.zat', 'vallee-zat', 'Vallée du Zat'),
+        makeNode('endroits.visiter.excursions.palmeraie', 'palmeraie-marrakech', 'Palmeraie de Marrakech'),
+        makeNode('endroits.visiter.excursions.quad', 'quad-palmeraie', 'Circuit en quad dans la Palmeraie'),
+        makeNode('endroits.visiter.excursions.chameau', 'balade-chameau', 'Balade à dos de chameau'),
+        makeNode('endroits.visiter.excursions.montgolfiere', 'montgolfiere', 'Vol en montgolfière autour de Marrakech'),
+        makeNode('endroits.visiter.excursions.buggy', 'excursion-buggy', 'Excursion en buggy'),
+      ]),
+      makeNode('endroits.visiter.experiences', 'experiences', 'EXPÉRIENCES À FAIRE', [
+        makeNode('endroits.visiter.experiences.diner', 'diner-traditionnel', 'Dîner traditionnel marocain'),
+        makeNode('endroits.visiter.experiences.fantasia', 'spectacle-fantasia', 'Spectacle de fantasia'),
+        makeNode('endroits.visiter.experiences.hammam', 'hammam-traditionnel', 'Hammam marocain traditionnel'),
+        makeNode('endroits.visiter.experiences.rooftop', 'rooftop', 'Rooftop avec vue sur la médina'),
+        makeNode('endroits.visiter.experiences.coucher', 'coucher-soleil', "Coucher de soleil à Jemaa el-Fna"),
+        makeNode('endroits.visiter.experiences.dinerdesert', 'diner-desert', "Dîner dans le désert d'Agafay"),
+        makeNode('endroits.visiter.experiences.caleche', 'balade-caleche', 'Balade en calèche'),
+        makeNode('endroits.visiter.experiences.spa', 'spa-traditionnel', 'Spa traditionnel marocain'),
+        makeNode('endroits.visiter.experiences.the', 'degustation-the', 'Dégustation de thé à la menthe'),
+        makeNode('endroits.visiter.experiences.ruerue', 'cuisine-de-rue', 'Cuisine de rue de la médina'),
+        makeNode('endroits.visiter.experiences.nocturne', 'balade-nocturne', 'Balade nocturne dans la médina'),
+      ]),
+      makeNode('endroits.visiter.cafes', 'cafes', 'Cafés'),
+      makeNode('endroits.visiter.restaurants', 'restaurants', 'Restaurants'),
+      makeNode('endroits.visiter.parcs', 'parcs', 'Parcs'),
+      makeNode('endroits.visiter.piscines', 'piscines', 'Piscines'),
+      makeNode('endroits.visiter.hotels', 'hotels', 'Hôtels'),
+      makeNode('endroits.visiter.sport', 'salles-sport', 'SALLES DE SPORT', [
+        makeNode('endroits.visiter.sport.karate', 'karate', 'Karaté'),
+        makeNode('endroits.visiter.sport.yoga', 'yoga', 'Yoga'),
+        makeNode('endroits.visiter.sport.musculation', 'musculation', 'Musculation'),
+      ]),
+    ]),
+  ]),
+  makeNode('root.vendre', 'a-vendre', 'À VENDRE', [
+    makeNode('vendre.vehicules', 'vehicules', 'VÉHICULES', [
+      makeNode('vendre.vehicules.voiture', 'voiture', 'VOITURE', [
+        makeNode('vendre.vehicules.voiture.annonces', 'voiture-annonces', 'Voiture'),
+        makeNode('vendre.vehicules.voiture.pieces', 'pieces-voiture', 'Pièces de voiture'),
+        makeNode('vendre.vehicules.voiture.roues', 'roues-pneus-voiture', 'Roues et pneus de voiture'),
+      ]),
+      makeNode('vendre.vehicules.moto', 'moto', 'MOTO', [
+        makeNode('vendre.vehicules.moto.annonces', 'moto-annonces', 'Moto'),
+        makeNode('vendre.vehicules.moto.pieces', 'pieces-moto', 'Pièces de moto'),
+        makeNode('vendre.vehicules.moto.roues', 'roues-pneus-moto', 'Roues et pneus de moto'),
+      ]),
+      makeNode('vendre.vehicules.velo', 'velo', 'VÉLO', [
+        makeNode('vendre.vehicules.velo.annonces', 'velo-annonces', 'Vélo'),
+        makeNode('vendre.vehicules.velo.pieces', 'pieces-velo', 'Pièces de vélo'),
+        makeNode('vendre.vehicules.velo.roues', 'roues-pneus-velo', 'Roues et pneus de vélo'),
+      ]),
+      makeNode('vendre.vehicules.camion', 'camion', 'CAMION', [
+        makeNode('vendre.vehicules.camion.camion', 'camion-annonces', 'Camion'),
+        makeNode('vendre.vehicules.camion.remorque', 'remorque', 'Remorque'),
+      ]),
+    ]),
+    makeNode('vendre.entikiter', 'entikiter', 'ENTIKITER', [
+      makeNode('vendre.entikiter.preciser', 'a-preciser', 'À préciser'),
+    ]),
+  ]),
 ];
 
 export function getCategoryLabel(node: SearchCategoryNode, locale: string) {
