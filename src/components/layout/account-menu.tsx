@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { ChevronDown, LogOut, ShieldCheck, User as UserIcon, Wrench } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useAuth } from '@/context/auth-context';
@@ -66,7 +67,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
         aria-label={common('myAccount')}
         className="grid h-10 w-10 place-items-center rounded-full border border-ink-900/10 bg-white transition-colors hover:bg-peach-50"
       >
-        <img src={user.avatar} alt="" className="h-7 w-7 rounded-full object-cover" />
+        <Image src={user.avatar} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
       </Link>
     );
   }
@@ -80,7 +81,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
         aria-expanded={open}
         className="flex h-10 items-center gap-2 rounded-full bg-white py-1 pe-3 ps-1 text-[13.5px] font-semibold text-ink-900 shadow-card transition-colors hover:bg-peach-50"
       >
-        <img src={user.avatar} alt="" className="h-8 w-8 rounded-full object-cover" />
+        <Image src={user.avatar} alt="" width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
         <span className="max-w-[92px] truncate">{user.firstName}</span>
         <ChevronDown
           size={14}

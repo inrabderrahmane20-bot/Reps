@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChevronRight, Clock, CornerDownLeft, Search, X } from 'lucide-react';
 import { highlightRanges } from '@/lib/search';
@@ -540,10 +541,11 @@ export function FloatingSearch() {
                                   }`}
                                 >
                                   {item.image ? (
-                                    <img
+                                    <Image
                                       src={item.image}
                                       alt=""
-                                      loading="lazy"
+                                      width={36}
+                                      height={36}
                                       className="h-9 w-9 shrink-0 rounded-xl object-cover"
                                     />
                                   ) : (

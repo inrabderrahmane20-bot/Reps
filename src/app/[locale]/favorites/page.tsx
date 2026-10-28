@@ -79,7 +79,7 @@ export default function FavoritesPage() {
     { key: 'places', label: t('places'), items: grouped.place },
     { key: 'activities', label: t('activities'), items: grouped.activity },
     { key: 'communities', label: t('communities'), items: grouped.community },
-    { key: 'news', label: t('news') || 'Actualités', items: grouped.news },
+    { key: 'news', label: t('news'), items: grouped.news },
   ];
 
   if (!user) {

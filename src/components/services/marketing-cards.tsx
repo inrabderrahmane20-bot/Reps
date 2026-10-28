@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { BadgeCheck, MapPin, Star } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { getZone } from '@/lib/zones';
@@ -52,7 +53,7 @@ export function SponsoredCard({
         className="relative block aspect-[16/9] w-full overflow-hidden bg-sand-100"
       >
         {image ? (
-          <img src={image} alt={item.category} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" loading="lazy" />
+          <Image src={image} alt={item.category} fill sizes="300px" className="object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
         ) : (
           <div className="grid h-full w-full place-items-center font-display text-4xl font-bold text-sunset-600/30">
             {item.name.charAt(0)}
@@ -124,7 +125,7 @@ export function PromotionCard({
     <article className={`group flex flex-col overflow-hidden rounded-[1.4rem] border border-ink-900/[0.06] bg-white shadow-card ${className}`}>
       <Link href={`/services/${item.id}`} aria-label={item.name} className="relative block aspect-[16/9] w-full overflow-hidden bg-sand-100">
         {image ? (
-          <img src={image} alt={item.category} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" loading="lazy" />
+          <Image src={image} alt={item.category} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
         ) : (
           <div className="grid h-full w-full place-items-center font-display text-5xl font-bold text-sunset-600/30">
             {item.name.charAt(0)}

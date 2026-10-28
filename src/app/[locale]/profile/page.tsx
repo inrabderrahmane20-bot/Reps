@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useRouter } from '@/i18n/navigation';
 import { BadgeCheck, Clock, XCircle } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
@@ -79,7 +80,7 @@ export default function ProfilePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 md:px-8">
       <div className="flex items-center gap-4">
-        <img src={user.avatar} alt="" className="h-20 w-20 rounded-full object-cover" />
+        <Image src={user.avatar} alt="" width={80} height={80} className="h-20 w-20 rounded-full object-cover" />
         <div className="min-w-0 flex-1">
           <h1 className="font-display text-2xl font-semibold text-ink-900">
             {user.firstName} {user.lastName}

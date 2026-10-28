@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import { api } from '@/lib/api-client';
 import { PLACEMENTS, validateSponsored, type MarketingIssue } from '@/lib/marketing-validation';
 import type { SponsoredCampaign, SponsoredPlacement } from '@/lib/types';
@@ -418,7 +419,7 @@ export default function AdminCampaignsPage() {
                 <tr key={row.id} className="border-b border-ink-900/5 align-top last:border-0">
                   <td className="p-3">
                     <div className="flex items-center gap-2">
-                      {row.avatar && <img src={row.avatar} alt="" className="h-8 w-8 rounded-full object-cover" />}
+                      {row.avatar && <Image src={row.avatar} alt="" width={32} height={32} className="h-8 w-8 rounded-full object-cover" />}
                       <div>
                         <p className="font-medium">{row.providerName}</p>
                         <p className="text-xs text-ink-400">{row.providerTitle}</p>
@@ -428,7 +429,7 @@ export default function AdminCampaignsPage() {
                   <td className="p-3 text-ink-500">{row.campaign.title || '—'}</td>
                   <td className="p-3">
                     {row.campaign.image ? (
-                      <img src={row.campaign.image} alt="" className="h-10 w-16 rounded-lg object-cover" />
+                      <Image src={row.campaign.image} alt="" width={64} height={40} className="h-10 w-16 rounded-lg object-cover" />
                     ) : (
                       <span className="text-xs text-ink-400">no image</span>
                     )}
@@ -644,7 +645,7 @@ function CampaignPreview({
     <article className="flex w-[260px] flex-col overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card">
       <div className="relative block aspect-[16/9] w-full overflow-hidden bg-sand-100">
         {image ? (
-          <img src={image} alt="" className="h-full w-full object-cover" />
+          <Image src={image} alt="" fill sizes="260px" className="object-cover" />
         ) : (
           <div className="grid h-full w-full place-items-center font-display text-4xl font-bold text-sunset-600/30">{initial}</div>
         )}

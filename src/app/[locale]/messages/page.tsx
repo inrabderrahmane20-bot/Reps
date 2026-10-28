@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { useRouter } from '@/i18n/navigation';
 import { Send } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
@@ -86,7 +87,7 @@ export default function MessagesPage() {
               onClick={() => setActiveId(c.id)}
               className={`flex w-full items-center gap-2.5 rounded-xl p-2.5 text-start hover:bg-sand-100 ${activeId === c.id ? 'bg-sand-100' : ''}`}
             >
-              {c.otherUser?.avatar && <img src={c.otherUser.avatar} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />}
+              {c.otherUser?.avatar && <Image src={c.otherUser.avatar} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />}
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between">
                   <p className="truncate text-sm font-semibold text-ink-900">{c.otherUser?.name}</p>

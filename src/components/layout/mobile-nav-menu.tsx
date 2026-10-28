@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { ChevronRight, Menu, Percent, X } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { openGlobalSearch } from '@/lib/open-search';
@@ -153,7 +154,7 @@ export function MobileNavMenu() {
               {user ? (
                 <>
                   <Link href="/profile" className="flex min-h-[46px] items-center gap-2.5 rounded-2xl bg-white p-1.5 pe-4 shadow-card">
-                    <img src={user.avatar} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
+                    <Image src={user.avatar} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />
                     <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink-900">
                       {user.firstName} {user.lastName}
                     </span>

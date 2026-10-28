@@ -56,7 +56,7 @@ export default function ProviderDetailPage({ params }: { params: { id: string } 
       </Link>
 
       <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-center">
-        <img src={provider.avatar} alt="" className="h-20 w-20 shrink-0 rounded-full object-cover" />
+        <Image src={provider.avatar} alt="" width={80} height={80} className="h-20 w-20 shrink-0 rounded-full object-cover" />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <h1 className="font-display text-2xl font-semibold text-ink-900">{name}</h1>

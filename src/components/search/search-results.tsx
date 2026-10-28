@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { ChevronRight, Loader2, Search as SearchIcon } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -124,7 +125,7 @@ export function SearchResults() {
                       className="flex min-h-[64px] items-center gap-3 px-4 py-3 transition-colors hover:bg-sand-50"
                     >
                       {item.image ? (
-                        <img src={item.image} alt="" loading="lazy" className="h-11 w-11 shrink-0 rounded-xl object-cover" />
+                        <Image src={item.image} alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl object-cover" />
                       ) : (
                         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-peach-100 text-sunset-600" aria-hidden>
                           <SearchIcon size={17} />

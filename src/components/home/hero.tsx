@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { ArrowRight, MapPin, Percent, Search } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { openGlobalSearch } from '@/lib/open-search';
@@ -113,7 +114,7 @@ export function Hero({
               <div className="flex items-center gap-3 px-4 py-3.5">
                 <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-peach-100 font-display font-semibold text-sunset-700">
                   {lead.avatar ? (
-                    <img src={lead.avatar} alt="" className="h-full w-full object-cover" loading="lazy" />
+                    <Image src={lead.avatar} alt="" width={40} height={40} className="h-full w-full object-cover" />
                   ) : (
                     lead.name.charAt(0)
                   )}
@@ -170,5 +171,5 @@ function HeroImage({ item }: { item: ServiceListing }) {
       </div>
     );
   }
-  return <img src={image} alt={item.category} className="h-full w-full object-cover" loading="lazy" />;
+  return <Image src={image} alt={item.category} fill sizes="(max-width: 1024px) 100vw, 520px" className="object-cover" />;
 }

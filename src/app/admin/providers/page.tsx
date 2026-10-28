@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { api } from '@/lib/api-client';
 import { parsePriceAmount, promotionBadge, promotionPrices } from '@/lib/marketing';
 import { validatePromotion, validateSponsored, type MarketingIssue } from '@/lib/marketing-validation';
@@ -227,7 +228,7 @@ export default function AdminProvidersPage() {
           <div key={p.id} className="rounded-2xl bg-white p-4 shadow-card">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex gap-3">
-                <img src={p.avatar} alt="" className="h-12 w-12 rounded-full object-cover" />
+                <Image src={p.avatar} alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover" />
                 <div>
                   <p className="font-semibold text-ink-900">
                     {p.firstName} {p.lastName}

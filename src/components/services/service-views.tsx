@@ -325,7 +325,8 @@ function ProviderAvatar({ item, size }: { item: ServiceListing; size: 'md' | 'lg
   const fontSizes = { md: 'text-base', lg: 'text-lg', xl: 'text-3xl' }[size];
 
   if (item.avatar) {
-    return <img src={item.avatar} alt="" className={`${sizes} shrink-0 rounded-full object-cover`} />;
+    const dimensions = { md: 44, lg: 56, xl: 96 }[size];
+    return <Image src={item.avatar} alt="" width={dimensions} height={dimensions} className={`${sizes} shrink-0 rounded-full object-cover`} />;
   }
   return (
     <span className={`${sizes} grid shrink-0 place-items-center rounded-full bg-majorelle-600/10 font-display font-semibold text-majorelle-700 ${fontSizes}`}>
