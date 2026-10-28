@@ -83,6 +83,7 @@ export function FiltersPanel({
   }, [value.cat]);
 
   const activeCat = value.cat ?? null;
+  const activeTopCategory = activeCat ? findParentTop(activeCat) : undefined;
 
   function toggleAvailability(state: Availability) {
     const has = value.availability.includes(state);
@@ -112,7 +113,10 @@ export function FiltersPanel({
     <div className="flex flex-col gap-6">
       {/* CATEGORY — two-pane drilldown (right pane hidden until a top is picked) */}
       <section aria-label={t('category')}>
-        <h3 className="text-[11px] font-bold uppercase tracking-wider text-ink-300">{t('category')}</h3>
+        <h3 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-ink-300">
+          {t('category')}
+          {activeTopCategory && <span className="text-ink-700">{activeTopCategory}</span>}
+        </h3>
         <div className="mt-2.5 flex gap-2">
           {/* Original list: all top-level groups */}
           <div className="flex min-w-0 flex-1 flex-col gap-0.5">

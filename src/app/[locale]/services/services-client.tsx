@@ -293,10 +293,11 @@ export default function ServicesPage() {
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
-          className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-ink-900/10 bg-white text-ink-700 transition-colors hover:bg-sand-100"
+          className="relative flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-ink-900/10 bg-white px-3 text-sm font-medium text-ink-700 transition-colors hover:bg-sand-100"
           aria-label={t('filters')}
         >
           <SlidersHorizontal size={17} />
+          <span>{t('filters')}</span>
           {hasActiveFilters && <span className="absolute end-1.5 top-1.5 h-2 w-2 rounded-full bg-saffron-500" aria-hidden />}
         </button>
       </div>
