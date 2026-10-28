@@ -45,12 +45,12 @@ export function SponsoredCard({
   const image = cardImage(item, item.promotion?.image);
 
   return (
-    <article className={`card-hover group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card sm:w-[300px] ${className}`}>
+    <article className={`card-hover group flex w-[320px] shrink-0 snap-start overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card sm:w-[360px] ${className}`}>
       <Link
         href={item.sponsoredHref || `/services/${item.id}`}
         aria-label={item.name}
         onClick={() => trackProvider(item.id, 'clicks')}
-        className="relative block aspect-[16/6] w-full overflow-hidden bg-sand-100"
+        className="relative min-h-[176px] w-[36%] shrink-0 overflow-hidden bg-sand-100"
       >
         {image ? (
           <Image src={image} alt={item.category} fill sizes="300px" className="object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
@@ -64,7 +64,7 @@ export function SponsoredCard({
         </span>
       </Link>
 
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex min-w-0 flex-1 flex-col p-3">
         <Link href={item.sponsoredHref || `/services/${item.id}`} onClick={() => trackProvider(item.id, 'clicks')} className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
             <h3 className="truncate font-display text-[15.5px] font-semibold text-ink-900 transition-colors group-hover:text-sunset-700">
@@ -72,8 +72,8 @@ export function SponsoredCard({
             </h3>
             {item.verified && <BadgeCheck size={15} className="shrink-0 text-zellige-500" aria-label={common('verified')} />}
           </div>
-          <p className="mt-0.5 break-words text-[12.5px] leading-relaxed font-medium text-ink-500">{item.category}</p>
-          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-500">
+          <p className="mt-0.5 whitespace-normal break-words text-[12.5px] font-medium leading-relaxed text-ink-500">{item.category}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-500">
             <RatingLine item={item} />
             <AvailabilityBadge status={item.availability} />
             {zoneName && (
@@ -90,7 +90,7 @@ export function SponsoredCard({
             trackProvider(item.id, ['clicks', 'requests']);
             onRequest(item);
           }}
-          className="mt-3.5 w-full rounded-full bg-sunset-500 px-4 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
+          className="mt-3 w-full rounded-full bg-sunset-500 px-2 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
         >
           {t('requestService')}
         </button>
@@ -186,12 +186,13 @@ export function PromotionCard({
 /** Loading placeholder matching the sponsored card shape. */
 export function SponsoredCardSkeleton() {
   return (
-    <div className="w-[260px] shrink-0 snap-start overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card sm:w-[300px]" aria-hidden>
-      <div className="aspect-[16/6] w-full animate-pulse bg-sand-200" />
-      <div className="space-y-2.5 p-4">
+    <div className="flex h-[176px] w-[320px] shrink-0 snap-start overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card sm:w-[360px]" aria-hidden>
+      <div className="w-[36%] shrink-0 animate-pulse bg-sand-200" />
+      <div className="flex min-w-0 flex-1 flex-col gap-2.5 p-3">
         <div className="h-4 w-3/4 animate-pulse rounded-full bg-sand-200" />
-        <div className="h-3 w-1/2 animate-pulse rounded-full bg-sand-200" />
-        <div className="h-8 w-full animate-pulse rounded-full bg-sand-200" />
+        <div className="h-3 w-full animate-pulse rounded-full bg-sand-200" />
+        <div className="h-3 w-2/3 animate-pulse rounded-full bg-sand-200" />
+        <div className="mt-auto h-8 w-full animate-pulse rounded-full bg-sand-200" />
       </div>
     </div>
   );
