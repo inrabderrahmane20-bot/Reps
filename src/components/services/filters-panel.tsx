@@ -279,7 +279,7 @@ function CategoryOption({
         }`}
         aria-hidden
       />
-      <span className="min-w-0 flex-1 truncate" title={label}>
+      <span className="min-w-0 flex-1 whitespace-normal break-words leading-snug" title={label}>
         {label}
       </span>
       {hasChildren && <ChevronRight size={16} className="shrink-0 text-ink-400" />}
