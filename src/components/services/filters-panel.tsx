@@ -1,12 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight, RotateCcw, Star } from 'lucide-react';
 import {
   TAXONOMY,
-  subcategoriesOf,
-  findParentTop,
   normalizeCategory,
   type TaxNode,
 } from '@/lib/service-categories';
@@ -45,45 +43,17 @@ export function FiltersPanel({
   const t = useTranslations('services');
   const common = useTranslations('common');
 
-  // Two-pane category drilldown: the left list keeps the top-level groups (the
-  // "original" navigation); the right pane shows the next level — subcategories
-  // or leaf services — of the selected group instead of expanding inline.
-  const [drillTop, setDrillTop] = useState<string | null>(null);
-  const [drillSub, setDrillSub] = useState<string | null>(null);
+  const [categoryPath, setCategoryPath] = useState<TaxNode[]>([]);
 
-  // Keep the drilldown synchronised when the selection comes from outside
-  // (search suggestions, mobile chips, page load, …).
+  // Keep the visible level in sync with selections made elsewhere.
   useEffect(() => {
-    const cat = value.cat;
-    if (!cat) {
-      setDrillTop(null);
-      setDrillSub(null);
-      return;
-    }
-    const parent = findParentTop(cat);
-    if (!parent) {
-      setDrillTop(null);
-      setDrillSub(null);
-      return;
-    }
-    const subs = subcategoriesOf(parent);
-    let sub: TaxNode | null = null;
-    for (const child of subs) {
-      if (normalizeCategory(child.name) === normalizeCategory(cat)) {
-        sub = child;
-        break;
-      }
-      if ((child.children ?? []).some((c) => normalizeCategory(c.name) === normalizeCategory(cat))) {
-        sub = child;
-        break;
-      }
-    }
-    setDrillTop(parent);
-    setDrillSub(sub?.name ?? null);
+    setCategoryPath(value.cat ? getBrowsePath(value.cat) : []);
   }, [value.cat]);
 
   const activeCat = value.cat ?? null;
-  const activeTopCategory = activeCat ? findParentTop(activeCat) : undefined;
+  const categoryLevel = categoryPath.length > 0
+    ? categoryPath[categoryPath.length - 1].children ?? []
+    : TAXONOMY;
 
   function toggleAvailability(state: Availability) {
     const has = value.availability.includes(state);
@@ -95,90 +65,75 @@ export function FiltersPanel({
     });
   }
 
-  const topNames = useMemo(() => TAXONOMY.map((n) => n.name), []);
-
-  function selectTop(top: string) {
-    onChange({ ...value, cat: top });
-    setDrillTop(top);
-    setDrillSub(null);
-  }
-
   function selectAll() {
     onChange({ ...value, cat: null });
-    setDrillTop(null);
-    setDrillSub(null);
+    setCategoryPath([]);
+  }
+
+  function selectCategory(node: TaxNode) {
+    onChange({ ...value, cat: node.name });
+    if (node.children?.length) {
+      setCategoryPath((path) => [...path, node]);
+    }
   }
 
   return (
     <div className="flex flex-col gap-6">
-      {/* CATEGORY — two-pane drilldown (right pane hidden until a top is picked) */}
       <section aria-label={t('category')}>
-        <h3 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-ink-300">
-          {t('category')}
-          {activeTopCategory && <span className="text-ink-700">{activeTopCategory}</span>}
-        </h3>
-        <div className="mt-2.5 flex gap-2">
-          {/* Original list: all top-level groups */}
-          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-            <CategoryRow label={t('allCategories')} selected={!activeCat} onSelect={selectAll} />
-            <div className="max-h-[300px] space-y-0.5 overflow-y-auto pe-1" role="list">
-              {topNames.map((top) => (
-                <CategoryRow
-                  key={top}
-                  label={top}
-                  selected={activeCat !== null && normalizeCategory(activeCat) === normalizeCategory(top)}
-                  onSelect={() => selectTop(top)}
-                />
-              ))}
-            </div>
+        <div className="overflow-hidden rounded-xl border border-ink-900/[0.1] bg-white">
+          <nav
+            aria-label={t('category')}
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-ink-900/[0.08] px-3.5 py-3 text-xs leading-relaxed"
+          >
+            <button
+              type="button"
+              onClick={() => setCategoryPath([])}
+              className={categoryPath.length === 0 ? 'font-semibold text-ink-900' : 'text-ink-500 hover:text-ink-900'}
+            >
+              {t('categories')}
+            </button>
+            {categoryPath.map((node, index) => (
+              <span key={`${node.name}-${index}`} className="flex items-center gap-2">
+                <span className="text-ink-300" aria-hidden>/</span>
+                <button
+                  type="button"
+                  onClick={() => setCategoryPath(categoryPath.slice(0, index + 1))}
+                  className={index === categoryPath.length - 1 ? 'font-bold text-ink-900' : 'text-ink-500 hover:text-ink-900'}
+                >
+                  {node.name}
+                </button>
+              </span>
+            ))}
+          </nav>
+
+          <div className="max-h-[300px] space-y-1 overflow-y-auto p-2" role="list">
+            {categoryPath.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setCategoryPath(categoryPath.slice(0, -1))}
+                className="flex min-h-[46px] w-full items-center gap-3 rounded-lg px-3 text-start text-[13px] text-ink-700 transition-colors hover:border-ink-900/[0.08] hover:bg-sand-100"
+              >
+                <ChevronLeft size={17} className="shrink-0 text-ink-500" />
+                <span>{t('backToPreviousLevel')}</span>
+              </button>
+            )}
+            {categoryPath.length === 0 && (
+              <CategoryOption label={t('allCategories')} selected={!activeCat} onSelect={selectAll} />
+            )}
+            {categoryLevel.map((node) => (
+              <CategoryOption
+                key={node.name}
+                label={node.name}
+                selected={activeCat !== null && normalizeCategory(activeCat) === normalizeCategory(node.name)}
+                hasChildren={Boolean(node.children?.length)}
+                onSelect={() => selectCategory(node)}
+              />
+            ))}
           </div>
 
-          {/* The rest: contextual pane — only appears once a top-level is chosen */}
-          {drillTop && (
-            <div
-              key={drillTop}
-              className="drill-reveal flex min-h-[220px] w-[44%] min-w-[9.5rem] flex-col rounded-xl border border-ink-900/[0.08] bg-sand-100/60 p-1.5"
-            >
-              {!drillSub ? (
-                <>
-                  <DrillHeader label={drillTop} onBack={() => setDrillTop(null)} backLabel={t('allCategories')} />
-                  <div className="mt-1 max-h-[236px] space-y-0.5 overflow-y-auto" role="list">
-                    {subcategoriesOf(drillTop).map((sub) => {
-                      const hasChildren = (sub.children ?? []).length > 0;
-                      const selected = normalizeCategory(activeCat ?? '') === normalizeCategory(sub.name);
-                      return (
-                        <DrillRow
-                          key={sub.name}
-                          label={sub.name}
-                          selected={selected}
-                          hasNext={hasChildren}
-                          onSelect={() => {
-                            onChange({ ...value, cat: sub.name });
-                            if (hasChildren) setDrillSub(sub.name);
-                            else setDrillSub(null);
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <DrillHeader label={drillSub} onBack={() => setDrillSub(null)} backLabel={drillTop} />
-                  <div className="mt-1 max-h-[236px] space-y-0.5 overflow-y-auto" role="list">
-                    {findNodeChildren(drillTop, drillSub).map((leaf) => (
-                      <DrillRow
-                        key={leaf.name}
-                        label={leaf.name}
-                        selected={normalizeCategory(activeCat ?? '') === normalizeCategory(leaf.name)}
-                        onSelect={() => onChange({ ...value, cat: leaf.name })}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          )}
+          <div className="border-t border-ink-900/[0.08] px-3.5 py-3 text-[11px] text-ink-500">
+            {activeCat ? t('categorySelection', { category: activeCat }) : t('noCategorySelected')}
+          </div>
         </div>
       </section>
 
@@ -296,41 +251,15 @@ export function FiltersPanel({
   );
 }
 
-/** Children of a given subcategory within a top-level group. */
-function findNodeChildren(top: string, sub: string): TaxNode[] {
-  const subs = subcategoriesOf(top);
-  const node = subs.find((s) => normalizeCategory(s.name) === normalizeCategory(sub));
-  return node?.children ?? [];
-}
-
-/** Small header for the drill-down pane with an up/back control. */
-function DrillHeader({ label, backLabel, onBack }: { label: string; backLabel: string; onBack: () => void }) {
-  return (
-    <div className="flex items-center gap-1 border-b border-ink-900/[0.08] pb-1.5">
-      <button
-        type="button"
-        onClick={onBack}
-        aria-label={backLabel}
-        className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-ink-500 transition-colors hover:bg-white hover:text-ink-900"
-      >
-        <ChevronLeft size={15} />
-      </button>
-      <span className="min-w-0 flex-1 truncate text-[12px] font-bold text-ink-900" title={label}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function DrillRow({
+function CategoryOption({
   label,
   selected,
-  hasNext,
+  hasChildren,
   onSelect,
 }: {
   label: string;
   selected: boolean;
-  hasNext?: boolean;
+  hasChildren?: boolean;
   onSelect: () => void;
 }) {
   return (
@@ -338,16 +267,42 @@ function DrillRow({
       type="button"
       onClick={onSelect}
       aria-pressed={selected}
-      className={`flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-start text-[12px] transition-colors ${
-        selected ? 'bg-majorelle-600 font-semibold text-white shadow-sm' : 'text-ink-700 hover:bg-white'
+      className={`flex min-h-[46px] w-full items-center gap-3 rounded-lg border px-3 text-start text-[13px] transition-colors ${
+        selected
+          ? 'border-[#e5d8c8] bg-[#f4eee5] font-semibold text-ink-900'
+          : 'border-transparent text-ink-700 hover:border-ink-900/[0.08] hover:bg-sand-100'
       }`}
     >
+      <span
+        className={`grid h-4 w-4 shrink-0 place-items-center rounded-full border ${
+          selected ? 'border-[5px] border-[#9a7653]' : 'border-[#b8a793]'
+        }`}
+        aria-hidden
+      />
       <span className="min-w-0 flex-1 truncate" title={label}>
         {label}
       </span>
-      {hasNext && <ChevronRight size={13} className="shrink-0 opacity-50" />}
+      {hasChildren && <ChevronRight size={16} className="shrink-0 text-ink-400" />}
     </button>
   );
+}
+
+function getBrowsePath(name: string): TaxNode[] {
+  const target = normalizeCategory(name);
+  const findPath = (nodes: TaxNode[], path: TaxNode[]): TaxNode[] | null => {
+    for (const node of nodes) {
+      const currentPath = [...path, node];
+      if (normalizeCategory(node.name) === target) {
+        return node.children?.length ? currentPath : currentPath.slice(0, -1);
+      }
+      if (node.children) {
+        const found = findPath(node.children, currentPath);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  return findPath(TAXONOMY, []) ?? [];
 }
 
 function CategoryRow({
