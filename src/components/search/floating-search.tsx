@@ -601,22 +601,21 @@ export function FloatingSearch() {
                 }`}
               >
                 {mobileIdle && (
-                  <Heart
-                    size={68}
-                    className="mobile-search-pulse absolute left-1/2 top-1/2 h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 fill-sunset-500 text-white"
-                    strokeWidth={1.5}
-                    aria-hidden
-                  />
+                  <span className="mobile-search-pulse absolute left-1/2 top-1/2 h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2">
+                    <Heart
+                      size={68}
+                      className="absolute inset-0 fill-sunset-500 text-white"
+                      strokeWidth={1.5}
+                      aria-hidden
+                    />
+                    <Search
+                      size={20}
+                      className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 text-white"
+                      aria-hidden
+                    />
+                  </span>
                 )}
-                <Search
-                  size={20}
-                  className={`shrink-0 ${
-                    mobileIdle
-                      ? 'absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-white'
-                      : 'text-sunset-600'
-                  }`}
-                  aria-hidden
-                />
+                {!mobileIdle && <Search size={20} className="shrink-0 text-sunset-600" aria-hidden />}
                 {!mobileIdle && (
                   <>
                     <span className="min-w-0 flex-1 truncate text-[15px] text-ink-500">{t('placeholder')}</span>
