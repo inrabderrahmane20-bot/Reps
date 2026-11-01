@@ -51,17 +51,21 @@ h1, h2, h3 {
 
 @keyframes mobile-search-heartbeat {
   0% {
+    scale: 1;
+    box-shadow: 0 8px 28px rgba(60, 35, 20, 0.22);
+  }
+  5.5% {
     scale: 1.13;
     box-shadow: 0 10px 34px rgba(249, 115, 22, 0.38);
   }
-  3% {
+  11% {
     scale: 0.98;
   }
-  6% {
+  16.5% {
     scale: 1.08;
     box-shadow: 0 10px 34px rgba(249, 115, 22, 0.34);
   }
-  9%, 100% {
+  22%, 100% {
     scale: 1;
     box-shadow: 0 8px 28px rgba(60, 35, 20, 0.22);
   }
