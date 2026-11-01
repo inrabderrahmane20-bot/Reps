@@ -9,29 +9,7 @@ import { highlightRanges } from '@/lib/search';
 import { OPEN_SEARCH_EVENT } from '@/lib/open-search';
 import type { SearchGroup, SearchItem, SearchKind } from '@/lib/search-types';
 
-/**
- * Floating global search — an iOS 26 "Liquid Glass" pill.
- *
- * Behaviour
- *   • Idle  : a translucent glass pill pinned to the bottom centre of the
- *              viewport. It is never the only way to reach the search page
- *              and never covers a primary action.
- *   • Active: the pill expands, reveals a real text input (auto-focused), a
- *              clear button and a cancel button. A soft backdrop separates the
- *              search from the page behind it.
- *   • Results are grouped (promotions / services / categories / news /
- *     communities / activities) and rendered in a scrollable glass panel above
- *              the pill.
- *   • Escape closes, ↑/↓ move through the results, Enter opens the highlighted
- *              result and ⌘/Ctrl + K opens the search from anywhere.
- *
- * Mobile: the pill lifts above the on-screen keyboard using the Visual
- * Viewport API, respects the iOS safe-area inset and keeps a 16px input so
- * Safari never zooms the page.
- */
-
 const RECENT_KEY = 'medina.recentSearches';
-const DISMISSED_KEY = 'medina.floatingSearch.dismissed';
 const MAX_RECENT = 6;
 const MAX_RECENT_LENGTH = 60;
 
@@ -148,11 +126,6 @@ export function FloatingSearch() {
 
   useEffect(() => {
     setRecent(readRecent());
-    try {
-      setDismissed(window.localStorage.getItem(DISMISSED_KEY) === 'true');
-    } catch {
-      setDismissed(false);
-    }
   }, []);
 
   /* ------------------------------------------------------------------ */
@@ -323,11 +296,6 @@ export function FloatingSearch() {
 
   const dismissSearch = useCallback(() => {
     setDismissed(true);
-    try {
-      window.localStorage.setItem(DISMISSED_KEY, 'true');
-    } catch {
-      // Keep the dismissal for this page when browser storage is unavailable.
-    }
   }, []);
 
   const go = useCallback(
