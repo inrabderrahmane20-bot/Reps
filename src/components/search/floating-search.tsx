@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, Clock, CornerDownLeft, Search, X } from 'lucide-react';
+import { ChevronRight, Clock, CornerDownLeft, Heart, Search, X } from 'lucide-react';
 import { highlightRanges } from '@/lib/search';
 import { OPEN_SEARCH_EVENT } from '@/lib/open-search';
 import type { SearchGroup, SearchItem, SearchKind } from '@/lib/search-types';
@@ -600,11 +600,11 @@ export function FloatingSearch() {
                   mobileIdle ? 'justify-center rounded-full' : 'ps-5 pe-12'
                 }`}
               >
-                <Search
-                  size={20}
-                  className={`shrink-0 ${mobileIdle ? 'text-white' : 'text-sunset-600'}`}
-                  aria-hidden
-                />
+                {mobileIdle ? (
+                  <Heart size={20} className="shrink-0 fill-current text-white" aria-hidden />
+                ) : (
+                  <Search size={20} className="shrink-0 text-sunset-600" aria-hidden />
+                )}
                 {!mobileIdle && (
                   <>
                     <span className="min-w-0 flex-1 truncate text-[15px] text-ink-500">{t('placeholder')}</span>
