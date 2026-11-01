@@ -602,15 +602,19 @@ export function FloatingSearch() {
               >
                 {mobileIdle && (
                   <Heart
-                    size={60}
-                    className="mobile-search-pulse absolute inset-0 h-full w-full fill-sunset-500 text-white"
+                    size={68}
+                    className="mobile-search-pulse absolute left-1/2 top-1/2 h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 fill-sunset-500 text-white"
                     strokeWidth={1.5}
                     aria-hidden
                   />
                 )}
                 <Search
                   size={20}
-                  className={`shrink-0 ${mobileIdle ? 'relative z-10 text-white' : 'text-sunset-600'}`}
+                  className={`shrink-0 ${
+                    mobileIdle
+                      ? 'absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-white'
+                      : 'text-sunset-600'
+                  }`}
                   aria-hidden
                 />
                 {!mobileIdle && (
