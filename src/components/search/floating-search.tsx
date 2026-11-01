@@ -580,7 +580,7 @@ export function FloatingSearch() {
           <div
             className={`${
               mobileIdle
-                ? 'relative flex items-center justify-center rounded-full border-2 border-white bg-sunset-500 text-white shadow-[0_8px_28px_rgba(60,35,20,0.36)] ring-1 ring-sunset-700/30 mobile-search-pulse'
+                ? 'relative flex items-center justify-center text-white'
                 : 'relative overflow-hidden rounded-full border border-ink-900/10 bg-white shadow-[0_14px_40px_rgba(35,25,20,0.22)]'
             } w-full`}
             style={{ height: mobileIdle ? 60 : 54 }}
@@ -597,14 +597,22 @@ export function FloatingSearch() {
                 onClick={openSearch}
                 aria-label={t('openLabel')}
                 className={`flex h-full w-full items-center gap-3 text-start ${
-                  mobileIdle ? 'justify-center rounded-full' : 'ps-5 pe-12'
+                  mobileIdle ? 'relative justify-center' : 'ps-5 pe-12'
                 }`}
               >
-                {mobileIdle ? (
-                  <Heart size={20} className="shrink-0 fill-current text-white" aria-hidden />
-                ) : (
-                  <Search size={20} className="shrink-0 text-sunset-600" aria-hidden />
+                {mobileIdle && (
+                  <Heart
+                    size={60}
+                    className="mobile-search-pulse absolute inset-0 h-full w-full fill-sunset-500 text-white"
+                    strokeWidth={1.5}
+                    aria-hidden
+                  />
                 )}
+                <Search
+                  size={20}
+                  className={`shrink-0 ${mobileIdle ? 'relative z-10 text-white' : 'text-sunset-600'}`}
+                  aria-hidden
+                />
                 {!mobileIdle && (
                   <>
                     <span className="min-w-0 flex-1 truncate text-[15px] text-ink-500">{t('placeholder')}</span>
