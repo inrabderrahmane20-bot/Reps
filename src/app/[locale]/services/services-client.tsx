@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { PackageSearch, Search, SlidersHorizontal, ChevronDown, X } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -8,7 +8,6 @@ import { RequestServiceModal } from '@/components/ui/request-service-modal';
 import { api } from '@/lib/api-client';
 import { useAuth } from '@/context/auth-context';
 import { getZone } from '@/lib/zones';
-import { topLevelCategories } from '@/lib/service-categories';
 import { Link } from '@/i18n/navigation';
 import type { PublicUser } from '@/lib/types';
 import {
@@ -17,6 +16,7 @@ import {
   type FiltersState,
 } from '@/components/services/filters-panel';
 import { MobileFilterDrawer } from '@/components/services/mobile-filter-drawer';
+import { LayeredCategoryNavigation } from '@/components/services/layered-category-navigation';
 import { ClientSearchesPanel } from '@/components/services/client-searches-panel';
 import { SponsoredStrip } from '@/components/services/sponsored-strip';
 import type { PromotionInfo } from '@/lib/types';
@@ -60,6 +60,7 @@ export default function ServicesPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [categoryNavigationOpen, setCategoryNavigationOpen] = useState(false);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
   const [clientSearchesKey, setClientSearchesKey] = useState(0);
   const [sponsored, setSponsored] = useState<ServiceListing[]>([]);
@@ -67,8 +68,7 @@ export default function ServicesPage() {
 
   const requestSeq = useRef(0);
 
-  // Read ?q= and ?cat= on first mount (homepage drilldown sends ?q= there;
-  // category shortcut chips send ?cat=).
+  // Read ?q= and ?cat= on first mount for existing service-directory links.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -201,9 +201,6 @@ export default function ServicesPage() {
   const hasActiveFilters =
     q.trim() !== '' || filters.cat !== null || filters.availability.length > 0 || filters.minRating != null || filters.zone !== 'all';
 
-  const topCats = useMemo(() => topLevelCategories().slice(0, 8), []);
-  const activeTopCat = filters.cat && topCats.includes(filters.cat) ? filters.cat : null;
-
   function setFiltersMerged(partial: Partial<FiltersState>) {
     setFilters((f) => ({ ...f, ...partial }));
   }
@@ -265,32 +262,22 @@ export default function ServicesPage() {
         <p className="mt-2 text-xs text-ink-500">{t('searchHint')}</p>
       </div>
 
-      {/* Mobile: category chips + filter drawer trigger */}
-      <div className="mt-4 flex items-center gap-2 lg:hidden">
-        <div className="-mx-4 flex flex-1 gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <button
-            type="button"
-            onClick={() => setFiltersMerged({ cat: null })}
-            className={`shrink-0 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-              !activeTopCat ? 'bg-majorelle-600 text-white border-majorelle-600' : 'bg-white text-ink-700 border-ink-900/10'
-            }`}
-          >
-            {t('allCategories')}
-          </button>
-          {topCats.map((cat) => (
+      {/* Mobile: category navigation + filter drawer trigger */}
+          <div className="mt-4 flex items-center gap-2 lg:hidden">
             <button
-              key={cat}
               type="button"
-              onClick={() => setFiltersMerged({ cat })}
-              className={`shrink-0 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-                activeTopCat === cat ? 'bg-majorelle-600 text-white border-majorelle-600' : 'bg-white text-ink-700 border-ink-900/10'
-              }`}
+              onClick={() => setCategoryNavigationOpen(true)}
+              className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-ink-900/10 bg-white px-3.5 text-start text-sm text-ink-700 shadow-card transition-colors hover:bg-sand-50"
             >
-              {cat}
+              <span className="min-w-0 flex-1">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-ink-400">{t('categories')}</span>
+                <span className="block truncate text-[13px] font-semibold text-ink-900">
+                  {filters.cat ?? t('allCategories')}
+                </span>
+              </span>
+              <ChevronDown size={16} className="shrink-0 text-ink-400" aria-hidden />
             </button>
-          ))}
-        </div>
-        <button
+            <button
           type="button"
           onClick={() => setDrawerOpen(true)}
           className="relative flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-ink-900/10 bg-white px-3 text-sm font-medium text-ink-700 transition-colors hover:bg-sand-100"
@@ -306,7 +293,12 @@ export default function ServicesPage() {
         {/* Desktop sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto rounded-2xl border border-ink-900/[0.06] bg-white/70 p-4 shadow-card">
-            <FiltersPanel value={filters} onChange={setFilters} onReset={resetAll} />
+            <FiltersPanel
+              value={filters}
+              onChange={setFilters}
+              onReset={resetAll}
+              onOpenCategories={() => setCategoryNavigationOpen(true)}
+            />
             <ClientSearchesPanel refreshKey={clientSearchesKey} />
           </div>
         </aside>
@@ -411,10 +403,18 @@ export default function ServicesPage() {
           value={filters}
           onChange={setFilters}
           onReset={resetAll}
+          onOpenCategories={() => setCategoryNavigationOpen(true)}
           onClose={() => setDrawerOpen(false)}
           clientSearchesKey={clientSearchesKey}
         />
       )}
+
+      <LayeredCategoryNavigation
+        open={categoryNavigationOpen}
+        selectedCategory={filters.cat}
+        onSelectCategory={(cat) => setFiltersMerged({ cat })}
+        onClose={() => setCategoryNavigationOpen(false)}
+      />
 
       {/* Request modal */}
       {requesting && (

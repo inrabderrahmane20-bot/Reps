@@ -11,12 +11,14 @@ export function MobileFilterDrawer({
   value,
   onChange,
   onReset,
+  onOpenCategories,
   onClose,
   clientSearchesKey = 0,
 }: {
   value: FiltersState;
   onChange: (next: FiltersState) => void;
   onReset: () => void;
+  onOpenCategories: () => void;
   onClose: () => void;
   /** Bump to refresh the "Recherche client" list shown inside the drawer. */
   clientSearchesKey?: number;
@@ -63,6 +65,7 @@ export function MobileFilterDrawer({
             value={value}
             onChange={onChange}
             onReset={onReset}
+            onOpenCategories={onOpenCategories}
             showApply
             onApply={onClose}
           />

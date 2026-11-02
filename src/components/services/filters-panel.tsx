@@ -1,13 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronLeft, ChevronRight, RotateCcw, Star } from 'lucide-react';
-import {
-  TAXONOMY,
-  normalizeCategory,
-  type TaxNode,
-} from '@/lib/service-categories';
+import { ChevronRight, RotateCcw, Star } from 'lucide-react';
 import { ZONES } from '@/lib/zones';
 import type { Availability } from '@/lib/types';
 
@@ -30,30 +24,20 @@ export function FiltersPanel({
   value,
   onChange,
   onReset,
+  onOpenCategories,
   showApply,
   onApply,
 }: {
   value: FiltersState;
   onChange: (next: FiltersState) => void;
   onReset: () => void;
+  onOpenCategories: () => void;
   /** Show a footer with Reset + Apply (mobile drawer). Desktop applies live. */
   showApply?: boolean;
   onApply?: () => void;
 }) {
   const t = useTranslations('services');
   const common = useTranslations('common');
-
-  const [categoryPath, setCategoryPath] = useState<TaxNode[]>([]);
-
-  // Keep the visible level in sync with selections made elsewhere.
-  useEffect(() => {
-    setCategoryPath(value.cat ? getBrowsePath(value.cat) : []);
-  }, [value.cat]);
-
-  const activeCat = value.cat ?? null;
-  const categoryLevel = categoryPath.length > 0
-    ? categoryPath[categoryPath.length - 1].children ?? []
-    : TAXONOMY;
 
   function toggleAvailability(state: Availability) {
     const has = value.availability.includes(state);
@@ -65,76 +49,25 @@ export function FiltersPanel({
     });
   }
 
-  function selectAll() {
-    onChange({ ...value, cat: null });
-    setCategoryPath([]);
-  }
-
-  function selectCategory(node: TaxNode) {
-    onChange({ ...value, cat: node.name });
-    if (node.children?.length) {
-      setCategoryPath((path) => [...path, node]);
-    }
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <section aria-label={t('category')}>
-        <div className="overflow-hidden rounded-xl border border-ink-900/[0.1] bg-white">
-          <nav
-            aria-label={t('category')}
-            className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-ink-900/[0.08] px-3.5 py-3 text-xs leading-relaxed"
-          >
-            <button
-              type="button"
-              onClick={() => setCategoryPath([])}
-              className={categoryPath.length === 0 ? 'font-semibold text-ink-900' : 'text-ink-500 hover:text-ink-900'}
-            >
-              {t('categories')}
-            </button>
-            {categoryPath.map((node, index) => (
-              <span key={`${node.name}-${index}`} className="flex items-center gap-2">
-                <span className="text-ink-300" aria-hidden>/</span>
-                <button
-                  type="button"
-                  onClick={() => setCategoryPath(categoryPath.slice(0, index + 1))}
-                  className={index === categoryPath.length - 1 ? 'font-bold text-ink-900' : 'text-ink-500 hover:text-ink-900'}
-                >
-                  {node.name}
-                </button>
-              </span>
-            ))}
-          </nav>
-
-          <div className="max-h-[300px] space-y-1 overflow-y-auto p-2" role="list">
-            {categoryPath.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setCategoryPath(categoryPath.slice(0, -1))}
-                className="flex min-h-[46px] w-full items-center gap-3 rounded-lg px-3 text-start text-[13px] text-ink-700 transition-colors hover:border-ink-900/[0.08] hover:bg-sand-100"
-              >
-                <ChevronLeft size={17} className="shrink-0 text-ink-500" />
-                <span>{t('backToPreviousLevel')}</span>
-              </button>
-            )}
-            {categoryPath.length === 0 && (
-              <CategoryOption label={t('allCategories')} selected={!activeCat} onSelect={selectAll} />
-            )}
-            {categoryLevel.map((node) => (
-              <CategoryOption
-                key={node.name}
-                label={node.name}
-                selected={activeCat !== null && normalizeCategory(activeCat) === normalizeCategory(node.name)}
-                hasChildren={Boolean(node.children?.length)}
-                onSelect={() => selectCategory(node)}
-              />
-            ))}
-          </div>
-
-          <div className="border-t border-ink-900/[0.08] px-3.5 py-3 text-[11px] text-ink-500">
-            {activeCat ? t('categorySelection', { category: activeCat }) : t('noCategorySelected')}
-          </div>
-        </div>
+        <h3 className="text-[11px] font-bold uppercase tracking-wider text-ink-300">{t('category')}</h3>
+        <button
+          type="button"
+          onClick={onOpenCategories}
+          className="mt-2 flex min-h-[62px] w-full items-center gap-3 rounded-xl border border-ink-900/[0.08] bg-white px-3.5 py-3 text-start shadow-card transition-colors hover:border-majorelle-200 hover:bg-sand-50"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-semibold text-ink-900">
+              {value.cat ?? t('allCategories')}
+            </span>
+            <span className="mt-0.5 block text-xs text-ink-500">
+              {value.cat ? t('categorySelection', { category: value.cat }) : t('noCategorySelected')}
+            </span>
+          </span>
+          <ChevronRight size={17} className="flip-rtl shrink-0 text-ink-400" aria-hidden />
+        </button>
       </section>
 
       {/* ZONE */}
@@ -249,60 +182,6 @@ export function FiltersPanel({
       )}
     </div>
   );
-}
-
-function CategoryOption({
-  label,
-  selected,
-  hasChildren,
-  onSelect,
-}: {
-  label: string;
-  selected: boolean;
-  hasChildren?: boolean;
-  onSelect: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      aria-pressed={selected}
-      className={`flex min-h-[46px] w-full items-center gap-3 rounded-lg border px-3 text-start text-[13px] transition-colors ${
-        selected
-          ? 'border-[#e5d8c8] bg-[#f4eee5] font-semibold text-ink-900'
-          : 'border-transparent text-ink-700 hover:border-ink-900/[0.08] hover:bg-sand-100'
-      }`}
-    >
-      <span
-        className={`grid h-4 w-4 shrink-0 place-items-center rounded-full border ${
-          selected ? 'border-[5px] border-[#9a7653]' : 'border-[#b8a793]'
-        }`}
-        aria-hidden
-      />
-      <span className="min-w-0 flex-1 whitespace-normal break-words leading-snug" title={label}>
-        {label}
-      </span>
-      {hasChildren && <ChevronRight size={16} className="shrink-0 text-ink-400" />}
-    </button>
-  );
-}
-
-function getBrowsePath(name: string): TaxNode[] {
-  const target = normalizeCategory(name);
-  const findPath = (nodes: TaxNode[], path: TaxNode[]): TaxNode[] | null => {
-    for (const node of nodes) {
-      const currentPath = [...path, node];
-      if (normalizeCategory(node.name) === target) {
-        return node.children?.length ? currentPath : currentPath.slice(0, -1);
-      }
-      if (node.children) {
-        const found = findPath(node.children, currentPath);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-  return findPath(TAXONOMY, []) ?? [];
 }
 
 function CategoryRow({
