@@ -12,9 +12,8 @@ export interface NavLink {
 }
 
 /**
- * Primary navigation order — Home, Promotions, Search, then the remaining
- * destinations in a logical order. Shared by the desktop bar, the compact
- * "Plus" menu and the mobile drawer so the two never drift apart.
+ * Shared primary navigation for desktop, the compact "Plus" menu, and the
+ * mobile drawer.
  */
 export function usePrimaryNav(): NavLink[] {
   const t = useTranslations('nav');
@@ -23,12 +22,9 @@ export function usePrimaryNav(): NavLink[] {
     { href: '/promotions', label: t('promotions'), hot: true },
     { href: '/search', label: t('search'), opensSearch: true },
     { href: '/services', label: t('services') },
-    { href: '/news', label: t('news') },
-    { href: '/communities', label: t('communities') },
-    { href: '/activities', label: t('activities') },
-    { href: '/meetings', label: t('meetings') },
-    { href: '/map', label: t('map') },
     { href: '/places', label: t('places') },
+    { href: '/communities', label: t('communities') },
     { href: '/sell', label: t('sell') },
+    { href: '/map', label: t('map') },
   ];
 }

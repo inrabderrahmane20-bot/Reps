@@ -486,6 +486,8 @@
     "groupCategories": "الفئات"
   },
   "categories": {
+    "technique": "الخدمات التقنية",
+    "sport": "الرياضة",
     "maisonBatiment": "المنزل والبناء",
     "nettoyageEntretien": "التنظيف والصيانة",
     "jardinExterieur": "الحديقة والخارج",

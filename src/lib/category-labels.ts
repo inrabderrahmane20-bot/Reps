@@ -1,13 +1,14 @@
 // Localization helpers for the service taxonomy.
 //
-// The taxonomy itself (`src/data/service-taxonomy.json`) is authored in French
-// — it is the canonical source of truth for the catalogue and is used as-is by
-// the API. To keep the interface readable in Arabic and English we map every
-// top-level family to a translation key that lives in the next-intl message
-// files (`categories.*`).
+// The shared category taxonomy is authored in French. To keep the Services
+// directory readable in Arabic and English, top-level families map to keys in
+// the next-intl `categories` namespace.
 
 /** Top-level taxonomy name (French) → message key under `categories`. */
 export const CATEGORY_MESSAGE_KEYS: Record<string, string> = {
+  TECHNIQUE: 'technique',
+  SPORT: 'sport',
+  'BEAUTÉ ET BIEN-ÊTRE': 'beauteBienEtre',
   'MAISON & BÂTIMENT': 'maisonBatiment',
   'NETTOYAGE & ENTRETIEN': 'nettoyageEntretien',
   'JARDIN & EXTÉRIEUR': 'jardinExterieur',
@@ -33,6 +34,9 @@ export const CATEGORY_MESSAGE_KEYS: Record<string, string> = {
 
 /** Decorative emoji per family — purely visual, never the only signal. */
 export const CATEGORY_ICONS: Record<string, string> = {
+  TECHNIQUE: '🛠️',
+  SPORT: '🏅',
+  'BEAUTÉ ET BIEN-ÊTRE': '💇',
   'MAISON & BÂTIMENT': '🏠',
   'NETTOYAGE & ENTRETIEN': '🧹',
   'JARDIN & EXTÉRIEUR': '🌿',

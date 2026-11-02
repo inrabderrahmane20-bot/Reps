@@ -1,0 +1,1108 @@
+[
+  {
+    "name": "SERVICES",
+    "children": [
+      {
+        "name": "TECHNIQUE",
+        "children": [
+          {
+            "name": "Électricien",
+            "children": [
+              {
+                "name": "Type d'intervention / Installation",
+                "children": [
+                  {
+                    "name": "Appartement"
+                  },
+                  {
+                    "name": "Maison"
+                  },
+                  {
+                    "name": "Immeuble"
+                  },
+                  {
+                    "name": "Automobile"
+                  },
+                  {
+                    "name": "Moto"
+                  },
+                  {
+                    "name": "Piscine"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Mécanicien",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Automobile"
+                  },
+                  {
+                    "name": "Moto",
+                    "children": [
+                      {
+                        "name": "Siclis"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Vélo",
+                    "children": [
+                      {
+                        "name": "Siclis"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Machine"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Soudeur"
+          },
+          {
+            "name": "Décorateur"
+          },
+          {
+            "name": "Cycliste"
+          },
+          {
+            "name": "Menuisier aluminium"
+          },
+          {
+            "name": "Tadelakt"
+          },
+          {
+            "name": "Potier"
+          },
+          {
+            "name": "Menuisier bois"
+          },
+          {
+            "name": "Climatisation"
+          },
+          {
+            "name": "Réparateur chauffage"
+          },
+          {
+            "name": "Réparateur chauffe-eau"
+          },
+          {
+            "name": "Carrossier-tôlier",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Automobile"
+                  },
+                  {
+                    "name": "Moto"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Tapissier",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Automobile"
+                  },
+                  {
+                    "name": "Fauteuil"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Couturier",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Vêtements traditionnels pour homme"
+                  },
+                  {
+                    "name": "Vêtements traditionnels pour femme"
+                  },
+                  {
+                    "name": "Retouche / Tailleur"
+                  },
+                  {
+                    "name": "Costume"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Styliste",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Homme"
+                  },
+                  {
+                    "name": "Femme"
+                  },
+                  {
+                    "name": "Enfant"
+                  },
+                  {
+                    "name": "Sac"
+                  },
+                  {
+                    "name": "Jaquette"
+                  },
+                  {
+                    "name": "Accessoires pour animaux"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Résine (Résiniste)",
+            "children": [
+              {
+                "name": "Type de service",
+                "children": [
+                  {
+                    "name": "Créateur en résine"
+                  },
+                  {
+                    "name": "Réparateur en résine",
+                    "children": [
+                      {
+                        "name": "Type de réparation",
+                        "children": [
+                          {
+                            "name": "Réparation de voiture"
+                          },
+                          {
+                            "name": "Réparation de moto"
+                          },
+                          {
+                            "name": "Réparation de planche de surf"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Serrurier",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Serrurier porte en métal"
+                  },
+                  {
+                    "name": "Serrurier porte en bois"
+                  },
+                  {
+                    "name": "Serrurier porte intelligente (Smart)"
+                  },
+                  {
+                    "name": "Serrurier automobile"
+                  },
+                  {
+                    "name": "Serrurier moto"
+                  },
+                  {
+                    "name": "Serrurier systèmes de sécurité"
+                  },
+                  {
+                    "name": "Serrurier coffre-fort"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Peintre",
+            "children": [
+              {
+                "name": "Spécialisation",
+                "children": [
+                  {
+                    "name": "Peinture intérieure de maison"
+                  },
+                  {
+                    "name": "Peinture extérieure de maison"
+                  },
+                  {
+                    "name": "Peinture d'immeuble"
+                  },
+                  {
+                    "name": "Peinture automobile"
+                  },
+                  {
+                    "name": "Peinture moto"
+                  },
+                  {
+                    "name": "Peinture de terrasse étanche"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Réparation électroménager",
+            "children": [
+              {
+                "name": "Appareil",
+                "children": [
+                  {
+                    "name": "Machine à café"
+                  },
+                  {
+                    "name": "Machine à laver"
+                  },
+                  {
+                    "name": "Lave-vaisselle"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ANIMAUX",
+        "children": [
+          {
+            "name": "Promenade de chiens"
+          },
+          {
+            "name": "Garde d'animaux"
+          },
+          {
+            "name": "Toilettage animalier"
+          },
+          {
+            "name": "Pension pour animaux"
+          },
+          {
+            "name": "Dressage animalier"
+          },
+          {
+            "name": "Transport d'animaux"
+          },
+          {
+            "name": "Vétérinaire"
+          }
+        ]
+      },
+      {
+        "name": "SPORT",
+        "children": [
+          {
+            "name": "Coach sportif",
+            "children": [
+              {
+                "name": "Musculation"
+              },
+              {
+                "name": "Cyclisme",
+                "children": [
+                  {
+                    "name": "Type de pilotage",
+                    "children": [
+                      {
+                        "name": "Pilotage sur route"
+                      },
+                      {
+                        "name": "Pilotage sur piste"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Motocyclisme",
+                "children": [
+                  {
+                    "name": "Type de pilotage",
+                    "children": [
+                      {
+                        "name": "Pilotage sur route"
+                      },
+                      {
+                        "name": "Pilotage sur piste"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Automobilisme",
+                "children": [
+                  {
+                    "name": "Type de pilotage",
+                    "children": [
+                      {
+                        "name": "Pilotage sur route"
+                      },
+                      {
+                        "name": "Pilotage sur piste"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Tennis"
+          },
+          {
+            "name": "Football"
+          },
+          {
+            "name": "Natation"
+          },
+          {
+            "name": "Équitation"
+          },
+          {
+            "name": "Yoga"
+          },
+          {
+            "name": "Basketball"
+          },
+          {
+            "name": "Arts martiaux",
+            "children": [
+              {
+                "name": "Discipline",
+                "children": [
+                  {
+                    "name": "Karaté"
+                  },
+                  {
+                    "name": "Aïkido"
+                  },
+                  {
+                    "name": "Judo"
+                  },
+                  {
+                    "name": "Taekwondo"
+                  },
+                  {
+                    "name": "Kung-Fu"
+                  },
+                  {
+                    "name": "Jiu-Jitsu"
+                  },
+                  {
+                    "name": "Sambo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Sports de combat",
+            "children": [
+              {
+                "name": "Discipline",
+                "children": [
+                  {
+                    "name": "Boxe"
+                  },
+                  {
+                    "name": "Muay Thai"
+                  },
+                  {
+                    "name": "Kickboxing"
+                  },
+                  {
+                    "name": "MMA"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Rééducation sportive"
+          }
+        ]
+      },
+      {
+        "name": "BEAUTÉ ET BIEN-ÊTRE",
+        "children": [
+          {
+            "name": "Coiffeur à domicile"
+          },
+          {
+            "name": "Barbier"
+          },
+          {
+            "name": "Maquillage"
+          },
+          {
+            "name": "Manucure"
+          },
+          {
+            "name": "Pédicure"
+          },
+          {
+            "name": "Épilation"
+          },
+          {
+            "name": "Hammam"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "COMMUNAUTÉ",
+    "children": [
+      {
+        "name": "COURS ET ÉDUCATION",
+        "children": [
+          {
+            "name": "Cours de français"
+          },
+          {
+            "name": "Cours d'arabe"
+          },
+          {
+            "name": "Cours d'anglais"
+          }
+        ]
+      },
+      {
+        "name": "PARTENAIRE D'ACTIVITÉ",
+        "children": [
+          {
+            "name": "Aide au déménagement"
+          },
+          {
+            "name": "Partenaire d'entraînement"
+          },
+          {
+            "name": "Partenaire linguistique",
+            "children": [
+              {
+                "name": "Langue",
+                "children": [
+                  {
+                    "name": "Néerlandais"
+                  },
+                  {
+                    "name": "Italien"
+                  },
+                  {
+                    "name": "Anglais"
+                  },
+                  {
+                    "name": "Français"
+                  },
+                  {
+                    "name": "Arabe"
+                  },
+                  {
+                    "name": "Autres langues"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Partenaire de tournoi",
+            "children": [
+              {
+                "name": "Sport",
+                "children": [
+                  {
+                    "name": "Football"
+                  },
+                  {
+                    "name": "Basketball"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Partenaire de tennis"
+          },
+          {
+            "name": "Compagnon de vélo"
+          }
+        ]
+      },
+      {
+        "name": "ENFANTS",
+        "children": [
+          {
+            "name": "Garderie"
+          },
+          {
+            "name": "Nounou"
+          },
+          {
+            "name": "Parc de jeux"
+          },
+          {
+            "name": "Garde d'enfant à domicile"
+          },
+          {
+            "name": "Animation pour enfants"
+          },
+          {
+            "name": "Accompagnement d'enfants"
+          },
+          {
+            "name": "Garde après l'école"
+          },
+          {
+            "name": "Sortie d'école"
+          },
+          {
+            "name": "Aide aux devoirs"
+          },
+          {
+            "name": "Cours particuliers"
+          },
+          {
+            "name": "Langues",
+            "children": [
+              {
+                "name": "Langue",
+                "children": [
+                  {
+                    "name": "Français"
+                  },
+                  {
+                    "name": "Arabe"
+                  },
+                  {
+                    "name": "Anglais"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AIDE À DOMICILE ET PERSONNES ÂGÉES",
+        "children": [
+          {
+            "name": "Aide aux courses"
+          },
+          {
+            "name": "Préparation des repas"
+          },
+          {
+            "name": "Accompagnement"
+          },
+          {
+            "name": "Compagnie"
+          },
+          {
+            "name": "Assistance quotidienne"
+          },
+          {
+            "name": "Aide à domicile"
+          },
+          {
+            "name": "Garde de nuit"
+          }
+        ]
+      },
+      {
+        "name": "CLASSES ET ATELIERS",
+        "children": [
+          {
+            "name": "Cours de jardinage gratuit"
+          },
+          {
+            "name": "Cours de préparation fiscale"
+          },
+          {
+            "name": "Cours de cuisine marocaine"
+          },
+          {
+            "name": "Atelier de création de poterie"
+          },
+          {
+            "name": "Atelier de création de parfum"
+          }
+        ]
+      },
+      {
+        "name": "ÉVÉNEMENTS",
+        "children": [
+          {
+            "name": "Conférence"
+          },
+          {
+            "name": "Théâtre"
+          },
+          {
+            "name": "Vente aux enchères"
+          },
+          {
+            "name": "Événements annuels",
+            "children": [
+              {
+                "name": "Événement",
+                "children": [
+                  {
+                    "name": "Festival annuel de golf"
+                  },
+                  {
+                    "name": "Marrakech Air Show"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "LES ENDROITS",
+    "children": [
+      {
+        "name": "ENDROITS À VISITER",
+        "children": [
+          {
+            "name": "JARDINS ET NATURE",
+            "children": [
+              {
+                "name": "Jardins et espaces naturels de [VILLE]",
+                "children": [
+                  {
+                    "name": "Jardin Majorelle"
+                  },
+                  {
+                    "name": "Jardin de la Ménara"
+                  },
+                  {
+                    "name": "Jardins de l'Agdal"
+                  },
+                  {
+                    "name": "Jardin Secret"
+                  },
+                  {
+                    "name": "Cyber Park Arsat Moulay Abdeslam"
+                  },
+                  {
+                    "name": "Palmeraie de Marrakech"
+                  },
+                  {
+                    "name": "Parc Lalla Hasna"
+                  },
+                  {
+                    "name": "Oliveraie de la Ménara"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "MONUMENTS HISTORIQUES ET PATRIMOINE",
+            "children": [
+              {
+                "name": "Monuments et sites de [VILLE]",
+                "children": [
+                  {
+                    "name": "Koutoubia"
+                  },
+                  {
+                    "name": "Médersa Ben Youssef"
+                  },
+                  {
+                    "name": "Palais de la Bahia"
+                  },
+                  {
+                    "name": "Palais El Badiî"
+                  },
+                  {
+                    "name": "Tombeaux Saadiens"
+                  },
+                  {
+                    "name": "Porte Bab Agnaou"
+                  },
+                  {
+                    "name": "Bab Boujloud"
+                  },
+                  {
+                    "name": "Musée de Marrakech"
+                  },
+                  {
+                    "name": "Musée de Mouassine"
+                  },
+                  {
+                    "name": "Jardin Secret"
+                  },
+                  {
+                    "name": "Dar El Bacha"
+                  },
+                  {
+                    "name": "Maison de la Photographie"
+                  },
+                  {
+                    "name": "Musée Dar Si Saïd"
+                  },
+                  {
+                    "name": "Musée de la Femme"
+                  },
+                  {
+                    "name": "Souk Semmarine"
+                  },
+                  {
+                    "name": "Souk des Teinturiers"
+                  },
+                  {
+                    "name": "Souk des Bijoutiers"
+                  },
+                  {
+                    "name": "Souk Haddadine"
+                  },
+                  {
+                    "name": "Place des Épices (Rahba Kedima)"
+                  },
+                  {
+                    "name": "Place des Ferblantiers"
+                  },
+                  {
+                    "name": "Quartier de la Kasbah"
+                  },
+                  {
+                    "name": "Quartier de Mouassine"
+                  },
+                  {
+                    "name": "Quartier Mellah"
+                  },
+                  {
+                    "name": "Synagogue Lazama"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "MUSÉES ET CULTURE",
+            "children": [
+              {
+                "name": "Musées et lieux culturels de [VILLE]",
+                "children": [
+                  {
+                    "name": "Musée Yves Saint Laurent Marrakech"
+                  },
+                  {
+                    "name": "Musée Mohammed VI pour la civilisation"
+                  },
+                  {
+                    "name": "Musée des Confluences – Dar El Bacha"
+                  },
+                  {
+                    "name": "Musée de Marrakech"
+                  },
+                  {
+                    "name": "Maison de la Photographie"
+                  },
+                  {
+                    "name": "Musée Dar Si Saïd"
+                  },
+                  {
+                    "name": "Musée de la Femme de Marrakech"
+                  },
+                  {
+                    "name": "Musée MACAAL"
+                  },
+                  {
+                    "name": "Musée Tiskiwin"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "EXCURSIONS",
+            "children": [
+              {
+                "name": "Excursions autour de [VILLE]",
+                "children": [
+                  {
+                    "name": "Désert d'Agafay"
+                  },
+                  {
+                    "name": "Vallée de l'Ourika"
+                  },
+                  {
+                    "name": "Setti Fatma"
+                  },
+                  {
+                    "name": "Cascades d'Ouzoud"
+                  },
+                  {
+                    "name": "Lac Lalla Takerkoust"
+                  },
+                  {
+                    "name": "Plateau du Kik"
+                  },
+                  {
+                    "name": "Imlil"
+                  },
+                  {
+                    "name": "Parc national du Toubkal"
+                  },
+                  {
+                    "name": "Asni"
+                  },
+                  {
+                    "name": "Ouirgane"
+                  },
+                  {
+                    "name": "Aït Ben Haddou"
+                  },
+                  {
+                    "name": "Ouarzazate"
+                  },
+                  {
+                    "name": "Vallée du Zat"
+                  },
+                  {
+                    "name": "Palmeraie de Marrakech"
+                  },
+                  {
+                    "name": "Circuit en quad dans la Palmeraie"
+                  },
+                  {
+                    "name": "Balade à dos de chameau"
+                  },
+                  {
+                    "name": "Vol en montgolfière autour de Marrakech"
+                  },
+                  {
+                    "name": "Excursion en buggy"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "EXPÉRIENCES À FAIRE",
+            "children": [
+              {
+                "name": "Expériences proposées à [VILLE]",
+                "children": [
+                  {
+                    "name": "Dîner traditionnel marocain"
+                  },
+                  {
+                    "name": "Spectacle de fantasia"
+                  },
+                  {
+                    "name": "Hammam marocain traditionnel"
+                  },
+                  {
+                    "name": "Rooftop avec vue sur la médina"
+                  },
+                  {
+                    "name": "Coucher de soleil à Jemaa el-Fna"
+                  },
+                  {
+                    "name": "Dîner dans le désert d'Agafay"
+                  },
+                  {
+                    "name": "Balade en calèche"
+                  },
+                  {
+                    "name": "Spa traditionnel marocain"
+                  },
+                  {
+                    "name": "Dégustation de thé à la menthe"
+                  },
+                  {
+                    "name": "Découverte de la cuisine de rue de la médina"
+                  },
+                  {
+                    "name": "Balade nocturne dans la médina"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "CAFÉS",
+            "children": [
+              {
+                "name": "Établissements de [VILLE]"
+              }
+            ]
+          },
+          {
+            "name": "RESTAURANTS",
+            "children": [
+              {
+                "name": "Établissements de [VILLE]"
+              }
+            ]
+          },
+          {
+            "name": "PARCS",
+            "children": [
+              {
+                "name": "Établissements de [VILLE]"
+              }
+            ]
+          },
+          {
+            "name": "PISCINES",
+            "children": [
+              {
+                "name": "Établissements de [VILLE]"
+              }
+            ]
+          },
+          {
+            "name": "HÔTELS",
+            "children": [
+              {
+                "name": "Établissements de [VILLE]"
+              }
+            ]
+          },
+          {
+            "name": "SALLES DE SPORT",
+            "children": [
+              {
+                "name": "Disciplines proposées",
+                "children": [
+                  {
+                    "name": "Karaté"
+                  },
+                  {
+                    "name": "Yoga"
+                  },
+                  {
+                    "name": "Musculation"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "À VENDRE",
+    "children": [
+      {
+        "name": "VÉHICULES",
+        "children": [
+          {
+            "name": "VOITURE",
+            "children": [
+              {
+                "name": "Type d'annonce",
+                "children": [
+                  {
+                    "name": "Voiture"
+                  },
+                  {
+                    "name": "Pièces de voiture"
+                  },
+                  {
+                    "name": "Roues et pneus de voiture"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "MOTO",
+            "children": [
+              {
+                "name": "Type d'annonce",
+                "children": [
+                  {
+                    "name": "Moto"
+                  },
+                  {
+                    "name": "Pièces de moto"
+                  },
+                  {
+                    "name": "Roues et pneus de moto"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "VÉLO",
+            "children": [
+              {
+                "name": "Type d'annonce",
+                "children": [
+                  {
+                    "name": "Vélo"
+                  },
+                  {
+                    "name": "Pièces de vélo"
+                  },
+                  {
+                    "name": "Roues et pneus de vélo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "CAMION",
+            "children": [
+              {
+                "name": "Type d'annonce",
+                "children": [
+                  {
+                    "name": "Remorque"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ENTIKITER",
+        "children": [
+          {
+            "name": "À préciser"
+          }
+        ]
+      }
+    ]
+  }
+]

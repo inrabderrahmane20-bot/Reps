@@ -1,22 +1,34 @@
 // Taxonomy helpers used by the Services directory.
 //
 // Provider records carry a single concrete category (e.g. "Installation
-// plomberie", "Plumbing"). The source taxonomy (src/data/service-taxonomy.json)
-// is a 3-level tree (Top-level → Subcategory → Leaf service), so any node in
-// that tree can be expanded into the set of concrete leaf categories that
-// belong under it. The marketplace API uses this expansion for filtering.
+// plomberie", "Plumbing"). Service categories are the Services branch of the
+// shared category tree; any node can be expanded into its concrete leaf values
+// for marketplace filtering.
 //
 // Pure TS (no Node APIs) so it is safe to import from both server routes and
 // client components.
 
-import taxonomyData from '@/data/service-taxonomy.json';
+import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 
 export interface TaxNode {
   name: string;
   children?: TaxNode[];
 }
 
-export const TAXONOMY = taxonomyData as TaxNode[];
+function toTaxNode(node: SearchCategoryNode): TaxNode {
+  const children = node.children?.map(toTaxNode);
+  return {
+    name: node.labels.fr,
+    ...(children?.length ? { children } : {}),
+  };
+}
+
+const servicesCategory = SEARCH_CATEGORIES.find((node) => node.id === 'services');
+if (!servicesCategory) {
+  throw new Error('The shared category tree must include a Services branch.');
+}
+
+export const TAXONOMY = (servicesCategory.children ?? []).map(toTaxNode);
 
 /** Top-level group names, in the order they appear in the source taxonomy. */
 export function topLevelCategories(): string[] {

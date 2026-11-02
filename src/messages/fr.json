@@ -486,6 +486,8 @@
     "groupCategories": "Catégories"
   },
   "categories": {
+    "technique": "Technique",
+    "sport": "Sport",
     "maisonBatiment": "Maison & bâtiment",
     "nettoyageEntretien": "Nettoyage & entretien",
     "jardinExterieur": "Jardin & extérieur",

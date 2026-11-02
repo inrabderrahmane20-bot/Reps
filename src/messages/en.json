@@ -486,6 +486,8 @@
     "groupCategories": "Categories"
   },
   "categories": {
+    "technique": "Technical services",
+    "sport": "Sports",
     "maisonBatiment": "Home & building",
     "nettoyageEntretien": "Cleaning & maintenance",
     "jardinExterieur": "Garden & outdoors",
