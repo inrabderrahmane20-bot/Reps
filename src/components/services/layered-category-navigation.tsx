@@ -8,11 +8,13 @@ import { normalizeCategory, TAXONOMY, type TaxNode } from '@/lib/service-categor
 export function LayeredCategoryNavigation({
   open,
   selectedCategory,
+  origin,
   onSelectCategory,
   onClose,
 }: {
   open: boolean;
   selectedCategory: string | null;
+  origin: { x: number; y: number } | null;
   onSelectCategory: (category: string | null) => void;
   onClose: () => void;
 }) {
@@ -38,7 +40,14 @@ export function LayeredCategoryNavigation({
       setMounted(true);
       setClosing(false);
       setEntered(false);
-      setPath(selectedCategory ? findBrowsePath(selectedCategory) : []);
+      const desktop = window.matchMedia('(min-width: 768px)').matches;
+      setPath(
+        selectedCategory
+          ? findBrowsePath(selectedCategory)
+          : desktop && TAXONOMY[0]
+            ? [TAXONOMY[0]]
+            : []
+      );
       animationFrameRef.current = window.requestAnimationFrame(() => setEntered(true));
       window.requestAnimationFrame(() => closeButtonRef.current?.focus());
       return () => {
@@ -73,6 +82,18 @@ export function LayeredCategoryNavigation({
       document.body.style.overflow = previousOverflow;
     };
   }, [mounted, open]);
+
+  useEffect(() => {
+    if (!open) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
 
   const layers = useMemo(() => {
     const levels: TaxNode[][] = [TAXONOMY];
@@ -140,24 +161,26 @@ export function LayeredCategoryNavigation({
     }
   }
 
-  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      event.stopPropagation();
-      onClose();
-    }
-  }
-
   if (!mounted) return null;
 
   const isRtl = locale === 'ar';
+  const zoomFromOrigin = origin && window.matchMedia('(min-width: 768px)').matches;
+  const dialogWidth = Math.min(window.innerWidth * 0.94, 1500);
+  const dialogHeight = window.innerWidth >= 640 ? window.innerHeight * 0.92 : window.innerHeight - 24;
+  const originX = zoomFromOrigin
+    ? Math.max(0, Math.min(100, ((origin.x - (window.innerWidth - dialogWidth) / 2) / dialogWidth) * 100))
+    : 50;
+  const originY = zoomFromOrigin
+    ? Math.max(0, Math.min(100, ((origin.y - (window.innerHeight - dialogHeight) / 2) / dialogHeight) * 100))
+    : 50;
 
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-ink-900/35 p-3 backdrop-blur-[2px] transition-opacity duration-500 motion-reduce:transition-none sm:p-4"
       style={{ opacity: entered && !closing ? 1 : 0 }}
-      onClick={onClose}
-      onKeyDown={handleKeyDown}
+      onClick={(event) => {
+        if (!(event.target as Element).closest('[data-category-navigation-panel]')) onClose();
+      }}
     >
       <div
         role="dialog"
@@ -166,10 +189,14 @@ export function LayeredCategoryNavigation({
         dir={isRtl ? 'rtl' : 'ltr'}
         className="relative h-[calc(100dvh-24px)] w-[calc(100vw-24px)] max-w-[1500px] touch-pan-y transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-[92dvh] sm:w-[94vw]"
         style={{
-          transform: entered && !closing ? 'translateY(0) scale(1)' : 'translateY(14px) scale(0.97)',
+          transform: entered && !closing
+            ? 'translateY(0) scale(1)'
+            : zoomFromOrigin
+              ? 'scale(0.62)'
+              : 'translateY(14px) scale(0.97)',
+          transformOrigin: `${originX}% ${originY}%`,
           opacity: entered && !closing ? 1 : 0,
         }}
-        onClick={(event) => event.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -188,6 +215,7 @@ export function LayeredCategoryNavigation({
             return (
               <section
                 key={`desktop-${index}-${path.slice(0, index).map((node) => node.name).join('/')}`}
+                data-category-navigation-panel
                 className={`flex min-w-0 flex-col overflow-hidden rounded-[26px] border border-ink-900/10 transition-[background-color,box-shadow,opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
                   isActive
                     ? 'bg-sand-50 shadow-[0_24px_70px_rgba(35,25,20,0.26)]'
@@ -335,6 +363,7 @@ export function LayeredCategoryNavigation({
             return (
               <div
                 key={`${index}-${path.slice(0, index).map((node) => node.name).join('/')}`}
+                data-category-navigation-panel
                 role="button"
                 tabIndex={0}
                 aria-label={title}
@@ -365,6 +394,7 @@ export function LayeredCategoryNavigation({
           return (
             <section
               key={`${index}-${path.slice(0, index).map((node) => node.name).join('/')}`}
+              data-category-navigation-panel
               className="absolute inset-0 flex flex-col overflow-hidden rounded-[26px] border border-ink-900/10 bg-sand-50 shadow-[0_24px_70px_rgba(35,25,20,0.26)] transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
               style={{ transform, opacity: 1, zIndex: index + 1 }}
             >

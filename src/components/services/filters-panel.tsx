@@ -31,7 +31,7 @@ export function FiltersPanel({
   value: FiltersState;
   onChange: (next: FiltersState) => void;
   onReset: () => void;
-  onOpenCategories: () => void;
+  onOpenCategories: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** Show a footer with Reset + Apply (mobile drawer). Desktop applies live. */
   showApply?: boolean;
   onApply?: () => void;

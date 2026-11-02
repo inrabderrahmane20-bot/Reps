@@ -61,6 +61,7 @@ export default function ServicesPage() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [categoryNavigationOpen, setCategoryNavigationOpen] = useState(false);
+  const [categoryNavigationOrigin, setCategoryNavigationOrigin] = useState<{ x: number; y: number } | null>(null);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
   const [clientSearchesKey, setClientSearchesKey] = useState(0);
   const [sponsored, setSponsored] = useState<ServiceListing[]>([]);
@@ -205,6 +206,15 @@ export default function ServicesPage() {
     setFilters((f) => ({ ...f, ...partial }));
   }
 
+  function openCategoryNavigation(event: React.MouseEvent<HTMLButtonElement>) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    setCategoryNavigationOrigin({
+      x: bounds.left + bounds.width / 2,
+      y: bounds.top + bounds.height / 2,
+    });
+    setCategoryNavigationOpen(true);
+  }
+
   function resetAll() {
     setQ('');
     setDebouncedQ('');
@@ -266,7 +276,7 @@ export default function ServicesPage() {
           <div className="mt-4 flex items-center gap-2 lg:hidden">
             <button
               type="button"
-              onClick={() => setCategoryNavigationOpen(true)}
+              onClick={openCategoryNavigation}
               className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-ink-900/10 bg-white px-3.5 text-start text-sm text-ink-700 shadow-card transition-colors hover:bg-sand-50"
             >
               <span className="min-w-0 flex-1">
@@ -297,7 +307,7 @@ export default function ServicesPage() {
               value={filters}
               onChange={setFilters}
               onReset={resetAll}
-              onOpenCategories={() => setCategoryNavigationOpen(true)}
+              onOpenCategories={openCategoryNavigation}
             />
             <ClientSearchesPanel refreshKey={clientSearchesKey} />
           </div>
@@ -403,7 +413,7 @@ export default function ServicesPage() {
           value={filters}
           onChange={setFilters}
           onReset={resetAll}
-          onOpenCategories={() => setCategoryNavigationOpen(true)}
+          onOpenCategories={openCategoryNavigation}
           onClose={() => setDrawerOpen(false)}
           clientSearchesKey={clientSearchesKey}
         />
@@ -412,6 +422,7 @@ export default function ServicesPage() {
       <LayeredCategoryNavigation
         open={categoryNavigationOpen}
         selectedCategory={filters.cat}
+        origin={categoryNavigationOrigin}
         onSelectCategory={(cat) => setFiltersMerged({ cat })}
         onClose={() => setCategoryNavigationOpen(false)}
       />

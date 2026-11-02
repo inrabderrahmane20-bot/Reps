@@ -272,7 +272,7 @@ export default function MapPage() {
         <Legend color={availabilityColor.offline} label="Offline" />
       </div>
 
-      <div ref={containerRef} className="mt-4 h-[70vh] w-full overflow-hidden rounded-2xl shadow-card" />
+      <div ref={containerRef} className="relative z-0 isolate mt-4 h-[70vh] w-full overflow-hidden rounded-2xl shadow-card" />
       {!leafletReady && <p className="mt-2 text-center text-xs text-ink-300">{z('loadingMap')}</p>}
     </div>
   );

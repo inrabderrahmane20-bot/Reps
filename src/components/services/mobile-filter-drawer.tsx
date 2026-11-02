@@ -18,7 +18,7 @@ export function MobileFilterDrawer({
   value: FiltersState;
   onChange: (next: FiltersState) => void;
   onReset: () => void;
-  onOpenCategories: () => void;
+  onOpenCategories: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onClose: () => void;
   /** Bump to refresh the "Recherche client" list shown inside the drawer. */
   clientSearchesKey?: number;
