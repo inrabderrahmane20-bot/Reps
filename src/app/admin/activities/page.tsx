@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { api } from '@/lib/api-client';
+import { useCallback, useEffect, useState } from 'react';
+import { api, apiErrorMessage } from '@/lib/api-client';
+import { AdminErrorBanner, AdminLoading } from '../admin-feedback';
 
 interface AdminActivity {
   id: string;
@@ -44,11 +45,24 @@ export default function AdminActivitiesPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<Record<string, string>>(EMPTY);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function load() {
-    api.get<{ activities: AdminActivity[] }>(`/admin/activities?q=${encodeURIComponent(q)}`).then((r) => setActivities(r.activities));
-  }
-  useEffect(load, [q]);
+  const load = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    api
+      .get<{ activities: AdminActivity[] }>(`/admin/activities?q=${encodeURIComponent(q)}`)
+      .then((r) => setActivities(r.activities))
+      .catch((loadError) =>
+        setError(apiErrorMessage(loadError, 'The activities could not be loaded.'))
+      )
+      .finally(() => setLoading(false));
+  }, [q]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   function resetForm() {
     setForm(EMPTY);
@@ -81,6 +95,7 @@ export default function AdminActivitiesPage() {
   }
 
   async function save() {
+    setError(null);
     const payload = {
       ...form,
       lat: form.lat ? Number(form.lat) : undefined,
@@ -89,25 +104,39 @@ export default function AdminActivitiesPage() {
       min: Number(form.min),
       equipment: [],
     };
-    if (editingId) {
-      await api.patch(`/admin/activities/${editingId}`, payload);
-    } else {
-      await api.post('/admin/activities', payload);
+    try {
+      if (editingId) {
+        await api.patch(`/admin/activities/${editingId}`, payload);
+      } else {
+        await api.post('/admin/activities', payload);
+      }
+      setShowForm(false);
+      resetForm();
+      load();
+    } catch (saveError) {
+      setError(apiErrorMessage(saveError, 'The activity could not be saved.'));
     }
-    setShowForm(false);
-    resetForm();
-    load();
   }
 
   async function setStatus(a: AdminActivity, status: string) {
-    await api.patch(`/admin/activities/${a.id}`, { status });
-    load();
+    setError(null);
+    try {
+      await api.patch(`/admin/activities/${a.id}`, { status });
+      load();
+    } catch (statusError) {
+      setError(apiErrorMessage(statusError, 'The activity could not be updated.'));
+    }
   }
 
   async function remove(a: AdminActivity) {
     if (!confirm(`Delete activity "${a.title}"?`)) return;
-    await api.delete(`/admin/activities/${a.id}`);
-    load();
+    setError(null);
+    try {
+      await api.delete(`/admin/activities/${a.id}`);
+      load();
+    } catch (removeError) {
+      setError(apiErrorMessage(removeError, 'The activity could not be deleted.'));
+    }
   }
 
   return (
@@ -187,6 +216,11 @@ export default function AdminActivitiesPage() {
         </div>
       )}
 
+      {error && <AdminErrorBanner message={error} onRetry={load} />}
+
+      {loading && activities.length === 0 && <AdminLoading label="Loading activities…" />}
+
+      {!loading && (
       <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-card">
         <table className="w-full text-sm">
           <thead>
@@ -240,6 +274,7 @@ export default function AdminActivitiesPage() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 }

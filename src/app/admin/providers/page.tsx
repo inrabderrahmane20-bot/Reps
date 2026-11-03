@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { api } from '@/lib/api-client';
+import { api, apiErrorMessage } from '@/lib/api-client';
+import { AdminErrorBanner, AdminLoading } from '../admin-feedback';
 import { parsePriceAmount, promotionBadge, promotionPrices } from '@/lib/marketing';
 import { validatePromotion, validateSponsored, type MarketingIssue } from '@/lib/marketing-validation';
 import type { PromotionInfo, PublicUser, SponsoredPlacement } from '@/lib/types';
@@ -67,25 +68,53 @@ export default function AdminProvidersPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function load() {
-    api.get<{ providers: PublicUser[] }>(`/admin/providers?status=${tab}`).then((r) => setProviders(r.providers));
-  }
-  useEffect(load, [tab]);
+  const load = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    api
+      .get<{ providers: PublicUser[] }>(`/admin/providers?status=${tab}`)
+      .then((r) => setProviders(r.providers))
+      .catch((loadError) =>
+        setError(apiErrorMessage(loadError, 'The providers could not be loaded.'))
+      )
+      .finally(() => setLoading(false));
+  }, [tab]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function approve(id: string) {
-    await api.patch(`/admin/providers/${id}`, { action: 'approve' });
-    load();
+    setError(null);
+    try {
+      await api.patch(`/admin/providers/${id}`, { action: 'approve' });
+      load();
+    } catch (approveError) {
+      setError(apiErrorMessage(approveError, 'The provider could not be approved.'));
+    }
   }
   async function reject(id: string) {
-    await api.patch(`/admin/providers/${id}`, { action: 'reject', rejectionReason: reason });
-    setRejectReasonFor(null);
-    setReason('');
-    load();
+    setError(null);
+    try {
+      await api.patch(`/admin/providers/${id}`, { action: 'reject', rejectionReason: reason });
+      setRejectReasonFor(null);
+      setReason('');
+      load();
+    } catch (rejectError) {
+      setError(apiErrorMessage(rejectError, 'The provider could not be rejected.'));
+    }
   }
   async function suspend(id: string) {
-    await api.patch(`/admin/providers/${id}`, { action: 'suspend' });
-    load();
+    setError(null);
+    try {
+      await api.patch(`/admin/providers/${id}`, { action: 'suspend' });
+      load();
+    } catch (suspendError) {
+      setError(apiErrorMessage(suspendError, 'The provider could not be suspended.'));
+    }
   }
 
   function openEdit(p: PublicUser) {
@@ -200,8 +229,8 @@ export default function AdminProvidersPage() {
       setEditFor(null);
       setForm(null);
       load();
-    } catch (err: any) {
-      setFormError(err?.message || 'The provider could not be saved.');
+    } catch (err) {
+      setFormError(apiErrorMessage(err, 'The provider could not be saved.'));
     } finally {
       setSaving(false);
     }
@@ -222,8 +251,14 @@ export default function AdminProvidersPage() {
         ))}
       </div>
 
+      {error && <AdminErrorBanner message={error} onRetry={load} />}
+
+      {loading && providers.length === 0 && <AdminLoading label="Loading providers…" />}
+
       <div className="mt-6 space-y-3">
-        {providers.length === 0 && <p className="text-sm text-ink-500">Nothing here.</p>}
+        {!loading && !error && providers.length === 0 && (
+          <p className="text-sm text-ink-500">Nothing here.</p>
+        )}
         {providers.map((p) => (
           <div key={p.id} className="rounded-2xl bg-white p-4 shadow-card">
             <div className="flex flex-wrap items-start justify-between gap-3">

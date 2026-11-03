@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { api } from '@/lib/api-client';
+import { useCallback, useEffect, useState } from 'react';
+import { api, apiErrorMessage } from '@/lib/api-client';
+import { AdminErrorBanner, AdminLoading } from '../admin-feedback';
 
 interface PositionRow {
   id: string;
@@ -19,11 +20,24 @@ export default function AdminPositionsPage() {
   const [positions, setPositions] = useState<PositionRow[]>([]);
   const [statusFilter, setStatusFilter] = useState('all');
   const [drafts, setDrafts] = useState<Record<string, { lat: string; lng: string }>>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function load() {
-    api.get<{ positions: PositionRow[] }>('/admin/positions').then((r) => setPositions(r.positions));
-  }
-  useEffect(load, []);
+  const load = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    api
+      .get<{ positions: PositionRow[] }>('/admin/positions')
+      .then((r) => setPositions(r.positions))
+      .catch((loadError) =>
+        setError(apiErrorMessage(loadError, 'The provider positions could not be loaded.'))
+      )
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   useEffect(() => {
     setDrafts((prev) => {
@@ -38,9 +52,14 @@ export default function AdminPositionsPage() {
   const visible = statusFilter === 'all' ? positions : positions.filter((p) => p.providerStatus === statusFilter);
 
   async function save(p: PositionRow) {
+    setError(null);
     const draft = drafts[p.id];
-    await api.patch(`/admin/positions/${p.id}`, { lat: Number(draft.lat), lng: Number(draft.lng) });
-    load();
+    try {
+      await api.patch(`/admin/positions/${p.id}`, { lat: Number(draft.lat), lng: Number(draft.lng) });
+      load();
+    } catch (saveError) {
+      setError(apiErrorMessage(saveError, 'The position could not be saved.'));
+    }
   }
 
   return (
@@ -64,6 +83,11 @@ export default function AdminPositionsPage() {
         re-classifies which neighborhood zone the provider serves.
       </p>
 
+      {error && <AdminErrorBanner message={error} onRetry={load} />}
+
+      {loading && positions.length === 0 && <AdminLoading label="Loading provider positions…" />}
+
+      {!loading && (
       <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-card">
         <table className="w-full text-sm">
           <thead>
@@ -122,6 +146,7 @@ export default function AdminPositionsPage() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 }

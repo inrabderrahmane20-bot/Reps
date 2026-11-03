@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { api } from '@/lib/api-client';
+import { useCallback, useEffect, useState } from 'react';
+import { api, apiErrorMessage } from '@/lib/api-client';
+import { AdminErrorBanner, AdminLoading } from '../admin-feedback';
 
 interface ReportRow {
   id: string;
@@ -17,15 +18,33 @@ interface ReportRow {
 export default function AdminReportsPage() {
   const [reports, setReports] = useState<ReportRow[]>([]);
   const [filter, setFilter] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function load() {
-    api.get<{ reports: ReportRow[] }>(`/admin/reports${filter ? `?status=${filter}` : ''}`).then((r) => setReports(r.reports));
-  }
-  useEffect(load, [filter]);
+  const load = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    api
+      .get<{ reports: ReportRow[] }>(`/admin/reports${filter ? `?status=${filter}` : ''}`)
+      .then((r) => setReports(r.reports))
+      .catch((loadError) =>
+        setError(apiErrorMessage(loadError, 'The reports could not be loaded.'))
+      )
+      .finally(() => setLoading(false));
+  }, [filter]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function setStatus(id: string, status: string) {
-    await api.patch(`/admin/reports/${id}`, { status });
-    load();
+    setError(null);
+    try {
+      await api.patch(`/admin/reports/${id}`, { status });
+      load();
+    } catch (statusError) {
+      setError(apiErrorMessage(statusError, 'The report could not be updated.'));
+    }
   }
 
   return (
@@ -38,8 +57,14 @@ export default function AdminReportsPage() {
           </button>
         ))}
       </div>
+      {error && <AdminErrorBanner message={error} onRetry={load} />}
+
+      {loading && reports.length === 0 && <AdminLoading label="Loading reports…" />}
+
       <div className="mt-6 space-y-2">
-        {reports.length === 0 && <p className="text-sm text-ink-500">No reports.</p>}
+        {!loading && !error && reports.length === 0 && (
+          <p className="text-sm text-ink-500">No reports.</p>
+        )}
         {reports.map((r) => (
           <div key={r.id} className="rounded-2xl bg-white p-4 shadow-card">
             <div className="flex flex-wrap items-center justify-between gap-2">

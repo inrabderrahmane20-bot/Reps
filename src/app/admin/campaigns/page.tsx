@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { api } from '@/lib/api-client';
+import Link from 'next/link';
+import { api, apiErrorMessage } from '@/lib/api-client';
+import { AdminErrorBanner } from '../admin-feedback';
 import { PLACEMENTS, validateSponsored, type MarketingIssue } from '@/lib/marketing-validation';
 import type { SponsoredCampaign, SponsoredPlacement } from '@/lib/types';
 import messages from '@/messages/fr.json';
@@ -120,6 +122,7 @@ export default function AdminCampaignsPage() {
 
   function load() {
     setLoading(true);
+    setBanner(null);
     api
       .get<{ campaigns: CampaignRow[]; providers: ProviderOption[] }>('/admin/campaigns')
       .then((r) => {
@@ -131,7 +134,9 @@ export default function AdminCampaignsPage() {
           return next;
         });
       })
-      .catch((err) => setBanner(err?.message || 'Could not load the campaigns.'))
+      .catch((err) =>
+        setBanner(apiErrorMessage(err, 'Could not load the campaigns.'))
+      )
       .finally(() => setLoading(false));
   }
 
@@ -268,7 +273,18 @@ export default function AdminCampaignsPage() {
       </p>
 
       {banner && (
-        <p className="mt-4 rounded-xl border border-clay-400/40 bg-clay-400/10 px-4 py-3 text-sm font-medium text-clay-500">{banner}</p>
+        <>
+          <AdminErrorBanner message={banner} onRetry={load} />
+          {(banner === 'You must be signed in.' ||
+            banner === 'Administrator access is required.') && (
+            <p className="mt-2 text-sm text-ink-600">
+              <Link href="/admin/login" className="font-semibold text-majorelle-700 underline">
+                Sign in with an administrator account
+              </Link>{' '}
+              to manage campaigns.
+            </p>
+          )}
+        </>
       )}
 
       {creating && (
@@ -589,7 +605,7 @@ export default function AdminCampaignsPage() {
                 ) : null,
               ];
             })}
-            {campaigns.length === 0 && (
+            {campaigns.length === 0 && (loading || !banner) && (
               <tr>
                 <td colSpan={8} className="p-6 text-center text-sm text-ink-400">
                   {loading ? 'Loading…' : 'No sponsored campaign yet. Use “New campaign” to create one.'}

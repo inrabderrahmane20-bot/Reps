@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { rootCertificates } from 'node:tls';
-import { Pool, type PoolClient } from 'pg';
+import { Pool, type PoolClient, type QueryResult, type QueryResultRow } from 'pg';
 import type { Db, Session, User } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
@@ -12,6 +12,31 @@ const SEED_PATH = path.join(DATA_DIR, 'db.seed.json');
 // production keeps certificate verification enabled without extra setup.
 const BUNDLED_CA_PATH = path.join(process.cwd(), 'supabase', 'prod-ca-2021.crt');
 const RETRYABLE_CODES = new Set(['EBUSY', 'EPERM', 'EACCES', 'ELOCKED', 'EMFILE', 'ENFILE']);
+
+// Connection-level failures that are worth retrying. Supabase's pooler can
+// briefly reject connections while a project wakes up or while it is at its
+// connection limit; a single retry usually succeeds and avoids a 500 in the
+// admin panel.
+const TRANSIENT_DB_CODES = new Set([
+  '57P03', // cannot_connect_now (database starting up)
+  '53300', // too_many_connections
+  '53400', // configuration_limit_exceeded
+  '08000', // connection_exception
+  '08001', // unable_to_establish_connection
+  '08003', // connection_does_not_exist
+  '08004', // connection_rejected
+  '08006', // connection_failure
+  '08007', // transaction_resolution_unknown
+  '08P01', // protocol_violation
+  'ECONNREFUSED',
+  'ECONNRESET',
+  'ENOTFOUND',
+  'ETIMEDOUT',
+  'EHOSTUNREACH',
+  'ENETUNREACH',
+  'EPIPE',
+  'EAI_AGAIN',
+]);
 const DB_COLLECTIONS = [
   'users',
   'sessions',
@@ -42,9 +67,18 @@ type DbRecord = Record<string, unknown>;
 const globalForDb = globalThis as typeof globalThis & {
   postgresPool?: Pool;
   postgresDbCache?: { db: Db; version: string; loadedAt: number };
+  postgresCategoryCache?: {
+    categories: Db['categories'];
+    categoryTreeInitialized: boolean;
+    version: string;
+    loadedAt: number;
+  };
 };
 const APP_META_VERSION_KEY = 'dbVersion';
 const DB_CACHE_MAX_AGE_MS = 5 * 60_000;
+// If PostgreSQL is briefly unreachable, a recent snapshot is still much more
+// useful than an empty admin page. Keep serving it for a bounded period.
+const DB_CACHE_STALE_FALLBACK_MS = 30 * 60_000;
 
 function retryOnLock<T>(fn: () => T): T {
   let lastErr: NodeJS.ErrnoException | undefined;
@@ -60,6 +94,60 @@ function retryOnLock<T>(fn: () => T): T {
     }
   }
   throw lastErr;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isTransientDbError(error: unknown): boolean {
+  const candidate = error as { code?: string; message?: string } | undefined;
+  if (candidate?.code && TRANSIENT_DB_CODES.has(candidate.code)) return true;
+  const message = candidate?.message ?? '';
+  return /timeout exceeded when trying to connect|connection terminated|connection timeout|server closed the connection unexpectedly|client has encountered a connection error|connection reset|socket hang up/i.test(
+    message
+  );
+}
+
+/**
+ * Run a read query with a short retry loop. The pg pool discards broken
+ * clients, so a retry normally gets a fresh connection from the pooler.
+ * Never use this inside an open transaction: a broken connection aborts the
+ * transaction and a retry cannot recover it.
+ */
+async function queryWithRetry<T extends QueryResultRow = QueryResultRow>(
+  client: Pool | PoolClient,
+  text: string,
+  values?: unknown[],
+  attempts = 3
+): Promise<QueryResult<T>> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      return values
+        ? await client.query<T>(text, values as any[])
+        : await client.query<T>(text);
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts - 1 || !isTransientDbError(error)) throw error;
+      await sleep(150 * 2 ** attempt + Math.floor(Math.random() * 100));
+    }
+  }
+  throw lastError;
+}
+
+async function connectWithRetry(pool: Pool, attempts = 3): Promise<PoolClient> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    try {
+      return await pool.connect();
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts - 1 || !isTransientDbError(error)) throw error;
+      await sleep(200 * 2 ** attempt + Math.floor(Math.random() * 100));
+    }
+  }
+  throw lastError;
 }
 
 function emptyDb(): Db {
@@ -185,13 +273,21 @@ function throwDatabaseError(error: unknown): never {
 }
 
 async function readPostgresDbSnapshot(
-  client: Pool | PoolClient
+  client: Pool | PoolClient,
+  attempts = 3
 ): Promise<{ db: Db; version: string }> {
   try {
-    const result = await client.query<{ db: Partial<Db>; initialized: unknown; version: unknown }>(
+    const result = await queryWithRetry<{
+      db: Partial<Db>;
+      initialized: unknown;
+      version: unknown;
+    }>(
+      client,
       `SELECT jsonb_build_object(${COLLECTION_JSON_FIELDS}) AS db,
               COALESCE((SELECT value FROM public.app_meta WHERE key = 'categoryTreeInitialized'), 'false'::jsonb) AS initialized,
-              COALESCE((SELECT value FROM public.app_meta WHERE key = '${APP_META_VERSION_KEY}'), '0'::jsonb) AS version`
+              COALESCE((SELECT value FROM public.app_meta WHERE key = '${APP_META_VERSION_KEY}'), '0'::jsonb) AS version`,
+      undefined,
+      attempts
     );
     const db: Db = { ...emptyDb(), ...result.rows[0].db };
     db.categoryTreeInitialized = Boolean(result.rows[0].initialized);
@@ -202,7 +298,9 @@ async function readPostgresDbSnapshot(
 }
 
 async function readPostgresDb(client: Pool | PoolClient): Promise<Db> {
-  return (await readPostgresDbSnapshot(client)).db;
+  // Used inside write transactions, where a retry cannot recover an aborted
+  // transaction.
+  return (await readPostgresDbSnapshot(client, 1)).db;
 }
 
 /**
@@ -212,28 +310,45 @@ async function readPostgresDb(client: Pool | PoolClient): Promise<Db> {
  */
 async function readCachedPostgresDb(pool: Pool): Promise<Db> {
   const cached = globalForDb.postgresDbCache;
+
   if (cached && Date.now() - cached.loadedAt < DB_CACHE_MAX_AGE_MS) {
     try {
-      const result = await pool.query<{ version: unknown }>(
+      const result = await queryWithRetry<{ version: unknown }>(
+        pool,
         `SELECT COALESCE((SELECT value FROM public.app_meta WHERE key = $1), '0'::jsonb) AS version`,
-        [APP_META_VERSION_KEY]
+        [APP_META_VERSION_KEY],
+        2
       );
       if (String(result.rows[0].version ?? '0') === cached.version) {
         return structuredClone(cached.db);
       }
     } catch (error) {
-      // A missing app_meta table is handled by the full read below.
+      // A missing app_meta table is handled by the full read below. If the
+      // database is only temporarily unreachable, serve the recent snapshot.
+      if (isTransientDbError(error)) return structuredClone(cached.db);
       if ((error as { code?: string }).code !== '42P01') throw error;
     }
   }
 
-  const snapshot = await readPostgresDbSnapshot(pool);
-  globalForDb.postgresDbCache = {
-    db: structuredClone(snapshot.db),
-    version: snapshot.version,
-    loadedAt: Date.now(),
-  };
-  return snapshot.db;
+  try {
+    const snapshot = await readPostgresDbSnapshot(pool);
+    globalForDb.postgresDbCache = {
+      db: structuredClone(snapshot.db),
+      version: snapshot.version,
+      loadedAt: Date.now(),
+    };
+    return snapshot.db;
+  } catch (error) {
+    if (
+      cached &&
+      isTransientDbError(error) &&
+      Date.now() - cached.loadedAt < DB_CACHE_STALE_FALLBACK_MS
+    ) {
+      console.warn('Serving the cached database snapshot because PostgreSQL is temporarily unreachable.');
+      return structuredClone(cached.db);
+    }
+    throw error;
+  }
 }
 
 /** Read only the category tree state instead of the whole database. */
@@ -250,16 +365,55 @@ export async function readCategoryState(): Promise<{
     };
   }
 
+  const cached = globalForDb.postgresCategoryCache;
+
   try {
-    const result = await pool.query<{ categories: Db['categories']; initialized: unknown }>(
+    const result = await queryWithRetry<{
+      categories: Db['categories'];
+      initialized: unknown;
+      version: unknown;
+    }>(
+      pool,
       `SELECT COALESCE((SELECT jsonb_agg(data ORDER BY record_key) FROM public."categories"), '[]'::jsonb) AS categories,
-              COALESCE((SELECT value FROM public.app_meta WHERE key = 'categoryTreeInitialized'), 'false'::jsonb) AS initialized`
+              COALESCE((SELECT value FROM public.app_meta WHERE key = 'categoryTreeInitialized'), 'false'::jsonb) AS initialized,
+              COALESCE((SELECT value FROM public.app_meta WHERE key = $1), '0'::jsonb) AS version`,
+      [APP_META_VERSION_KEY]
     );
-    return {
+
+    const version = String(result.rows[0].version ?? '0');
+    if (
+      cached &&
+      cached.version === version &&
+      Date.now() - cached.loadedAt < DB_CACHE_MAX_AGE_MS
+    ) {
+      return {
+        categories: structuredClone(cached.categories),
+        categoryTreeInitialized: cached.categoryTreeInitialized,
+      };
+    }
+
+    const state = {
       categories: result.rows[0].categories ?? [],
       categoryTreeInitialized: Boolean(result.rows[0].initialized),
     };
+    globalForDb.postgresCategoryCache = {
+      ...state,
+      version,
+      loadedAt: Date.now(),
+    };
+    return state;
   } catch (error) {
+    if (
+      cached &&
+      isTransientDbError(error) &&
+      Date.now() - cached.loadedAt < DB_CACHE_STALE_FALLBACK_MS
+    ) {
+      console.warn('Serving the cached category tree because PostgreSQL is temporarily unreachable.');
+      return {
+        categories: structuredClone(cached.categories),
+        categoryTreeInitialized: cached.categoryTreeInitialized,
+      };
+    }
     throwDatabaseError(error);
   }
 }
@@ -272,7 +426,8 @@ export async function readAdminUser(): Promise<User | null> {
   }
 
   try {
-    const result = await pool.query<{ data: User }>(
+    const result = await queryWithRetry<{ data: User }>(
+      pool,
       `SELECT data FROM public.users WHERE data->>'role' = 'admin' ORDER BY record_key LIMIT 1`
     );
     return result.rows[0]?.data ?? null;
@@ -295,7 +450,8 @@ export async function readSessionUser(
   }
 
   try {
-    const result = await pool.query<{ session: Session; user: User | null }>(
+    const result = await queryWithRetry<{ session: Session; user: User | null }>(
+      pool,
       `SELECT s.data AS session, u.data AS user
        FROM public.sessions s
        LEFT JOIN public.users u ON u.record_key = s.data->>'userId'
@@ -374,7 +530,7 @@ export async function writeDb(db: Db): Promise<void> {
     return;
   }
 
-  const client = await pool.connect();
+  const client = await connectWithRetry(pool);
   try {
     await client.query('BEGIN');
     await client.query('SELECT pg_advisory_xact_lock(492813198234)');
@@ -382,8 +538,18 @@ export async function writeDb(db: Db): Promise<void> {
     const version = await persistDbDiff(client, previous, db);
     await client.query('COMMIT');
     globalForDb.postgresDbCache = { db: structuredClone(db), version, loadedAt: Date.now() };
+    globalForDb.postgresCategoryCache = {
+      categories: structuredClone(db.categories),
+      categoryTreeInitialized: Boolean(db.categoryTreeInitialized),
+      version,
+      loadedAt: Date.now(),
+    };
   } catch (error) {
-    await client.query('ROLLBACK');
+    try {
+      await client.query('ROLLBACK');
+    } catch {
+      // The connection is already broken; surface the original error.
+    }
     throw error;
   } finally {
     client.release();
@@ -402,7 +568,7 @@ export async function updateDb<T>(mutator: (db: Db) => T): Promise<T> {
     return result;
   }
 
-  const client = await pool.connect();
+  const client = await connectWithRetry(pool);
   try {
     await client.query('BEGIN');
     await client.query('SELECT pg_advisory_xact_lock(492813198234)');
@@ -412,9 +578,19 @@ export async function updateDb<T>(mutator: (db: Db) => T): Promise<T> {
     const version = await persistDbDiff(client, previous, db);
     await client.query('COMMIT');
     globalForDb.postgresDbCache = { db: structuredClone(db), version, loadedAt: Date.now() };
+    globalForDb.postgresCategoryCache = {
+      categories: structuredClone(db.categories),
+      categoryTreeInitialized: Boolean(db.categoryTreeInitialized),
+      version,
+      loadedAt: Date.now(),
+    };
     return result;
   } catch (error) {
-    await client.query('ROLLBACK');
+    try {
+      await client.query('ROLLBACK');
+    } catch {
+      // The connection is already broken; surface the original error.
+    }
     throw error;
   } finally {
     client.release();

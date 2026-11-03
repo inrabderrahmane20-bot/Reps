@@ -23,6 +23,16 @@ const nextConfig = {
       '/*': ['./supabase/prod-ca-2021.crt'],
     },
   },
+  async headers() {
+    return [
+      {
+        // API responses are per-user/admin data and can expose transient
+        // failures. Never let a browser or shared cache replay them.
+        source: '/api/:path*',
+        headers: [{ key: 'Cache-Control', value: 'no-store, max-age=0' }],
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

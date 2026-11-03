@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { api } from '@/lib/api-client';
+import { useCallback, useEffect, useState } from 'react';
+import { api, apiErrorMessage } from '@/lib/api-client';
+import { AdminErrorBanner, AdminLoading } from '../admin-feedback';
 
 interface NewsRow {
   id: string;
@@ -18,27 +19,55 @@ export default function AdminNewsPage() {
   const [news, setNews] = useState<NewsRow[]>([]);
   const [showCreate, setShowCreate] = useState(false);
   const [form, setForm] = useState({ title: '', category: CATEGORIES[0], city: 'Marrakech', summary: '' });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function load() {
-    api.get<{ news: NewsRow[] }>('/admin/news').then((r) => setNews(r.news));
-  }
-  useEffect(load, []);
+  const load = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    api
+      .get<{ news: NewsRow[] }>('/admin/news')
+      .then((r) => setNews(r.news))
+      .catch((loadError) =>
+        setError(apiErrorMessage(loadError, 'The news articles could not be loaded.'))
+      )
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function create() {
-    await api.post('/admin/news', form);
-    setForm({ title: '', category: CATEGORIES[0], city: 'Marrakech', summary: '' });
-    setShowCreate(false);
-    load();
+    setError(null);
+    try {
+      await api.post('/admin/news', form);
+      setForm({ title: '', category: CATEGORIES[0], city: 'Marrakech', summary: '' });
+      setShowCreate(false);
+      load();
+    } catch (createError) {
+      setError(apiErrorMessage(createError, 'The article could not be published.'));
+    }
   }
 
   async function toggleStatus(id: string, status: string) {
-    await api.patch(`/admin/news/${id}`, { status: status === 'published' ? 'draft' : 'published' });
-    load();
+    setError(null);
+    try {
+      await api.patch(`/admin/news/${id}`, { status: status === 'published' ? 'draft' : 'published' });
+      load();
+    } catch (statusError) {
+      setError(apiErrorMessage(statusError, 'The article could not be updated.'));
+    }
   }
 
   async function remove(id: string) {
-    await api.delete(`/admin/news/${id}`);
-    load();
+    setError(null);
+    try {
+      await api.delete(`/admin/news/${id}`);
+      load();
+    } catch (removeError) {
+      setError(apiErrorMessage(removeError, 'The article could not be deleted.'));
+    }
   }
 
   return (
@@ -64,6 +93,10 @@ export default function AdminNewsPage() {
           </button>
         </div>
       )}
+
+      {error && <AdminErrorBanner message={error} onRetry={load} />}
+
+      {loading && news.length === 0 && <AdminLoading label="Loading news…" />}
 
       <div className="mt-6 space-y-2">
         {news.map((n) => (

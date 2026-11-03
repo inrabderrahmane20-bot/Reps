@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowDown, ArrowUp, ChevronDown, FolderPlus, Move, Pencil, Plus, RotateCcw, Save, Trash2, X } from 'lucide-react';
-import { api } from '@/lib/api-client';
+import { api, apiErrorMessage } from '@/lib/api-client';
 import { slugifyCategory, type SearchCategoryNode } from '@/lib/category-tree';
 
 type CategoryTree = SearchCategoryNode[];
@@ -147,7 +147,7 @@ export default function AdminCategoriesPage() {
       setCollapsedIds(collectBranchIds(response.categories));
       setDirty(false);
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : 'Categories could not be loaded.');
+      setError(apiErrorMessage(loadError, 'Categories could not be loaded.'));
     } finally {
       setLoading(false);
     }
@@ -265,7 +265,7 @@ export default function AdminCategoriesPage() {
       setDirty(false);
       setEditingId(null);
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : 'Categories could not be saved.');
+      setError(apiErrorMessage(saveError, 'Categories could not be saved.'));
     } finally {
       setSaving(false);
     }

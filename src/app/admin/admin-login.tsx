@@ -6,8 +6,8 @@ import { useState } from 'react';
 // no admin session exists, so typing /admin directly keeps working instead of
 // redirecting through the localized /login page and losing the destination.
 export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean }) {
-  const [email, setEmail] = useState('admin@medina.ma');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(signedInNonAdmin ? 'Signed in, but this account is not an administrator.' : null);
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +30,7 @@ export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean })
         setError('This account does not have administrator access.');
         return;
       }
-      window.location.href = '/admin';
+      window.location.href = '/admin/campaigns';
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -51,6 +51,7 @@ export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean })
             <input
               type="email"
               required
+              autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none"
@@ -61,6 +62,7 @@ export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean })
             <input
               type="password"
               required
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none"
