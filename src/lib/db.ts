@@ -1,11 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { rootCertificates } from 'node:tls';
 import { Pool, type PoolClient } from 'pg';
 import type { Db } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 const DB_PATH = path.join(DATA_DIR, 'db.json');
 const SEED_PATH = path.join(DATA_DIR, 'db.seed.json');
+// Supabase's database/pooler certificates are signed by a private CA that is
+// not in Node's default trust store. Keep the pinned copy in the repository so
+// production keeps certificate verification enabled without extra setup.
+const BUNDLED_CA_PATH = path.join(process.cwd(), 'supabase', 'prod-ca-2021.crt');
 const RETRYABLE_CODES = new Set(['EBUSY', 'EPERM', 'EACCES', 'ELOCKED', 'EMFILE', 'ENFILE']);
 const DB_COLLECTIONS = [
   'users',
@@ -89,8 +94,19 @@ function getDatabaseUrl(): string | undefined {
   );
 }
 
+function getPostgresCa(): string | undefined {
+  const fromEnvironment = process.env.POSTGRES_CA_CERT?.replace(/\\n/g, '\n').trim();
+  if (fromEnvironment) return fromEnvironment;
+
+  try {
+    return fs.readFileSync(BUNDLED_CA_PATH, 'utf-8').trim();
+  } catch {
+    return undefined;
+  }
+}
+
 function getPostgresPoolOptions(connectionString: string) {
-  const ca = process.env.POSTGRES_CA_CERT?.replace(/\\n/g, '\n');
+  const ca = getPostgresCa();
   if (!ca) return { connectionString };
 
   const url = new URL(connectionString);
@@ -100,7 +116,8 @@ function getPostgresPoolOptions(connectionString: string) {
 
   return {
     connectionString: url.toString(),
-    ssl: { ca, rejectUnauthorized: true },
+    // Include the public roots as well so a non-Supabase database still works.
+    ssl: { ca: [...rootCertificates, ca], rejectUnauthorized: true },
   };
 }
 

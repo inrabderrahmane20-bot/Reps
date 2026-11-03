@@ -1,8 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { rootCertificates } from 'node:tls';
 import { fileURLToPath } from 'node:url';
-import { loadEnvConfig } from '@next/env';
+import nextEnv from '@next/env';
 import pg from 'pg';
+
+const { loadEnvConfig } = nextEnv;
 
 const { Pool } = pg;
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -12,13 +15,25 @@ const connectionString =
   process.env.POSTGRES_URL ||
   process.env.POSTGRES_URL_NON_POOLING ||
   process.env.DATABASE_URL;
-const ca = process.env.POSTGRES_CA_CERT?.replace(/\\n/g, '\n');
+const bundledCaPath = path.join(root, 'supabase', 'prod-ca-2021.crt');
 
 if (!connectionString) {
   throw new Error('Set POSTGRES_PRISMA_URL (or POSTGRES_URL) before running this migration.');
 }
 
+function getPostgresCa() {
+  const fromEnvironment = process.env.POSTGRES_CA_CERT?.replace(/\\n/g, '\n').trim();
+  if (fromEnvironment) return fromEnvironment;
+
+  try {
+    return fs.readFileSync(bundledCaPath, 'utf8').trim();
+  } catch {
+    return undefined;
+  }
+}
+
 function getPoolOptions() {
+  const ca = getPostgresCa();
   if (!ca) return { connectionString };
 
   const url = new URL(connectionString);
@@ -28,7 +43,7 @@ function getPoolOptions() {
 
   return {
     connectionString: url.toString(),
-    ssl: { ca, rejectUnauthorized: true },
+    ssl: { ca: [...rootCertificates, ca], rejectUnauthorized: true },
   };
 }
 

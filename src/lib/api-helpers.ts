@@ -19,11 +19,16 @@ export async function withErrors(fn: () => Promise<Response> | Response): Promis
       return jsonError(err.message, 503);
     }
     if (
-      ['SELF_SIGNED_CERT_IN_CHAIN', 'DEPTH_ZERO_SELF_SIGNED_CERT', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE', 'CERT_HAS_EXPIRED']
-        .includes(err?.code)
+      [
+        'SELF_SIGNED_CERT_IN_CHAIN',
+        'DEPTH_ZERO_SELF_SIGNED_CERT',
+        'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
+        'CERT_HAS_EXPIRED',
+        'ERR_TLS_CERT_ALTNAME_INVALID',
+      ].includes(err?.code)
     ) {
       return jsonError(
-        'The database TLS certificate could not be verified. Set POSTGRES_CA_CERT in Vercel using the CA certificate from Supabase Database Settings.',
+        'The database TLS certificate could not be verified. Use the Supabase CA certificate in POSTGRES_CA_CERT, or keep the bundled supabase/prod-ca-2021.crt up to date.',
         503
       );
     }

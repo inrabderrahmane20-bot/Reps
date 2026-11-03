@@ -16,6 +16,13 @@ const nextConfig = {
     unoptimized: true,
     remotePatterns: [{ protocol: 'https', hostname: '**' }],
   },
+  experimental: {
+    // The PostgreSQL pool reads the pinned Supabase CA certificate at runtime.
+    // Include it in every traced server bundle so TLS verification works on Vercel.
+    outputFileTracingIncludes: {
+      '/*': ['./supabase/prod-ca-2021.crt'],
+    },
+  },
 };
 
 export default withNextIntl(nextConfig);
