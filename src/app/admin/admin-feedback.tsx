@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 export function AdminErrorBanner({
   message,
   onRetry,
@@ -27,9 +29,21 @@ export function AdminErrorBanner({
 }
 
 export function AdminLoading({ label = 'Loading…' }: { label?: string }) {
+  const [takingLonger, setTakingLonger] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setTakingLonger(true), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <p className="mt-8 text-sm text-ink-500" role="status" aria-live="polite">
-      {label}
-    </p>
+    <div className="mt-8 text-sm text-ink-500" role="status" aria-live="polite">
+      <p>{label}</p>
+      {takingLonger && (
+        <p className="mt-2">
+          This is taking longer than usual. You don’t need to clear cookies or keep refreshing.
+        </p>
+      )}
+    </div>
   );
 }

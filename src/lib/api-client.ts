@@ -3,10 +3,9 @@
 // Thin fetch wrapper for calling our own /api routes from client components.
 // Always sends/receives cookies (same-origin session).
 //
-// Admin pages used to fail permanently if the first request after a deployment
-// (or after Supabase woke up) returned a 500. GET requests are now retried a
-// couple of times with backoff, and every request has a hard timeout so a
-// stalled connection cannot leave a page spinning forever.
+// Admin GETs are retried briefly after transient failures. The request deadline
+// covers both response headers and the full response body, which matters for
+// slower mobile connections.
 
 export class ApiError extends Error {
   status: number;
@@ -46,7 +45,7 @@ const RETRYABLE_STATUS = new Set([408, 425, 429, 500, 502, 503, 504]);
 const MAX_ATTEMPTS = 3;
 const REQUEST_TIMEOUT_MS = 25_000;
 const ADMIN_MAX_ATTEMPTS = 2;
-const ADMIN_REQUEST_TIMEOUT_MS = 10_000;
+const ADMIN_REQUEST_TIMEOUT_MS = 15_000;
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -56,13 +55,16 @@ function retryDelay(attempt: number): number {
   return 250 * 2 ** attempt + Math.floor(Math.random() * 150);
 }
 
-async function fetchOnce(path: string, options: RequestInit): Promise<Response> {
+async function fetchOnce(
+  path: string,
+  options: RequestInit
+): Promise<{ response: Response; body: any }> {
   const controller = new AbortController();
   const isAdminRequest = path.startsWith('/admin/');
   const timeout = isAdminRequest ? ADMIN_REQUEST_TIMEOUT_MS : REQUEST_TIMEOUT_MS;
   const timer = setTimeout(() => controller.abort(), timeout);
   try {
-    return await fetch(`/api${path}`, {
+    const response = await fetch(`/api${path}`, {
       ...options,
       cache: 'no-store',
       credentials: 'same-origin',
@@ -72,6 +74,27 @@ async function fetchOnce(path: string, options: RequestInit): Promise<Response> 
         ...(options.headers || {}),
       },
     });
+    let body: any = null;
+    try {
+      body = await response.json();
+    } catch {
+      if (controller.signal.aborted) throw new Error('Request timed out while reading the response.');
+      // Some platform errors have no JSON body.
+    }
+    return { response, body };
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new ApiError(
+        'The server took too long to respond. Check your connection and retry.',
+        0,
+        { type: 'timeout' }
+      );
+    }
+    throw new ApiError(
+      'The connection to the server failed. Check your internet connection and retry.',
+      0,
+      { type: 'network' }
+    );
   } finally {
     clearTimeout(timer);
   }
@@ -88,34 +111,32 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   let lastError: unknown;
 
   for (let attempt = 0; attempt < attempts; attempt += 1) {
-    let res: Response;
+    let response: Response;
+    let body: any;
     try {
-      res = await fetchOnce(path, options);
+      ({ response, body } = await fetchOnce(path, options));
     } catch (error) {
-      lastError = error;
+      lastError = error instanceof ApiError
+        ? error
+        : new ApiError('The connection to the server failed. Check your internet connection and retry.', 0, {
+            type: 'network',
+          });
       if (!canRetry || attempt === attempts - 1) {
-        throw new ApiError('Could not reach the server. Please try again.', 0);
+        throw lastError;
       }
       await delay(retryDelay(attempt));
       continue;
     }
 
-    let body: any = null;
-    try {
-      body = await res.json();
-    } catch {
-      // Some platform errors have no JSON body.
-    }
+    if (response.ok) return body as T;
 
-    if (res.ok) return body as T;
-
-    const error = new ApiError(body?.error || 'Something went wrong.', res.status, {
+    const error = new ApiError(body?.error || 'Something went wrong.', response.status, {
       code: typeof body?.code === 'string' ? body.code : undefined,
       type: typeof body?.type === 'string' ? body.type : undefined,
       operation: typeof body?.operation === 'string' ? body.operation : undefined,
     });
 
-    if (!canRetry || !RETRYABLE_STATUS.has(res.status) || attempt === attempts - 1) {
+    if (!canRetry || !RETRYABLE_STATUS.has(response.status) || attempt === attempts - 1) {
       throw error;
     }
 
