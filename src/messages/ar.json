@@ -171,7 +171,7 @@
     "backToPreviousLevel": "العودة إلى المستوى السابق",
     "categorySelection": "التحديد: {category}",
     "noCategorySelected": "لم يتم تحديد أي تصنيف",
-    "categoryBrowseHint": "تصفّح المستويات، ثم اختر تصنيفًا نهائيًا.",
+    "categoryBrowseHint": "تصفّح المستويات، واستخدم الأزرار أعلاه للرجوع، ثم اختر تصنيفًا نهائيًا.",
     "noCategoriesAvailable": "لا توجد تصنيفات متاحة في هذا المستوى.",
     "closeCategoryNavigation": "إغلاق التنقل بين التصنيفات",
     "availability": "التوفر",

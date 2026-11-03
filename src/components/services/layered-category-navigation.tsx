@@ -33,6 +33,12 @@ export function LayeredCategoryNavigation({
   const selectedStatus = selectedCategory
     ? t('categorySelection', { category: selectedCategory })
     : t('noCategorySelected');
+  const breadcrumbButtonClass =
+    'inline-flex min-h-7 shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold leading-none transition-colors';
+  const activeBreadcrumbClass =
+    'border-sunset-400 bg-sunset-100 text-sunset-800 shadow-[0_2px_8px_rgba(249,115,22,0.16)]';
+  const inactiveBreadcrumbClass =
+    'border-ink-900/[0.08] bg-white/80 text-ink-600 hover:border-sunset-300 hover:bg-peach-50 hover:text-sunset-800';
 
   useEffect(() => {
     if (open) {
@@ -234,18 +240,19 @@ export function LayeredCategoryNavigation({
                         type="button"
                         onClick={() => showLayer(path.length - 1)}
                         aria-label={t('backToPreviousLevel')}
-                        className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-900/[0.08] bg-white text-ink-600 transition-colors hover:bg-sand-100"
+                        className="category-back-hint mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-sunset-200 bg-peach-50 text-sunset-700 transition-colors hover:bg-sunset-100"
                       >
                         <ChevronLeft size={17} className="flip-rtl" aria-hidden />
                       </button>
                     )}
                     <div className="min-w-0 flex-1">
                       {isActive && (
-                        <nav aria-label={t('categories')} className="mb-1 flex min-w-0 items-center gap-1 overflow-x-auto whitespace-nowrap text-[11px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        <nav aria-label={t('categories')} className="mb-1 flex min-w-0 items-center gap-1.5 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                           <button
                             type="button"
                             onClick={() => showLayer(0)}
-                            className={path.length === 0 ? 'font-semibold text-ink-900' : 'text-ink-500 hover:text-ink-900'}
+                            aria-current={path.length === 0 ? 'location' : undefined}
+                            className={`${breadcrumbButtonClass} ${path.length === 0 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                           >
                             {t('categories')}
                           </button>
@@ -255,7 +262,8 @@ export function LayeredCategoryNavigation({
                               <button
                                 type="button"
                                 onClick={() => showLayer(crumbIndex + 1)}
-                                className={crumbIndex === path.length - 1 ? 'max-w-[9vw] truncate font-semibold text-ink-900' : 'max-w-[9vw] truncate text-ink-500 hover:text-ink-900'}
+                                aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
+                                className={`${breadcrumbButtonClass} max-w-[9vw] truncate ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                               >
                                 {node.name}
                               </button>
@@ -405,17 +413,22 @@ export function LayeredCategoryNavigation({
                     onClick={() => path.length > 0 && showLayer(path.length - 1)}
                     disabled={path.length === 0}
                     aria-label={t('backToPreviousLevel')}
-                    className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-ink-900/[0.08] bg-white text-ink-600 transition-colors hover:bg-sand-100 disabled:opacity-40"
+                    className={`mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors disabled:opacity-40 ${
+                      path.length > 0
+                        ? 'category-back-hint border-sunset-200 bg-peach-50 text-sunset-700 hover:bg-sunset-100'
+                        : 'border-ink-900/[0.08] bg-white text-ink-600 hover:bg-sand-100'
+                    }`}
                   >
                     <ChevronLeft size={19} className="flip-rtl" aria-hidden />
                   </button>
 
                   <div className="min-w-0 flex-1">
-                    <nav aria-label={t('categories')} className="mb-1 flex min-w-0 items-center gap-1 overflow-x-auto whitespace-nowrap text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <nav aria-label={t('categories')} className="mb-1 flex min-w-0 items-center gap-1.5 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                       <button
                         type="button"
                         onClick={() => showLayer(0)}
-                        className={path.length === 0 ? 'font-semibold text-ink-900' : 'text-ink-500 hover:text-ink-900'}
+                        aria-current={path.length === 0 ? 'location' : undefined}
+                        className={`${breadcrumbButtonClass} text-xs ${path.length === 0 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                       >
                         {t('categories')}
                       </button>
@@ -425,7 +438,8 @@ export function LayeredCategoryNavigation({
                           <button
                             type="button"
                             onClick={() => showLayer(crumbIndex + 1)}
-                            className={crumbIndex === path.length - 1 ? 'max-w-[35vw] truncate font-semibold text-ink-900 sm:max-w-none' : 'max-w-[35vw] truncate text-ink-500 hover:text-ink-900 sm:max-w-none'}
+                            aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
+                            className={`${breadcrumbButtonClass} max-w-[35vw] truncate text-xs sm:max-w-none ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                           >
                             {node.name}
                           </button>

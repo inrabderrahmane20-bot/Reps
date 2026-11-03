@@ -171,7 +171,7 @@
     "backToPreviousLevel": "Retour au niveau précédent",
     "categorySelection": "Sélection : {category}",
     "noCategorySelected": "Aucune catégorie sélectionnée",
-    "categoryBrowseHint": "Parcourez les niveaux, puis choisissez une catégorie finale.",
+    "categoryBrowseHint": "Parcourez les niveaux ; utilisez les boutons ci-dessus pour revenir en arrière, puis choisissez une catégorie finale.",
     "noCategoriesAvailable": "Aucune catégorie n’est disponible à ce niveau.",
     "closeCategoryNavigation": "Fermer la navigation des catégories",
     "availability": "Disponibilité",
