@@ -47,7 +47,7 @@ function validateCategoryTree(value: unknown): string | null {
       }
 
       const node = candidate as Record<string, unknown>;
-      if (typeof node.id !== 'string' || !node.id.trim() || node.id !== node.id.trim() || node.id.length > 120) {
+      if (typeof node.id !== 'string' || !node.id.trim() || node.id !== node.id.trim() || node.id.length > 512) {
         return 'Each category must have a valid ID.';
       }
       if (ids.has(node.id)) return `Category ID "${node.id}" is used more than once.`;
