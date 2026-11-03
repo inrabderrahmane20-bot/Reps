@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { rootCertificates } from 'node:tls';
 import { Pool, type PoolClient } from 'pg';
-import type { Db } from './types';
+import type { Db, Session, User } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 const DB_PATH = path.join(DATA_DIR, 'db.json');
@@ -39,7 +39,12 @@ const DB_COLLECTIONS = [
 type DbCollection = (typeof DB_COLLECTIONS)[number];
 type DbRecord = Record<string, unknown>;
 
-const globalForDb = globalThis as typeof globalThis & { postgresPool?: Pool };
+const globalForDb = globalThis as typeof globalThis & {
+  postgresPool?: Pool;
+  postgresDbCache?: { db: Db; version: string; loadedAt: number };
+};
+const APP_META_VERSION_KEY = 'dbVersion';
+const DB_CACHE_MAX_AGE_MS = 5 * 60_000;
 
 function retryOnLock<T>(fn: () => T): T {
   let lastErr: NodeJS.ErrnoException | undefined;
@@ -136,6 +141,11 @@ function getPool(): Pool | null {
       max: 4,
       idleTimeoutMillis: 10_000,
       connectionTimeoutMillis: 10_000,
+      // Fail fast instead of letting a request hang until the platform timeout.
+      statement_timeout: 25_000,
+      query_timeout: 30_000,
+      lock_timeout: 10_000,
+      idle_in_transaction_session_timeout: 30_000,
     });
     pool.on('error', (error) => console.error('Unexpected PostgreSQL pool error.', error));
     globalForDb.postgresPool = pool;
@@ -167,23 +177,136 @@ const COLLECTION_JSON_FIELDS = DB_COLLECTIONS
   .map((collection) => `'${collection}', COALESCE((SELECT jsonb_agg(data ORDER BY record_key) FROM public."${collection}"), '[]'::jsonb)`)
   .join(', ');
 
-async function readPostgresDb(client: Pool | PoolClient): Promise<Db> {
+function throwDatabaseError(error: unknown): never {
+  if ((error as { code?: string }).code === '42P01') {
+    throw new Error('Supabase tables are not initialized. Run "npm run db:migrate" before deploying.');
+  }
+  throw error;
+}
+
+async function readPostgresDbSnapshot(
+  client: Pool | PoolClient
+): Promise<{ db: Db; version: string }> {
   try {
-    const result = await client.query<{ db: Partial<Db> }>(
-      `SELECT jsonb_build_object(${COLLECTION_JSON_FIELDS}) AS db`
+    const result = await client.query<{ db: Partial<Db>; initialized: unknown; version: unknown }>(
+      `SELECT jsonb_build_object(${COLLECTION_JSON_FIELDS}) AS db,
+              COALESCE((SELECT value FROM public.app_meta WHERE key = 'categoryTreeInitialized'), 'false'::jsonb) AS initialized,
+              COALESCE((SELECT value FROM public.app_meta WHERE key = '${APP_META_VERSION_KEY}'), '0'::jsonb) AS version`
     );
-    const db = { ...emptyDb(), ...result.rows[0].db };
-    const initialized = await client.query<{ value: boolean }>(
-      'SELECT value FROM public.app_meta WHERE key = $1',
-      ['categoryTreeInitialized']
-    );
-    if (initialized.rowCount) db.categoryTreeInitialized = initialized.rows[0].value;
-    return db;
+    const db: Db = { ...emptyDb(), ...result.rows[0].db };
+    db.categoryTreeInitialized = Boolean(result.rows[0].initialized);
+    return { db, version: String(result.rows[0].version ?? '0') };
   } catch (error) {
-    if ((error as { code?: string }).code === '42P01') {
-      throw new Error('Supabase tables are not initialized. Run "npm run db:migrate" before deploying.');
+    throwDatabaseError(error);
+  }
+}
+
+async function readPostgresDb(client: Pool | PoolClient): Promise<Db> {
+  return (await readPostgresDbSnapshot(client)).db;
+}
+
+/**
+ * Reuse the last full snapshot for this server instance unless the database
+ * changed. The version check is one tiny query, which avoids transferring the
+ * whole JSON database on every page/API request.
+ */
+async function readCachedPostgresDb(pool: Pool): Promise<Db> {
+  const cached = globalForDb.postgresDbCache;
+  if (cached && Date.now() - cached.loadedAt < DB_CACHE_MAX_AGE_MS) {
+    try {
+      const result = await pool.query<{ version: unknown }>(
+        `SELECT COALESCE((SELECT value FROM public.app_meta WHERE key = $1), '0'::jsonb) AS version`,
+        [APP_META_VERSION_KEY]
+      );
+      if (String(result.rows[0].version ?? '0') === cached.version) {
+        return structuredClone(cached.db);
+      }
+    } catch (error) {
+      // A missing app_meta table is handled by the full read below.
+      if ((error as { code?: string }).code !== '42P01') throw error;
     }
-    throw error;
+  }
+
+  const snapshot = await readPostgresDbSnapshot(pool);
+  globalForDb.postgresDbCache = {
+    db: structuredClone(snapshot.db),
+    version: snapshot.version,
+    loadedAt: Date.now(),
+  };
+  return snapshot.db;
+}
+
+/** Read only the category tree state instead of the whole database. */
+export async function readCategoryState(): Promise<{
+  categories: Db['categories'];
+  categoryTreeInitialized: boolean;
+}> {
+  const pool = getPool();
+  if (!pool) {
+    const db = readLocalDb();
+    return {
+      categories: db.categories,
+      categoryTreeInitialized: Boolean(db.categoryTreeInitialized),
+    };
+  }
+
+  try {
+    const result = await pool.query<{ categories: Db['categories']; initialized: unknown }>(
+      `SELECT COALESCE((SELECT jsonb_agg(data ORDER BY record_key) FROM public."categories"), '[]'::jsonb) AS categories,
+              COALESCE((SELECT value FROM public.app_meta WHERE key = 'categoryTreeInitialized'), 'false'::jsonb) AS initialized`
+    );
+    return {
+      categories: result.rows[0].categories ?? [],
+      categoryTreeInitialized: Boolean(result.rows[0].initialized),
+    };
+  } catch (error) {
+    throwDatabaseError(error);
+  }
+}
+
+/** Find an administrator without loading every collection. */
+export async function readAdminUser(): Promise<User | null> {
+  const pool = getPool();
+  if (!pool) {
+    return readLocalDb().users.find((user) => user.role === 'admin') ?? null;
+  }
+
+  try {
+    const result = await pool.query<{ data: User }>(
+      `SELECT data FROM public.users WHERE data->>'role' = 'admin' ORDER BY record_key LIMIT 1`
+    );
+    return result.rows[0]?.data ?? null;
+  } catch (error) {
+    throwDatabaseError(error);
+  }
+}
+
+/** Resolve a session cookie in one query instead of reading the whole database. */
+export async function readSessionUser(
+  token: string
+): Promise<{ session: Session; user: User } | null> {
+  const pool = getPool();
+  if (!pool) {
+    const db = readLocalDb();
+    const session = db.sessions.find((item) => item.token === token);
+    if (!session) return null;
+    const user = db.users.find((item) => item.id === session.userId);
+    return user ? { session, user } : null;
+  }
+
+  try {
+    const result = await pool.query<{ session: Session; user: User | null }>(
+      `SELECT s.data AS session, u.data AS user
+       FROM public.sessions s
+       LEFT JOIN public.users u ON u.record_key = s.data->>'userId'
+       WHERE s.record_key = $1`,
+      [token]
+    );
+    const row = result.rows[0];
+    if (!row?.session || !row.user) return null;
+    return { session: row.session, user: row.user };
+  } catch (error) {
+    throwDatabaseError(error);
   }
 }
 
@@ -192,7 +315,7 @@ function collectionMap(collection: DbCollection, db: Db): Map<string, DbRecord> 
   return new Map(records.map((record) => [recordKey(collection, record), record]));
 }
 
-async function persistDbDiff(client: PoolClient, previous: Db, next: Db): Promise<void> {
+async function persistDbDiff(client: PoolClient, previous: Db, next: Db): Promise<string> {
   for (const collection of DB_COLLECTIONS) {
     const oldRecords = collectionMap(collection, previous);
     const newRecords = collectionMap(collection, next);
@@ -225,11 +348,21 @@ async function persistDbDiff(client: PoolClient, previous: Db, next: Db): Promis
      ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
     [JSON.stringify(Boolean(next.categoryTreeInitialized))]
   );
+
+  const version = await client.query<{ version: unknown }>(
+    `INSERT INTO public.app_meta (key, value)
+     VALUES ($1, '1'::jsonb)
+     ON CONFLICT (key) DO UPDATE
+       SET value = to_jsonb(COALESCE((public.app_meta.value #>> '{}')::bigint, 0) + 1)
+     RETURNING value AS version`,
+    [APP_META_VERSION_KEY]
+  );
+  return String(version.rows[0].version ?? '1');
 }
 
 export async function readDb(): Promise<Db> {
   const pool = getPool();
-  return pool ? readPostgresDb(pool) : readLocalDb();
+  return pool ? readCachedPostgresDb(pool) : readLocalDb();
 }
 
 export async function writeDb(db: Db): Promise<void> {
@@ -246,8 +379,9 @@ export async function writeDb(db: Db): Promise<void> {
     await client.query('BEGIN');
     await client.query('SELECT pg_advisory_xact_lock(492813198234)');
     const previous = await readPostgresDb(client);
-    await persistDbDiff(client, previous, db);
+    const version = await persistDbDiff(client, previous, db);
     await client.query('COMMIT');
+    globalForDb.postgresDbCache = { db: structuredClone(db), version, loadedAt: Date.now() };
   } catch (error) {
     await client.query('ROLLBACK');
     throw error;
@@ -275,8 +409,9 @@ export async function updateDb<T>(mutator: (db: Db) => T): Promise<T> {
     const db = await readPostgresDb(client);
     const previous = structuredClone(db);
     const result = mutator(db);
-    await persistDbDiff(client, previous, db);
+    const version = await persistDbDiff(client, previous, db);
     await client.query('COMMIT');
+    globalForDb.postgresDbCache = { db: structuredClone(db), version, loadedAt: Date.now() };
     return result;
   } catch (error) {
     await client.query('ROLLBACK');

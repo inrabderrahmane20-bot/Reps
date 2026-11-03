@@ -1,10 +1,10 @@
 import { categoryNodesToTree, categoryTreeToNodes, SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
-import { readDb, updateDb } from '@/lib/db';
+import { readCategoryState, updateDb } from '@/lib/db';
 
 export async function getCategoryTree(): Promise<SearchCategoryNode[]> {
-  const db = await readDb();
-  return db.categoryTreeInitialized || db.categories.length
-    ? categoryNodesToTree(db.categories)
+  const { categories, categoryTreeInitialized } = await readCategoryState();
+  return categoryTreeInitialized || categories.length
+    ? categoryNodesToTree(categories)
     : SEARCH_CATEGORIES;
 }
 

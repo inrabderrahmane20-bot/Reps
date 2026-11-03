@@ -123,6 +123,14 @@ try {
        ON CONFLICT (key) DO NOTHING`,
       [JSON.stringify(Boolean(source.categoryTreeInitialized))]
     );
+
+    // Tell running server instances that their cached snapshot is stale.
+    await client.query(
+      `INSERT INTO public.app_meta (key, value)
+       VALUES ('dbVersion', '1'::jsonb)
+       ON CONFLICT (key) DO UPDATE
+         SET value = to_jsonb(COALESCE((public.app_meta.value #>> '{}')::bigint, 0) + 1)`
+    );
     await client.query('COMMIT');
   } catch (error) {
     await client.query('ROLLBACK');

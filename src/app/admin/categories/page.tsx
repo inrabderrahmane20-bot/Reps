@@ -68,6 +68,36 @@ function findParentId(tree: CategoryTree, id: string): string | null {
   return null;
 }
 
+function findDuplicateCategory(
+  tree: CategoryTree,
+  label: string,
+  excludeId: string
+): { name: string; path: string[] } | null {
+  const normalize = (value: string) =>
+    value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase();
+  const target = normalize(label);
+
+  function visit(nodes: CategoryTree, ancestors: string[]): { name: string; path: string[] } | null {
+    for (const node of nodes) {
+      const path = [...ancestors, node.labels.fr];
+      if (node.id !== excludeId && normalize(node.labels.fr) === target) {
+        return { name: node.labels.fr, path };
+      }
+      const duplicate = visit(node.children ?? [], path);
+      if (duplicate) return duplicate;
+    }
+    return null;
+  }
+
+  return visit(tree, []);
+}
+
+function alertDuplicateCategory(duplicate: { name: string; path: string[] }): void {
+  window.alert(
+    `This category already exists.\nCategory: ${duplicate.name}\nRoute: ${duplicate.path.join(' > ')}`
+  );
+}
+
 function reorderNode(tree: CategoryTree, id: string, direction: -1 | 1): CategoryTree {
   const index = tree.findIndex((node) => node.id === id);
   if (index >= 0) {
@@ -171,7 +201,7 @@ export default function AdminCategoriesPage() {
   function saveNodeLabels() {
     if (!editingId || !editLabels.fr.trim()) return;
     const french = editLabels.fr.trim();
-    changeTree(updateNode(categories, editingId, (node) => ({
+    const nextTree = updateNode(categories, editingId, (node) => ({
       ...node,
       slug: slugifyCategory(french),
       labels: {
@@ -179,7 +209,13 @@ export default function AdminCategoriesPage() {
         en: editLabels.en.trim() || french,
         ar: editLabels.ar.trim() || french,
       },
-    })));
+    }));
+    const duplicate = findDuplicateCategory(nextTree, french, editingId);
+    if (duplicate) {
+      alertDuplicateCategory(duplicate);
+      return;
+    }
+    changeTree(nextTree);
     setEditingId(null);
   }
 
@@ -209,6 +245,17 @@ export default function AdminCategoriesPage() {
           };
         })
       : categories;
+    if (editingId) {
+      const duplicate = findDuplicateCategory(
+        treeToSave,
+        editLabels.fr.trim(),
+        editingId
+      );
+      if (duplicate) {
+        alertDuplicateCategory(duplicate);
+        return;
+      }
+    }
     setSaving(true);
     setError(null);
     try {
