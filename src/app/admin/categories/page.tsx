@@ -43,6 +43,13 @@ function collectDescendantIds(node: SearchCategoryNode): Set<string> {
   return new Set([node.id, ...(node.children ?? []).flatMap((child) => [...collectDescendantIds(child)])]);
 }
 
+function collectBranchIds(tree: CategoryTree): Set<string> {
+  return new Set(tree.flatMap((node) => [
+    ...(node.children?.length ? [node.id] : []),
+    ...collectBranchIds(node.children ?? []),
+  ]));
+}
+
 function findNode(tree: CategoryTree, id: string): SearchCategoryNode | undefined {
   for (const node of tree) {
     if (node.id === id) return node;
@@ -107,6 +114,7 @@ export default function AdminCategoriesPage() {
       const response = await api.get<{ categories: CategoryTree }>('/admin/categories');
       setCategories(response.categories);
       setSavedCategories(response.categories);
+      setCollapsedIds(collectBranchIds(response.categories));
       setDirty(false);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : 'Categories could not be loaded.');
