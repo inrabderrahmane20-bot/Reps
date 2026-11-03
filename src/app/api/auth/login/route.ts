@@ -4,6 +4,8 @@ import { verifyPassword, createSessionCookie } from '@/lib/auth';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
     const { email, password } = (await req.json()) ?? {};

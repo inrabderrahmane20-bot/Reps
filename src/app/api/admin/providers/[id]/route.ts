@@ -19,6 +19,8 @@ const AVAILABILITY = ['available', 'later', 'offline'];
  * before they are written: an incoherent campaign or a "discount" that is not
  * a discount must never reach the database.
  */
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     await requireAdmin();

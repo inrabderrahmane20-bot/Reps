@@ -4,6 +4,8 @@ import { readDb } from '@/lib/db';
 import { withErrors } from '@/lib/api-helpers';
 import { classifyZone, getZone } from '@/lib/zones';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   return withErrors(async () => {
     await requireAdmin();

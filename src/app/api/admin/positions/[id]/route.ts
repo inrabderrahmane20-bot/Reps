@@ -6,6 +6,8 @@ import { classifyZone, getZone } from '@/lib/zones';
 
 const IN_RANGE = { lat: (v: number) => Math.abs(v) <= 90, lng: (v: number) => Math.abs(v) <= 180 };
 
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     await requireAdmin();

@@ -5,6 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 import { pushNotification } from '@/lib/notify';
 
 // Accept/decline (SRS §31). On accept, opens the retro Meetings conversation.
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     const me = await requireUser();

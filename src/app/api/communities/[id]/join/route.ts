@@ -4,6 +4,8 @@ import { updateDb } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 
 // Toggles membership: join if not a member, leave if already a member.
+export const dynamic = 'force-dynamic';
+
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     const me = await requireUser();

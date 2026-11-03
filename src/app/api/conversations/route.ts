@@ -22,6 +22,8 @@ function enrich(db: any, convo: any, meId: string) {
 // General messaging (SRS §42) — client<->provider, activity/community participants, etc.
 // Meeting conversations (post-acceptance) also live here but are rendered with the
 // retro MSN-style UI on the client.
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();

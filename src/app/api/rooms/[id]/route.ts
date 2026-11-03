@@ -5,6 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 // Presence is derived from whether a member has a live session — a real
 // (if simple) signal, not a random placeholder.
+export const dynamic = 'force-dynamic';
+
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     await requireUser();

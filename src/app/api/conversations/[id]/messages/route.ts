@@ -4,6 +4,8 @@ import { readDb, updateDb, newId } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 import { pushNotification } from '@/lib/notify';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     const me = await requireUser();

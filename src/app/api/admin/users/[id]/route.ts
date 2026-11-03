@@ -8,6 +8,8 @@ import { zoneFromNeighborhood } from '@/lib/zones';
 
 const EDITABLE = ['firstName', 'lastName', 'email', 'city', 'neighborhood', 'bio', 'role', 'status'] as const;
 
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     const admin = await requireAdmin();

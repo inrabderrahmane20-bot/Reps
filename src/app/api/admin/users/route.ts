@@ -6,6 +6,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
 import { zoneFromNeighborhood } from '@/lib/zones';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();

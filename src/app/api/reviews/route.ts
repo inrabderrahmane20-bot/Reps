@@ -5,6 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 import { pushNotification } from '@/lib/notify';
 
 // Step 13: client leaves a review after a completed mission.
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();

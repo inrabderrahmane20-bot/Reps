@@ -3,6 +3,8 @@ import { requireAdmin } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   return withErrors(async () => {
     await requireAdmin();

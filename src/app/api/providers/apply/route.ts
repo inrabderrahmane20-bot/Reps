@@ -8,6 +8,8 @@ import { toPublicUser } from '@/lib/types';
 // A regular user submits (or edits/resubmits) a provider application.
 // It goes to providerStatus "pending" and only becomes visible in the
 // marketplace once an admin approves it (see /api/admin/providers/[id]).
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();

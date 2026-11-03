@@ -5,6 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 import { pushNotification } from '@/lib/notify';
 
 // GET ?role=client|provider — list my requests either as the person asking, or the provider receiving them.
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();

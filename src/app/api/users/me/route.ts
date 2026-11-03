@@ -5,6 +5,8 @@ import { withErrors } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
 import { zoneFromNeighborhood } from '@/lib/zones';
 
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();

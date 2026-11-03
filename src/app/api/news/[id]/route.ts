@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const db = await readDb();
   const article = db.news.find((n) => n.id === params.id);

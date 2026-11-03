@@ -89,6 +89,21 @@ function getDatabaseUrl(): string | undefined {
   );
 }
 
+function getPostgresPoolOptions(connectionString: string) {
+  const ca = process.env.POSTGRES_CA_CERT?.replace(/\\n/g, '\n');
+  if (!ca) return { connectionString };
+
+  const url = new URL(connectionString);
+  for (const parameter of ['sslmode', 'sslrootcert', 'sslcert', 'sslkey']) {
+    url.searchParams.delete(parameter);
+  }
+
+  return {
+    connectionString: url.toString(),
+    ssl: { ca, rejectUnauthorized: true },
+  };
+}
+
 function getPool(): Pool | null {
   const connectionString = getDatabaseUrl();
   if (!connectionString) {
@@ -100,7 +115,7 @@ function getPool(): Pool | null {
 
   if (!globalForDb.postgresPool) {
     const pool = new Pool({
-      connectionString,
+      ...getPostgresPoolOptions(connectionString),
       max: 4,
       idleTimeoutMillis: 10_000,
       connectionTimeoutMillis: 10_000,

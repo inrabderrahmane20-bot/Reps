@@ -7,6 +7,8 @@ function enrich(c: any) {
   return { ...c, memberCount: c.memberIds.length };
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const category = new URL(req.url).searchParams.get('category');
   const db = await readDb();

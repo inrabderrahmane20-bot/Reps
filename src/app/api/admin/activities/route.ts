@@ -8,6 +8,8 @@ function enrich(a: any) {
   return { ...a, participants: a.participantIds?.length ?? 0, zoneId: classifyZone(a.lat, a.lng, a.location) };
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();

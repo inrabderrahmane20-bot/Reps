@@ -4,6 +4,8 @@ import { updateDb, newId } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 
 // Universal report button (SRS §52).
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();

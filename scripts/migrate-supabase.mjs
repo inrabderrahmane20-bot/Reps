@@ -12,9 +12,24 @@ const connectionString =
   process.env.POSTGRES_URL ||
   process.env.POSTGRES_URL_NON_POOLING ||
   process.env.DATABASE_URL;
+const ca = process.env.POSTGRES_CA_CERT?.replace(/\\n/g, '\n');
 
 if (!connectionString) {
   throw new Error('Set POSTGRES_PRISMA_URL (or POSTGRES_URL) before running this migration.');
+}
+
+function getPoolOptions() {
+  if (!ca) return { connectionString };
+
+  const url = new URL(connectionString);
+  for (const parameter of ['sslmode', 'sslrootcert', 'sslcert', 'sslkey']) {
+    url.searchParams.delete(parameter);
+  }
+
+  return {
+    connectionString: url.toString(),
+    ssl: { ca, rejectUnauthorized: true },
+  };
 }
 
 const collections = [
@@ -56,7 +71,7 @@ const migrationPath = path.join(
   '202611030001_create_app_data.sql'
 );
 const source = JSON.parse(fs.readFileSync(fs.existsSync(sourcePath) ? sourcePath : seedPath, 'utf8'));
-const pool = new Pool({ connectionString, max: 1, connectionTimeoutMillis: 10_000 });
+const pool = new Pool({ ...getPoolOptions(), max: 1, connectionTimeoutMillis: 10_000 });
 
 try {
   await pool.query(fs.readFileSync(migrationPath, 'utf8'));

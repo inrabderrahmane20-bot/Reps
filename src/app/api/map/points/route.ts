@@ -7,6 +7,8 @@ import { classifyZone } from '@/lib/zones';
 // residential addresses of private users (SRS §55-56) — providers/activities
 // use an approximate service-area point, not a home address. Accepts a
 // `zone` query param to narrow points to one neighborhood zone.
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const zone = new URL(req.url).searchParams.get('zone');
   const forZone = (lat: number, lng: number, label?: string) =>

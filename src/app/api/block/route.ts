@@ -4,6 +4,8 @@ import { updateDb } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 
 // Toggle blocking another user (SRS §53).
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   return withErrors(async () => {
     const me = await requireUser();

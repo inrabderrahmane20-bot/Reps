@@ -5,6 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 import { pushNotification } from '@/lib/notify';
 
 // Steps 8-11: provider accepts/refuses, mission runs, client confirms completion.
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     const me = await requireUser();

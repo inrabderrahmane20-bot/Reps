@@ -12,11 +12,16 @@ preserves the current model while moving reads and writes to persistent storage.
 2. Set `POSTGRES_PRISMA_URL` in `.env.local` and in Vercel's server-side
    environment. Use the Supabase PostgreSQL transaction-pooler connection
    string. Do not prefix it with `NEXT_PUBLIC_` or commit its value.
-3. Run `npm run db:migrate` once from a machine that has network access to the
+3. If Node reports `self-signed certificate in certificate chain`, download
+   the database CA certificate from the Supabase project's database SSL
+   settings and set its PEM contents as `POSTGRES_CA_CERT` in the same
+   environments. Keep certificate verification enabled; do not disable TLS
+   certificate checks.
+4. Run `npm run db:migrate` once from a machine that has network access to the
    Supabase database. The script creates the tables and imports `src/data/db.json`
    when present, otherwise `src/data/db.seed.json`. Existing rows are preserved;
    the import does not overwrite matching IDs.
-4. Deploy the application with the same `POSTGRES_PRISMA_URL` configured in
+5. Deploy the application with the same `POSTGRES_PRISMA_URL` configured in
    Vercel.
 
 The migration is safe to rerun. Runtime writes use database transactions and

@@ -6,6 +6,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 // Toggle join/leave. Public activities: join instantly if there's room.
 // Private activities: adds to a pending list the creator must approve (SRS §25).
+export const dynamic = 'force-dynamic';
+
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     const me = await requireUser();

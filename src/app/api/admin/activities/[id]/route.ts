@@ -3,6 +3,8 @@ import { requireAdmin } from '@/lib/auth';
 import { updateDb } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
     await requireAdmin();

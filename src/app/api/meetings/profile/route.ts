@@ -3,6 +3,8 @@ import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   return withErrors(async () => {
     const me = await requireUser();

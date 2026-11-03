@@ -18,6 +18,8 @@ function enrichPost(p: any, db: any) {
   };
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const db = await readDb();
   const posts = db.communityPosts
