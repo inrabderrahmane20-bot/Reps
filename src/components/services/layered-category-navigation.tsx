@@ -37,6 +37,8 @@ export function LayeredCategoryNavigation({
     'inline-flex min-h-7 shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold leading-none transition-colors';
   const activeBreadcrumbClass =
     'border-sunset-400 bg-sunset-100 text-sunset-800 shadow-[0_2px_8px_rgba(249,115,22,0.16)]';
+  const inactiveBreadcrumbClass =
+    'border-ink-900/[0.08] bg-white/80 text-ink-600 hover:border-sunset-300 hover:bg-peach-50 hover:text-sunset-800';
 
   useEffect(() => {
     if (open) {
@@ -250,7 +252,7 @@ export function LayeredCategoryNavigation({
                             type="button"
                             onClick={() => showLayer(0)}
                             aria-current={path.length === 0 ? 'location' : undefined}
-                            className={`${breadcrumbButtonClass} ${activeBreadcrumbClass}`}
+                            className={`${breadcrumbButtonClass} ${path.length === 0 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                           >
                             {t('categories')}
                           </button>
@@ -261,7 +263,7 @@ export function LayeredCategoryNavigation({
                                 type="button"
                                 onClick={() => showLayer(crumbIndex + 1)}
                                 aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
-                                className={`${breadcrumbButtonClass} max-w-[9vw] truncate ${activeBreadcrumbClass}`}
+                                className={`${breadcrumbButtonClass} max-w-[9vw] truncate ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                               >
                                 {node.name}
                               </button>
@@ -313,6 +315,9 @@ export function LayeredCategoryNavigation({
                       const selected = !hasChildren
                         && selectedCategory !== null
                         && normalizeCategory(selectedCategory) === normalizeCategory(node.name);
+                      const onSelectedRoute = path[index]
+                        && normalizeCategory(path[index].name) === normalizeCategory(node.name);
+                      const highlighted = selected || onSelectedRoute;
 
                       return (
                         <button
@@ -320,8 +325,9 @@ export function LayeredCategoryNavigation({
                           type="button"
                           onClick={() => navigateFromLayer(index, node)}
                           aria-pressed={selected}
+                          aria-current={onSelectedRoute ? 'location' : undefined}
                           className={`group flex min-h-[46px] min-w-0 items-center gap-2 rounded-xl border px-3 py-2 text-start transition-colors ${
-                            selected
+                            highlighted
                               ? 'border-majorelle-300 bg-majorelle-600/[0.06] text-ink-900'
                               : 'border-ink-900/[0.07] bg-white text-ink-800 hover:border-majorelle-200 hover:bg-white'
                           }`}
@@ -426,7 +432,7 @@ export function LayeredCategoryNavigation({
                         type="button"
                         onClick={() => showLayer(0)}
                         aria-current={path.length === 0 ? 'location' : undefined}
-                        className={`${breadcrumbButtonClass} text-xs ${activeBreadcrumbClass}`}
+                        className={`${breadcrumbButtonClass} text-xs ${path.length === 0 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                       >
                         {t('categories')}
                       </button>
@@ -437,7 +443,7 @@ export function LayeredCategoryNavigation({
                             type="button"
                             onClick={() => showLayer(crumbIndex + 1)}
                             aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
-                            className={`${breadcrumbButtonClass} max-w-[35vw] truncate text-xs sm:max-w-none ${activeBreadcrumbClass}`}
+                            className={`${breadcrumbButtonClass} max-w-[35vw] truncate text-xs sm:max-w-none ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                           >
                             {node.name}
                           </button>
@@ -487,6 +493,9 @@ export function LayeredCategoryNavigation({
                     const selected = !hasChildren
                       && selectedCategory !== null
                       && normalizeCategory(selectedCategory) === normalizeCategory(node.name);
+                    const onSelectedRoute = path[index]
+                      && normalizeCategory(path[index].name) === normalizeCategory(node.name);
+                    const highlighted = selected || onSelectedRoute;
 
                     return (
                       <button
@@ -494,9 +503,10 @@ export function LayeredCategoryNavigation({
                         type="button"
                         onClick={() => openNextLayer(node)}
                         aria-pressed={selected}
+                        aria-current={onSelectedRoute ? 'location' : undefined}
                         aria-expanded={hasChildren ? false : undefined}
                         className={`group flex min-h-[58px] items-center gap-3 rounded-2xl border px-4 py-3 text-start transition-[border-color,background-color,transform] duration-200 hover:-translate-y-0.5 ${
-                          selected
+                          highlighted
                             ? 'border-majorelle-300 bg-majorelle-600/[0.06] text-ink-900'
                             : 'border-ink-900/[0.07] bg-white text-ink-800 hover:border-majorelle-200 hover:bg-white'
                         }`}
