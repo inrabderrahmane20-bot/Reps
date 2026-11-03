@@ -66,6 +66,7 @@ export async function withErrors(fn: () => Promise<Response> | Response): Promis
     // production 500 can be identified without access to the server logs.
     const details: Record<string, unknown> = {};
     if (code) details.code = code;
+    if (typeof err?.operation === 'string') details.operation = err.operation;
     // `TypeError`/`ReferenceError` point at an application bug rather than a
     // database problem, which is useful when only the response is available.
     if (typeof err?.name === 'string' && err.name !== 'Error') details.type = err.name;
@@ -92,6 +93,13 @@ export async function withErrors(fn: () => Promise<Response> | Response): Promis
     }
     if (code === '28P01') {
       return jsonError('The database rejected its credentials. Check that the rotated POSTGRES_PRISMA_URL in Vercel matches Supabase.', 503, details);
+    }
+    if (code === 'XX000') {
+      return jsonError(
+        'Supabase returned an internal database error. The read was retried; check the Vercel Function Log for the PostgreSQL message and operation.',
+        503,
+        details
+      );
     }
     if (code && DATABASE_ERROR_CODES.has(code)) {
       return jsonError('The database is temporarily unavailable or took too long. Please try again.', 503, details);

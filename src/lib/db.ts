@@ -4,6 +4,23 @@ import { rootCertificates } from 'node:tls';
 import { Pool, type PoolClient, type QueryResult, type QueryResultRow } from 'pg';
 import type { Db, Session, User } from './types';
 
+export interface AdminStats {
+  totalUsers: number;
+  activeUsers: number;
+  providers: number;
+  verifiedProviders: number;
+  pendingProviders: number;
+  serviceRequests: number;
+  completedMissions: number;
+  communities: number;
+  activities: number;
+  meetingProfiles: number;
+  chatRooms: number;
+  newsArticles: number;
+  openReports: number;
+  bannedUsers: number;
+}
+
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 const DB_PATH = path.join(DATA_DIR, 'db.json');
 const SEED_PATH = path.join(DATA_DIR, 'db.seed.json');
@@ -28,6 +45,7 @@ const TRANSIENT_DB_CODES = new Set([
   '08006', // connection_failure
   '08007', // transaction_resolution_unknown
   '08P01', // protocol_violation
+  'XX000', // Supabase pooler can return internal_error for transient failures.
   'ECONNREFUSED',
   'ECONNRESET',
   'ENOTFOUND',
@@ -73,12 +91,18 @@ const globalForDb = globalThis as typeof globalThis & {
     version: string;
     loadedAt: number;
   };
+  postgresAdminStatsCache?: {
+    stats: AdminStats;
+    version: string;
+    loadedAt: number;
+  };
 };
 const APP_META_VERSION_KEY = 'dbVersion';
 const DB_CACHE_MAX_AGE_MS = 5 * 60_000;
 // If PostgreSQL is briefly unreachable, a recent snapshot is still much more
 // useful than an empty admin page. Keep serving it for a bounded period.
 const DB_CACHE_STALE_FALLBACK_MS = 30 * 60_000;
+const ADMIN_STATS_STALE_FALLBACK_MS = 10 * 60_000;
 
 function retryOnLock<T>(fn: () => T): T {
   let lastErr: NodeJS.ErrnoException | undefined;
@@ -433,6 +457,96 @@ export async function readAdminUser(): Promise<User | null> {
     return result.rows[0]?.data ?? null;
   } catch (error) {
     throwDatabaseError(error);
+  }
+}
+
+function countAdminStats(db: Db): AdminStats {
+  return {
+    totalUsers: db.users.length,
+    activeUsers: db.users.filter((user) => user.status === 'active').length,
+    providers: db.users.filter((user) => user.provider).length,
+    verifiedProviders: db.users.filter((user) => user.providerStatus === 'approved').length,
+    pendingProviders: db.users.filter((user) => user.providerStatus === 'pending').length,
+    serviceRequests: db.serviceRequests.length,
+    completedMissions: db.serviceRequests.filter((request) => request.status === 'completed').length,
+    communities: db.communities.length,
+    activities: db.activities.length,
+    meetingProfiles: db.meetingProfiles.length,
+    chatRooms: db.rooms.length,
+    newsArticles: db.news.length,
+    openReports: db.reports.filter((report) => report.status === 'new' || report.status === 'under_review').length,
+    bannedUsers: db.users.filter((user) => user.status === 'banned').length,
+  };
+}
+
+/**
+ * Calculate dashboard counts in PostgreSQL instead of transferring and
+ * deserializing every collection for a handful of totals.
+ */
+export async function readAdminStats(): Promise<AdminStats> {
+  const pool = getPool();
+  if (!pool) return countAdminStats(readLocalDb());
+
+  const cached = globalForDb.postgresAdminStatsCache;
+  try {
+    if (cached && Date.now() - cached.loadedAt < DB_CACHE_MAX_AGE_MS) {
+      const currentVersion = await queryWithRetry<{ version: unknown }>(
+        pool,
+        `SELECT COALESCE((SELECT value #>> '{}' FROM public.app_meta WHERE key = $1), '0') AS version`,
+        [APP_META_VERSION_KEY],
+        2
+      );
+      if (String(currentVersion.rows[0].version ?? '0') === cached.version) {
+        return { ...cached.stats };
+      }
+    }
+
+    const result = await queryWithRetry<AdminStats & { version: unknown }>(
+      pool,
+      `SELECT
+         (SELECT COUNT(*)::int FROM public.users) AS "totalUsers",
+         (SELECT COUNT(*) FILTER (WHERE data->>'status' = 'active')::int FROM public.users) AS "activeUsers",
+         (SELECT COUNT(*) FILTER (
+            WHERE data->'provider' IS NOT NULL AND data->'provider' <> 'null'::jsonb
+          )::int FROM public.users) AS providers,
+         (SELECT COUNT(*) FILTER (WHERE data->>'providerStatus' = 'approved')::int FROM public.users) AS "verifiedProviders",
+         (SELECT COUNT(*) FILTER (WHERE data->>'providerStatus' = 'pending')::int FROM public.users) AS "pendingProviders",
+         (SELECT COUNT(*)::int FROM public."serviceRequests") AS "serviceRequests",
+         (SELECT COUNT(*) FILTER (WHERE data->>'status' = 'completed')::int FROM public."serviceRequests") AS "completedMissions",
+         (SELECT COUNT(*)::int FROM public.communities) AS communities,
+         (SELECT COUNT(*)::int FROM public.activities) AS activities,
+         (SELECT COUNT(*)::int FROM public."meetingProfiles") AS "meetingProfiles",
+         (SELECT COUNT(*)::int FROM public.rooms) AS "chatRooms",
+         (SELECT COUNT(*)::int FROM public.news) AS "newsArticles",
+         (SELECT COUNT(*) FILTER (WHERE data->>'status' IN ('new', 'under_review'))::int FROM public.reports) AS "openReports",
+         (SELECT COUNT(*) FILTER (WHERE data->>'status' = 'banned')::int FROM public.users) AS "bannedUsers",
+         COALESCE((SELECT value #>> '{}' FROM public.app_meta WHERE key = $1), '0') AS version`,
+      [APP_META_VERSION_KEY],
+      2
+    );
+    const { version, ...stats } = result.rows[0];
+    globalForDb.postgresAdminStatsCache = {
+      stats,
+      version: String(version ?? '0'),
+      loadedAt: Date.now(),
+    };
+    return stats;
+  } catch (error) {
+    if (
+      cached &&
+      isTransientDbError(error) &&
+      Date.now() - cached.loadedAt < ADMIN_STATS_STALE_FALLBACK_MS
+    ) {
+      console.warn('Serving cached admin stats because PostgreSQL is temporarily unavailable.');
+      return { ...cached.stats };
+    }
+    if ((error as { code?: string }).code === '42P01') {
+      throwDatabaseError(error);
+    }
+    if (error && typeof error === 'object') {
+      Object.assign(error, { operation: 'admin_stats' });
+    }
+    throw error;
   }
 }
 
