@@ -5,10 +5,10 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function POST(req: Request, { params }: { params: { id: string; postId: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { content } = await req.json();
     if (!content || !content.trim()) return jsonError('Comment cannot be empty.');
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const post = db.communityPosts.find((p) => p.id === params.postId && p.communityId === params.id);
       if (!post) return null;
       const comment = { id: newId('cm'), authorId: me.id, content, createdAt: new Date().toISOString() };

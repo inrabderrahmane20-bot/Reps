@@ -35,15 +35,15 @@ const STATIC_ROUTES: StaticRoute[] = [
 /** Category browse pages — one per top-level family of the taxonomy. */
 export const dynamic = 'force-dynamic';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
-  const categoryRoutes: StaticRoute[] = serviceTaxonomyFromTree(getCategoryTree()).map((node) => ({
+  const categoryRoutes: StaticRoute[] = serviceTaxonomyFromTree(await getCategoryTree()).map((node) => ({
     path: `/services?cat=${encodeURIComponent(node.name)}`,
     changeFrequency: 'weekly',
     priority: 0.6,
   }));
 
-  const db = readDb();
+  const db = await readDb();
 
   // Only providers that are approved *and* active are publicly reachable.
   const providers = db.users.filter(

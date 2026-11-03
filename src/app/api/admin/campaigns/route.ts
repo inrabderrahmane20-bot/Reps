@@ -40,11 +40,11 @@ export interface CampaignProvider {
  */
 export async function GET() {
   return withErrors(async () => {
-    requireAdmin();
-    const denied = requireAdminSession();
+    await requireAdmin();
+    const denied = await requireAdminSession();
     if (denied) return denied;
 
-    const db = readDb();
+    const db = await readDb();
     const now = new Date();
 
     const campaigns: CampaignRow[] = [];
@@ -95,8 +95,8 @@ export async function GET() {
  */
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    requireAdmin();
-    const denied = requireAdminSession();
+    await requireAdmin();
+    const denied = await requireAdminSession();
     if (denied) return denied;
 
     const body = await req.json();
@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
 
     const campaign = check.value;
 
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const u = db.users.find((x) => x.id === providerId);
       if (!u || !u.provider) return null;
       u.provider.sponsored = campaign;

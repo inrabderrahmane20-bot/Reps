@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
   const names = (Array.isArray(body.events) ? body.events : body.event ? [body.event] : []).map(sanitize).filter(Boolean) as EventName[];
   if (names.length === 0) return NextResponse.json({ ok: true });
 
-  const result = updateDb((db) => {
+  const result = await updateDb((db) => {
     const u = db.users.find((x) => x.id === providerId);
     if (!u?.provider) return null;
     u.provider.insights ??= { impressions: 0, clicks: 0, views: 0, requests: 0 };

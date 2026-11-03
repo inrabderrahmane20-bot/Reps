@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const db = readDb();
+    const db = await readDb();
     const places = (db.places || []).filter((p: any) => p.status !== 'inactive');
     return NextResponse.json({ places });
   } catch (e) {

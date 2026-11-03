@@ -5,8 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function GET() {
   return withErrors(async () => {
-    const me = requireUser();
-    const profile = readDb().meetingProfiles.find((p) => p.userId === me.id) || null;
+    const me = await requireUser();
+    const profile = (await readDb()).meetingProfiles.find((p) => p.userId === me.id) || null;
     return NextResponse.json({ profile });
   });
 }
@@ -16,12 +16,12 @@ export async function GET() {
 // used inside the Meetings section.
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const body = await req.json();
     const { age, gender, maritalStatus, profession, lookingFor, preferredAgeMin, preferredAgeMax, visibility, active } = body ?? {};
     if (!age || !gender || !lookingFor) return jsonError('Age, gender and intention are required.');
 
-    updateDb((db) => {
+    await updateDb((db) => {
       const existing = db.meetingProfiles.find((p) => p.userId === me.id);
       const data = {
         userId: me.id,

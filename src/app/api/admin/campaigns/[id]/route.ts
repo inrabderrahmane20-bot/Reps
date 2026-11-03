@@ -9,8 +9,8 @@ import type { SponsoredCampaign } from '@/lib/types';
 export const dynamic = 'force-dynamic';
 
 /** The campaign of one provider — the provider id is the campaign id. */
-function findCampaign(id: string) {
-  const db = readDb();
+async function findCampaign(id: string) {
+  const db = await readDb();
   const u = db.users.find((x) => x.id === id);
   if (!u || !u.provider || !u.provider.sponsored) return null;
   return {
@@ -28,11 +28,11 @@ function findCampaign(id: string) {
 /** GET /api/admin/campaigns/:id — a single campaign. */
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
-    const denied = requireAdminSession();
+    await requireAdmin();
+    const denied = await requireAdminSession();
     if (denied) return denied;
 
-    const row = findCampaign(params.id);
+    const row = await findCampaign(params.id);
     if (!row) return jsonError('Campaign not found.', 404);
     return NextResponse.json({ campaign: row });
   });
@@ -49,18 +49,18 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
  */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
-    const denied = requireAdminSession();
+    await requireAdmin();
+    const denied = await requireAdminSession();
     if (denied) return denied;
 
     const body = await req.json();
-    const existing = findCampaign(params.id);
+    const existing = await findCampaign(params.id);
     if (!existing) return jsonError('Campaign not found.', 404);
 
     if (body?.action === 'enable' || body?.action === 'disable') {
       const check = validateSponsored({ ...existing.campaign, active: body.action === 'enable' });
       if (!check.ok) return marketingError(check.issues);
-      const saved = updateDb((db) => {
+      const saved = await updateDb((db) => {
         const u = db.users.find((x) => x.id === params.id);
         if (!u || !u.provider) return null;
         u.provider.sponsored = check.value;
@@ -79,7 +79,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const check = validateSponsored({ ...existing.campaign, ...patch });
     if (!check.ok) return marketingError(check.issues);
 
-    const saved = updateDb((db) => {
+    const saved = await updateDb((db) => {
       const u = db.users.find((x) => x.id === params.id);
       if (!u || !u.provider) return null;
       u.provider.sponsored = check.value;
@@ -94,11 +94,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 /** DELETE /api/admin/campaigns/:id — removes the campaign object entirely. */
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
-    const denied = requireAdminSession();
+    await requireAdmin();
+    const denied = await requireAdminSession();
     if (denied) return denied;
 
-    const removed = updateDb((db) => {
+    const removed = await updateDb((db) => {
       const u = db.users.find((x) => x.id === params.id);
       if (!u || !u.provider || !u.provider.sponsored) return null;
       u.provider.sponsored = null;

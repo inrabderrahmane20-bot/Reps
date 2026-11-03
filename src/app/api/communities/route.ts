@@ -9,7 +9,7 @@ function enrich(c: any) {
 
 export async function GET(req: NextRequest) {
   const category = new URL(req.url).searchParams.get('category');
-  const db = readDb();
+  const db = await readDb();
   let list = db.communities;
   if (category) list = list.filter((c) => c.category === category);
   return NextResponse.json({ communities: list.map(enrich) });
@@ -17,11 +17,11 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { name, description, city, category, cover, rules } = await req.json();
     if (!name || !description || !category) return jsonError('Name, description and category are required.');
     const id = newId('c');
-    updateDb((db) => {
+    await updateDb((db) => {
       db.communities.push({
         id,
         name,

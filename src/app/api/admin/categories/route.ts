@@ -7,15 +7,15 @@ import type { SearchCategoryNode } from '@/lib/category-tree';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return withErrors(() => {
-    requireAdmin();
-    return NextResponse.json({ categories: getCategoryTree() });
+  return withErrors(async () => {
+    await requireAdmin();
+    return NextResponse.json({ categories: await getCategoryTree() });
   });
 }
 
 export async function PUT(req: NextRequest) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const body: unknown = await req.json();
     const validationError = validateCategoryTree(body);
     if (validationError) return jsonError(validationError);
@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest) {
     const categories = normalizeCategoryTree(
       (body as { categories: SearchCategoryNode[] }).categories
     );
-    saveCategoryTree(categories);
+    await saveCategoryTree(categories);
     return NextResponse.json({ categories });
   });
 }

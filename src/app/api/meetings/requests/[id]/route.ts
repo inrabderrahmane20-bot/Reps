@@ -7,16 +7,16 @@ import { pushNotification } from '@/lib/notify';
 // Accept/decline (SRS §31). On accept, opens the retro Meetings conversation.
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { status } = await req.json();
     if (!['accepted', 'declined'].includes(status)) return jsonError('Invalid status.');
 
-    const db = readDb();
+    const db = await readDb();
     const request = db.meetingRequests.find((r) => r.id === params.id);
     if (!request || request.receiverId !== me.id) return jsonError('Request not found.', 404);
 
     let conversationId: string | null = null;
-    updateDb((d) => {
+    await updateDb((d) => {
       const r = d.meetingRequests.find((x) => x.id === params.id)!;
       r.status = status;
       pushNotification(

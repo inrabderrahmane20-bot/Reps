@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   const forZone = (lat: number, lng: number, label?: string) =>
     !zone || zone === 'all' || classifyZone(lat, lng, label) === zone;
 
-  const db = readDb();
+  const db = await readDb();
 
   const providers = db.users
     .filter((u) => u.providerStatus === 'approved' && u.provider && forZone(u.provider.lat, u.provider.lng, u.neighborhood))

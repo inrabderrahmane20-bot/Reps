@@ -10,7 +10,7 @@ import { toPublicUser } from '@/lib/types';
 // marketplace once an admin approves it (see /api/admin/providers/[id]).
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const body = await req.json();
     const { category, title, description, specialties, serviceArea, priceRange, documents } = body ?? {};
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       return jsonError('Category, title and description are required.');
     }
 
-    updateDb((db) => {
+    await updateDb((db) => {
       const u = db.users.find((x) => x.id === me.id)!;
       u.providerStatus = 'pending';
       u.provider = {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    const updated = readDb().users.find((u) => u.id === me.id)!;
+    const updated = (await readDb()).users.find((u) => u.id === me.id)!;
     return NextResponse.json({ user: toPublicUser(updated) });
   });
 }

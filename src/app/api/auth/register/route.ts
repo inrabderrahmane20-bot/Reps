@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     }
 
     const normalizedEmail = String(email).trim().toLowerCase();
-    const existing = readDb().users.find((u) => u.email.toLowerCase() === normalizedEmail);
+    const existing = (await readDb()).users.find((u) => u.email.toLowerCase() === normalizedEmail);
     if (existing) {
       return jsonError('An account with this email already exists.', 409);
     }
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const { salt, hash } = hashPassword(password);
     const id = newId('u');
 
-    updateDb((db) => {
+    await updateDb((db) => {
       db.users.push({
         id,
         email: normalizedEmail,
@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    createSessionCookie(id);
-    const user = readDb().users.find((u) => u.id === id)!;
+    await createSessionCookie(id);
+    const user = (await readDb()).users.find((u) => u.id === id)!;
     return NextResponse.json({ user: toPublicUser(user) }, { status: 201 });
   });
 }

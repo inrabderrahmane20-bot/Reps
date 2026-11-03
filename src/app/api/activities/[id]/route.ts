@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
-  const db = readDb();
+  const db = await readDb();
   const a = db.activities.find((x) => x.id === params.id);
   if (!a) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
   const creator = db.users.find((u) => u.id === a.creatorId);

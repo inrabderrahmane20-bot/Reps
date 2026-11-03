@@ -51,8 +51,8 @@ export async function GET(req: NextRequest) {
     .map((s) => s.trim())
     .filter(Boolean) as Availability[];
 
-  const db = readDb();
-  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
+  const db = await readDb();
+  const serviceTaxonomy = serviceTaxonomyFromTree(await getCategoryTree());
   let providers = db.users.filter((u) => u.providerStatus === 'approved' && u.provider && u.status === 'active');
 
   if (cat) {

@@ -7,18 +7,18 @@ import { pushNotification } from '@/lib/notify';
 // Step 13: client leaves a review after a completed mission.
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { requestId, rating, content } = await req.json();
     if (!requestId || !rating) return jsonError('A rating is required.');
 
-    const db = readDb();
+    const db = await readDb();
     const request = db.serviceRequests.find((r) => r.id === requestId);
     if (!request || request.clientId !== me.id) return jsonError('Request not found.', 404);
     if (request.status !== 'completed') return jsonError('You can only review a completed mission.');
     if (db.reviews.some((r) => r.requestId === requestId)) return jsonError('You already reviewed this mission.');
 
     const id = newId('rv');
-    updateDb((d) => {
+    await updateDb((d) => {
       d.reviews.push({
         id,
         providerId: request.providerId,

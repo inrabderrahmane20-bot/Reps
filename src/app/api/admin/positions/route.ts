@@ -6,8 +6,8 @@ import { classifyZone, getZone } from '@/lib/zones';
 
 export async function GET() {
   return withErrors(async () => {
-    requireAdmin();
-    const db = readDb();
+    await requireAdmin();
+    const db = await readDb();
     const positions = db.users
       .filter((u) => u.provider)
       .map((u) => ({

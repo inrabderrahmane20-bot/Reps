@@ -6,8 +6,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 // Toggles membership: join if not a member, leave if already a member.
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
-    const result = updateDb((db) => {
+    const me = await requireUser();
+    const result = await updateDb((db) => {
       const c = db.communities.find((x) => x.id === params.id);
       if (!c) return null;
       const isMember = c.memberIds.includes(me.id);

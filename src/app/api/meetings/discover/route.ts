@@ -18,8 +18,8 @@ function score(mine: any, other: any, meInterests: string[], otherInterests: str
 // Suggested/compatible profiles — deliberately not swipe-based (SRS §29-30).
 export async function GET() {
   return withErrors(async () => {
-    const me = requireUser();
-    const db = readDb();
+    const me = await requireUser();
+    const db = await readDb();
     const myProfile = db.meetingProfiles.find((p) => p.userId === me.id);
     if (!myProfile) return NextResponse.json({ profiles: [], needsProfile: true });
 

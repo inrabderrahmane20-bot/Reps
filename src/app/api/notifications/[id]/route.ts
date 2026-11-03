@@ -5,8 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function PATCH(_req: Request, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
-    const result = updateDb((db) => {
+    const me = await requireUser();
+    const result = await updateDb((db) => {
       const n = db.notifications.find((x) => x.id === params.id && x.userId === me.id);
       if (!n) return null;
       n.read = true;

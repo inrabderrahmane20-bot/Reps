@@ -7,8 +7,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 // (if simple) signal, not a random placeholder.
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireUser();
-    const db = readDb();
+    await requireUser();
+    const db = await readDb();
     const room = db.rooms.find((r) => r.id === params.id);
     if (!room) return jsonError('Room not found.', 404);
 

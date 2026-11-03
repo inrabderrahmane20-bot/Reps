@@ -19,7 +19,7 @@ function enrichPost(p: any, db: any) {
 }
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
-  const db = readDb();
+  const db = await readDb();
   const posts = db.communityPosts
     .filter((p) => p.communityId === params.id)
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
@@ -29,17 +29,17 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { content } = await req.json();
     if (!content || !content.trim()) return jsonError('Post content is required.');
 
-    const db = readDb();
+    const db = await readDb();
     const community = db.communities.find((c) => c.id === params.id);
     if (!community) return jsonError('Community not found.', 404);
     if (!community.memberIds.includes(me.id)) return jsonError('Join the community to post.', 403);
 
     const id = newId('cp');
-    updateDb((d) => {
+    await updateDb((d) => {
       d.communityPosts.push({
         id,
         communityId: params.id,

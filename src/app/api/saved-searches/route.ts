@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
-import { updateDb, newId } from '@/lib/db';
+import { readDb, updateDb, newId } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const user = requireUser();
-    const db = (await import('@/lib/db')).readDb();
+    const user = await requireUser();
+    const db = await readDb();
     const items = (db.savedSearches || []).filter((s: any) => s.userId === user.id);
     return NextResponse.json({ items });
   } catch (e: any) {
@@ -18,11 +18,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const user = requireUser();
+    const user = await requireUser();
     const body = await req.json();
     const { query, filters } = body || {};
     if (!query) return NextResponse.json({ error: 'invalid' }, { status: 400 });
-    const item = updateDb((db) => {
+    const item = await updateDb((db) => {
       if (!db.savedSearches) db.savedSearches = [];
       const saved = {
         id: newId('ss'),
@@ -43,10 +43,10 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const user = requireUser();
+    const user = await requireUser();
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
-    updateDb((db) => {
+    await updateDb((db) => {
       if (!db.savedSearches) db.savedSearches = [];
       db.savedSearches = db.savedSearches.filter((s: any) => !(s.userId === user.id && s.id === id));
     });

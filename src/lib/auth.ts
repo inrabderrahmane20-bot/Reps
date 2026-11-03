@@ -24,11 +24,11 @@ export function verifyPassword(password: string, salt: string, hash: string): bo
 }
 
 /** Create a session for a user and set the session cookie. Call from a Route Handler. */
-export function createSessionCookie(userId: string): string {
+export async function createSessionCookie(userId: string): Promise<string> {
   const token = randomBytes(24).toString('hex');
   const now = new Date();
   const expires = new Date(now.getTime() + SESSION_DAYS * 24 * 60 * 60 * 1000);
-  updateDb((db) => {
+  await updateDb((db) => {
     db.sessions.push({
       token,
       userId,
@@ -46,10 +46,10 @@ export function createSessionCookie(userId: string): string {
   return token;
 }
 
-export function clearSessionCookie(): void {
+export async function clearSessionCookie(): Promise<void> {
   const token = cookies().get(SESSION_COOKIE)?.value;
   if (token) {
-    updateDb((db) => {
+    await updateDb((db) => {
       db.sessions = db.sessions.filter((s) => s.token !== token);
     });
   }
@@ -58,10 +58,10 @@ export function clearSessionCookie(): void {
 
 /** Read the current user from the session cookie. Safe to call from Server Components,
  *  Route Handlers, and Server Actions. */
-export function getSessionUser(): User | null {
+export async function getSessionUser(): Promise<User | null> {
   const token = cookies().get(SESSION_COOKIE)?.value;
   if (!token) return null;
-  const db = readDb();
+  const db = await readDb();
   const session = db.sessions.find((s) => s.token === token);
   if (!session) return null;
   if (new Date(session.expiresAt).getTime() < Date.now()) return null;
@@ -69,8 +69,8 @@ export function getSessionUser(): User | null {
   return user ?? null;
 }
 
-export function requireUser(): User {
-  const user = getSessionUser();
+export async function requireUser(): Promise<User> {
+  const user = await getSessionUser();
   if (!user) {
     const err = new Error('UNAUTHENTICATED');
     (err as any).status = 401;
@@ -79,8 +79,8 @@ export function requireUser(): User {
   return user;
 }
 
-export function requireAdmin(): User {
-  const admin = readDb().users.find((user) => user.role === 'admin');
+export async function requireAdmin(): Promise<User> {
+  const admin = (await readDb()).users.find((user) => user.role === 'admin');
   if (!admin) {
     throw new Error('No administrator account is configured.');
   }

@@ -21,8 +21,8 @@ const AVAILABILITY = ['available', 'later', 'offline'];
  */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
-    const denied = requireAdminSession();
+    await requireAdmin();
+    const denied = await requireAdminSession();
     if (denied) return denied;
 
     const body = await req.json();
@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       const { action, rejectionReason } = body;
       if (!['approve', 'reject', 'suspend'].includes(action)) return jsonError('Invalid action.');
 
-      const result = updateDb((db) => {
+      const result = await updateDb((db) => {
         const u = db.users.find((x) => x.id === params.id);
         if (!u || !u.provider) return null;
         if (action === 'approve') {
@@ -90,7 +90,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       }
     }
 
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const u = db.users.find((x) => x.id === params.id);
       if (!u || !u.provider) return null;
       for (const key of PROVIDER_FIELDS) {

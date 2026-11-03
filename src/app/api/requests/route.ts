@@ -7,9 +7,9 @@ import { pushNotification } from '@/lib/notify';
 // GET ?role=client|provider — list my requests either as the person asking, or the provider receiving them.
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const role = new URL(req.url).searchParams.get('role') || 'client';
-    const db = readDb();
+    const db = await readDb();
     const mine = db.serviceRequests.filter((r) => (role === 'provider' ? r.providerId === me.id : r.clientId === me.id));
     const enriched = mine.map((r) => {
       const client = db.users.find((u) => u.id === r.clientId);
@@ -28,17 +28,17 @@ export async function GET(req: NextRequest) {
 // Step 1-6 of the service request workflow: client describes need, picks provider, sends request.
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { providerId, category, description, location, date } = await req.json();
     if (!providerId || !description || !location || !date) {
       return jsonError('Provider, description, location and date are required.');
     }
-    const db = readDb();
+    const db = await readDb();
     const provider = db.users.find((u) => u.id === providerId && u.providerStatus === 'approved');
     if (!provider) return jsonError('Provider not found.', 404);
 
     const id = newId('sr');
-    updateDb((d) => {
+    await updateDb((d) => {
       d.serviceRequests.push({
         id,
         clientId: me.id,

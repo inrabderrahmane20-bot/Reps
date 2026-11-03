@@ -5,9 +5,9 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const body = await req.json();
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const n = db.news.find((x) => x.id === params.id);
       if (!n) return null;
       Object.assign(n, body);
@@ -20,8 +20,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
-    updateDb((db) => {
+    await requireAdmin();
+    await updateDb((db) => {
       db.news = db.news.filter((n) => n.id !== params.id);
     });
     return NextResponse.json({ ok: true });

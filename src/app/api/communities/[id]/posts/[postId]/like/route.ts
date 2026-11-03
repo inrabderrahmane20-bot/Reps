@@ -5,8 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function POST(_req: Request, { params }: { params: { id: string; postId: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
-    const result = updateDb((db) => {
+    const me = await requireUser();
+    const result = await updateDb((db) => {
       const post = db.communityPosts.find((p) => p.id === params.postId && p.communityId === params.id);
       if (!post) return null;
       const liked = post.likeUserIds.includes(me.id);

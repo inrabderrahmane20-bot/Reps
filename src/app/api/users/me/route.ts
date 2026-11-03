@@ -7,11 +7,11 @@ import { zoneFromNeighborhood } from '@/lib/zones';
 
 export async function PATCH(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const body = await req.json();
     const allowed = ['firstName', 'lastName', 'city', 'neighborhood', 'bio', 'languages', 'interests', 'avatar', 'homeLat', 'homeLng', 'zoneId'] as const;
 
-    updateDb((db) => {
+    await updateDb((db) => {
       const u = db.users.find((x) => x.id === me.id)!;
       for (const key of allowed) {
         if (body[key] !== undefined) (u as any)[key] = body[key];
@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest) {
       }
     });
 
-    const updated = readDb().users.find((u) => u.id === me.id)!;
+    const updated = (await readDb()).users.find((u) => u.id === me.id)!;
     return NextResponse.json({ user: toPublicUser(updated) });
   });
 }

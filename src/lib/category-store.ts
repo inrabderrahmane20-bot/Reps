@@ -1,15 +1,15 @@
 import { categoryNodesToTree, categoryTreeToNodes, SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import { readDb, updateDb } from '@/lib/db';
 
-export function getCategoryTree(): SearchCategoryNode[] {
-  const db = readDb();
+export async function getCategoryTree(): Promise<SearchCategoryNode[]> {
+  const db = await readDb();
   return db.categoryTreeInitialized || db.categories.length
     ? categoryNodesToTree(db.categories)
     : SEARCH_CATEGORIES;
 }
 
-export function saveCategoryTree(tree: SearchCategoryNode[]): void {
-  const previousTree = getCategoryTree();
+export async function saveCategoryTree(tree: SearchCategoryNode[]): Promise<void> {
+  const previousTree = await getCategoryTree();
   const records = categoryTreeToNodes(tree);
   const previousLeafCounts = countLeafLabels(previousTree);
   const nextLeafCounts = countLeafLabels(tree);
@@ -28,7 +28,7 @@ export function saveCategoryTree(tree: SearchCategoryNode[]): void {
     }
   }
 
-  updateDb((db) => {
+  await updateDb((db) => {
     for (const user of db.users) {
       const currentCategory = user.provider?.category;
       const renamedCategory = currentCategory ? renamedLeaves.get(currentCategory) : undefined;

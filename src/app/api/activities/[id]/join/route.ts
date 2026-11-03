@@ -8,8 +8,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 // Private activities: adds to a pending list the creator must approve (SRS §25).
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
-    const result = updateDb((db) => {
+    const me = await requireUser();
+    const result = await updateDb((db) => {
       const a = db.activities.find((x) => x.id === params.id);
       if (!a) return null;
 

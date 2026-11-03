@@ -7,12 +7,12 @@ import { pushNotification } from '@/lib/notify';
 // Steps 8-11: provider accepts/refuses, mission runs, client confirms completion.
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { status } = await req.json();
     const allowed = ['accepted', 'refused', 'completed', 'cancelled'];
     if (!allowed.includes(status)) return jsonError('Invalid status.');
 
-    const db = readDb();
+    const db = await readDb();
     const request = db.serviceRequests.find((r) => r.id === params.id);
     if (!request) return jsonError('Request not found.', 404);
 
@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     if (status === 'completed' && !isClient) return jsonError('Only the client can confirm completion.', 403);
     if (status === 'cancelled' && !isClient) return jsonError('Only the client can cancel.', 403);
 
-    updateDb((d) => {
+    await updateDb((d) => {
       const r = d.serviceRequests.find((x) => x.id === params.id)!;
       r.status = status;
       const notifyId = isProvider ? r.clientId : r.providerId;

@@ -11,7 +11,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; id: string }>;
 }): Promise<Metadata> {
   const { locale, id } = await params;
-  const user = readDb().users.find(
+  const user = (await readDb()).users.find(
     (entry) => entry.id === id && entry.providerStatus === 'approved' && entry.status === 'active'
   );
   const provider = user?.provider;
@@ -33,7 +33,7 @@ export async function generateMetadata({
     .join(' ')
     .slice(0, 300);
   const image = provider.portfolio?.[0] || user.avatar || undefined;
-  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
+  const serviceTaxonomy = serviceTaxonomyFromTree(await getCategoryTree());
   const metadata = await buildMetadata({
     locale,
     path: `/services/${id}`,

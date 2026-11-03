@@ -14,8 +14,8 @@ import type { MarketingIssue } from './marketing-validation';
  * guarantees that an administrator account exists — the caller still has to
  * prove it with a session.
  */
-export function requireAdminSession(): NextResponse | null {
-  const session = getSessionUser();
+export async function requireAdminSession(): Promise<NextResponse | null> {
+  const session = await getSessionUser();
   if (!session) return jsonError('You must be signed in.', 401);
   if (session.role !== 'admin') return jsonError('Administrator access is required.', 403);
   return null;

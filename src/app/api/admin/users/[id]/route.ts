@@ -10,7 +10,7 @@ const EDITABLE = ['firstName', 'lastName', 'email', 'city', 'neighborhood', 'bio
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const admin = requireAdmin();
+    const admin = await requireAdmin();
     const body = await req.json();
 
     // Moderation actions on an existing account.
@@ -19,7 +19,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       if (!['activate', 'suspend', 'ban'].includes(action)) return jsonError('Invalid action.');
       if (params.id === admin.id) return jsonError('You cannot moderate your own account.');
 
-      const result = updateDb((db) => {
+      const result = await updateDb((db) => {
         const u = db.users.find((x) => x.id === params.id);
         if (!u) return null;
         u.status = action === 'activate' ? 'active' : action === 'suspend' ? 'suspended' : 'banned';
@@ -44,11 +44,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     const normalizedEmail = body.email ? String(body.email).trim().toLowerCase() : undefined;
     if (normalizedEmail) {
-      const duplicate = updateDb((db) => db.users.some((u) => u.id !== params.id && u.email.toLowerCase() === normalizedEmail));
+      const duplicate = await updateDb((db) => db.users.some((u) => u.id !== params.id && u.email.toLowerCase() === normalizedEmail));
       if (duplicate) return jsonError('Another account already uses this email.', 409);
     }
 
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const u = db.users.find((x) => x.id === params.id);
       if (!u) return null;
       for (const key of EDITABLE) {

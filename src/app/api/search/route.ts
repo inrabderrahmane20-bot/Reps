@@ -31,10 +31,10 @@ export type SearchKind = 'service' | 'promotion' | 'category' | 'news' | 'commun
 let snapshot: { db: Db; at: number } | null = null;
 const SNAPSHOT_TTL = 8000;
 
-function dbSnapshot(): Db {
+async function dbSnapshot(): Promise<Db> {
   const now = Date.now();
   if (snapshot && now - snapshot.at < SNAPSHOT_TTL) return snapshot.db;
-  snapshot = { db: readDb(), at: now };
+  snapshot = { db: await readDb(), at: now };
   return snapshot.db;
 }
 
@@ -91,13 +91,13 @@ function buildCategoryItems(
     .map((i) => i.item);
 }
 
-function buildSuggestions(
+async function buildSuggestions(
   tCategories: (key: string) => string,
   countLabel: (count: number) => string,
   taxonomy: ReturnType<typeof serviceTaxonomyFromTree>,
   locale: Locale
-): SearchGroup[] {
-  const db = dbSnapshot();
+): Promise<SearchGroup[]> {
+  const db = await dbSnapshot();
 
   const categories: SearchItem[] = taxonomy.slice(0, 6).map((node) => ({
     id: `cat:${node.name}`,
@@ -141,13 +141,14 @@ export async function GET(req: NextRequest) {
   const tCategories = await getTranslations({ locale, namespace: 'categories' });
   const tSearch = await getTranslations({ locale, namespace: 'search' });
   const countLabel = (count: number) => tSearch('categoryCount', { count });
-  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
+  const serviceTaxonomy = serviceTaxonomyFromTree(await getCategoryTree());
 
   if (!raw) {
-    return NextResponse.json({ query: '', groups: buildSuggestions(tCategories, countLabel, serviceTaxonomy, locale), total: 0 });
+    const groups = await buildSuggestions(tCategories, countLabel, serviceTaxonomy, locale);
+    return NextResponse.json({ query: '', groups, total: 0 });
   }
 
-  const db = dbSnapshot();
+  const db = await dbSnapshot();
 
   // ---- Providers (services + live promotions) -------------------------
   const providers = db.users.filter(

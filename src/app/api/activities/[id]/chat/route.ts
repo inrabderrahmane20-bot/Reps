@@ -16,20 +16,20 @@ function ensureConversation(db: any, activityId: string, activity: any) {
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
-    const db = readDb();
+    const me = await requireUser();
+    const db = await readDb();
     const activity = db.activities.find((a) => a.id === params.id);
     if (!activity) return jsonError('Activity not found.', 404);
     if (!activity.participantIds.includes(me.id)) return jsonError('Join the activity to see the chat.', 403);
 
-    const convoId = updateDb((d) => {
+    const convoId = await updateDb((d) => {
       const a = d.activities.find((x) => x.id === params.id)!;
       const convo = ensureConversation(d, params.id, a);
       if (!convo.participantIds.includes(me.id)) convo.participantIds.push(me.id);
       return convo.id;
     });
 
-    const msgs = readDb()
+    const msgs = (await readDb())
       .messages.filter((m) => m.conversationId === convoId)
       .map((m) => {
         const sender = db.users.find((u) => u.id === m.senderId);
@@ -41,15 +41,15 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { content } = await req.json();
     if (!content || !content.trim()) return jsonError('Message cannot be empty.');
-    const db = readDb();
+    const db = await readDb();
     const activity = db.activities.find((a) => a.id === params.id);
     if (!activity) return jsonError('Activity not found.', 404);
     if (!activity.participantIds.includes(me.id)) return jsonError('Join the activity to chat.', 403);
 
-    updateDb((d) => {
+    await updateDb((d) => {
       const a = d.activities.find((x) => x.id === params.id)!;
       const convo = ensureConversation(d, params.id, a);
       d.messages.push({ id: newId('m'), conversationId: convo.id, senderId: me.id, content, createdAt: new Date().toISOString(), readBy: [me.id] });

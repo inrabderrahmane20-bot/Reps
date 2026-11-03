@@ -5,8 +5,8 @@ import { withErrors } from '@/lib/api-helpers';
 
 export async function GET() {
   return withErrors(async () => {
-    requireAdmin();
-    const db = readDb();
+    await requireAdmin();
+    const db = await readDb();
     return NextResponse.json({
       totalUsers: db.users.length,
       activeUsers: db.users.filter((u) => u.status === 'active').length,

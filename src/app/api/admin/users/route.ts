@@ -8,9 +8,9 @@ import { zoneFromNeighborhood } from '@/lib/zones';
 
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const q = new URL(req.url).searchParams.get('q')?.toLowerCase();
-    let list = readDb().users;
+    let list = (await readDb()).users;
     if (q) list = list.filter((u) => `${u.firstName} ${u.lastName} ${u.email}`.toLowerCase().includes(q));
     return NextResponse.json({ users: list.map((u) => ({ ...toPublicUser(u), email: u.email })) });
   });
@@ -18,20 +18,20 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const body = await req.json();
     const { firstName, lastName, email, password, city, neighborhood, role, interests } = body ?? {};
     if (!firstName || !lastName || !email) return jsonError('First name, last name and email are required.');
 
     const normalizedEmail = String(email).trim().toLowerCase();
-    const existing = readDb().users.find((u) => u.email.toLowerCase() === normalizedEmail);
+    const existing = (await readDb()).users.find((u) => u.email.toLowerCase() === normalizedEmail);
     if (existing) return jsonError('An account with this email already exists.', 409);
 
     const finalRole = role === 'admin' ? 'admin' : 'user';
     const { salt, hash } = hashPassword(password || 'medina1234');
     const id = newId('u');
 
-    updateDb((db) => {
+    await updateDb((db) => {
       db.users.push({
         id,
         email: normalizedEmail,
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
       });
     });
 
-    const user = readDb().users.find((u) => u.id === id)!;
+    const user = (await readDb()).users.find((u) => u.id === id)!;
     return NextResponse.json({ user: { ...toPublicUser(user), email: user.email } }, { status: 201 });
   });
 }

@@ -5,8 +5,8 @@ import { withErrors } from '@/lib/api-helpers';
 
 export async function GET() {
   return withErrors(async () => {
-    const me = requireUser();
-    const list = readDb().notifications.filter((n) => n.userId === me.id).sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+    const me = await requireUser();
+    const list = (await readDb()).notifications.filter((n) => n.userId === me.id).sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
     return NextResponse.json({ notifications: list });
   });
 }
@@ -14,8 +14,8 @@ export async function GET() {
 // Mark all as read.
 export async function PATCH() {
   return withErrors(async () => {
-    const me = requireUser();
-    updateDb((db) => {
+    const me = await requireUser();
+    await updateDb((db) => {
       db.notifications.filter((n) => n.userId === me.id).forEach((n) => (n.read = true));
     });
     return NextResponse.json({ ok: true });

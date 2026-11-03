@@ -69,8 +69,8 @@ export async function GET(req: NextRequest) {
   const limit = Math.min(60, Math.max(1, num(searchParams.get('limit')) ?? 24));
   const offset = Math.max(0, num(searchParams.get('offset')) ?? 0);
 
-  const db = readDb();
-  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
+  const db = await readDb();
+  const serviceTaxonomy = serviceTaxonomyFromTree(await getCategoryTree());
   const now = new Date();
 
   // 1. Keep only providers with a currently active, coherent promotion.

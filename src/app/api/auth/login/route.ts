@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     if (!email || !password) return jsonError('Email and password are required.');
 
     const normalizedEmail = String(email).trim().toLowerCase();
-    const user = readDb().users.find((u) => u.email.toLowerCase() === normalizedEmail);
+    const user = (await readDb()).users.find((u) => u.email.toLowerCase() === normalizedEmail);
     if (!user || !verifyPassword(password, user.salt, user.passwordHash)) {
       return jsonError('Incorrect email or password.', 401);
     }
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       return jsonError('This account has been suspended. Contact support.', 403);
     }
 
-    createSessionCookie(user.id);
+    await createSessionCookie(user.id);
     return NextResponse.json({ user: toPublicUser(user) });
   });
 }

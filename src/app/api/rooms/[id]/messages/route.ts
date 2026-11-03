@@ -5,8 +5,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireUser();
-    const db = readDb();
+    await requireUser();
+    const db = await readDb();
     const msgs = db.roomMessages
       .filter((m) => m.roomId === params.id)
       .map((m) => {
@@ -19,15 +19,15 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { content } = await req.json();
     if (!content || !content.trim()) return jsonError('Message cannot be empty.');
-    const db = readDb();
+    const db = await readDb();
     const room = db.rooms.find((r) => r.id === params.id);
     if (!room) return jsonError('Room not found.', 404);
 
     const id = newId('rm');
-    updateDb((d) => {
+    await updateDb((d) => {
       const rm = d.rooms.find((r) => r.id === params.id)!;
       if (!rm.memberIds.includes(me.id)) rm.memberIds.push(me.id);
       d.roomMessages.push({ id, roomId: params.id, senderId: me.id, content, createdAt: new Date().toISOString() });

@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get('category');
   const zone = searchParams.get('zone');
   const city = searchParams.get('city');
-  const db = readDb();
+  const db = await readDb();
   let list = db.activities.filter((a) => a.status !== 'cancelled');
   // Filter out service appointment/catalog entries that are mislabeled as activities
   list = list.filter((a) => {
@@ -46,14 +46,14 @@ export async function GET(req: NextRequest) {
 // Fields from SRS §24 — create an activity.
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const body = await req.json();
     const { title, description, category, date, location, city, max, min, equipment, level, visibility } = body ?? {};
     if (!title || !description || !category || !date || !location) {
       return jsonError('Title, description, category, date and location are required.');
     }
     const id = newId('a');
-    updateDb((db) => {
+    await updateDb((db) => {
       db.activities.push({
         id,
         creatorId: me.id,

@@ -24,9 +24,9 @@ function enrich(db: any, convo: any, meId: string) {
 // retro MSN-style UI on the client.
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const typeFilter = new URL(req.url).searchParams.get('type');
-    const db = readDb();
+    const db = await readDb();
     let list = db.conversations.filter((c) => c.participantIds.includes(me.id));
     if (typeFilter) list = list.filter((c) => c.type === typeFilter);
     const result = list.map((c) => enrich(db, c, me.id)).sort((a, b) => (a.lastMessageAt < b.lastMessageAt ? 1 : -1));
@@ -36,10 +36,10 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const me = requireUser();
+    const me = await requireUser();
     const { userId } = await req.json();
     if (!userId) return jsonError('Recipient is required.');
-    const db = readDb();
+    const db = await readDb();
     if (!db.users.some((u) => u.id === userId)) return jsonError('User not found.', 404);
     if (me.blockedUserIds?.includes(userId)) return jsonError('You have blocked this user.');
     const target = db.users.find((u) => u.id === userId)!;
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     );
     if (!convo) {
       const id = newId('conv');
-      updateDb((d) => {
+      await updateDb((d) => {
         d.conversations.push({ id, type: 'direct', participantIds: [me.id, userId], relatedId: null, createdAt: new Date().toISOString() });
       });
       convo = { id, type: 'direct', participantIds: [me.id, userId], relatedId: null, createdAt: new Date().toISOString() };

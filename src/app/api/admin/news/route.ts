@@ -5,19 +5,19 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function GET() {
   return withErrors(async () => {
-    requireAdmin();
-    return NextResponse.json({ news: readDb().news });
+    await requireAdmin();
+    return NextResponse.json({ news: (await readDb()).news });
   });
 }
 
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const body = await req.json();
     const { title, category, city, neighborhood, summary, content, image, tags } = body ?? {};
     if (!title || !category || !summary) return jsonError('Title, category and summary are required.');
     const id = newId('n');
-    updateDb((db) => {
+    await updateDb((db) => {
       db.news.unshift({
         id,
         title,

@@ -5,10 +5,10 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const { status } = await req.json();
     if (!['under_review', 'resolved', 'rejected'].includes(status)) return jsonError('Invalid status.');
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const r = db.reports.find((x) => x.id === params.id);
       if (!r) return null;
       r.status = status;

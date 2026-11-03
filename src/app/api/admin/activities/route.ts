@@ -10,10 +10,10 @@ function enrich(a: any) {
 
 export async function GET(req: NextRequest) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const { searchParams } = new URL(req.url);
     const q = searchParams.get('q')?.toLowerCase();
-    let list = readDb().activities;
+    let list = (await readDb()).activities;
     if (q) list = list.filter((a) => `${a.title} ${a.category} ${a.location}`.toLowerCase().includes(q));
     return NextResponse.json({ activities: list.map(enrich) });
   });
@@ -21,14 +21,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
-    const admin = requireAdmin();
+    const admin = await requireAdmin();
     const body = await req.json();
     const { title, description, category, date, location, city, lat, lng, max, min, level, visibility, equipment, status } = body ?? {};
     if (!title || !category || !date || !location) {
       return jsonError('Title, category, date and location are required.');
     }
     const id = newId('a');
-    updateDb((db) => {
+    await updateDb((db) => {
       db.activities.push({
         id,
         creatorId: admin.id,

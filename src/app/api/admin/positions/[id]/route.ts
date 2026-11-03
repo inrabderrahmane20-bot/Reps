@@ -8,7 +8,7 @@ const IN_RANGE = { lat: (v: number) => Math.abs(v) <= 90, lng: (v: number) => Ma
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   return withErrors(async () => {
-    requireAdmin();
+    await requireAdmin();
     const { lat, lng } = await req.json();
     const latNum = Number(lat);
     const lngNum = Number(lng);
@@ -16,7 +16,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       return jsonError('Valid latitude (-90..90) and longitude (-180..180) are required.');
     }
 
-    const result = updateDb((db) => {
+    const result = await updateDb((db) => {
       const u = db.users.find((x) => x.id === params.id);
       if (!u || !u.provider) return null;
       u.provider.lat = latNum;
