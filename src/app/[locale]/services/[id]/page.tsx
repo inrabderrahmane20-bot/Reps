@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { buildMetadata } from '@/lib/seo';
 import { readDb } from '@/lib/db';
-import { findParentTop } from '@/lib/service-categories';
+import { findParentTop, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { getCategoryTree } from '@/lib/category-store';
 import ServiceDetailClient from './service-detail-client';
 
 export async function generateMetadata({
@@ -32,6 +33,7 @@ export async function generateMetadata({
     .join(' ')
     .slice(0, 300);
   const image = provider.portfolio?.[0] || user.avatar || undefined;
+  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
   const metadata = await buildMetadata({
     locale,
     path: `/services/${id}`,
@@ -47,7 +49,7 @@ export async function generateMetadata({
     name: `${title} — ${name}`,
     description: provider.description?.slice(0, 300),
     areaServed: 'Marrakech',
-    category: findParentTop(provider.category) ?? provider.category,
+    category: findParentTop(provider.category, serviceTaxonomy) ?? provider.category,
     ...(image ? { image } : {}),
   };
 

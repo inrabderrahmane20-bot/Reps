@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import { SEARCH_CATEGORIES, getCategoryLabel, type SearchCategoryNode } from '@/lib/category-tree';
+import { api } from '@/lib/api-client';
 import { useRouter } from 'next/navigation';
 
 type PathNode = SearchCategoryNode & { depth: number };
@@ -19,6 +20,13 @@ export function CategorySearchPanel({ open, onClose }: CategorySearchPanelProps)
   const router = useRouter();
   const [path, setPath] = useState<PathNode[]>([]);
   const [query, setQuery] = useState('');
+  const [categories, setCategories] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
+
+  useEffect(() => {
+    api.get<{ categories: SearchCategoryNode[] }>('/categories/tree')
+      .then((response) => setCategories(response.categories))
+      .catch((error) => console.error('Could not load the current category tree.', error));
+  }, []);
 
   useEffect(() => {
     if (!open) {
@@ -28,10 +36,10 @@ export function CategorySearchPanel({ open, onClose }: CategorySearchPanelProps)
   }, [open]);
 
   const currentLevel = useMemo(() => {
-    if (path.length === 0) return SEARCH_CATEGORIES;
+    if (path.length === 0) return categories;
     const parent = path[path.length - 1];
     return parent.children || [];
-  }, [path]);
+  }, [categories, path]);
 
   const breadcrumbs = path;
 

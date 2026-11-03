@@ -48,6 +48,7 @@ function emptyDb(): Db {
     invitations: [],
     savedSearches: [],
     categories: [],
+    categoryTreeInitialized: false,
     places: [],
     listings: [],
   };

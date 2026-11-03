@@ -383,6 +383,7 @@ export interface Db {
   invitations: Invitation[];
   savedSearches: SavedSearch[];
   categories: CategoryNode[];
+  categoryTreeInitialized?: boolean;
   places: Place[];
   listings: Listing[];
 }

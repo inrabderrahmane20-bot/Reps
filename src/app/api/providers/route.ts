@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
 import { classifyZone, haversineKm } from '@/lib/zones';
-import { expandCategory } from '@/lib/service-categories';
+import { expandCategory, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { getCategoryTree } from '@/lib/category-store';
 import { activePromotion, isSponsorshipActive } from '@/lib/marketing';
 import type { Availability } from '@/lib/types';
 
@@ -51,10 +52,11 @@ export async function GET(req: NextRequest) {
     .filter(Boolean) as Availability[];
 
   const db = readDb();
+  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
   let providers = db.users.filter((u) => u.providerStatus === 'approved' && u.provider && u.status === 'active');
 
   if (cat) {
-    const leaves = expandCategory(cat);
+    const leaves = expandCategory(cat, serviceTaxonomy);
     if (leaves.length === 0) {
       return NextResponse.json({ providers: [], total: 0 });
     }

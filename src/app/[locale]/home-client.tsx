@@ -12,7 +12,8 @@ import { SponsoredCard, SponsoredCardSkeleton } from '@/components/services/mark
 import { RequestServiceModal } from '@/components/ui/request-service-modal';
 import { useAuth } from '@/context/auth-context';
 import { api } from '@/lib/api-client';
-import { topLevelCategories } from '@/lib/service-categories';
+import { serviceTaxonomyFromTree, topLevelCategories } from '@/lib/service-categories';
+import type { SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
 
 type HomeProvider = {
@@ -72,6 +73,7 @@ export default function HomePage() {
   const [promos, setPromos] = useState<ServiceListing[]>([]);
   const [providerTotal, setProviderTotal] = useState(0);
   const [promoTotal, setPromoTotal] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(topLevelCategories().length);
   const [loadingHome, setLoadingHome] = useState(true);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
 
@@ -134,6 +136,11 @@ export default function HomePage() {
   }
 
   useEffect(loadAll, [user?.zoneId, user?.homeLat, user?.homeLng]);
+  useEffect(() => {
+    api.get<{ categories: SearchCategoryNode[] }>('/categories/tree')
+      .then((response) => setCategoryCount(serviceTaxonomyFromTree(response.categories).length))
+      .catch((error) => console.error('Could not load the current service category count.', error));
+  }, []);
 
   async function toggleJoinCommunity(id: string) {
     if (!user) return (window.location.href = '/login');
@@ -148,7 +155,7 @@ export default function HomePage() {
         firstName={user?.firstName}
         providerCount={providerTotal}
         promoCount={promoTotal}
-        categoryCount={topLevelCategories().length}
+        categoryCount={categoryCount}
       />
 
       <div className="mx-auto max-w-[1720px] space-y-16 px-4 pb-20 pt-12 md:px-6 md:space-y-20 md:pt-16 xl:px-8">

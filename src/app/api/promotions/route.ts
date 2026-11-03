@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
 import { classifyZone } from '@/lib/zones';
-import { expandCategory, findParentTop, normalizeCategory } from '@/lib/service-categories';
+import { expandCategory, findParentTop, normalizeCategory, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { getCategoryTree } from '@/lib/category-store';
 import { activePromotion, promotionPrices } from '@/lib/marketing';
 import type { PromotionInfo } from '@/lib/types';
 
@@ -69,6 +70,7 @@ export async function GET(req: NextRequest) {
   const offset = Math.max(0, num(searchParams.get('offset')) ?? 0);
 
   const db = readDb();
+  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
   const now = new Date();
 
   // 1. Keep only providers with a currently active, coherent promotion.
@@ -83,7 +85,7 @@ export async function GET(req: NextRequest) {
         user: u,
         promo,
         prices: promotionPrices(promo),
-        family: findParentTop(u.provider!.category) ?? u.provider!.category,
+        family: findParentTop(u.provider!.category, serviceTaxonomy) ?? u.provider!.category,
         rating,
         reviewCount: reviews.length,
       };
@@ -122,7 +124,7 @@ export async function GET(req: NextRequest) {
 
   // 3. Category filter (expands a family / subcategory to its leaf services).
   if (cat && cat !== 'all') {
-    const leaves = new Set(expandCategory(cat).map((l) => normalizeCategory(l)));
+    const leaves = new Set(expandCategory(cat, serviceTaxonomy).map((l) => normalizeCategory(l)));
     if (leaves.size === 0) {
       return NextResponse.json({ providers: [], total: 0, categories: [], priceRange: { min: null, max: null } });
     }

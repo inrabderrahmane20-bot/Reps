@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { SEARCH_CATEGORIES } from '@/lib/category-tree';
+import { getCategoryTree } from '@/lib/category-store';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return NextResponse.json({ categories: SEARCH_CATEGORIES });
+  return NextResponse.json({ categories: getCategoryTree() });
 }

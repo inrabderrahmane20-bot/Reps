@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getTranslations } from 'next-intl/server';
 import { readDb } from '@/lib/db';
 import type { Db } from '@/lib/types';
-import { TAXONOMY, collectLeaves } from '@/lib/service-categories';
+import { collectLeaves, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { getCategoryTree } from '@/lib/category-store';
 import { activePromotion, promotionBadge } from '@/lib/marketing';
 import { matchScore } from '@/lib/search';
 import { categoryMessageKey } from '@/lib/category-labels';
@@ -59,11 +60,13 @@ function localizeCategory(
 function buildCategoryItems(
   query: string,
   tCategories: (key: string) => string,
-  countLabel: (count: number) => string
+  countLabel: (count: number) => string,
+  taxonomy: ReturnType<typeof serviceTaxonomyFromTree>,
+  locale: Locale
 ): SearchItem[] {
   const items: Array<{ item: SearchItem; score: number }> = [];
 
-  for (const node of TAXONOMY) {
+  for (const node of taxonomy) {
     const leaves = collectLeaves(node);
     const score = matchScore(query, [node.name, ...leaves.slice(0, 24)]);
     if (score <= 0) continue;
@@ -72,7 +75,9 @@ function buildCategoryItems(
       item: {
         id: `cat:${node.name}`,
         kind: 'category',
-        title: localizeCategory(node.name, tCategories),
+        title: node.labels?.[locale] && node.labels[locale] !== node.name
+          ? node.labels[locale]
+          : localizeCategory(node.name, tCategories),
         subtitle: countLabel(leaves.length),
         href: `/services?cat=${encodeURIComponent(node.name)}`,
         meta: `${leaves.length}`,
@@ -88,14 +93,18 @@ function buildCategoryItems(
 
 function buildSuggestions(
   tCategories: (key: string) => string,
-  countLabel: (count: number) => string
+  countLabel: (count: number) => string,
+  taxonomy: ReturnType<typeof serviceTaxonomyFromTree>,
+  locale: Locale
 ): SearchGroup[] {
   const db = dbSnapshot();
 
-  const categories: SearchItem[] = TAXONOMY.slice(0, 6).map((node) => ({
+  const categories: SearchItem[] = taxonomy.slice(0, 6).map((node) => ({
     id: `cat:${node.name}`,
     kind: 'category' as const,
-    title: localizeCategory(node.name, tCategories),
+    title: node.labels?.[locale] && node.labels[locale] !== node.name
+      ? node.labels[locale]
+      : localizeCategory(node.name, tCategories),
     subtitle: countLabel(collectLeaves(node).length),
     href: `/services?cat=${encodeURIComponent(node.name)}`,
   }));
@@ -132,9 +141,10 @@ export async function GET(req: NextRequest) {
   const tCategories = await getTranslations({ locale, namespace: 'categories' });
   const tSearch = await getTranslations({ locale, namespace: 'search' });
   const countLabel = (count: number) => tSearch('categoryCount', { count });
+  const serviceTaxonomy = serviceTaxonomyFromTree(getCategoryTree());
 
   if (!raw) {
-    return NextResponse.json({ query: '', groups: buildSuggestions(tCategories, countLabel), total: 0 });
+    return NextResponse.json({ query: '', groups: buildSuggestions(tCategories, countLabel, serviceTaxonomy, locale), total: 0 });
   }
 
   const db = dbSnapshot();
@@ -182,7 +192,7 @@ export async function GET(req: NextRequest) {
   }
 
   // ---- Categories ------------------------------------------------------
-  const categories = buildCategoryItems(raw, tCategories, countLabel);
+  const categories = buildCategoryItems(raw, tCategories, countLabel, serviceTaxonomy, locale);
 
   // ---- News (published only) ------------------------------------------
   const news: SearchItem[] = db.news

@@ -2,7 +2,8 @@ import type { MetadataRoute } from 'next';
 import { locales } from '@/i18n/config';
 import { readDb } from '@/lib/db';
 import { hreflangFor, localizedUrl } from '@/lib/seo';
-import { topLevelCategories } from '@/lib/service-categories';
+import { serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { getCategoryTree } from '@/lib/category-store';
 
 type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]['changeFrequency']>;
 
@@ -32,17 +33,15 @@ const STATIC_ROUTES: StaticRoute[] = [
 ];
 
 /** Category browse pages — one per top-level family of the taxonomy. */
-const CATEGORY_ROUTES: StaticRoute[] = topLevelCategories().map((category) => ({
-  path: `/services?cat=${encodeURIComponent(category)}`,
-  changeFrequency: 'weekly',
-  priority: 0.6,
-}));
-
-/** The sitemap is refreshed hourly so newly approved services show up quickly. */
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
+  const categoryRoutes: StaticRoute[] = serviceTaxonomyFromTree(getCategoryTree()).map((node) => ({
+    path: `/services?cat=${encodeURIComponent(node.name)}`,
+    changeFrequency: 'weekly',
+    priority: 0.6,
+  }));
 
   const db = readDb();
 
@@ -56,7 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const articles = db.news.filter((article) => article.status === 'published');
 
   for (const locale of locales) {
-    for (const route of [...STATIC_ROUTES, ...CATEGORY_ROUTES]) {
+    for (const route of [...STATIC_ROUTES, ...categoryRoutes]) {
       entries.push({
         url: localizedUrl(locale, route.path),
         changeFrequency: route.changeFrequency,

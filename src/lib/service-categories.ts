@@ -12,6 +12,7 @@ import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree'
 
 export interface TaxNode {
   name: string;
+  labels?: Record<string, string>;
   children?: TaxNode[];
 }
 
@@ -19,6 +20,7 @@ function toTaxNode(node: SearchCategoryNode): TaxNode {
   const children = node.children?.map(toTaxNode);
   return {
     name: node.labels.fr,
+    labels: node.labels,
     ...(children?.length ? { children } : {}),
   };
 }
@@ -28,7 +30,12 @@ if (!servicesCategory) {
   throw new Error('The shared category tree must include a Services branch.');
 }
 
-export const TAXONOMY = (servicesCategory.children ?? []).map(toTaxNode);
+export function serviceTaxonomyFromTree(categories: SearchCategoryNode[]): TaxNode[] {
+  const services = categories.find((node) => node.id === 'services');
+  return (services?.children ?? []).map(toTaxNode);
+}
+
+export const TAXONOMY = serviceTaxonomyFromTree(SEARCH_CATEGORIES);
 
 /** Top-level group names, in the order they appear in the source taxonomy. */
 export function topLevelCategories(): string[] {
@@ -51,7 +58,7 @@ export function collectLeaves(node: TaxNode): string[] {
  * Concretely find a node by name (top-level, subcategory or leaf), matching
  * case- and accent-insensitively.
  */
-export function findNode(name: string): TaxNode | undefined {
+export function findNode(name: string, taxonomy: TaxNode[] = TAXONOMY): TaxNode | undefined {
   const target = normalize(name);
   const scan = (nodes: TaxNode[]): TaxNode | undefined => {
     for (const node of nodes) {
@@ -63,7 +70,7 @@ export function findNode(name: string): TaxNode | undefined {
     }
     return undefined;
   };
-  return scan(TAXONOMY);
+  return scan(taxonomy);
 }
 
 /**
@@ -71,7 +78,7 @@ export function findNode(name: string): TaxNode | undefined {
  * top-level). Used to keep the correct branch expanded when a subcategory is
  * selected.
  */
-export function findParentTop(name: string): string | undefined {
+export function findParentTop(name: string, taxonomy: TaxNode[] = TAXONOMY): string | undefined {
   const target = normalize(name);
   const searchGroup = (group: TaxNode): boolean => {
     if (normalize(group.name) === target) return true;
@@ -79,7 +86,7 @@ export function findParentTop(name: string): string | undefined {
       (child) => normalize(child.name) === target || searchGroup(child)
     );
   };
-  return TAXONOMY.find((top) => searchGroup(top))?.name;
+  return taxonomy.find((top) => searchGroup(top))?.name;
 }
 
 /**
@@ -102,10 +109,10 @@ const LEGACY_ALIASES: Record<string, string[]> = {
  * empty array when nothing matches, which callers treat as "filter matches
  * nothing".
  */
-export function expandCategory(name: string): string[] {
+export function expandCategory(name: string, taxonomy: TaxNode[] = TAXONOMY): string[] {
   const target = normalize(name);
 
-  const node = findNode(name);
+  const node = findNode(name, taxonomy);
   if (node) return collectLeaves(node);
 
   // English legacy categories map to their French taxonomy equivalents.

@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { normalizeCategory, TAXONOMY, type TaxNode } from '@/lib/service-categories';
+import { normalizeCategory, serviceTaxonomyFromTree, TAXONOMY, type TaxNode } from '@/lib/service-categories';
+import { api } from '@/lib/api-client';
+import type { SearchCategoryNode } from '@/lib/category-tree';
 
 export function LayeredCategoryNavigation({
   open,
@@ -24,15 +26,23 @@ export function LayeredCategoryNavigation({
   const [closing, setClosing] = useState(false);
   const [entered, setEntered] = useState(false);
   const [path, setPath] = useState<TaxNode[]>([]);
+  const [taxonomy, setTaxonomy] = useState<TaxNode[]>(TAXONOMY);
   const [enteringLayer, setEnteringLayer] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
+  useEffect(() => {
+    api.get<{ categories: SearchCategoryNode[] }>('/categories/tree')
+      .then((response) => setTaxonomy(serviceTaxonomyFromTree(response.categories)))
+      .catch((error) => console.error('Could not load the current service categories.', error));
+  }, []);
+
   const selectedStatus = selectedCategory
     ? t('categorySelection', { category: selectedCategory })
     : t('noCategorySelected');
+  const categoryLabel = (node: TaxNode) => node.labels?.[locale] || node.name;
   const breadcrumbButtonClass =
     'inline-flex min-h-7 shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold leading-none transition-colors';
   const activeBreadcrumbClass =
@@ -49,9 +59,9 @@ export function LayeredCategoryNavigation({
       const desktop = window.matchMedia('(min-width: 768px)').matches;
       setPath(
         selectedCategory
-          ? findBrowsePath(selectedCategory)
-          : desktop && TAXONOMY[0]
-            ? [TAXONOMY[0]]
+          ? findBrowsePath(selectedCategory, taxonomy)
+          : desktop && taxonomy[0]
+            ? [taxonomy[0]]
             : []
       );
       animationFrameRef.current = window.requestAnimationFrame(() => setEntered(true));
@@ -75,7 +85,7 @@ export function LayeredCategoryNavigation({
       reducedMotion ? 0 : 520
     );
     return () => window.clearTimeout(timeout);
-  }, [open, mounted, selectedCategory]);
+  }, [open, mounted, selectedCategory, taxonomy]);
 
   useEffect(() => {
     if (!mounted) {
@@ -102,10 +112,10 @@ export function LayeredCategoryNavigation({
   }, [open, onClose]);
 
   const layers = useMemo(() => {
-    const levels: TaxNode[][] = [TAXONOMY];
+    const levels: TaxNode[][] = [taxonomy];
     for (const node of path) levels.push(node.children ?? []);
     return levels;
-  }, [path]);
+  }, [path, taxonomy]);
 
   const desktopCoverage = layers.length === 1 ? 1 : 1 - 1 / 3 ** (layers.length - 1);
   const previousLayerFraction =
@@ -216,7 +226,7 @@ export function LayeredCategoryNavigation({
         >
           {layers.map((nodes, index) => {
             const isActive = index === path.length;
-            const title = index === 0 ? t('categories') : path[index - 1].name;
+            const title = index === 0 ? t('categories') : categoryLabel(path[index - 1]);
 
             return (
               <section
@@ -265,7 +275,7 @@ export function LayeredCategoryNavigation({
                                 aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
                                 className={`${breadcrumbButtonClass} max-w-[9vw] truncate ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                               >
-                                {node.name}
+                                {categoryLabel(node)}
                               </button>
                             </span>
                           ))}
@@ -333,7 +343,7 @@ export function LayeredCategoryNavigation({
                           }`}
                         >
                           <span className={`min-w-0 flex-1 text-sm font-semibold leading-snug ${isActive ? '' : 'truncate'}`}>
-                            {node.name}
+                            {categoryLabel(node)}
                           </span>
                           {hasChildren ? (
                             <ChevronRight size={15} className="flip-rtl shrink-0 text-ink-400" aria-hidden />
@@ -362,7 +372,7 @@ export function LayeredCategoryNavigation({
         <div className="absolute inset-0 md:hidden">
         {layers.map((nodes, index) => {
           const depth = path.length - index;
-          const title = index === 0 ? t('categories') : path[index - 1].name;
+          const title = index === 0 ? t('categories') : categoryLabel(path[index - 1]);
           const scale = Math.max(0.78, 1 - depth * 0.05);
           const translateX = depth === 0 ? 0 : (isRtl ? 1 : -1) * Math.min(depth * 8, 64);
           const translateY = depth === 0 ? 0 : -Math.min(depth * 28, 84);
@@ -445,7 +455,7 @@ export function LayeredCategoryNavigation({
                             aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
                             className={`${breadcrumbButtonClass} max-w-[35vw] truncate text-xs sm:max-w-none ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
                           >
-                            {node.name}
+                            {categoryLabel(node)}
                           </button>
                         </span>
                       ))}
@@ -511,7 +521,7 @@ export function LayeredCategoryNavigation({
                             : 'border-ink-900/[0.07] bg-white text-ink-800 hover:border-majorelle-200 hover:bg-white'
                         }`}
                       >
-                        <span className="min-w-0 flex-1 text-sm font-semibold leading-snug">{node.name}</span>
+                        <span className="min-w-0 flex-1 text-sm font-semibold leading-snug">{categoryLabel(node)}</span>
                         {hasChildren ? (
                           <ChevronRight size={17} className="flip-rtl shrink-0 text-ink-400 transition-transform group-hover:translate-x-0.5" aria-hidden />
                         ) : selected ? (
@@ -540,7 +550,7 @@ export function LayeredCategoryNavigation({
   );
 }
 
-function findBrowsePath(name: string): TaxNode[] {
+function findBrowsePath(name: string, taxonomy: TaxNode[]): TaxNode[] {
   const target = normalizeCategory(name);
   const findPath = (nodes: TaxNode[], ancestors: TaxNode[]): TaxNode[] | null => {
     for (const node of nodes) {
@@ -556,5 +566,5 @@ function findBrowsePath(name: string): TaxNode[] {
     return null;
   };
 
-  return findPath(TAXONOMY, []) ?? [];
+  return findPath(taxonomy, []) ?? [];
 }

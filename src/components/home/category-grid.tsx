@@ -1,9 +1,12 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { TAXONOMY, collectLeaves } from '@/lib/service-categories';
+import { TAXONOMY, collectLeaves, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { api } from '@/lib/api-client';
+import type { SearchCategoryNode } from '@/lib/category-tree';
 import { categoryIcon, categoryMessageKey } from '@/lib/category-labels';
 import { SectionHeader } from '@/components/ui/section-header';
 
@@ -18,16 +21,26 @@ import { SectionHeader } from '@/components/ui/section-header';
 export function CategoryGrid() {
   const t = useTranslations('home');
   const tCategories = useTranslations('categories');
+  const locale = useLocale();
+  const [taxonomy, setTaxonomy] = useState(TAXONOMY);
 
-  const families = TAXONOMY.map((node) => ({
+  useEffect(() => {
+    api.get<{ categories: SearchCategoryNode[] }>('/categories/tree')
+      .then((response) => setTaxonomy(serviceTaxonomyFromTree(response.categories)))
+      .catch((error) => console.error('Could not load the current service categories.', error));
+  }, []);
+
+  const families = taxonomy.map((node) => ({
     name: node.name,
     label: (() => {
+      const localizedLabel = node.labels?.[locale];
+      if (localizedLabel && localizedLabel !== node.name) return localizedLabel;
       const key = categoryMessageKey(node.name);
-      if (!key) return node.name;
+      if (!key) return localizedLabel || node.name;
       try {
-        return tCategories(key) || node.name;
+        return tCategories(key) || localizedLabel || node.name;
       } catch {
-        return node.name;
+        return localizedLabel || node.name;
       }
     })(),
     icon: categoryIcon(node.name),
