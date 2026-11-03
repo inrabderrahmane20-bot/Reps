@@ -97,6 +97,7 @@ export default function AdminCategoriesPage() {
   const [editLabels, setEditLabels] = useState<CategoryLabels>({ fr: '', en: '', ar: '' });
   const [movingId, setMovingId] = useState<string | null>(null);
   const [parentSelection, setParentSelection] = useState('');
+  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
   const flattened = useMemo(() => flattenTree(categories), [categories]);
 
   async function loadCategories() {
@@ -136,6 +137,13 @@ export default function AdminCategoriesPage() {
       labels: { fr: 'Nouvelle catégorie', en: 'New category', ar: 'فئة جديدة' },
     };
     changeTree(addNode(categories, parentId, node));
+    if (parentId) {
+      setCollapsedIds((collapsed) => {
+        const next = new Set(collapsed);
+        next.delete(parentId);
+        return next;
+      });
+    }
     startEditing(node);
   }
 
@@ -149,6 +157,7 @@ export default function AdminCategoriesPage() {
     changeTree(removeNode(categories, node.id));
     if (editingId && subtreeIds.has(editingId)) setEditingId(null);
     if (movingId && subtreeIds.has(movingId)) setMovingId(null);
+    setCollapsedIds((collapsed) => new Set([...collapsed].filter((id) => !subtreeIds.has(id))));
   }
 
   function saveNodeLabels() {
@@ -215,8 +224,9 @@ export default function AdminCategoriesPage() {
     setError(null);
   }
 
-  function renderNode(node: SearchCategoryNode, depth: number, index: number, siblingCount: number): React.ReactNode {
+  function renderNode(node: SearchCategoryNode, index: number, siblingCount: number): React.ReactNode {
     const hasChildren = !!node.children?.length;
+    const collapsed = collapsedIds.has(node.id);
     const descendants = collectDescendantIds(node);
     const currentParentId = findParentId(categories, node.id);
     const availableParents = flattened.filter((item) => !descendants.has(item.id));
@@ -228,20 +238,28 @@ export default function AdminCategoriesPage() {
       <li key={node.id} className="min-w-0">
         <div className="rounded-xl border border-ink-900/10 bg-white">
           <div className="flex flex-wrap items-center gap-2 p-3">
-            {hasChildren ? (
-              <details open={depth < 2} className="min-w-0 flex-1">
-                <summary className="cursor-pointer list-none text-sm font-semibold text-ink-900">
-                  <span className="inline-flex items-center gap-2">
-                    <ChevronDown size={14} className="text-ink-400" />
-                    <span className="truncate">{displayLabel}</span>
-                    <span className="rounded-full bg-sand-100 px-2 py-0.5 text-xs font-medium text-ink-500">
-                      {node.children!.length} {node.children!.length === 1 ? 'child' : 'children'}
-                    </span>
-                  </span>
-                </summary>
-              </details>
-            ) : (
-              <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink-900">{displayLabel}</span>
+            {hasChildren && (
+              <button
+                type="button"
+                onClick={() => setCollapsedIds((collapsedCategories) => {
+                  const next = new Set(collapsedCategories);
+                  if (next.has(node.id)) next.delete(node.id);
+                  else next.add(node.id);
+                  return next;
+                })}
+                aria-expanded={!collapsed}
+                aria-label={`${collapsed ? 'Expand' : 'Collapse'} ${node.labels.fr}`}
+                title={`${collapsed ? 'Expand' : 'Collapse'} category`}
+                className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-ink-500 hover:bg-sand-100"
+              >
+                <ChevronDown size={14} className={`transition-transform ${collapsed ? '-rotate-90' : ''}`} />
+              </button>
+            )}
+            <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink-900">{displayLabel}</span>
+            {hasChildren && (
+              <span className="rounded-full bg-sand-100 px-2 py-0.5 text-xs font-medium text-ink-500">
+                {node.children!.length} {node.children!.length === 1 ? 'child' : 'children'}
+              </span>
             )}
             <div className="flex shrink-0 items-center gap-1">
               <button type="button" onClick={() => startEditing(node)} title="Edit labels" aria-label={`Edit ${node.labels.fr}`} className="rounded-lg p-2 text-ink-600 hover:bg-sand-100">
@@ -323,9 +341,9 @@ export default function AdminCategoriesPage() {
           )}
         </div>
 
-        {hasChildren && (
+        {hasChildren && !collapsed && (
           <ul className="ms-4 mt-2 space-y-2 border-s border-ink-900/10 ps-3">
-            {node.children!.map((child, childIndex) => renderNode(child, depth + 1, childIndex, node.children!.length))}
+            {node.children!.map((child, childIndex) => renderNode(child, childIndex, node.children!.length))}
           </ul>
         )}
       </li>
@@ -374,7 +392,7 @@ export default function AdminCategoriesPage() {
         <p className="mt-8 text-sm text-ink-500">Loading categories…</p>
       ) : (
         <ul className="mt-5 space-y-3">
-          {categories.map((node, index) => renderNode(node, 0, index, categories.length))}
+          {categories.map((node, index) => renderNode(node, index, categories.length))}
         </ul>
       )}
 
