@@ -37,8 +37,6 @@ export function LayeredCategoryNavigation({
     'inline-flex min-h-7 shrink-0 items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold leading-none transition-colors';
   const activeBreadcrumbClass =
     'border-sunset-400 bg-sunset-100 text-sunset-800 shadow-[0_2px_8px_rgba(249,115,22,0.16)]';
-  const inactiveBreadcrumbClass =
-    'border-ink-900/[0.08] bg-white/80 text-ink-600 hover:border-sunset-300 hover:bg-peach-50 hover:text-sunset-800';
 
   useEffect(() => {
     if (open) {
@@ -252,7 +250,7 @@ export function LayeredCategoryNavigation({
                             type="button"
                             onClick={() => showLayer(0)}
                             aria-current={path.length === 0 ? 'location' : undefined}
-                            className={`${breadcrumbButtonClass} ${path.length === 0 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
+                            className={`${breadcrumbButtonClass} ${activeBreadcrumbClass}`}
                           >
                             {t('categories')}
                           </button>
@@ -263,7 +261,7 @@ export function LayeredCategoryNavigation({
                                 type="button"
                                 onClick={() => showLayer(crumbIndex + 1)}
                                 aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
-                                className={`${breadcrumbButtonClass} max-w-[9vw] truncate ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
+                                className={`${breadcrumbButtonClass} max-w-[9vw] truncate ${activeBreadcrumbClass}`}
                               >
                                 {node.name}
                               </button>
@@ -428,7 +426,7 @@ export function LayeredCategoryNavigation({
                         type="button"
                         onClick={() => showLayer(0)}
                         aria-current={path.length === 0 ? 'location' : undefined}
-                        className={`${breadcrumbButtonClass} text-xs ${path.length === 0 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
+                        className={`${breadcrumbButtonClass} text-xs ${activeBreadcrumbClass}`}
                       >
                         {t('categories')}
                       </button>
@@ -439,7 +437,7 @@ export function LayeredCategoryNavigation({
                             type="button"
                             onClick={() => showLayer(crumbIndex + 1)}
                             aria-current={crumbIndex === path.length - 1 ? 'location' : undefined}
-                            className={`${breadcrumbButtonClass} max-w-[35vw] truncate text-xs sm:max-w-none ${crumbIndex === path.length - 1 ? activeBreadcrumbClass : inactiveBreadcrumbClass}`}
+                            className={`${breadcrumbButtonClass} max-w-[35vw] truncate text-xs sm:max-w-none ${activeBreadcrumbClass}`}
                           >
                             {node.name}
                           </button>
