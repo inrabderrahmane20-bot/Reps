@@ -65,7 +65,7 @@ export default function ActivitiesPage() {
         </button>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-2">
+      <div className="mt-6 flex flex-wrap items-center gap-2" data-tour-target="activities-filters">
         <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm" value={city} onChange={(e) => setCity(e.target.value)}>
           <option value="">Ville</option>
           <option value="Marrakech">Marrakech</option>
@@ -96,7 +96,7 @@ export default function ActivitiesPage() {
         </select>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-tour-target="activities-list">
         {filtered.map((a, i) => (
           <ActivityCard key={`${a.id}-${i}`} {...a} participants={a.participants || a.participantIds?.length || 0} max={a.max || 10} />
         ))}

@@ -79,7 +79,7 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 md:px-8">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4" data-tour-target="profile-details">
         <Image src={user.avatar} alt="" width={80} height={80} className="h-20 w-20 rounded-full object-cover" />
         <div className="min-w-0 flex-1">
           <h1 className="font-display text-2xl font-semibold text-ink-900">
@@ -91,6 +91,7 @@ export default function ProfilePage() {
           </p>
         </div>
         <button
+          data-tour-target="profile-edit"
           type="button"
           onClick={() => setEditing((e) => !e)}
           className="shrink-0 rounded-full border border-ink-900/10 bg-white px-4 py-2 text-sm font-semibold text-ink-700 hover:bg-sand-100"

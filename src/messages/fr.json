@@ -26,10 +26,127 @@
     "primaryNav": "Navigation principale",
     "favorites": "Mes favoris"
   },
+  "navigationTour": {
+    "stepOf": "Étape {current} sur {total}",
+    "nextStep": "Étape suivante",
+    "skip": "Passer",
+    "finish": "Terminer",
+    "homeSearch": {
+      "title": "Trouvez ce qu’il vous faut",
+      "description": "Appuyez sur le bouton de recherche en forme de cœur pour chercher un service, une activité ou un lieu."
+    },
+    "homeCategories": {
+      "title": "Parcourez les catégories",
+      "description": "Choisissez une catégorie pour voir les prestataires qui proposent ce type de service."
+    },
+    "servicesSearch": {
+      "title": "Recherchez un service",
+      "description": "Saisissez le nom d’un service ou d’un prestataire pour affiner la liste."
+    },
+    "servicesFilters": {
+      "title": "Affinez votre choix",
+      "description": "Filtrez par catégorie, disponibilité, avis ou quartier pour trouver le bon prestataire."
+    },
+    "servicesResults": {
+      "title": "Comparez les prestataires",
+      "description": "Parcourez les fiches, consultez les détails et les avis, puis choisissez qui contacter."
+    },
+    "placesFilters": {
+      "title": "Choisissez un type de lieu",
+      "description": "Sélectionnez une ville ou une catégorie pour parcourir plus facilement les lieux."
+    },
+    "placesList": {
+      "title": "Découvrez les lieux",
+      "description": "Les lieux sont classés par catégorie. Faites défiler une catégorie pour en voir davantage."
+    },
+    "communitiesList": {
+      "title": "Trouvez votre communauté",
+      "description": "Parcourez les groupes et leurs sujets, puis ouvrez une communauté qui vous intéresse."
+    },
+    "activitiesFilters": {
+      "title": "Trouvez une activité",
+      "description": "Choisissez une ville, une date, une catégorie ou un prix selon vos envies."
+    },
+    "activitiesList": {
+      "title": "Parcourez les activités",
+      "description": "Ouvrez une fiche pour consulter les détails et voir comment participer."
+    },
+    "newsTopics": {
+      "title": "Choisissez un sujet d’actualité",
+      "description": "Utilisez ces boutons pour afficher les actualités locales qui vous intéressent."
+    },
+    "newsList": {
+      "title": "Lisez les actualités locales",
+      "description": "Sélectionnez une actualité pour lire l’article complet."
+    },
+    "promotionsSearch": {
+      "title": "Recherchez une offre",
+      "description": "Saisissez un produit, un service ou un prestataire pour trouver les offres correspondantes."
+    },
+    "promotionsFilters": {
+      "title": "Affinez les offres",
+      "description": "Filtrez les offres par catégorie, réduction ou prix."
+    },
+    "sellCategories": {
+      "title": "Parcourez les catégories de véhicules",
+      "description": "Choisissez un type de véhicule, puis sélectionnez ce que vous souhaitez acheter ou vendre."
+    },
+    "mapZones": {
+      "title": "Choisissez un quartier",
+      "description": "Sélectionnez un quartier pour afficher les lieux et services à proximité."
+    },
+    "mapLayers": {
+      "title": "Affichez ce qui vous intéresse",
+      "description": "Activez ou masquez les services, activités et communautés sur la carte."
+    },
+    "searchForm": {
+      "title": "Modifiez votre recherche",
+      "description": "Changez les mots dans cette case pour lancer une nouvelle recherche sur le site."
+    },
+    "searchResults": {
+      "title": "Ouvrez un résultat",
+      "description": "Choisissez un résultat pour accéder directement au service, à l’article, au lieu ou à la communauté."
+    },
+    "favoritesSections": {
+      "title": "Parcourez vos favoris",
+      "description": "Vos éléments enregistrés sont classés par type. Ouvrez-en un pour y revenir."
+    },
+    "meetingProfiles": {
+      "title": "Découvrez les profils suggérés",
+      "description": "Parcourez les profils proposés et ouvrez-en un pour en savoir plus."
+    },
+    "meetingRooms": {
+      "title": "Rejoignez une conversation",
+      "description": "Parcourez les salons ci-dessous pour trouver un sujet de discussion."
+    },
+    "messageInbox": {
+      "title": "Choisissez une conversation",
+      "description": "Sélectionnez une personne dans cette liste pour ouvrir votre conversation."
+    },
+    "messageComposer": {
+      "title": "Écrivez un message",
+      "description": "Saisissez votre message ici, puis appuyez sur le bouton d’envoi."
+    },
+    "profileDetails": {
+      "title": "Votre profil",
+      "description": "Cette zone présente vos informations de profil telles que les autres les voient."
+    },
+    "profileEdit": {
+      "title": "Modifiez votre profil",
+      "description": "Appuyez sur Modifier pour mettre à jour vos informations et vos centres d’intérêt."
+    },
+    "providerSummary": {
+      "title": "Votre aperçu prestataire",
+      "description": "Ces chiffres résument vos demandes, missions terminées, avis et disponibilités."
+    },
+    "providerRequests": {
+      "title": "Gérez les demandes",
+      "description": "Consultez les demandes ci-dessous, puis acceptez-les ou refusez-les."
+    }
+  },
   "home": {
-    "heroKicker": "Marrakech",
     "heroTitle": "Que recherchez-vous aujourd’hui ?",
-    "heroSubtitle": "Actualités locales, services de confiance, vraies communautés et les gens autour de vous — une seule plateforme pour le quotidien à Marrakech.",
+    "heroSubtitle": "Actualités locales, services de confiance, communautés et personnes autour de vous — tout pour la vie de tous les jours.",
     "searchPlaceholder": "Essayez « plombier », « natation », « actus Médina »…",
     "changeCity": "Changer de ville",
     "useMyLocation": "Utiliser ma position",
@@ -51,7 +168,7 @@
     "viewAllPromotions": "Voir toutes les promotions",
     "heroCtaSearch": "Trouver un prestataire",
     "heroCtaPromotions": "Voir les promotions",
-    "heroTrust": "Prestataires vérifiés · Promotions réelles · Vie locale de Marrakech",
+    "heroTrust": "Prestataires vérifiés · Promotions réelles · Vie locale près de chez vous",
     "heroPromoKicker": "Offre du moment",
     "sectionCategories": "Explorer par catégorie",
     "sectionCategoriesSubtitle": "Les métiers disponibles à Marrakech, classés par famille.",
@@ -66,7 +183,12 @@
     "categoryCount": "{count} métiers",
     "heroStatProviders": "prestataires vérifiés",
     "heroStatPromotions": "promotions actives",
-    "heroStatCategories": "catégories de services"
+    "heroStatCategories": "catégories de services",
+    "emptyCategories": "Aucune catégorie disponible pour le moment.",
+    "emptyProvidersTitle": "Aucun prestataire noté pour l’instant",
+    "emptyProvidersBody": "Les premiers avis de clients apparaîtront ici.",
+    "emptyCommunitiesTitle": "Aucune communauté pour l’instant",
+    "emptyCommunitiesBody": "Les groupes de quartier s’afficheront ici."
   },
   "common": {
     "loading": "Chargement…",

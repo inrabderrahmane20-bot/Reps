@@ -197,7 +197,7 @@ export default function PromotionsPage() {
           </div>
 
           {/* Promo-scoped search + live count */}
-          <div className="flex w-full min-w-0 flex-col gap-2.5 lg:max-w-md">
+          <div className="flex w-full min-w-0 flex-col gap-2.5 lg:max-w-md" data-tour-target="promotions-search">
             <div className="relative">
               <label htmlFor="promo-search" className="sr-only">
                 {t('searchLabel')}
@@ -239,7 +239,7 @@ export default function PromotionsPage() {
       {/* ------------------------------------------------ Body */}
       <div className="mt-8 grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)]">
         {/* Desktop filters */}
-        <aside className="hidden lg:block">
+        <aside className="hidden lg:block" data-tour-target="promotions-filters">
           <div className="sticky top-24 rounded-[1.5rem] border border-ink-900/[0.07] bg-white p-5 shadow-card">
             <h2 className="mb-4 font-display text-base font-semibold text-ink-900">{t('filters')}</h2>
             <PromoFiltersPanel
@@ -263,6 +263,7 @@ export default function PromotionsPage() {
             <div className="flex items-center gap-2">
               <PromoSortSelect value={sort} onChange={setSort} hasQuery={debouncedQuery.length > 0} />
               <button
+                data-tour-target="promotions-filters"
                 type="button"
                 onClick={() => setDrawerOpen(true)}
                 className="inline-flex h-11 items-center gap-2 rounded-full border border-ink-900/10 bg-white px-3.5 text-[13px] font-semibold text-ink-800 transition-colors hover:bg-sand-100 lg:hidden"

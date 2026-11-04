@@ -1,19 +1,21 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
-import { locales, localeLabel } from '@/i18n/config';
+import { locales, localeLabel, type Locale } from '@/i18n/config';
 
 export function Footer() {
   const t = useTranslations('footer');
   const nav = useTranslations('nav');
   const common = useTranslations('common');
   const pathname = usePathname();
+  const isHome = pathname === '/';
+  const locale = useLocale() as Locale;
 
   return (
-    <footer className="mt-20 hidden bg-sunset-900 md:block">
+    <footer className={isHome ? 'home-footer' : 'mt-20 hidden bg-sunset-900 md:block'}>
       <div className="mx-auto max-w-[1720px] px-6 py-14 xl:px-8">
-        <div className="grid grid-cols-12 gap-10">
+        <div className={isHome ? 'home-footer-grid grid' : 'grid grid-cols-12 gap-10'}>
           {/* Brand */}
           <div className="col-span-12 lg:col-span-4">
             <div className="flex items-center gap-2.5">
@@ -75,7 +77,9 @@ export function Footer() {
               key={l}
               href={pathname || '/'}
               locale={l}
-              className="text-[13px] text-white/60 transition-colors hover:text-amber-300"
+              className={`text-[13px] text-white/60 transition-colors hover:text-amber-300 ${
+                isHome && locale === l ? 'home-footer-lang-active' : ''
+              }`}
             >
               {localeLabel[l]}
             </Link>

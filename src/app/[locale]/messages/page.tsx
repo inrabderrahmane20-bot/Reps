@@ -79,7 +79,7 @@ export default function MessagesPage() {
     <div className="mx-auto max-w-5xl px-4 py-8 md:px-8">
       <h1 className="font-display text-2xl font-semibold text-ink-900">{t('title')}</h1>
       <div className="mt-6 grid grid-cols-1 gap-4 rounded-2xl bg-white shadow-card md:grid-cols-3">
-        <aside className="max-h-[32rem] overflow-y-auto border-e border-ink-900/5 p-2 md:col-span-1">
+        <aside className="max-h-[32rem] overflow-y-auto border-e border-ink-900/5 p-2 md:col-span-1" data-tour-target="message-inbox">
           {conversations.length === 0 && <p className="p-4 text-center text-sm text-ink-500">{t('empty')}</p>}
           {conversations.map((c) => (
             <button
@@ -117,7 +117,7 @@ export default function MessagesPage() {
                 ))}
                 <div ref={bottomRef} />
               </div>
-              <div className="flex items-center gap-2 border-t border-ink-900/5 p-3">
+              <div className="flex items-center gap-2 border-t border-ink-900/5 p-3" data-tour-target="message-composer">
                 <input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}

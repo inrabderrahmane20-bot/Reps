@@ -33,7 +33,7 @@ export default function SellPage() {
       <h1 className="font-display text-3xl font-semibold text-ink-900">{t('title')}</h1>
       <p className="mt-1.5 text-sm text-ink-500">{t('subtitle')}</p>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-tour-target="sell-categories">
         {groups.map((group) => (
           <section key={group.title} className="rounded-2xl border border-ink-900/[0.06] bg-white shadow-card">
             <header className="border-b border-ink-900/[0.05] px-4 py-3">

@@ -369,9 +369,7 @@ export function FloatingSearch() {
       <div
         className={`pointer-events-none fixed inset-x-0 bottom-0 z-[68] flex flex-col px-3 ${
           open || isDesktop ? 'items-center' : 'items-end'
-        } ${
-          dismissed && !open && !isDesktop ? 'hidden' : ''
-        }`}
+        } ${dismissed && !open && !isDesktop ? 'hidden' : ''}`}
         style={{
           paddingBottom: isDesktop ? bottom : `calc(${bottom}px + env(safe-area-inset-bottom, 0px))`,
         }}
@@ -595,6 +593,7 @@ export function FloatingSearch() {
               <button
                 type="button"
                 onClick={openSearch}
+                data-tour-target="home-search"
                 aria-label={t('openLabel')}
                 className={`flex h-full w-full items-center gap-3 text-start ${
                   mobileIdle ? 'relative justify-center' : 'ps-5 pe-12'
@@ -642,7 +641,7 @@ export function FloatingSearch() {
 
             {/* Active face */}
             <div
-              className={`${mobileIdle ? 'hidden' : 'absolute inset-0'} transition-opacity duration-200 ${
+                className={`${mobileIdle ? 'hidden' : 'absolute inset-0'} transition-opacity duration-200 ${
                 open ? 'opacity-100' : 'pointer-events-none opacity-0'
               }`}
               aria-hidden={!open}

@@ -43,7 +43,7 @@ export default function CommunitiesPage({ params }: { params: { locale: string }
       </div>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink-900">{t('title')}</h2>
-      <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" data-tour-target="communities-list">
         {[...communities, ...communities].map((c, i) => (
           <CommunityCard key={`${c.id}-${i}`} {...c} />
         ))}

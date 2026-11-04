@@ -247,7 +247,7 @@ export default function ServicesPage() {
       )}
 
       {/* Dedicated service search */}
-      <div className="mt-6 lg:mt-8">
+      <div className="mt-6 lg:mt-8" data-tour-target="services-search">
         <div className="relative">
           <Search size={18} className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-ink-500" />
           <input
@@ -273,7 +273,7 @@ export default function ServicesPage() {
       </div>
 
       {/* Mobile: category navigation + filter drawer trigger */}
-          <div className="mt-4 flex items-center gap-2 lg:hidden">
+          <div className="mt-4 flex items-center gap-2 lg:hidden" data-tour-target="services-filters">
             <button
               type="button"
               onClick={openCategoryNavigation}
@@ -301,7 +301,7 @@ export default function ServicesPage() {
 
       <div className="mt-5 gap-8 lg:mt-8 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[310px_minmax(0,1fr)] 2xl:grid-cols-[330px_minmax(0,1fr)]">
         {/* Desktop sidebar */}
-        <aside className="hidden lg:block">
+        <aside className="hidden lg:block" data-tour-target="services-filters">
           <div className="sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto rounded-2xl border border-ink-900/[0.06] bg-white/70 p-4 shadow-card">
             <FiltersPanel
               value={filters}
@@ -314,7 +314,7 @@ export default function ServicesPage() {
         </aside>
 
         {/* Results */}
-        <section aria-label={t('results')} className="min-w-0">
+        <section aria-label={t('results')} className="min-w-0" data-tour-target="services-results">
           <SponsoredStrip items={sponsored} loading={sponsoredLoading} onRequest={setRequesting} />
 
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3">

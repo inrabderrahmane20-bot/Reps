@@ -17,6 +17,8 @@ export function MobileTabBar() {
     { href: '/profile', label: t('profile'), icon: User },
   ];
 
+  if (pathname === '/') return null;
+
   return (
     <nav
       aria-label="Primary"

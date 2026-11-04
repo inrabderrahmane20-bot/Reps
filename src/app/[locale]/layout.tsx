@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cairo, Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
+import { Cairo, DM_Sans, Familjen_Grotesk, Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -7,8 +7,8 @@ import { locales, localeDirection, type Locale } from '@/i18n/config';
 import { buildMetadata } from '@/lib/seo';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
-import { MobileTabBar } from '@/components/layout/mobile-tab-bar';
 import { FirstVisitLanguageModal } from '@/components/layout/first-visit-language-modal';
+import { NavigationTour } from '@/components/layout/navigation-tour';
 import { FloatingSearch } from '@/components/search/floating-search';
 import { CategorySearchRoot } from '@/components/search/category-search-root';
 import { AuthProvider } from '@/context/auth-context';
@@ -28,6 +28,18 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
   variable: '--font-arabic',
+  display: 'swap',
+});
+const familjen = Familjen_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-home-display',
+  weight: ['500', '600', '700'],
+  display: 'swap',
+});
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-home-sans',
+  weight: ['400', '500', '600'],
   display: 'swap',
 });
 
@@ -68,16 +80,16 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body className={`${fraunces.variable} ${plusJakartaSans.variable} ${cairo.variable} flex min-h-screen flex-col bg-sand-50`}>
+      <body className={`${fraunces.variable} ${plusJakartaSans.variable} ${cairo.variable} ${familjen.variable} ${dmSans.variable} flex min-h-screen flex-col bg-sand-50`}>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <Navbar />
-            <main className="flex-1 pb-16 md:pb-0">{children}</main>
+            <main className="flex-1">{children}</main>
             <Footer />
-            <MobileTabBar />
             <FloatingSearch />
             <CategorySearchRoot />
             <FirstVisitLanguageModal />
+            <NavigationTour />
           </AuthProvider>
         </NextIntlClientProvider>
       </body>

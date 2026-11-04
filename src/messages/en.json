@@ -26,10 +26,127 @@
     "primaryNav": "Primary navigation",
     "favorites": "Favorites"
   },
+  "navigationTour": {
+    "stepOf": "Step {current} of {total}",
+    "nextStep": "Next step",
+    "skip": "Skip",
+    "finish": "Finish",
+    "homeSearch": {
+      "title": "Find what you need",
+      "description": "Tap the heart-shaped search button to look for a service, activity, or place."
+    },
+    "homeCategories": {
+      "title": "Browse service categories",
+      "description": "Choose a category here to see providers who can help with that kind of service."
+    },
+    "servicesSearch": {
+      "title": "Search for a service",
+      "description": "Type a service or provider name here to narrow down the directory."
+    },
+    "servicesFilters": {
+      "title": "Narrow your choices",
+      "description": "Use categories, availability, ratings, or neighbourhood filters to find the right provider."
+    },
+    "servicesResults": {
+      "title": "Compare providers",
+      "description": "Browse provider cards, check their details and reviews, then choose one to contact."
+    },
+    "placesFilters": {
+      "title": "Choose a place type",
+      "description": "Select a city or category to make the places list easier to browse."
+    },
+    "placesList": {
+      "title": "Explore places",
+      "description": "Places are grouped by type. Scroll through a group to discover what is available."
+    },
+    "communitiesList": {
+      "title": "Find your community",
+      "description": "Browse the groups and topics, then open a community that interests you."
+    },
+    "activitiesFilters": {
+      "title": "Find an activity",
+      "description": "Choose a city, date, category, or price to find an activity that suits you."
+    },
+    "activitiesList": {
+      "title": "Browse activities",
+      "description": "Open an activity card to see its details and decide whether to join."
+    },
+    "newsTopics": {
+      "title": "Choose a news topic",
+      "description": "Use these topic buttons to focus on the local news you care about."
+    },
+    "newsList": {
+      "title": "Read local news",
+      "description": "Select a story card to read the full article."
+    },
+    "promotionsSearch": {
+      "title": "Search current offers",
+      "description": "Enter a product, service, or provider to find matching promotions."
+    },
+    "promotionsFilters": {
+      "title": "Refine the offers",
+      "description": "Use the filters to narrow offers by category, discount, or price."
+    },
+    "sellCategories": {
+      "title": "Browse vehicle categories",
+      "description": "Choose a vehicle type, then select what you want to buy or sell."
+    },
+    "mapZones": {
+      "title": "Choose an area",
+      "description": "Select a neighbourhood to focus the map on places and services nearby."
+    },
+    "mapLayers": {
+      "title": "Show what matters to you",
+      "description": "Turn services, activities, or communities on or off to customize the map."
+    },
+    "searchForm": {
+      "title": "Update your search",
+      "description": "Change the words in this box to search again across the site."
+    },
+    "searchResults": {
+      "title": "Open a result",
+      "description": "Choose a result to go directly to the service, story, place, or community."
+    },
+    "favoritesSections": {
+      "title": "Browse your saved items",
+      "description": "Your favorites are grouped by type. Open a saved item to return to it."
+    },
+    "meetingProfiles": {
+      "title": "Explore suggested people",
+      "description": "Browse the suggested profiles and open one to learn more."
+    },
+    "meetingRooms": {
+      "title": "Join a conversation",
+      "description": "Explore the rooms below to find a topic and community conversation."
+    },
+    "messageInbox": {
+      "title": "Choose a conversation",
+      "description": "Select a person in this list to open your conversation with them."
+    },
+    "messageComposer": {
+      "title": "Write a message",
+      "description": "Type your message here, then press the send button to share it."
+    },
+    "profileDetails": {
+      "title": "Your profile",
+      "description": "This area shows your profile information and how it appears to others."
+    },
+    "profileEdit": {
+      "title": "Update your profile",
+      "description": "Choose Edit to change your profile information and interests."
+    },
+    "providerSummary": {
+      "title": "Your provider overview",
+      "description": "These figures summarize your requests, completed work, rating, and availability."
+    },
+    "providerRequests": {
+      "title": "Manage requests",
+      "description": "Review incoming requests below and accept or decline each one."
+    }
+  },
   "home": {
-    "heroKicker": "Marrakech",
     "heroTitle": "What are you looking for today?",
-    "heroSubtitle": "Local news, trusted services, real communities and the people around you — one platform for daily life in Marrakech.",
+    "heroSubtitle": "Local news, trusted services, real communities and the people around you — one place for everyday life.",
     "searchPlaceholder": "Try “plumber”, “swimming”, “Medina news”…",
     "changeCity": "Change city",
     "useMyLocation": "Use my location",
@@ -51,7 +168,7 @@
     "viewAllPromotions": "See all promotions",
     "heroCtaSearch": "Find a provider",
     "heroCtaPromotions": "See the promotions",
-    "heroTrust": "Verified providers · Real promotions · Local life in Marrakech",
+    "heroTrust": "Verified providers · Real promotions · Community life near you",
     "heroPromoKicker": "Offer of the moment",
     "sectionCategories": "Explore by category",
     "sectionCategoriesSubtitle": "The trades available in Marrakech, grouped by family.",
@@ -66,7 +183,12 @@
     "categoryCount": "{count} services",
     "heroStatProviders": "verified providers",
     "heroStatPromotions": "active promotions",
-    "heroStatCategories": "service categories"
+    "heroStatCategories": "service categories",
+    "emptyCategories": "No categories are available right now.",
+    "emptyProvidersTitle": "No rated providers yet",
+    "emptyProvidersBody": "The first customer reviews will appear here.",
+    "emptyCommunitiesTitle": "No communities yet",
+    "emptyCommunitiesBody": "Neighbourhood groups will appear here."
   },
   "common": {
     "loading": "Loading…",

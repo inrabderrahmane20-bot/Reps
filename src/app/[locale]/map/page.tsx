@@ -245,7 +245,7 @@ export default function MapPage() {
       )}
 
       {/* Zone filter */}
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2" data-tour-target="map-zones">
         <ZoneChip active={zone === 'all'} label={z('all')} onClick={() => setZone('all')} />
         {ZONES.map((zr) => (
           <ZoneChip
@@ -260,7 +260,7 @@ export default function MapPage() {
         ))}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-4">
+      <div className="mt-4 flex flex-wrap gap-4" data-tour-target="map-layers">
         <LayerToggle label={t('layerServices')} checked={layers.providers} onChange={(v) => setLayers((l) => ({ ...l, providers: v }))} color={availabilityColor.available} />
         <LayerToggle label={t('layerActivities')} checked={layers.activities} onChange={(v) => setLayers((l) => ({ ...l, activities: v }))} color="#C2703D" />
         <LayerToggle label={t('layerCommunities')} checked={layers.communities} onChange={(v) => setLayers((l) => ({ ...l, communities: v }))} color="#1E6E73" />

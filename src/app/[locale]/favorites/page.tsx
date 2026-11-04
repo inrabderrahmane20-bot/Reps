@@ -116,7 +116,7 @@ export default function FavoritesPage() {
         </div>
       </div>
 
-      <div className="mt-8 space-y-8">
+      <div className="mt-8 space-y-8" data-tour-target="favorites-sections">
         {sections.map((section) => (
           <section key={section.key} className="overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card">
             <header className="flex items-center justify-between border-b border-ink-900/[0.05] px-5 py-3.5">

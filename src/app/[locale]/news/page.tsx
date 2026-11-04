@@ -23,7 +23,7 @@ export default function NewsPage({ params }: { params: { locale: string } }) {
       <h1 className="font-display text-3xl font-semibold text-ink-900">{t('title')}</h1>
       <p className="mt-1.5 max-w-xl text-sm text-ink-500">{t('subtitle')}</p>
 
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
+      <div className="mt-6 flex gap-2 overflow-x-auto pb-2" data-tour-target="news-topics">
         {categories.map((cat, i) => (
           <button
             key={cat}
@@ -39,7 +39,7 @@ export default function NewsPage({ params }: { params: { locale: string } }) {
         ))}
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" data-tour-target="news-list">
         {[...newsItems, ...newsItems].map((item, i) => (
           <NewsCard key={`${item.id}-${i}`} {...item} />
         ))}

@@ -73,7 +73,7 @@ export default function PlacesPage() {
       <h1 className="font-display text-3xl font-semibold text-ink-900">{t('title')}</h1>
       <p className="mt-1.5 text-sm text-ink-500">{t('subtitle')}</p>
 
-      <div className="mt-6 flex flex-wrap items-center gap-2">
+      <div className="mt-6 flex flex-wrap items-center gap-2" data-tour-target="places-filters">
         <select className="rounded-full border border-ink-900/10 bg-white px-3 py-2 text-sm" value={city} onChange={(e) => setCity(e.target.value)}>
           <option value="">Ville</option>
           <option value="Marrakech">Marrakech</option>
@@ -92,7 +92,7 @@ export default function PlacesPage() {
         </select>
       </div>
 
-      <div className="mt-10 space-y-12">
+      <div className="mt-10 space-y-12" data-tour-target="places-list">
         {displaySections.map((section, idx) => (
           <section key={section.key}>
             <h2 className="font-display text-xl font-semibold text-ink-900">{section.title}</h2>

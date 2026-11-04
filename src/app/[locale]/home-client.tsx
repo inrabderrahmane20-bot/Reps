@@ -13,6 +13,7 @@ import { RequestServiceModal } from '@/components/ui/request-service-modal';
 import { useAuth } from '@/context/auth-context';
 import { api } from '@/lib/api-client';
 import { serviceTaxonomyFromTree, topLevelCategories } from '@/lib/service-categories';
+import { Star, Users } from 'lucide-react';
 import type { SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
 
@@ -149,24 +150,18 @@ export default function HomePage() {
   }
 
   return (
-    <div>
+    <div className="home-redesign">
       <Hero
         promos={promos}
-        firstName={user?.firstName}
         providerCount={providerTotal}
         promoCount={promoTotal}
         categoryCount={categoryCount}
       />
 
-      <div className="mx-auto max-w-[1720px] space-y-16 px-4 pb-20 pt-12 md:px-6 md:space-y-20 md:pt-16 xl:px-8">
-        {/* Promotions — high on the page, real discounts only */}
-        <PromoShowcase items={promos} loading={loadingHome} onRequest={setRequesting} />
-
-        {/* Category discovery */}
+      <div className="home-primary-sections">
         <CategoryGrid />
 
-        {/* Best rated providers */}
-        <section aria-labelledby="home-best-rated">
+        <section className="home-best-rated" aria-labelledby="home-best-rated">
           <SectionHeader
             id="home-best-rated"
             title={t('sectionBestRated')}
@@ -175,60 +170,23 @@ export default function HomePage() {
             seeAllLabel={t('seeAll')}
           />
           {loadingHome ? (
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-              {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="h-44 animate-pulse rounded-2xl bg-sand-100" />
-              ))}
+            <div className="home-card-grid">
+              {[0, 1, 2, 3].map((i) => <div key={i} className="home-loading-card" aria-hidden />)}
+            </div>
+          ) : featured.length ? (
+            <div className="home-card-grid">
+              {featured.map((p) => <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />)}
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-              {featured.map((p) => (
-                <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />
-              ))}
+            <div className="home-empty-card">
+              <span className="home-empty-icon"><Star size={25} aria-hidden /></span>
+              <h3>{t('emptyProvidersTitle')}</h3>
+              <p>{t('emptyProvidersBody')}</p>
             </div>
           )}
         </section>
 
-        {/* Available right now */}
-        {availableNow.length > 0 && (
-          <section aria-labelledby="home-available">
-            <SectionHeader
-              id="home-available"
-              title={t('sectionAvailableNow')}
-              subtitle={t('sectionAvailableNowSubtitle')}
-              seeAllHref="/services?availability=available"
-              seeAllLabel={t('seeAll')}
-            />
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-              {availableNow.map((p) => (
-                <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Sponsored partners — transparently labelled */}
-        {sponsored.length > 0 && (
-          <section aria-labelledby="home-sponsored">
-            <SectionHeader id="home-sponsored" title={t('sectionSponsored')} />
-            {loadingHome ? (
-              <div className="flex gap-3 overflow-hidden">
-                {[0, 1, 2].map((i) => (
-                  <SponsoredCardSkeleton key={i} />
-                ))}
-              </div>
-            ) : (
-              <div className="-mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:hidden">
-                {sponsored.map((p) => (
-                  <SponsoredCard key={p.id} item={p} onRequest={setRequesting} />
-                ))}
-              </div>
-            )}
-          </section>
-        )}
-
-        {/* Communities */}
-        <section aria-labelledby="home-communities" className="-mx-4 bg-sand-100/70 px-4 py-12 md:-mx-6 md:px-6 md:rounded-[2.5rem] xl:-mx-8">
+        <section className="home-communities" aria-labelledby="home-communities">
           <SectionHeader
             id="home-communities"
             title={t('sectionCommunities')}
@@ -236,20 +194,66 @@ export default function HomePage() {
             seeAllHref="/communities"
             seeAllLabel={t('seeAll')}
           />
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {communities.map((c) => (
-              <CommunityCard
-                key={c.id}
-                id={c.id}
-                name={c.name}
-                members={c.memberCount}
-                category={c.category}
-                joined={!!user && c.memberIds.includes(user.id)}
-                onJoin={() => toggleJoinCommunity(c.id)}
-              />
-            ))}
-          </div>
+          {loadingHome ? (
+            <div className="home-card-grid">
+              {[0, 1, 2, 3].map((i) => <div key={i} className="home-loading-card" aria-hidden />)}
+            </div>
+          ) : communities.length ? (
+            <div className="home-card-grid">
+              {communities.map((c) => (
+                <CommunityCard
+                  key={c.id}
+                  id={c.id}
+                  name={c.name}
+                  members={c.memberCount}
+                  category={c.category}
+                  joined={!!user && c.memberIds.includes(user.id)}
+                  onJoin={() => toggleJoinCommunity(c.id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="home-empty-card home-empty-community">
+              <span className="home-empty-icon"><Users size={25} aria-hidden /></span>
+              <h3>{t('emptyCommunitiesTitle')}</h3>
+              <p>{t('emptyCommunitiesBody')}</p>
+            </div>
+          )}
         </section>
+
+        <section className="home-additional-section" aria-label={t('sectionPromotions')}>
+          <PromoShowcase items={promos} loading={loadingHome} onRequest={setRequesting} />
+        </section>
+
+        {availableNow.length > 0 && (
+          <section className="home-additional-section" aria-labelledby="home-available">
+            <SectionHeader
+              id="home-available"
+              title={t('sectionAvailableNow')}
+              subtitle={t('sectionAvailableNowSubtitle')}
+              seeAllHref="/services?availability=available"
+              seeAllLabel={t('seeAll')}
+            />
+            <div className="home-card-grid">
+              {availableNow.map((p) => <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />)}
+            </div>
+          </section>
+        )}
+
+        {sponsored.length > 0 && (
+          <section className="home-additional-section" aria-labelledby="home-sponsored">
+            <SectionHeader id="home-sponsored" title={t('sectionSponsored')} />
+            {loadingHome ? (
+              <div className="flex gap-3 overflow-hidden">
+                {[0, 1, 2].map((i) => <SponsoredCardSkeleton key={i} />)}
+              </div>
+            ) : (
+              <div className="-mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:hidden">
+                {sponsored.map((p) => <SponsoredCard key={p.id} item={p} onRequest={setRequesting} />)}
+              </div>
+            )}
+          </section>
+        )}
       </div>
 
       {/* Request modal */}

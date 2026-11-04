@@ -20,7 +20,7 @@ export default function MeetingsPage({ params }: { params: { locale: string } })
         </p>
       </div>
 
-      <section className="mt-10">
+      <section className="mt-10" data-tour-target="meeting-profiles">
         <SectionHeader title={t('suggestedMatches')} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {meetingProfiles.map((p) => (
@@ -29,7 +29,7 @@ export default function MeetingsPage({ params }: { params: { locale: string } })
         </div>
       </section>
 
-      <section className="mt-14">
+      <section className="mt-14" data-tour-target="meeting-rooms">
         <SectionHeader title={t('rooms')} subtitle={t('roomsSubtitle')} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {meetingRooms.map((r) => (

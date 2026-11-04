@@ -72,6 +72,7 @@ export function FirstVisitLanguageModal() {
   const dismiss = useCallback(() => {
     decidedRef.current = true;
     setOpen(false);
+    window.dispatchEvent(new Event('annabid:language-selection-dismissed'));
   }, []);
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export function FirstVisitLanguageModal() {
     decidedRef.current = true;
     saveLanguagePreference(l);
     setOpen(false);
+    window.dispatchEvent(new Event('annabid:language-selection-dismissed'));
     router.replace(pathname, { locale: l });
   };
 

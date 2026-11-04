@@ -80,6 +80,7 @@ export function SearchResults() {
       <h1 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">{t('title')}</h1>
 
       <form
+        data-tour-target="search-form"
         onSubmit={(e) => {
           e.preventDefault();
           const q = query.trim();
@@ -111,7 +112,7 @@ export function SearchResults() {
           <EmptyState icon={SearchIcon} title={t('noResults')} />
         </div>
       ) : (
-        <div className="mt-8 space-y-10">
+        <div className="mt-8 space-y-10" data-tour-target="search-results">
           {groups.map((group) => (
             <section key={group.key} aria-labelledby={`group-${group.key}`}>
               <h2 id={`group-${group.key}`} className="mb-3 font-display text-xl font-semibold text-ink-900">

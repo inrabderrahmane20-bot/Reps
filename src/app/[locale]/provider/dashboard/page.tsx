@@ -55,14 +55,14 @@ export default function ProviderDashboardPage() {
         {user.provider?.title} · {user.provider?.category}
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4" data-tour-target="provider-summary">
         <Stat label="Requests" value={requests.length} />
         <Stat label="Missions" value={completed.length} />
         <Stat label="Rating" value="—" />
         <Stat label="Availability" value={user.provider?.availability ?? '—'} />
       </div>
 
-      <h2 className="mt-8 font-display text-lg font-semibold text-ink-900">{t('incomingRequests')}</h2>
+      <h2 className="mt-8 font-display text-lg font-semibold text-ink-900" data-tour-target="provider-requests">{t('incomingRequests')}</h2>
       {today.length === 0 && completed.length === 0 ? (
         <p className="mt-3 text-sm text-ink-500">{t('noRequests')}</p>
       ) : (
