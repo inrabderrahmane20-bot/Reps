@@ -61,7 +61,7 @@ export function Navbar() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className={pathname === '/' ? 'home-navbar' : 'sticky top-0 z-50 border-b border-ink-900/[0.07] bg-sand-50/88 backdrop-blur-xl backdrop-saturate-150'}>
+    <header className="sticky top-0 z-50 border-b border-ink-900/[0.07] bg-sand-50/88 backdrop-blur-xl backdrop-saturate-150">
       {/* ---------------------------------------------------------------- */}
       {/* Compact bar — phones and small tablets                          */}
       {/* ---------------------------------------------------------------- */}

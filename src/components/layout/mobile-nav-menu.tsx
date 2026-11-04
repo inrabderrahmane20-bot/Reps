@@ -13,11 +13,10 @@ import { LanguageSwitcher } from './language-switcher';
 import { usePrimaryNav } from './nav-links';
 
 /**
- * Hamburger + slide-in navigation drawer for phones and tablets.
+ * Hamburger + full-screen navigation overlay for phones and tablets.
  *
  * The trigger is rendered by the navbar in the *physical* left slot of the
- * compact bar, and the drawer itself is anchored to the physical left edge
- * (`left-0`, not the logical `start-0`) so the two always match — including in
+ * compact bar, and the reveal starts at that same physical edge — including in
  * Arabic, where the page direction is RTL but the button stays on the left.
  *
  * Inside the drawer the reading direction follows the page language: in
@@ -75,7 +74,7 @@ export function MobileNavMenu() {
           onClick={() => setOpen(false)}
           aria-hidden
         />
-        <div className="drawer-in absolute inset-y-0 left-0 flex w-[min(88vw,340px)] flex-col bg-sand-50 shadow-float">
+        <div className="mobile-nav-panel absolute inset-0 flex min-h-0 flex-col bg-sand-50">
           {/* Header */}
           <div className="flex items-center justify-between gap-3 border-b border-ink-900/[0.07] px-4 py-3.5">
             <Brand />

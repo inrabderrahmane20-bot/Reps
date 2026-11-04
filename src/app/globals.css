@@ -333,173 +333,14 @@ main:has(.home-redesign) {
   font-family: var(--font-home-display), var(--font-arabic), system-ui, sans-serif;
 }
 
-.home-navbar {
-  position: sticky;
-  z-index: 50;
-  top: 0;
-  margin-top: 0;
-  border-bottom: 1px solid rgba(20, 27, 36, .07);
-  background: rgba(248, 249, 250, .88);
-  padding-inline: 0;
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-}
-
-.home-navbar > div {
-  width: min(100%, 1720px);
-  min-height: 64px;
-  height: 64px;
-  margin-inline: auto;
-  background: transparent;
-  padding: 0 16px;
-  color: var(--home-ink);
-}
-
-.home-navbar .annabid-logo + span {
-  align-items: flex-start;
-  color: var(--annabid-red);
-  gap: 1px;
-}
-
-.home-navbar .annabid-logo + span > span:last-child {
-  color: var(--annabid-red);
-  width: 100%;
-  margin-top: 0;
-  font-family: var(--font-arabic), sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: .9;
-  text-align: center;
-  transform: scaleX(1.54);
-  transform-origin: center;
-}
-
-.home-navbar .annabid-logo {
-  width: 76px;
-  height: auto;
-  aspect-ratio: 2 / 1;
-  flex: 0 1 76px;
-  min-width: 48px;
-  border-radius: 0;
-  background: transparent;
-  padding: 0;
-}
-
-.home-navbar .annabid-logo + span > span:first-child {
-  color: var(--annabid-red);
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -.035em;
-  line-height: .9;
-}
-
-.home-navbar button[aria-label],
-.home-navbar nav > div > button {
-  color: var(--home-muted);
-}
-
-.home-navbar nav a:not([aria-current="page"]):not(.bg-peach-100) {
-  color: var(--home-slate);
-}
-
-.home-navbar nav a.bg-peach-100 {
-  color: var(--home-ember);
-  background: white;
-}
-
-.home-navbar a[aria-label="Mes favoris"],
-.home-navbar a[aria-label="Favorites"] {
-  width: 42px;
-  height: 42px;
-  background: transparent;
-  color: var(--home-slate);
-}
-
-.home-navbar button[aria-label="Langue"],
-.home-navbar button[aria-label="Language"] {
-  width: auto;
-  min-width: 72px;
-  height: 42px;
-  justify-content: center;
-  border: 0;
-  background: white;
-  color: var(--home-slate);
-  padding-inline: 14px;
-}
-
-.home-navbar a[aria-label="Connexion"],
-.home-navbar a[aria-label="Login"],
-.home-navbar a[aria-label="Mon compte"],
-.home-navbar a[aria-label="My account"],
-.home-navbar button[aria-label="Mon compte"],
-.home-navbar button[aria-label="My account"] {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  background: transparent;
-  color: var(--home-slate);
-}
-
-.home-navbar a[aria-label="Connexion"]:hover,
-.home-navbar a[aria-label="Login"]:hover,
-.home-navbar a[aria-label="Mon compte"]:hover,
-.home-navbar a[aria-label="My account"]:hover,
-.home-navbar button[aria-label="Mon compte"]:hover,
-.home-navbar button[aria-label="My account"]:hover,
-.home-navbar a[aria-label="Mes favoris"]:hover,
-.home-navbar a[aria-label="Favorites"]:hover,
-.home-navbar button[aria-label="Langue"]:hover,
-.home-navbar button[aria-label="Language"]:hover,
-.home-navbar nav > ul > li > a:hover,
-.home-navbar nav > div > button:hover {
-  background-color: var(--home-grey);
-  color: var(--home-slate);
-}
-
-.home-navbar a[aria-label="Rejoindre Medina"],
-.home-navbar a[aria-label="Join Medina"] {
-  min-height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--home-ember-hi);
-  color: white;
-}
-
-.home-navbar > div:last-child > div:last-child > a:not([aria-label]) {
-  color: #c8d3de;
-}
-
-.home-navbar button:focus-visible,
-.home-navbar a:focus-visible,
 .home-footer a:focus-visible,
 .home-redesign :focus-visible {
   outline: 3px solid var(--home-ember-hi);
   outline-offset: 3px;
 }
 
-body:has(.home-redesign) .drawer-in {
-  position: fixed;
-  z-index: 100;
-  inset: 0;
-  width: 100%;
-  max-width: none;
-  background: var(--home-ember);
-  color: white;
-  animation: home-drawer-reveal .55s cubic-bezier(.7,0,.2,1) both;
-}
-
-body:has(.home-redesign) .drawer-in > div:first-child {
-  border-color: rgba(255,255,255,.25);
-}
-
-body:has(.home-redesign) .drawer-in nav a,
-body:has(.home-redesign) .drawer-in nav button {
-  color: white;
-  font-family: var(--font-home-display), var(--font-arabic), system-ui, sans-serif;
-  font-size: clamp(2rem, 9vw, 3.4rem);
-  font-weight: 700;
+.mobile-nav-panel {
+  animation: mobile-nav-reveal .55s cubic-bezier(.7, 0, .2, 1) both;
 }
 
 .home-hero {
@@ -1264,7 +1105,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   to { transform: rotate(360deg); }
 }
 
-@keyframes home-drawer-reveal {
+@keyframes mobile-nav-reveal {
   from { clip-path: circle(0 at 40px 40px); }
   to { clip-path: circle(150% at 40px 40px); }
 }
@@ -1280,106 +1121,10 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 }
 
-@media (min-width: 1024px) {
-  .home-navbar > div:first-child {
-    display: none;
-  }
-
-  .home-navbar > div:last-child {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    height: 68px;
-  }
-
-  .home-navbar nav {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .home-navbar nav > ul:first-child {
-    display: none;
-  }
-
-  .home-navbar nav > ul:nth-child(2) {
-    display: flex;
-  }
-
-  .home-navbar nav > div {
-    display: block;
-  }
-
-  .home-navbar nav > div > button {
-    display: flex;
-  }
-
-  .home-navbar > div:last-child > div:last-child {
-    gap: 8px;
-  }
-}
-
-@media (max-width: 1023px) {
-  .home-navbar > div:first-child {
-    display: flex;
-    min-height: 64px;
-    height: 64px;
-    padding-inline: 12px;
-  }
-
-  .home-navbar > div:last-child {
-    display: none;
-  }
-}
-
 @media (max-width: 420px) {
   .annabid-wordmark-latin,
   .annabid-wordmark-arabic {
     font-size: 13px;
-  }
-
-  .home-navbar > div:first-child {
-    gap: 4px;
-    padding-inline: 8px;
-  }
-
-  .home-navbar .annabid-logo {
-    width: clamp(52px, 14vw, 60px);
-    min-width: 52px;
-    flex-basis: 60px;
-  }
-
-  .home-navbar .annabid-logo + span > span:first-child,
-  .home-navbar .annabid-logo + span > span:last-child {
-    font-size: 13px;
-  }
-
-  .home-navbar .annabid-logo + span > span:last-child {
-    transform: scaleX(1.54);
-  }
-
-  .home-navbar > div:first-child > div:last-child {
-    gap: 3px;
-  }
-
-  .home-navbar a[aria-label="Mes favoris"],
-  .home-navbar a[aria-label="Favorites"],
-  .home-navbar a[aria-label="Connexion"],
-  .home-navbar a[aria-label="Login"],
-  .home-navbar a[aria-label="Mon compte"],
-  .home-navbar a[aria-label="My account"],
-  .home-navbar button[aria-label="Mon compte"],
-  .home-navbar button[aria-label="My account"] {
-    width: 36px;
-    height: 36px;
-  }
-
-  .home-navbar button[aria-label="Langue"],
-  .home-navbar button[aria-label="Language"] {
-    min-width: 58px;
-    height: 36px;
-    padding-inline: 8px;
   }
 }
 
@@ -1519,10 +1264,6 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 }
 
-[dir='rtl'] .home-navbar > div:first-child {
-  direction: rtl;
-}
-
 [dir='rtl'] .home-category-row:hover {
   transform: translateX(-14px);
 }
@@ -1534,8 +1275,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 @media (prefers-reduced-motion: reduce) {
   .home-redesign *,
   .home-footer *,
-  .home-navbar *,
-  body:has(.home-redesign) .drawer-in * {
+  .mobile-nav-panel {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
