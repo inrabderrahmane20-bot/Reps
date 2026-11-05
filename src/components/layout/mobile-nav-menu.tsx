@@ -94,11 +94,11 @@ export function MobileNavMenu() {
             <ul className="space-y-1">
               {links.map((link) => {
                 const active = isActive(link.href);
-                const tone = active
-                  ? 'bg-sunset-500 text-white shadow-sunset'
+                const tone = active || link.opensSearch
+                  ? 'border-sunset-500 bg-sunset-500 font-semibold text-white shadow-sunset hover:bg-sunset-600'
                   : link.hot
-                    ? 'bg-peach-100 font-semibold text-sunset-700 ring-1 ring-inset ring-sunset-200'
-                    : 'text-ink-700 hover:bg-white';
+                    ? 'border-sunset-300 bg-peach-100 font-semibold text-sunset-700'
+                    : 'border-sunset-200/80 bg-white/85 text-ink-700 hover:border-sunset-300 hover:bg-white';
 
                 const inner = (
                   <>
@@ -119,7 +119,7 @@ export function MobileNavMenu() {
                           setOpen(false);
                           window.setTimeout(openGlobalSearch, 120);
                         }}
-                        className={`flex min-h-[46px] w-full items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-start text-[15px] transition-colors ${tone}`}
+                        className={`flex min-h-[46px] w-full items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 text-start text-[15px] transition-colors ${tone}`}
                       >
                         {inner}
                       </button>
@@ -127,7 +127,7 @@ export function MobileNavMenu() {
                       <Link
                         href={link.href}
                         aria-current={active ? 'page' : undefined}
-                        className={`flex min-h-[46px] w-full items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-start text-[15px] transition-colors ${tone}`}
+                        className={`flex min-h-[46px] w-full items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 text-start text-[15px] transition-colors ${tone}`}
                       >
                         {inner}
                       </Link>
@@ -177,7 +177,7 @@ export function MobileNavMenu() {
                     href="/register"
                     className="flex min-h-[46px] items-center justify-center rounded-2xl bg-sunset-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
                   >
-                    {t('joinMedina')}
+                    {t('joinAnnabid')}
                   </Link>
                 </>
               )}
@@ -195,7 +195,7 @@ export function MobileNavMenu() {
         onClick={() => setOpen(true)}
         aria-label={t('openMenu')}
         aria-expanded={open}
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink-700 transition-colors hover:bg-white lg:hidden"
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-white lg:hidden"
       >
         <Menu size={21} />
       </button>

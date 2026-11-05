@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import {
@@ -108,7 +108,6 @@ export function NavigationTour() {
   const [steps, setSteps] = useState<TourStep[]>([]);
   const [step, setStep] = useState(0);
   const [spotlight, setSpotlight] = useState<Spotlight>(null);
-  const nextButtonRef = useRef<HTMLButtonElement>(null);
   const pageKey = `${locale}:${pathname}`;
   const currentStep = steps[step];
 
@@ -163,24 +162,12 @@ export function NavigationTour() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
-      } else if (event.key === 'Tab') {
-        const buttons = document.querySelectorAll<HTMLButtonElement>('[data-navigation-tour] button');
-        const first = buttons[0];
-        const last = buttons[buttons.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
       }
     };
 
     document.addEventListener('keydown', onKeyDown);
-    nextButtonRef.current?.focus();
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [currentStep, open, step]);
+  }, [currentStep, open]);
 
   useEffect(() => {
     if (!open || !currentStep || step === 0) return;
@@ -195,7 +182,7 @@ export function NavigationTour() {
   const Icon = currentStep.icon;
   const isLastStep = step === steps.length - 1;
   const tour = (
-    <div className={`navigation-tour-overlay${spotlight ? '' : ' navigation-tour-overlay-dim'}`} data-navigation-tour>
+    <div className="navigation-tour-overlay" data-navigation-tour>
       {spotlight && (
         <div
           className="navigation-tour-spotlight"
@@ -210,8 +197,7 @@ export function NavigationTour() {
       )}
       <section
         className={`navigation-tour-card${currentStep.placement === 'top' ? ' navigation-tour-card-top' : ''}`}
-        role="dialog"
-        aria-modal="true"
+        role="region"
         aria-labelledby="navigation-tour-title"
         aria-describedby="navigation-tour-description"
         dir={locale === 'ar' ? 'rtl' : 'ltr'}
@@ -227,7 +213,6 @@ export function NavigationTour() {
             {t('skip')}
           </button>
           <button
-            ref={nextButtonRef}
             type="button"
             className="navigation-tour-next"
             onClick={() => (isLastStep ? setOpen(false) : setStep((current) => current + 1))}

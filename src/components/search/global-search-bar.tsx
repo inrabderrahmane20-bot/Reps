@@ -11,7 +11,7 @@ export function GlobalSearchBar({
   className = 'flex flex-1 items-center gap-2 rounded-full bg-white px-4 py-3 shadow-card',
   inputClassName = 'w-full bg-transparent text-sm text-ink-900 outline-none placeholder:text-ink-300',
   iconClassName = 'shrink-0 text-ink-500',
-  buttonClassName = 'rounded-full bg-clay-400 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-clay-500',
+  buttonClassName = 'rounded-full bg-sunset-500 px-6 py-3 text-sm font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600',
 }: {
   placeholder: string;
   submitLabel?: string;

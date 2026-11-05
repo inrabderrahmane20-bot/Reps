@@ -36,7 +36,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
         <Link
           href="/login"
           aria-label={common('login')}
-          className="grid h-10 w-10 place-items-center rounded-full border border-ink-900/10 bg-white text-ink-700 transition-colors hover:bg-peach-50 hover:text-sunset-700"
+          className="grid h-10 w-10 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-peach-50 hover:text-sunset-700"
         >
           <UserIcon size={18} aria-hidden />
         </Link>
@@ -46,7 +46,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
       <div className="flex items-center gap-2">
         <Link
           href="/login"
-          className="rounded-full px-3 py-2 text-[13.5px] font-semibold text-ink-700 transition-colors hover:bg-white hover:text-sunset-700"
+          className="rounded-full border border-sunset-200/80 bg-white/85 px-3 py-2 text-[13.5px] font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700"
         >
           {common('login')}
         </Link>
@@ -54,7 +54,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
           href="/register"
           className="rounded-full bg-sunset-500 px-4 py-2 text-[13.5px] font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
         >
-          {t('joinMedina')}
+          {t('joinAnnabid')}
         </Link>
       </div>
     );
@@ -65,7 +65,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
       <Link
         href="/profile"
         aria-label={common('myAccount')}
-        className="grid h-10 w-10 place-items-center rounded-full border border-ink-900/10 bg-white transition-colors hover:bg-peach-50"
+        className="grid h-10 w-10 place-items-center rounded-full border border-sunset-200/80 bg-white/85 shadow-sm backdrop-blur transition-colors hover:bg-peach-50"
       >
         <Image src={user.avatar} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
       </Link>

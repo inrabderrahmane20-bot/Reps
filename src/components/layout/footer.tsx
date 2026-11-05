@@ -61,7 +61,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-white">{t('account')}</h3>
             <ul className="mt-4 space-y-2.5 text-sm text-white/65">
               <li><Link href="/login" className="transition-colors hover:text-amber-300">{common('login')}</Link></li>
-              <li><Link href="/register" className="transition-colors hover:text-amber-300">{nav('joinMedina')}</Link></li>
+              <li><Link href="/register" className="transition-colors hover:text-amber-300">{nav('joinAnnabid')}</Link></li>
               <li><Link href="/profile" className="transition-colors hover:text-amber-300">{common('myAccount')}</Link></li>
               <li><Link href="/provider/dashboard" className="transition-colors hover:text-amber-300">{common('providerDashboard')}</Link></li>
               <li><Link href="/search" className="transition-colors hover:text-amber-300">{nav('search')}</Link></li>

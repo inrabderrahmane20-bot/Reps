@@ -61,7 +61,7 @@ export function Navbar() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink-900/[0.07] bg-sand-50/88 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-sunset-200 bg-sunset-50/90 backdrop-blur-xl backdrop-saturate-150">
       {/* ---------------------------------------------------------------- */}
       {/* Compact bar — phones and small tablets                          */}
       {/* ---------------------------------------------------------------- */}
@@ -76,7 +76,7 @@ export function Navbar() {
           <Link
             href="/favorites"
             aria-label={t('favorites')}
-            className="grid h-9 w-9 place-items-center rounded-full text-ink-600 transition-colors hover:bg-white hover:text-sunset-700"
+            className="grid h-9 w-9 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-600 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700"
           >
             <Star size={18} />
           </Link>
@@ -117,7 +117,7 @@ export function Navbar() {
                 onClick={() => setMoreOpen((o) => !o)}
                 aria-haspopup="menu"
                 aria-expanded={moreOpen}
-                className="flex h-9 items-center gap-1 rounded-full px-2.5 text-[13px] font-medium text-ink-700 transition-colors hover:bg-white hover:text-sunset-700 xl:hidden"
+                className="flex h-9 items-center gap-1 rounded-full border border-sunset-200/80 bg-white/85 px-2.5 text-[13px] font-medium text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700 xl:hidden"
               >
                 {t('more')}
                 <ChevronDown
@@ -147,7 +147,7 @@ export function Navbar() {
           <Link
             href="/favorites"
             aria-label={t('favorites')}
-            className="grid h-9 w-9 place-items-center rounded-full text-ink-600 transition-colors hover:bg-white hover:text-sunset-700"
+            className="grid h-9 w-9 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-600 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700"
             title={t('favorites')}
           >
             <Star size={18} />
@@ -177,14 +177,16 @@ function NavItem({
 }) {
   const shared = [
     'flex items-center gap-1.5 rounded-full text-[13px] font-medium transition-colors',
-    menu ? 'w-full px-3 py-2.5 text-start' : 'px-2.5 py-2',
+    menu
+      ? 'w-full border border-sunset-200/80 bg-white/85 px-3 py-2.5 text-start shadow-sm backdrop-blur'
+      : 'border border-sunset-200/80 bg-white/85 px-2.5 py-2 shadow-sm backdrop-blur',
   ].join(' ');
 
-  const tone = active
-    ? 'bg-sunset-500 text-white shadow-sunset'
+  const tone = active || link.opensSearch
+    ? 'border-sunset-500 bg-sunset-500 font-semibold text-white shadow-sunset hover:border-sunset-600 hover:bg-sunset-600'
     : link.hot
-      ? 'bg-peach-100 font-semibold text-sunset-700 ring-1 ring-inset ring-sunset-200 hover:bg-peach-200 hover:text-sunset-800'
-      : 'text-ink-700 hover:bg-white hover:text-sunset-700';
+      ? 'border-sunset-300 bg-peach-100 font-semibold text-sunset-700 hover:bg-peach-200 hover:text-sunset-800'
+      : 'text-ink-700 hover:border-sunset-300 hover:bg-white hover:text-sunset-700';
 
   const inner = (
     <>

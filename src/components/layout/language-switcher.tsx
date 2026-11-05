@@ -80,7 +80,7 @@ export function LanguageSwitcher({
         aria-expanded={open}
         aria-label={t('language')}
         title={localeLabel[locale]}
-        className={`inline-flex h-10 items-center rounded-full border border-ink-900/10 bg-white font-semibold text-ink-700 transition-colors hover:border-sunset-200 hover:bg-peach-50 hover:text-sunset-700 ${
+        className={`inline-flex h-10 items-center rounded-full border border-sunset-200/80 bg-white/85 font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-sunset-300 hover:bg-peach-50 hover:text-sunset-700 ${
           showLabel
             ? 'gap-2 px-3 text-[13px]'
             : showCode

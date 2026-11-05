@@ -62,7 +62,7 @@ export function NotificationsBell() {
         type="button"
         aria-label={t('notifications')}
         onClick={() => setOpen((o) => !o)}
-        className="relative grid h-10 w-10 place-items-center rounded-full text-ink-700 hover:bg-white"
+        className="relative grid h-10 w-10 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur hover:bg-white"
       >
         <Bell size={18} />
         {unread > 0 && (
