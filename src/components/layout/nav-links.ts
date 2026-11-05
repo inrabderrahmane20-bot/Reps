@@ -18,7 +18,6 @@ export interface NavLink {
 export function usePrimaryNav(): NavLink[] {
   const t = useTranslations('nav');
   return [
-    { href: '/', label: t('home') },
     { href: '/promotions', label: t('promotions'), hot: true },
     { href: '/search', label: t('search'), opensSearch: true },
     { href: '/services', label: t('services') },
