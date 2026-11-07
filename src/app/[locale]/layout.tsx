@@ -8,7 +8,6 @@ import { buildMetadata } from '@/lib/seo';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { FirstVisitLanguageModal } from '@/components/layout/first-visit-language-modal';
-import { NavigationTour } from '@/components/layout/navigation-tour';
 import { FloatingSearch } from '@/components/search/floating-search';
 import { CategorySearchRoot } from '@/components/search/category-search-root';
 import { AuthProvider } from '@/context/auth-context';
@@ -89,7 +88,6 @@ export default async function LocaleLayout({
             <FloatingSearch />
             <CategorySearchRoot />
             <FirstVisitLanguageModal />
-            <NavigationTour />
           </AuthProvider>
         </NextIntlClientProvider>
       </body>

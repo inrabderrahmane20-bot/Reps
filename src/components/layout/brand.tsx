@@ -9,7 +9,7 @@ export function Brand({ compact = false, className = '' }: { compact?: boolean; 
   return (
     <Link
       href="/"
-      className={`flex shrink-0 items-center gap-1 rounded-full border border-sunset-200/80 bg-white/85 px-2 py-1 shadow-sm backdrop-blur ${className}`}
+      className={`flex shrink-0 items-center gap-1 rounded-full border border-blue-200/80 bg-white/85 px-2 py-1 shadow-sm backdrop-blur lg:border-sunset-200/80 ${className}`}
       aria-label={t('brandHome')}
     >
       <BrandMark className="annabid-logo h-8 w-16 shrink-0" />

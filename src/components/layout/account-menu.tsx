@@ -36,7 +36,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
         <Link
           href="/login"
           aria-label={common('login')}
-          className="grid h-10 w-10 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-peach-50 hover:text-sunset-700"
+          className="grid h-10 w-10 place-items-center rounded-full border border-blue-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
         >
           <UserIcon size={18} aria-hidden />
         </Link>
@@ -65,7 +65,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
       <Link
         href="/profile"
         aria-label={common('myAccount')}
-        className="grid h-10 w-10 place-items-center rounded-full border border-sunset-200/80 bg-white/85 shadow-sm backdrop-blur transition-colors hover:bg-peach-50"
+        className="grid h-10 w-10 place-items-center rounded-full border border-blue-200/80 bg-white/85 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-blue-50"
       >
         <Image src={user.avatar} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
       </Link>

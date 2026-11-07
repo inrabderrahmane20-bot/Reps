@@ -94,11 +94,13 @@ export function MobileNavMenu() {
             <ul className="space-y-1">
               {links.map((link) => {
                 const active = isActive(link.href);
-                const tone = active || link.opensSearch
-                  ? 'border-sunset-500 bg-sunset-500 font-semibold text-white shadow-sunset hover:bg-sunset-600'
-                  : link.hot
-                    ? 'border-sunset-300 bg-peach-100 font-semibold text-sunset-700'
-                    : 'border-sunset-200/80 bg-white/85 text-ink-700 hover:border-sunset-300 hover:bg-white';
+                const tone = link.hot
+                  ? active
+                    ? 'border-sunset-500 bg-sunset-500 font-semibold text-white shadow-sunset hover:bg-sunset-600'
+                    : 'border-sunset-300 bg-peach-100 font-semibold text-sunset-700'
+                  : active || link.opensSearch
+                    ? 'border-blue-600 bg-blue-600 font-semibold text-white shadow-md hover:border-blue-700 hover:bg-blue-700'
+                    : 'border-blue-200/80 bg-white/85 text-ink-700 hover:border-blue-300 hover:bg-white';
 
                 const inner = (
                   <>
@@ -142,8 +144,9 @@ export function MobileNavMenu() {
             <div className="px-1.5">
               <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-ink-300">{t('language')}</p>
               <LanguageSwitcher
+                accent="blue"
                 wrapperClassName="flex w-full"
-                className="h-11 w-full justify-between px-4 text-[14px]"
+                className="h-11 w-full justify-between border-blue-200/80 px-4 text-[14px] hover:border-blue-300"
               />
             </div>
 
@@ -175,7 +178,7 @@ export function MobileNavMenu() {
                   </Link>
                   <Link
                     href="/register"
-                    className="flex min-h-[46px] items-center justify-center rounded-2xl bg-sunset-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
+                    className="flex min-h-[46px] items-center justify-center rounded-2xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-blue-700"
                   >
                     {t('joinAnnabid')}
                   </Link>
@@ -195,7 +198,7 @@ export function MobileNavMenu() {
         onClick={() => setOpen(true)}
         aria-label={t('openMenu')}
         aria-expanded={open}
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-white lg:hidden"
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-blue-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-white lg:hidden"
       >
         <Menu size={21} />
       </button>

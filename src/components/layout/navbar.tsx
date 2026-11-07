@@ -76,7 +76,7 @@ export function Navbar() {
           <Link
             href="/favorites"
             aria-label={t('favorites')}
-            className="grid h-9 w-9 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-600 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700"
+            className="grid h-9 w-9 place-items-center rounded-full border border-blue-200/80 bg-white/85 text-ink-600 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-white hover:text-blue-700 lg:border-sunset-200/80 lg:hover:border-sunset-300 lg:hover:text-sunset-700"
           >
             <Star size={18} />
           </Link>

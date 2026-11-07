@@ -29,10 +29,12 @@ export type LanguageSwitcherVariant = 'full' | 'short' | 'icon';
  */
 export function LanguageSwitcher({
   variant = 'full',
+  accent = 'brand',
   className = '',
   wrapperClassName = '',
 }: {
   variant?: LanguageSwitcherVariant;
+  accent?: 'brand' | 'blue';
   /** Extra classes for the trigger button (e.g. a taller touch target). */
   className?: string;
   /** Extra classes for the positioning wrapper. */
@@ -70,6 +72,7 @@ export function LanguageSwitcher({
   const showLabel = variant === 'full';
   const showCode = variant === 'short';
   const showChevron = variant === 'full';
+  const blueAccent = accent === 'blue' || showCode;
 
   return (
     <div className={`relative inline-flex shrink-0 ${wrapperClassName}`} ref={ref}>
@@ -80,7 +83,11 @@ export function LanguageSwitcher({
         aria-expanded={open}
         aria-label={t('language')}
         title={localeLabel[locale]}
-        className={`inline-flex h-10 items-center rounded-full border border-sunset-200/80 bg-white/85 font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-sunset-300 hover:bg-peach-50 hover:text-sunset-700 ${
+        className={`inline-flex h-10 items-center rounded-full border bg-white/85 font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-peach-50 hover:text-sunset-700 ${
+          blueAccent
+            ? 'border-blue-200/80 hover:border-blue-300 hover:text-blue-700'
+            : 'border-sunset-200/80 hover:border-sunset-300'
+        } ${
           showLabel
             ? 'gap-2 px-3 text-[13px]'
             : showCode
@@ -88,7 +95,7 @@ export function LanguageSwitcher({
               : 'w-10 justify-center'
         } ${className}`}
       >
-        <Globe size={16} className="shrink-0 text-sunset-600" aria-hidden />
+        <Globe size={16} className={`shrink-0 ${blueAccent ? 'text-blue-600' : 'text-sunset-600'}`} aria-hidden />
         {showLabel && <span className="whitespace-nowrap">{localeLabel[locale]}</span>}
         {showCode && (
           <span className="whitespace-nowrap uppercase tracking-wide" aria-hidden>
@@ -123,10 +130,18 @@ export function LanguageSwitcher({
                 aria-checked={active}
                 onClick={() => choose(l)}
                 className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-[13.5px] font-medium transition-colors ${
-                  active ? 'bg-peach-100 text-sunset-700' : 'text-ink-700 hover:bg-sand-100'
+                  active
+                    ? blueAccent
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'bg-peach-100 text-sunset-700'
+                    : 'text-ink-700 hover:bg-sand-100'
                 }`}
               >
-                <Check size={14} className={active ? 'text-sunset-600' : 'text-transparent'} aria-hidden />
+                <Check
+                  size={14}
+                  className={active ? (blueAccent ? 'text-blue-600' : 'text-sunset-600') : 'text-transparent'}
+                  aria-hidden
+                />
                 <span className="flex-1 whitespace-nowrap text-start">{localeLabel[l]}</span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-ink-300">{l}</span>
               </button>

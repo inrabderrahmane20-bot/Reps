@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import { normalizeCategory, serviceTaxonomyFromTree, TAXONOMY, type TaxNode } from '@/lib/service-categories';
 import { api } from '@/lib/api-client';
 import type { SearchCategoryNode } from '@/lib/category-tree';
@@ -11,12 +11,16 @@ export function LayeredCategoryNavigation({
   open,
   selectedCategory,
   origin,
+  searchValue,
+  onSearchChange,
   onSelectCategory,
   onClose,
 }: {
   open: boolean;
   selectedCategory: string | null;
   origin: { x: number; y: number } | null;
+  searchValue: string;
+  onSearchChange: (value: string) => void;
   onSelectCategory: (category: string | null) => void;
   onClose: () => void;
 }) {
@@ -460,6 +464,27 @@ export function LayeredCategoryNavigation({
                         </span>
                       ))}
                     </nav>
+                    <div className="relative mb-2 mt-3">
+                      <Search size={16} className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-ink-400" aria-hidden />
+                      <input
+                        type="search"
+                        value={searchValue}
+                        onChange={(event) => onSearchChange(event.target.value)}
+                        placeholder={t('searchServices')}
+                        aria-label={t('searchServices')}
+                        className="w-full rounded-xl border border-ink-900/[0.08] bg-white py-2.5 pe-10 ps-9 text-sm text-ink-900 outline-none placeholder:text-ink-300 focus:border-majorelle-500"
+                      />
+                      {searchValue !== '' && (
+                        <button
+                          type="button"
+                          onClick={() => onSearchChange('')}
+                          aria-label={t('clearSearch')}
+                          className="absolute end-2 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full text-ink-500 transition-colors hover:bg-sand-100 hover:text-ink-900"
+                        >
+                          <X size={15} aria-hidden />
+                        </button>
+                      )}
+                    </div>
                     <h2 className="truncate font-display text-xl font-semibold text-ink-900 sm:text-2xl">
                       {title}
                     </h2>

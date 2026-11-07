@@ -247,7 +247,7 @@ export default function ServicesPage() {
       )}
 
       {/* Dedicated service search */}
-      <div className="mt-6 lg:mt-8" data-tour-target="services-search">
+      <div className="mt-6 hidden md:block lg:mt-8" data-tour-target="services-search">
         <div className="relative">
           <Search size={18} className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-ink-500" />
           <input
@@ -423,6 +423,8 @@ export default function ServicesPage() {
         open={categoryNavigationOpen}
         selectedCategory={filters.cat}
         origin={categoryNavigationOrigin}
+        searchValue={q}
+        onSearchChange={setQ}
         onSelectCategory={(cat) => setFiltersMerged({ cat })}
         onClose={() => setCategoryNavigationOpen(false)}
       />
