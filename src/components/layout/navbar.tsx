@@ -178,15 +178,15 @@ function NavItem({
   const shared = [
     'flex items-center gap-1.5 rounded-full text-[13px] font-medium transition-colors',
     menu
-      ? 'w-full border border-sunset-200/80 bg-white/85 px-3 py-2.5 text-start shadow-sm backdrop-blur'
-      : 'border border-sunset-200/80 bg-white/85 px-2.5 py-2 shadow-sm backdrop-blur',
+      ? 'w-full px-3 py-2.5 text-start shadow-sm backdrop-blur'
+      : 'px-2.5 py-2 shadow-sm backdrop-blur',
   ].join(' ');
 
-  const tone = active || link.opensSearch
-    ? 'border-sunset-500 bg-sunset-500 font-semibold text-white shadow-sunset hover:border-sunset-600 hover:bg-sunset-600'
-    : link.hot
-      ? 'border-sunset-300 bg-peach-100 font-semibold text-sunset-700 hover:bg-peach-200 hover:text-sunset-800'
-      : 'text-ink-700 hover:border-sunset-300 hover:bg-white hover:text-sunset-700';
+  const tone = link.hot
+    ? 'border border-sunset-300 bg-peach-100 font-semibold text-sunset-700 hover:bg-peach-200 hover:text-sunset-800'
+    : active || link.opensSearch
+      ? 'border border-blue-600 bg-blue-600 font-semibold text-white shadow-md hover:border-blue-700 hover:bg-blue-700'
+      : 'border border-blue-200/80 bg-white/85 text-ink-700 hover:border-blue-300 hover:bg-white hover:text-blue-700';
 
   const inner = (
     <>
