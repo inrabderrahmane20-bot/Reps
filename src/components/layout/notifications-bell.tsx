@@ -62,11 +62,11 @@ export function NotificationsBell() {
         type="button"
         aria-label={t('notifications')}
         onClick={() => setOpen((o) => !o)}
-        className="relative grid h-10 w-10 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur hover:bg-white"
+        className="relative grid h-10 w-10 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700"
       >
         <Bell size={18} />
         {unread > 0 && (
-          <span className="absolute end-1.5 top-1.5 grid h-4 w-4 place-items-center rounded-full bg-clay-500 text-[9px] font-bold text-white">
+          <span className="absolute end-1.5 top-1.5 grid h-4 w-4 place-items-center rounded-full bg-wine-600 text-[9px] font-bold text-white">
             {unread > 9 ? '9+' : unread}
           </span>
         )}
@@ -76,7 +76,7 @@ export function NotificationsBell() {
           <div className="flex items-center justify-between px-2 py-1.5">
             <span className="text-sm font-semibold text-ink-900">{t('notifications')}</span>
             {unread > 0 && (
-              <button onClick={markAllRead} className="text-xs font-semibold text-majorelle-700 hover:underline">
+              <button onClick={markAllRead} className="text-xs font-semibold text-wine-700 hover:underline">
                 {t('markAllRead')}
               </button>
             )}
@@ -90,7 +90,7 @@ export function NotificationsBell() {
                   <Link
                     href={(n.link as any) || '/'}
                     onClick={() => setOpen(false)}
-                    className={`block rounded-xl px-2.5 py-2.5 text-sm hover:bg-sand-100 ${!n.read ? 'bg-majorelle-600/5' : ''}`}
+                    className={`block rounded-xl px-2.5 py-2.5 text-sm hover:bg-sand-100 ${!n.read ? 'bg-wine-600/5' : ''}`}
                   >
                     <p className="text-ink-900">{n.content}</p>
                     <p className="mt-0.5 text-[11px] text-ink-300">{new Date(n.createdAt).toLocaleString()}</p>

@@ -36,6 +36,19 @@ export function Hero({
 
   return (
     <section className="home-hero">
+      {/* Immersive background — the existing public asset, unchanged. */}
+      <div className="home-hero-bg" aria-hidden>
+        <Image
+          src="/homepage_background.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+      <div className="home-hero-scrim" aria-hidden />
+
       <div className="home-container home-hero-grid">
         <div className="home-hero-copy">
           <h1>

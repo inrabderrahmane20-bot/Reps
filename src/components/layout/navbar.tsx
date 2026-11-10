@@ -61,7 +61,7 @@ export function Navbar() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-sunset-200 bg-sunset-50/90 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-line/90 bg-ivory/95 shadow-[0_10px_30px_-26px_rgba(33,24,32,0.45)] backdrop-blur-xl backdrop-saturate-150">
       {/* ---------------------------------------------------------------- */}
       {/* Compact bar — phones and small tablets                          */}
       {/* ---------------------------------------------------------------- */}
@@ -76,7 +76,7 @@ export function Navbar() {
           <Link
             href="/favorites"
             aria-label={t('favorites')}
-            className="grid h-9 w-9 place-items-center rounded-full border border-blue-200/80 bg-white/85 text-ink-600 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-white hover:text-blue-700 lg:border-sunset-200/80 lg:hover:border-sunset-300 lg:hover:text-sunset-700"
+            className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700"
           >
             <Star size={18} />
           </Link>
@@ -117,7 +117,7 @@ export function Navbar() {
                 onClick={() => setMoreOpen((o) => !o)}
                 aria-haspopup="menu"
                 aria-expanded={moreOpen}
-                className="flex h-9 items-center gap-1 rounded-full border border-sunset-200/80 bg-white/85 px-2.5 text-[13px] font-medium text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700 xl:hidden"
+                className="flex h-9 items-center gap-1 rounded-full border border-line bg-white/90 px-2.5 text-[13px] font-medium text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700 xl:hidden"
               >
                 {t('more')}
                 <ChevronDown
@@ -147,7 +147,7 @@ export function Navbar() {
           <Link
             href="/favorites"
             aria-label={t('favorites')}
-            className="grid h-9 w-9 place-items-center rounded-full border border-sunset-200/80 bg-white/85 text-ink-600 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700"
+            className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700"
             title={t('favorites')}
           >
             <Star size={18} />
@@ -183,10 +183,10 @@ function NavItem({
   ].join(' ');
 
   const tone = link.hot
-    ? 'border border-sunset-300 bg-peach-100 font-semibold text-sunset-700 hover:bg-peach-200 hover:text-sunset-800'
+    ? 'border border-wine-200 bg-wine-50 font-semibold text-wine-700 hover:border-wine-300 hover:bg-wine-100 hover:text-wine-800'
     : active || link.opensSearch
-      ? 'border border-blue-600 bg-blue-600 font-semibold text-white shadow-md hover:border-blue-700 hover:bg-blue-700'
-      : 'border border-blue-200/80 bg-white/85 text-ink-700 hover:border-blue-300 hover:bg-white hover:text-blue-700';
+      ? 'border border-wine-700 bg-wine-700 font-semibold text-white shadow-md hover:border-wine-800 hover:bg-wine-800'
+      : 'border border-line bg-white/90 text-ink-700 hover:border-wine-300 hover:bg-white hover:text-wine-700';
 
   const inner = (
     <>

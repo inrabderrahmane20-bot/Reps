@@ -58,7 +58,7 @@ function Highlighted({ text, query }: { text: string; query: string }) {
       <mark
         key={`m${i}`}
         className="rounded-[4px] px-[2px]"
-        style={{ backgroundColor: 'rgba(249,115,22,0.22)', color: 'inherit' }}
+        style={{ backgroundColor: 'rgba(101,10,61,0.16)', color: 'inherit' }}
       >
         {text.slice(start, end)}
       </mark>

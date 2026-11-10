@@ -36,7 +36,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
         <Link
           href="/login"
           aria-label={common('login')}
-          className="grid h-10 w-10 place-items-center rounded-full border border-blue-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+          className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-wine-50 hover:text-wine-700"
         >
           <UserIcon size={18} aria-hidden />
         </Link>
@@ -46,13 +46,13 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
       <div className="flex items-center gap-2">
         <Link
           href="/login"
-          className="rounded-full border border-sunset-200/80 bg-white/85 px-3 py-2 text-[13.5px] font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-sunset-700"
+          className="rounded-full border border-line bg-white/90 px-3 py-2 text-[13.5px] font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700"
         >
           {common('login')}
         </Link>
         <Link
           href="/register"
-          className="rounded-full bg-sunset-500 px-4 py-2 text-[13.5px] font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
+          className="rounded-full bg-wine-700 px-4 py-2 text-[13.5px] font-semibold text-white shadow-sunset transition-colors hover:bg-wine-800"
         >
           {t('joinAnnabid')}
         </Link>
@@ -65,7 +65,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
       <Link
         href="/profile"
         aria-label={common('myAccount')}
-        className="grid h-10 w-10 place-items-center rounded-full border border-blue-200/80 bg-white/85 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-blue-50"
+        className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white/90 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-wine-50"
       >
         <Image src={user.avatar} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
       </Link>
@@ -79,7 +79,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex h-10 items-center gap-2 rounded-full bg-white py-1 pe-3 ps-1 text-[13.5px] font-semibold text-ink-900 shadow-card transition-colors hover:bg-peach-50"
+        className="flex h-10 items-center gap-2 rounded-full border border-line bg-white py-1 pe-3 ps-1 text-[13.5px] font-semibold text-ink-900 shadow-card transition-colors hover:bg-wine-50"
       >
         <Image src={user.avatar} alt="" width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
         <span className="max-w-[92px] truncate">{user.firstName}</span>
@@ -99,7 +99,7 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
             href="/profile"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-peach-50"
+            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-wine-50"
           >
             <UserIcon size={15} aria-hidden /> {common('myAccount')}
           </Link>
@@ -108,13 +108,13 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
               href="/provider/dashboard"
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-peach-50"
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-wine-50"
             >
               <Wrench size={15} aria-hidden /> {common('providerDashboard')}
             </Link>
           )}
           {user.role === 'admin' && (
-            <a href="/admin" role="menuitem" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-peach-50">
+            <a href="/admin" role="menuitem" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-wine-50">
               <ShieldCheck size={15} aria-hidden /> {common('adminPanel')}
             </a>
           )}

@@ -50,7 +50,7 @@ export function PromoPrice({ promo, className = '' }: { promo: PromotionInfo; cl
   return (
     <span className={`inline-flex flex-wrap items-center gap-1.5 text-xs font-medium ${className}`}>
       {isRealDiscount && (
-        <span className="text-ink-400 line-through decoration-clay-400/70">{originalPrice ?? `${prices.original} DH`}</span>
+        <span className="text-ink-400 line-through decoration-wine-300">{originalPrice ?? `${prices.original} DH`}</span>
       )}
       <span className="font-bold text-sunset-700">{promotionalPrice ?? `${prices.current} DH`}</span>
     </span>
@@ -70,8 +70,8 @@ export function PromoValidity({ promo, className = '' }: { promo: PromotionInfo;
   const label = new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'short' }).format(date);
 
   return (
-    <span className={`inline-flex items-center gap-1 text-[11.5px] font-semibold text-clay-500 ${className}`}>
-      <span className="h-1.5 w-1.5 rounded-full bg-clay-400" aria-hidden />
+    <span className={`inline-flex items-center gap-1 text-[11.5px] font-semibold text-wine-600 ${className}`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-wine-500" aria-hidden />
       {t('promoValidUntil', { date: label })}
     </span>
   );
@@ -82,7 +82,7 @@ export function SponsoredTag({ size = 'sm' }: { size?: 'sm' | 'md' }) {
   const t = useTranslations('common');
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1 rounded-full bg-ink-900/[0.06] font-semibold text-ink-600 ${
+      className={`inline-flex shrink-0 items-center gap-1 rounded-full bg-ink-900/[0.06] font-semibold text-ink-500 ${
         size === 'md' ? 'px-2.5 py-1 text-xs' : 'px-2 py-0.5 text-[10.5px] uppercase tracking-wide'
       }`}
     >

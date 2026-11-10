@@ -74,16 +74,16 @@ export function MobileNavMenu() {
           onClick={() => setOpen(false)}
           aria-hidden
         />
-        <div className="mobile-nav-panel absolute inset-0 flex min-h-0 flex-col bg-sand-50">
+        <div className="mobile-nav-panel absolute inset-0 flex min-h-0 flex-col bg-ivory">
           {/* Header */}
-          <div className="flex items-center justify-between gap-3 border-b border-ink-900/[0.07] px-4 py-3.5">
+          <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3.5">
             <Brand />
             <button
               ref={closeRef}
               type="button"
               onClick={() => setOpen(false)}
               aria-label={common('close')}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-ink-500 shadow-card transition-colors hover:text-ink-900"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-500 shadow-card transition-colors hover:text-ink-900"
             >
               <X size={18} />
             </button>
@@ -96,11 +96,11 @@ export function MobileNavMenu() {
                 const active = isActive(link.href);
                 const tone = link.hot
                   ? active
-                    ? 'border-sunset-500 bg-sunset-500 font-semibold text-white shadow-sunset hover:bg-sunset-600'
-                    : 'border-sunset-300 bg-peach-100 font-semibold text-sunset-700'
+                    ? 'border-wine-700 bg-wine-700 font-semibold text-white shadow-sunset hover:bg-wine-800'
+                    : 'border-wine-200 bg-wine-50 font-semibold text-wine-700'
                   : active || link.opensSearch
-                    ? 'border-blue-600 bg-blue-600 font-semibold text-white shadow-md hover:border-blue-700 hover:bg-blue-700'
-                    : 'border-blue-200/80 bg-white/85 text-ink-700 hover:border-blue-300 hover:bg-white';
+                    ? 'border-wine-700 bg-wine-700 font-semibold text-white shadow-md hover:border-wine-800 hover:bg-wine-800'
+                    : 'border-line bg-white/90 text-ink-700 hover:border-wine-300 hover:bg-white hover:text-wine-700';
 
                 const inner = (
                   <>
@@ -146,7 +146,7 @@ export function MobileNavMenu() {
               <LanguageSwitcher
                 accent="blue"
                 wrapperClassName="flex w-full"
-                className="h-11 w-full justify-between border-blue-200/80 px-4 text-[14px] hover:border-blue-300"
+                className="h-11 w-full justify-between border-line px-4 text-[14px] hover:border-wine-300"
               />
             </div>
 
@@ -178,7 +178,7 @@ export function MobileNavMenu() {
                   </Link>
                   <Link
                     href="/register"
-                    className="flex min-h-[46px] items-center justify-center rounded-2xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-blue-700"
+                    className="flex min-h-[46px] items-center justify-center rounded-2xl bg-wine-700 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-wine-800"
                   >
                     {t('joinAnnabid')}
                   </Link>
@@ -198,7 +198,7 @@ export function MobileNavMenu() {
         onClick={() => setOpen(true)}
         aria-label={t('openMenu')}
         aria-expanded={open}
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-blue-200/80 bg-white/85 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-blue-300 hover:bg-white lg:hidden"
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700 lg:hidden"
       >
         <Menu size={21} />
       </button>

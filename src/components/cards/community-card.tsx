@@ -24,15 +24,15 @@ export function CommunityCard({
   const home = useTranslations('home');
 
   return (
-    <article className="card-hover relative flex flex-col justify-between rounded-2xl border border-ink-900/[0.05] bg-white p-4 shadow-card sm:p-5">
+    <article className="card-hover relative flex flex-col justify-between rounded-[22px] border border-line bg-white p-4 shadow-card sm:p-5">
       <div className="absolute end-3 top-3">
         <FavoriteButton type="community" targetId={id} meta={{ title: name }} />
       </div>
       <Link href={`/communities/${id}`} className="block">
-        <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-arch bg-zellige-500/10 text-zellige-600">
+        <div className="community-card-icon mb-3.5 flex h-11 w-11 items-center justify-center rounded-arch bg-wine-50 text-wine-700">
           <Users size={18} />
         </div>
-        <span className="text-[11px] font-semibold uppercase tracking-wide text-zellige-600">
+        <span className="community-card-category text-[11px] font-semibold uppercase tracking-wide text-wine-700">
           {category}
         </span>
         <h3 className="mt-1.5 break-words font-display text-[17px] font-semibold leading-snug text-ink-900">{name}</h3>
@@ -43,10 +43,10 @@ export function CommunityCard({
       <button
         type="button"
         onClick={onJoin}
-        className={`mt-4 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors ${
+        className={`community-join mt-4 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors ${
           joined
-            ? 'bg-sand-100 text-ink-700 hover:bg-sand-200'
-            : 'bg-majorelle-600 text-white hover:bg-majorelle-700'
+            ? 'community-join--joined bg-beige text-ink-700 hover:bg-line'
+            : 'community-join--idle bg-wine-700 text-white hover:bg-wine-800'
         }`}
       >
         {joined ? t('joined') : home('join')}

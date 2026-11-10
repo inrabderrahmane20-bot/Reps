@@ -6,7 +6,20 @@
   --font-display: 'Fraunces', ui-serif, serif;
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --font-arabic: 'Cairo', ui-sans-serif, sans-serif;
+  /* Brand logo red — kept exactly as-is so the Annabid mark never changes. */
   --annabid-red: #e30e1b;
+  /* Annabid burgundy design system. */
+  --annabid-wine: #650a3d;
+  --annabid-wine-deep: #4e0730;
+  --annabid-wine-soft: #8a1350;
+  --annabid-plum: #3a102a;
+  --annabid-ivory: #faf7f4;
+  --annabid-beige: #f2ece7;
+  --annabid-white: #ffffff;
+  --annabid-charcoal: #211820;
+  --annabid-muted: #858085;
+  --annabid-line: #e8e2e6;
+  --annabid-rose: #f7e3ee;
 }
 
 .annabid-logo {
@@ -157,60 +170,60 @@ h1, h2, h3 {
 }
 
 .hero-surface {
-  background-color: #7c2d12;
+  background-color: #3a102a;
   background-image:
-    radial-gradient(120% 140% at 88% -20%, rgba(251, 191, 36, 0.3) 0%, transparent 55%),
-    radial-gradient(90% 130% at -10% 115%, rgba(249, 115, 22, 0.35) 0%, transparent 55%),
-    linear-gradient(120deg, #7c2d12 0%, #9a3412 42%, #c2410c 76%, #ea580c 100%);
+    radial-gradient(120% 140% at 88% -20%, rgba(223, 159, 195, 0.3) 0%, transparent 55%),
+    radial-gradient(90% 130% at -10% 115%, rgba(138, 19, 80, 0.35) 0%, transparent 55%),
+    linear-gradient(120deg, #3a102a 0%, #4e0730 42%, #650a3d 76%, #8a1350 100%);
 }
 
 @keyframes mobile-search-heartbeat {
   0% {
     scale: 1;
-    -webkit-filter: drop-shadow(0 8px 8px rgba(60, 35, 20, 0.22));
-    filter: drop-shadow(0 8px 8px rgba(60, 35, 20, 0.22));
+    -webkit-filter: drop-shadow(0 8px 8px rgba(33, 24, 32, 0.22));
+    filter: drop-shadow(0 8px 8px rgba(33, 24, 32, 0.22));
   }
   5.5% {
     scale: 1.13;
-    -webkit-filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
-    filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
+    -webkit-filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
+    filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
   }
   11% {
     scale: 0.98;
-    -webkit-filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
-    filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
+    -webkit-filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
+    filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
   }
   16.5% {
     scale: 1.08;
-    -webkit-filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
-    filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
+    -webkit-filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
+    filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
   }
   22%, 100% {
     scale: 1;
-    -webkit-filter: drop-shadow(0 8px 8px rgba(60, 35, 20, 0.22));
-    filter: drop-shadow(0 8px 8px rgba(60, 35, 20, 0.22));
+    -webkit-filter: drop-shadow(0 8px 8px rgba(33, 24, 32, 0.22));
+    filter: drop-shadow(0 8px 8px rgba(33, 24, 32, 0.22));
   }
 }
 
 .mobile-search-pulse {
   -webkit-animation: mobile-search-heartbeat 3s ease-in-out infinite;
   animation: mobile-search-heartbeat 3s ease-in-out infinite;
-  -webkit-filter: drop-shadow(0 8px 8px rgba(60, 35, 20, 0.22));
-  filter: drop-shadow(0 8px 8px rgba(60, 35, 20, 0.22));
+  -webkit-filter: drop-shadow(0 8px 8px rgba(33, 24, 32, 0.22));
+  filter: drop-shadow(0 8px 8px rgba(33, 24, 32, 0.22));
   transition: -webkit-filter 700ms ease, filter 700ms ease;
 }
 
 .mobile-search-pulse:hover {
-  -webkit-filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
-  filter: drop-shadow(0 10px 12px rgba(249, 115, 22, 0.65));
+  -webkit-filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
+  filter: drop-shadow(0 10px 12px rgba(101, 10, 61, 0.6));
 }
 
 @keyframes category-back-hint {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
+    box-shadow: 0 0 0 0 rgba(101, 10, 61, 0);
   }
   40% {
-    box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.2);
+    box-shadow: 0 0 0 5px rgba(101, 10, 61, 0.2);
   }
 }
 
@@ -275,24 +288,28 @@ h1, h2, h3 {
 }
 
 ::selection {
-  background: theme('colors.saffron.400');
-  color: theme('colors.ink.900');
+  background: var(--annabid-wine);
+  color: #ffffff;
 }
 
-/* Homepage redesign */
+/* ================================================================== */
+/* Annabid homepage — burgundy & ivory redesign                        */
+/* Presentation only: every selector below keeps the existing markup's */
+/* class names, so no component logic, data or routes are affected.    */
+/* ================================================================== */
+
 body:has(.home-redesign) {
-  --home-grey: #e4e8ec;
-  --home-white: #ffffff;
-  --home-slate: #26303d;
-  --home-slate-2: #364253;
-  --home-ink: #141b24;
-  --home-steel: #4a78a6;
-  --home-steel-lo: #2b4f76;
-  --home-steel-hi: #a8c8e8;
-  --home-ember: #d4500c;
-  --home-ember-hi: #f26a1b;
-  --home-muted: #5d6978;
-  --home-line: #c6cfd9;
+  --home-bg: var(--annabid-ivory);
+  --home-card: var(--annabid-white);
+  --home-beige: var(--annabid-beige);
+  --home-ink: var(--annabid-charcoal);
+  --home-muted: var(--annabid-muted);
+  --home-line: var(--annabid-line);
+  --home-wine: var(--annabid-wine);
+  --home-wine-deep: var(--annabid-wine-deep);
+  --home-wine-soft: var(--annabid-wine-soft);
+  --home-plum: var(--annabid-plum);
+  --home-rose: var(--annabid-rose);
 }
 
 main:has(.home-redesign) {
@@ -300,28 +317,27 @@ main:has(.home-redesign) {
 }
 
 .home-redesign {
-  --home-grey: #e4e8ec;
-  --home-white: #ffffff;
-  --home-slate: #26303d;
-  --home-slate-2: #364253;
-  --home-ink: #141b24;
-  --home-steel: #4a78a6;
-  --home-steel-lo: #2b4f76;
-  --home-steel-hi: #a8c8e8;
-  --home-ember: #d4500c;
-  --home-ember-hi: #f26a1b;
-  --home-muted: #5d6978;
-  --home-line: #c6cfd9;
+  --home-bg: var(--annabid-ivory);
+  --home-card: var(--annabid-white);
+  --home-beige: var(--annabid-beige);
+  --home-ink: var(--annabid-charcoal);
+  --home-muted: var(--annabid-muted);
+  --home-line: var(--annabid-line);
+  --home-wine: var(--annabid-wine);
+  --home-wine-deep: var(--annabid-wine-deep);
+  --home-wine-soft: var(--annabid-wine-soft);
+  --home-plum: var(--annabid-plum);
+  --home-rose: var(--annabid-rose);
   overflow: clip;
-  background: var(--home-grey);
+  background: var(--home-bg);
   color: var(--home-ink);
-  font-family: var(--font-home-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.55;
 }
 
 .home-container {
-  width: min(100% - 40px, 1180px);
+  width: min(100% - 32px, 1180px);
   margin-inline: auto;
 }
 
@@ -330,28 +346,67 @@ main:has(.home-redesign) {
 .home-redesign h3,
 .home-footer h3,
 .home-footer .font-display {
-  font-family: var(--font-home-display), var(--font-arabic), system-ui, sans-serif;
+  font-family: var(--font-display), var(--font-arabic), ui-serif, serif;
 }
 
-.home-footer a:focus-visible,
-.home-redesign :focus-visible {
-  outline: 3px solid var(--home-ember-hi);
+.home-redesign :focus-visible,
+.home-footer a:focus-visible {
+  outline: 3px solid var(--home-wine-soft);
   outline-offset: 3px;
 }
 
 .mobile-nav-panel {
-  animation: mobile-nav-reveal .55s cubic-bezier(.7, 0, .2, 1) both;
+  animation: mobile-nav-reveal 0.55s cubic-bezier(0.7, 0, 0.2, 1) both;
 }
 
+/* ------------------------------------------------------------------ */
+/* Hero — immersive photograph with a burgundy scrim                  */
+/* ------------------------------------------------------------------ */
 .home-hero {
-  padding-block: 70px 70px;
-  background: var(--home-grey);
+  position: relative;
+  display: flex;
+  min-height: clamp(600px, 82vh, 860px);
+  align-items: center;
+  overflow: hidden;
+  border-radius: 0 0 40px 40px;
+  background: var(--home-plum);
+  padding-block: clamp(64px, 9vw, 120px);
+  color: #fff;
+}
+
+.home-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.home-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.home-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(42, 8, 30, 0.62) 0%, rgba(42, 8, 30, 0.32) 44%, rgba(42, 8, 30, 0.78) 100%),
+    linear-gradient(95deg, rgba(42, 8, 30, 0.78) 0%, rgba(58, 16, 42, 0.42) 52%, rgba(58, 16, 42, 0.2) 100%);
+  pointer-events: none;
+}
+
+.home-hero > .home-container {
+  position: relative;
+  z-index: 2;
 }
 
 .home-hero-grid {
   display: grid;
   align-items: center;
-  gap: 48px;
+  gap: clamp(32px, 5vw, 56px);
 }
 
 .home-hero-copy {
@@ -362,46 +417,52 @@ main:has(.home-redesign) {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--home-line);
-  border-radius: 99px;
-  background: white;
-  padding: 7px 14px;
-  color: var(--home-ink);
-  font-size: .88rem;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 8px 15px;
+  color: #fff;
+  font-size: 0.88rem;
+  backdrop-filter: blur(12px);
 }
 
 .home-location-chip svg,
 .home-photo-location svg {
-  color: var(--home-ember-hi);
+  color: var(--home-rose);
 }
 
 .home-hero h1 {
-  max-width: 10ch;
-  margin: 20px 0 0;
-  color: var(--home-slate);
-  font-size: clamp(2.9rem, 10vw, 7rem);
-  font-weight: 700;
-  letter-spacing: -.05em;
-  line-height: .9;
+  max-width: 14ch;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display), var(--font-arabic), ui-serif, serif;
+  font-size: clamp(2.7rem, 6.2vw, 5.6rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+  text-shadow: 0 2px 32px rgba(20, 5, 15, 0.35);
 }
 
 .home-hero h1 span {
-  color: var(--home-steel-lo);
+  color: var(--home-rose);
 }
 
 .home-hero-lead {
-  max-width: 30em;
-  margin-top: 24px;
-  color: var(--home-muted);
-  font-size: 1.1rem;
-  line-height: 1.55;
+  max-width: 34em;
+  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(1rem, 1.5vw, 1.14rem);
+  line-height: 1.62;
+  text-shadow: 0 1px 18px rgba(20, 5, 15, 0.3);
 }
 
 .home-hero-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 .home-button {
@@ -412,37 +473,51 @@ main:has(.home-redesign) {
   justify-content: center;
   gap: 10px;
   border: 0;
-  border-radius: 16px;
+  border-radius: 999px;
   padding: 14px 24px;
-  font-size: .95rem;
+  font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.25;
   text-align: center;
   white-space: nowrap;
-  transition: background-color .25s, color .25s, transform .25s;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
 .home-button:hover {
   transform: translateY(-2px);
 }
 
+/* The search CTA is deliberately shaped like the reference search field. */
 .home-button-primary {
-  background: var(--home-ember-hi);
-  color: white;
-  box-shadow: 0 12px 26px -10px rgba(212,80,12,.8);
+  flex: 1 1 300px;
+  max-width: 430px;
+  min-height: 58px;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.97);
+  padding-inline: 22px;
+  color: var(--home-ink);
+  box-shadow: 0 20px 44px -20px rgba(20, 5, 15, 0.6);
+}
+
+.home-button-primary svg {
+  color: var(--home-wine);
 }
 
 .home-button-primary:hover {
-  background: var(--home-ember);
+  background: #fff;
+  box-shadow: 0 24px 52px -22px rgba(20, 5, 15, 0.65);
 }
 
 .home-button-dark {
-  background: var(--home-slate);
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  backdrop-filter: blur(12px);
 }
 
 .home-button-dark:hover {
-  background: var(--home-steel-lo);
+  background: #fff;
+  color: var(--home-wine);
 }
 
 .home-trust-list {
@@ -451,8 +526,8 @@ main:has(.home-redesign) {
   gap: 8px 20px;
   margin: 22px 0 0;
   padding: 0;
-  color: var(--home-muted);
-  font-size: .88rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.88rem;
   list-style: none;
 }
 
@@ -463,20 +538,23 @@ main:has(.home-redesign) {
 }
 
 .home-trust-list svg {
-  color: var(--home-steel);
+  color: var(--home-rose);
 }
 
 .home-hero-visual {
-  width: min(100%, 520px);
+  width: min(100%, 480px);
   justify-self: center;
 }
 
 .home-hero-art {
   position: relative;
-  aspect-ratio: 1 / 1.08;
-  border-radius: 34px 34px 120px 34px;
-  background: linear-gradient(150deg,#e2edf8 0%,#8fb1d4 28%,#4a78a6 52%,#b6d0ea 76%,#5b86b3 100%);
-  padding: 12px;
+  aspect-ratio: 1 / 1.05;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 10px;
+  box-shadow: 0 34px 70px -30px rgba(20, 5, 15, 0.65);
+  backdrop-filter: blur(16px);
 }
 
 .home-hero-photo {
@@ -484,8 +562,8 @@ main:has(.home-redesign) {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 24px 24px 110px 24px;
-  background: linear-gradient(165deg, #4a78a6, #2b4f76 56%, #26303d);
+  border-radius: 22px;
+  background: linear-gradient(160deg, var(--home-wine-soft), var(--home-plum));
 }
 
 .home-photo-location {
@@ -495,11 +573,11 @@ main:has(.home-redesign) {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid rgba(255,255,255,.4);
-  border-radius: 99px;
-  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
   padding: 8px 13px;
-  color: white;
+  color: #fff;
   backdrop-filter: blur(10px);
 }
 
@@ -511,9 +589,10 @@ main:has(.home-redesign) {
   width: 34%;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 6px solid var(--home-grey);
-  border-radius: 24px;
-  background: linear-gradient(135deg, #f26a1b, #9a3412);
+  border: 5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--home-wine), var(--home-wine-deep));
+  box-shadow: 0 20px 36px -18px rgba(20, 5, 15, 0.6);
 }
 
 .home-seal {
@@ -521,13 +600,15 @@ main:has(.home-redesign) {
   z-index: 2;
   top: -26px;
   inset-inline-start: -22px;
+  display: grid;
   width: 122px;
   height: 122px;
-  display: grid;
   place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 50%;
-  background: var(--home-ember-hi);
-  color: white;
+  background: var(--home-wine);
+  color: #fff;
+  box-shadow: 0 24px 46px -20px rgba(20, 5, 15, 0.7);
 }
 
 .home-seal > svg {
@@ -536,7 +617,7 @@ main:has(.home-redesign) {
   width: 100%;
   height: 100%;
   animation: home-seal-rotation 24s linear infinite;
-  fill: white;
+  fill: #fff;
   font-size: 7.3px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -549,7 +630,7 @@ main:has(.home-redesign) {
   place-items: center;
   overflow: hidden;
   border-radius: 50%;
-  background: var(--home-slate);
+  background: var(--home-bg);
 }
 
 .home-seal-logo {
@@ -562,21 +643,13 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   animation: none;
 }
 
-.home-seal-logo .annabid-signal {
-  stroke: var(--home-ember-hi);
-}
-
-.home-seal-logo .annabid-heart {
-  fill: var(--home-ember-hi);
-}
-
 .home-seal-logo .annabid-heart-glow {
   display: none;
 }
 
 .home-seal-logo .annabid-inner {
   opacity: 1;
-  stroke: white;
+  stroke: var(--home-wine);
 }
 
 .home-stat-grid {
@@ -588,53 +661,50 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 
 .home-stat-card {
   min-width: 0;
-  border: 1px solid var(--home-line);
+  border: 1px solid rgba(255, 255, 255, 0.42);
   border-radius: 20px;
-  background: white;
+  background: rgba(255, 255, 255, 0.94);
   padding: 14px;
+  box-shadow: 0 18px 36px -24px rgba(20, 5, 15, 0.55);
+  backdrop-filter: blur(12px);
 }
 
 .home-stat-card dt {
-  color: var(--home-slate);
-  font-family: var(--font-home-display), system-ui, sans-serif;
+  color: var(--home-wine);
+  font-family: var(--font-display), ui-serif, serif;
   font-size: 2.2rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 
 .home-stat-card dd {
   margin: 7px 0 0;
   color: var(--home-muted);
-  font-size: .8rem;
+  font-size: 0.8rem;
   line-height: 1.3;
 }
 
 .home-stat-featured {
-  border-color: var(--home-steel-lo);
-  background: var(--home-steel-lo);
+  border-color: var(--home-wine);
+  background: var(--home-wine);
 }
 
 .home-stat-featured dt {
-  color: white;
+  color: #fff;
 }
 
 .home-stat-featured dd {
-  color: var(--home-steel-hi);
+  color: rgba(255, 255, 255, 0.76);
 }
 
-.home-categories,
-.home-best-rated,
-.home-communities,
-.home-footer {
-  border-radius: 44px 44px 0 0;
-}
-
+/* ------------------------------------------------------------------ */
+/* Categories — white floating shortcut cards on warm ivory           */
+/* ------------------------------------------------------------------ */
 .home-categories {
   position: relative;
-  margin-inline: calc(50% - 50vw);
-  background: var(--home-ember);
-  padding-block: 60px 70px;
-  color: white;
+  background: var(--home-bg);
+  padding-block: clamp(48px, 7vw, 84px);
+  color: var(--home-ink);
 }
 
 .home-section-heading {
@@ -642,96 +712,105 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .home-section-heading h2,
 .home-redesign .home-best-rated h2,
 .home-redesign .home-communities h2 {
   margin: 0;
-  color: var(--home-slate);
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 700;
-  letter-spacing: -.035em;
-  line-height: 1;
+  color: var(--home-ink);
+  font-family: var(--font-display), var(--font-arabic), ui-serif, serif;
+  font-size: clamp(1.9rem, 4vw, 2.85rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
 }
 
 .home-section-heading p {
   margin: 10px 0 0;
-  opacity: .85;
+  color: var(--home-muted);
+  font-size: 0.98rem;
 }
 
 .home-section-heading-light h2 {
-  color: white;
+  color: var(--home-ink);
 }
 
 .home-category-all {
-  min-height: 44px;
-  border-radius: 99px;
-  background: white;
-  padding: 10px 18px;
-  color: var(--home-ember);
+  min-height: 46px;
+  border-radius: 999px;
+  background: var(--home-wine);
+  padding: 11px 20px;
+  color: #fff;
+  box-shadow: 0 14px 30px -18px rgba(101, 10, 61, 0.7);
 }
 
 .home-category-all:hover {
-  background: var(--home-slate);
-  color: white;
+  background: var(--home-wine-deep);
+  color: #fff;
 }
 
 .home-category-list {
+  display: grid;
+  gap: 10px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .home-category-list li {
-  border-top: 1.5px solid rgba(255,255,255,.35);
-}
-
-.home-category-list li:last-child {
-  border-bottom: 1.5px solid rgba(255,255,255,.35);
+  border: 0;
 }
 
 .home-category-row {
   display: grid;
-  min-height: 96px;
-  grid-template-columns: 64px minmax(0, 1fr) auto 120px 44px;
+  min-height: 84px;
+  grid-template-columns: 60px minmax(0, 1fr) auto 120px 44px;
   align-items: center;
   gap: 18px;
-  padding-block: 16px;
-  color: white;
-  transition: transform .25s, background-color .25s;
+  border: 1px solid var(--home-line);
+  border-radius: 20px;
+  background: var(--home-card);
+  padding: 14px 18px;
+  color: var(--home-ink);
+  box-shadow: 0 10px 30px -24px rgba(33, 24, 32, 0.35);
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 
 .home-category-row:hover {
-  transform: translateX(14px);
-  background: rgba(255,255,255,.08);
+  transform: translateY(-2px);
+  border-color: rgba(101, 10, 61, 0.26);
+  background: #fff;
+  box-shadow: 0 20px 44px -26px rgba(101, 10, 61, 0.42);
 }
 
 .home-category-emoji {
   display: grid;
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   place-items: center;
-  border-radius: 18px;
-  background: white;
-  font-size: 1.8rem;
+  border-radius: 16px;
+  background: var(--home-rose);
+  font-size: 1.65rem;
 }
 
 .home-category-name {
   display: -webkit-box;
   overflow: hidden;
-  font-family: var(--font-home-display), var(--font-arabic), system-ui, sans-serif;
-  font-size: clamp(1.4rem, 4.6vw, 2.6rem);
-  font-weight: 700;
-  letter-spacing: -.03em;
-  line-height: 1.12;
+  color: var(--home-ink);
+  font-family: var(--font-sans), var(--font-arabic), system-ui, sans-serif;
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .home-category-count {
-  opacity: .9;
+  color: var(--home-muted);
+  font-size: 0.88rem;
   white-space: nowrap;
 }
 
@@ -740,14 +819,15 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   width: 120px;
   height: 64px;
   place-items: center;
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255,255,255,.28), rgba(255,255,255,.08));
-  transition: width .35s;
+  border: 1px solid var(--home-line);
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--home-rose), var(--home-beige));
+  color: var(--home-wine);
+  transition: width 0.35s;
 }
 
 .home-category-row:hover .home-category-photo {
-  width: 190px;
+  width: 168px;
 }
 
 .home-category-arrow {
@@ -756,21 +836,26 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   height: 44px;
   place-items: center;
   border-radius: 50%;
-  background: var(--home-slate);
-  transition: background-color .25s, color .25s, transform .25s;
+  background: var(--home-wine);
+  color: #fff;
+  transition: background-color 0.25s, color 0.25s, transform 0.25s;
 }
 
 .home-category-row:hover .home-category-arrow {
   transform: rotate(-45deg);
-  background: white;
-  color: var(--home-ember);
+  background: var(--home-wine-deep);
+  color: #fff;
 }
 
 .home-category-empty {
-  border-block: 1px solid rgba(255,255,255,.35);
+  border-block: 1px solid var(--home-line);
   padding-block: 24px;
+  color: var(--home-muted);
 }
 
+/* ------------------------------------------------------------------ */
+/* Best rated — white band with floating cards                        */
+/* ------------------------------------------------------------------ */
 .home-primary-sections {
   padding-bottom: 0;
 }
@@ -778,9 +863,9 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 .home-best-rated {
   position: relative;
   z-index: 1;
-  margin-top: -44px;
-  background: white;
-  padding: 70px max(20px, calc((100% - 1180px) / 2)) 20px;
+  border-radius: 40px 40px 0 0;
+  background: var(--home-card);
+  padding: clamp(48px, 7vw, 80px) max(20px, calc((100% - 1180px) / 2)) clamp(40px, 6vw, 64px);
 }
 
 .home-redesign .home-best-rated > .mb-6,
@@ -792,7 +877,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 
 .home-redesign .home-best-rated h2,
 .home-redesign .home-communities h2 {
-  color: var(--home-slate);
+  color: var(--home-ink);
 }
 
 .home-redesign .home-best-rated h2 + p,
@@ -802,21 +887,21 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 
 .home-redesign .home-best-rated a.group,
 .home-additional-section .home-best-rated a.group {
-  border: 0;
-  background: var(--home-slate);
-  color: white;
+  border: 1px solid var(--home-line);
+  background: var(--home-card);
+  color: var(--home-wine);
 }
 
 .home-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .home-redesign .home-best-rated article {
   min-height: 210px;
-  border-radius: 26px;
-  padding: 12px;
+  border-radius: 24px;
+  padding: 16px;
 }
 
 .home-empty-card {
@@ -825,9 +910,9 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #aebccb;
-  border-radius: 26px;
-  background: white;
+  border: 1px dashed var(--home-line);
+  border-radius: 24px;
+  background: var(--home-bg);
   padding: 24px;
   text-align: center;
 }
@@ -838,15 +923,15 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   height: 60px;
   place-items: center;
   border-radius: 50%;
-  background: #e4e8ec;
-  color: var(--home-steel);
+  background: var(--home-rose);
+  color: var(--home-wine);
 }
 
 .home-empty-card h3 {
   margin: 14px 0 0;
-  color: var(--home-slate);
+  color: var(--home-ink);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -858,71 +943,121 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 .home-empty-community {
   justify-self: start;
   width: min(100%, 420px);
-  border-color: rgba(255,255,255,.55);
-  background: rgba(255,255,255,.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .home-empty-community .home-empty-icon {
-  background: white;
-  color: var(--home-steel-lo);
+  background: #fff;
+  color: var(--home-wine);
 }
 
 .home-empty-community h3,
 .home-empty-community p {
-  color: white;
+  color: #fff;
 }
 
 .home-loading-card {
   min-height: 220px;
-  border-radius: 26px;
-  background: #d9e0e7;
+  border-radius: 24px;
+  background: var(--home-beige);
   animation: home-loading-pulse 1.4s ease-in-out infinite alternate;
 }
 
+/* ------------------------------------------------------------------ */
+/* Communities — deep plum band with glass cards                      */
+/* ------------------------------------------------------------------ */
 .home-communities {
   position: relative;
   z-index: 1;
-  margin-top: 70px;
-  background-color: #35618f;
-  background-image: linear-gradient(150deg, rgba(226,237,248,.18), rgba(43,79,118,.2)), linear-gradient(135deg, #4a78a6, #2b4f76 58%, #26303d);
-  padding: 60px max(20px, calc((100% - 1180px) / 2)) 80px;
-  color: white;
+  border-radius: 40px 40px 0 0;
+  background-color: var(--home-plum);
+  background-image:
+    radial-gradient(120% 140% at 90% 0%, rgba(138, 19, 80, 0.55) 0%, transparent 62%),
+    linear-gradient(135deg, #3a102a 0%, #2b0a1f 100%);
+  padding: clamp(48px, 7vw, 80px) max(20px, calc((100% - 1180px) / 2)) clamp(56px, 8vw, 92px);
+  color: #fff;
 }
 
 .home-communities .home-redesign h2,
-.home-redesign .home-communities h2,
+.home-redesign .home-communities h2 {
+  color: #fff;
+}
+
 .home-redesign .home-communities h2 + p {
-  color: white;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .home-communities .home-card-grid article {
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 26px;
-  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
 }
 
 .home-communities .home-card-grid article h3,
 .home-communities .home-card-grid article p {
-  color: white;
+  color: #fff;
 }
 
+.home-communities .home-card-grid article p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.home-communities .home-card-grid article button {
+  border-radius: 999px;
+}
+
+.home-communities .community-card-icon {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.home-communities .community-card-category {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.home-communities .community-join--idle {
+  background: var(--home-wine);
+  color: #fff;
+}
+
+.home-communities .community-join--idle:hover {
+  background: #8a1350;
+}
+
+.home-communities .community-join--joined {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.home-communities .community-join--joined:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+/* ------------------------------------------------------------------ */
+/* Promotions & additional rows                                       */
+/* ------------------------------------------------------------------ */
 .home-additional-section {
   width: min(100% - 40px, 1180px);
-  margin: 54px auto;
+  margin: clamp(40px, 6vw, 64px) auto;
 }
 
 .home-additional-section .home-card-grid article {
-  border-radius: 26px;
+  border-radius: 24px;
 }
 
+/* ------------------------------------------------------------------ */
+/* Footer — deep plum with ivory type                                 */
+/* ------------------------------------------------------------------ */
 .home-footer {
   position: relative;
   z-index: 2;
   margin-top: 0;
-  border-top: 1px solid rgba(255,255,255,.1);
-  background: var(--home-slate);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--home-plum);
   padding: 60px 20px 28px;
-  color: #a9b7c6;
+  color: rgba(250, 247, 244, 0.72);
 }
 
 .home-footer > div {
@@ -946,33 +1081,36 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 
 .home-footer h3,
 .home-footer .font-display {
-  color: white;
+  color: #fff;
 }
 
 .home-footer p {
-  color: #a9b7c6;
+  color: rgba(250, 247, 244, 0.72);
 }
 
 .home-footer a {
-  color: #a9b7c6;
-  transition: color .2s;
+  color: rgba(250, 247, 244, 0.72);
+  transition: color 0.2s;
 }
 
 .home-footer a:hover {
-  color: var(--home-steel-hi);
+  color: var(--home-rose);
 }
 
 .home-footer .home-footer-lang-active {
-  border-radius: 99px;
-  background: var(--home-steel);
+  border-radius: 999px;
+  background: var(--home-wine);
   padding: 8px 12px;
-  color: white;
+  color: #fff;
 }
 
 .home-footer > div > div:last-child {
-  border-color: #3a4658;
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
+/* ------------------------------------------------------------------ */
+/* Navigation tour — burgundy accents                                 */
+/* ------------------------------------------------------------------ */
 .navigation-tour-overlay {
   position: fixed;
   z-index: 110;
@@ -983,9 +1121,9 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 .navigation-tour-spotlight {
   position: fixed;
   z-index: 0;
-  border: 2px solid rgba(249, 115, 22, .62);
+  border: 2px solid rgba(101, 10, 61, 0.6);
   border-radius: 18px;
-  box-shadow: 0 0 0 4px rgba(249, 115, 22, .12);
+  box-shadow: 0 0 0 4px rgba(101, 10, 61, 0.12);
   animation: navigation-tour-highlight 2s ease-in-out infinite;
   pointer-events: none;
 }
@@ -1000,12 +1138,12 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   column-gap: 8px;
   width: min(300px, calc(100vw - 24px));
   transform: translateX(-50%);
-  border: 1px solid rgba(249, 115, 22, .28);
+  border: 1px solid rgba(101, 10, 61, 0.24);
   border-radius: 14px;
-  background: rgba(255, 252, 248, .72);
+  background: rgba(250, 247, 244, 0.82);
   padding: 9px 11px;
-  color: #17212f;
-  box-shadow: 0 4px 16px rgba(124, 45, 18, .1);
+  color: var(--annabid-charcoal);
+  box-shadow: 0 4px 16px rgba(101, 10, 61, 0.12);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   pointer-events: auto;
@@ -1024,8 +1162,8 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   height: 24px;
   place-items: center;
   border-radius: 50%;
-  background: rgba(249, 115, 22, .12);
-  color: #f97316;
+  background: rgba(101, 10, 61, 0.1);
+  color: var(--annabid-wine);
 }
 
 .navigation-tour-icon svg {
@@ -1037,7 +1175,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   grid-column: 2;
   grid-row: 1;
   margin: 0;
-  color: #c2410c;
+  color: var(--annabid-wine);
   font-size: 10px;
   font-weight: 700;
 }
@@ -1046,7 +1184,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   grid-column: 2;
   grid-row: 2;
   margin: 0;
-  font-family: var(--font-home-display), var(--font-arabic), system-ui, sans-serif;
+  font-family: var(--font-display), var(--font-arabic), ui-serif, serif;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.15;
@@ -1060,7 +1198,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   margin: 5px 0 0;
-  color: #465365;
+  color: var(--annabid-muted);
   font-size: 12px;
   line-height: 1.3;
 }
@@ -1084,79 +1222,91 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
 }
 
 .navigation-tour-skip {
-  color: #465365;
+  color: var(--annabid-muted);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
 .navigation-tour-next {
   min-width: 0;
-  background: #f97316;
-  color: white;
-  box-shadow: 0 4px 12px rgba(249, 115, 22, .22);
+  background: var(--annabid-wine);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(101, 10, 61, 0.24);
   transition: background-color 160ms ease, transform 160ms ease;
 }
 
 .navigation-tour-next:hover {
-  background: #ea580c;
+  background: var(--annabid-wine-deep);
 }
 
 .navigation-tour-next:active {
-  transform: scale(.97);
+  transform: scale(0.97);
 }
 
 @keyframes navigation-tour-highlight {
-  50% { box-shadow: 0 0 0 6px rgba(249, 115, 22, .16); }
+  50% {
+    box-shadow: 0 0 0 6px rgba(101, 10, 61, 0.16);
+  }
 }
 
 @keyframes navigation-tour-card-in {
-  from { opacity: 0; transform: translate(-50%, -8px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
-
-
 @keyframes home-seal-rotation {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes mobile-nav-reveal {
-  from { clip-path: circle(0 at 40px 40px); }
-  to { clip-path: circle(150% at 40px 40px); }
+  from {
+    clip-path: circle(0 at 40px 40px);
+  }
+  to {
+    clip-path: circle(150% at 40px 40px);
+  }
 }
 
 @keyframes home-loading-pulse {
-  to { opacity: .55; }
+  to {
+    opacity: 0.55;
+  }
 }
 
+/* ------------------------------------------------------------------ */
+/* Responsive                                                        */
+/* ------------------------------------------------------------------ */
 @media (min-width: 900px) {
   .home-hero-grid {
-    grid-template-columns: 1.25fr .75fr;
+    grid-template-columns: 1.18fr 0.82fr;
     gap: 56px;
   }
 }
 
-@media (max-width: 420px) {
-  .annabid-wordmark-latin,
-  .annabid-wordmark-arabic {
-    font-size: 13px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .navigation-tour-spotlight,
-  .navigation-tour-icon {
-    animation: none;
-  }
-
-  .navigation-tour-card {
-    animation-duration: 1ms;
+@media (min-width: 700px) {
+  .home-container {
+    width: min(100% - 40px, 1180px);
   }
 }
 
 @media (max-width: 699px) {
   .home-hero {
-    padding-block: 44px 56px;
+    min-height: auto;
+    border-radius: 0 0 28px 28px;
+    padding-block: 52px 56px;
+  }
+
+  .home-hero h1 {
+    max-width: 12ch;
+    font-size: clamp(2.45rem, 11vw, 3.6rem);
   }
 
   .home-category-photo {
@@ -1164,11 +1314,11 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 
   .home-category-row {
-    grid-template-columns: 64px minmax(0, 1fr) auto 44px;
+    grid-template-columns: 60px minmax(0, 1fr) auto 44px;
   }
 
   .home-category-row:hover {
-    transform: translateX(6px);
+    transform: translateY(-1px);
   }
 
   .home-category-row:hover .home-category-photo {
@@ -1184,7 +1334,12 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 
   .home-stat-card dd {
-    font-size: .72rem;
+    font-size: 0.72rem;
+  }
+
+  .home-best-rated,
+  .home-communities {
+    border-radius: 28px 28px 0 0;
   }
 }
 
@@ -1202,15 +1357,22 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   .home-hero-actions .home-button {
     width: 100%;
     min-width: 0;
+    max-width: none;
     justify-content: center;
     padding-inline: 16px;
     white-space: normal;
+  }
+
+  .home-hero-actions .home-button-primary {
+    justify-content: flex-start;
+    padding-inline: 20px;
   }
 
   .home-category-row {
     grid-template-columns: 52px minmax(0, 1fr) 40px;
     column-gap: 12px;
     row-gap: 3px;
+    padding: 12px 14px;
   }
 
   .home-category-emoji {
@@ -1218,15 +1380,16 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
     height: 48px;
     grid-row: span 2;
     border-radius: 15px;
+    font-size: 1.45rem;
   }
 
   .home-category-name {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
   }
 
   .home-category-count {
     grid-column: 2;
-    font-size: .82rem;
+    font-size: 0.82rem;
   }
 
   .home-category-arrow {
@@ -1235,14 +1398,14 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 
   .home-hero-art {
-    border-radius: 26px 26px 90px 26px;
+    border-radius: 24px;
   }
 
   .home-hero-inset {
     inset-inline-start: -10px;
     bottom: 46px;
     border-width: 4px;
-    border-radius: 18px;
+    border-radius: 16px;
   }
 
   .home-seal {
@@ -1266,7 +1429,7 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 
   .home-stat-card dd {
-    font-size: .67rem;
+    font-size: 0.67rem;
   }
 
   .home-footer > div > div:first-child {
@@ -1279,15 +1442,33 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 }
 
+/* RTL adjustments */
 [dir='rtl'] .home-category-row:hover {
-  transform: translateX(-14px);
+  transform: translateY(-2px);
 }
 
 [dir='rtl'] .home-seal-mark .home-seal-logo {
   transform: scaleX(-1);
 }
 
+[dir='rtl'] .home-hero h1,
+[dir='rtl'] .home-hero-lead,
+[dir='rtl'] .home-section-heading h2,
+[dir='rtl'] .home-redesign .home-best-rated h2,
+[dir='rtl'] .home-redesign .home-communities h2 {
+  letter-spacing: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .navigation-tour-spotlight,
+  .navigation-tour-icon {
+    animation: none;
+  }
+
+  .navigation-tour-card {
+    animation-duration: 1ms;
+  }
+
   .home-redesign *,
   .home-footer *,
   .mobile-nav-panel {
