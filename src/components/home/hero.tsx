@@ -1,29 +1,28 @@
 'use client';
 
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Check, Percent, Search } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { openGlobalSearch } from '@/lib/open-search';
-import type { ServiceListing } from '@/components/services/service-views';
 import { BrandMark } from '@/components/layout/brand';
 
 export function Hero({
-  promos,
   providerCount,
   promoCount,
   categoryCount,
 }: {
-  promos: ServiceListing[];
   providerCount: number;
   promoCount: number;
   categoryCount: number;
 }) {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const t = useTranslations('home');
   const locale = useLocale();
-  const lead = promos[0];
-  const image = lead?.promotion?.image || lead?.portfolio?.[0] || lead?.avatar;
-  const inset = promos[1]?.promotion?.image || promos[1]?.portfolio?.[0] || promos[1]?.avatar;
   const title = t('heroTitle');
   const accent = locale === 'fr' ? 'aujourd’hui ?' : locale === 'en' ? 'today?' : 'اليوم؟';
   const accentStart = title.lastIndexOf(accent);
@@ -34,19 +33,20 @@ export function Hero({
     { value: categoryCount, label: t('heroStatCategories'), featured: true },
   ];
 
+  useEffect(() => () => {
+    if (animationTimer.current) clearTimeout(animationTimer.current);
+  }, []);
+
+  function animateArtwork() {
+    setIsAnimating(true);
+    if (animationTimer.current) clearTimeout(animationTimer.current);
+    animationTimer.current = setTimeout(() => setIsAnimating(false), 550);
+  }
+
   return (
     <section className="home-hero">
-      {/* Immersive background — the existing public asset, unchanged. */}
-      <div className="home-hero-bg" aria-hidden>
-        <Image
-          src="/homepage_background.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
+      {/* The hero photograph is painted by CSS so it can stay fixed while
+          the page content scrolls over it. */}
       <div className="home-hero-scrim" aria-hidden />
 
       <div className="home-container home-hero-grid">
@@ -83,21 +83,30 @@ export function Hero({
         </div>
 
         <div className="home-hero-visual">
-          <div className="home-hero-art">
-            <div className="home-hero-photo">
-              {image ? (
-                <Image
-                  src={image}
-                  alt=""
-                  fill
-                  priority
-                  sizes="(max-width: 899px) 90vw, 40vw"
-                  className="object-cover"
-                />
-              ) : null}
+          <button
+            type="button"
+            className={`home-hero-art${isAnimating ? ' home-hero-art--clicked' : ''}`}
+            onClick={animateArtwork}
+            aria-label={title}
+          >
+            <div className="home-hero-photo" aria-hidden>
+              <Image
+                src="/bighp.png"
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 899px) 150vw, 70vw"
+                className="object-contain"
+              />
             </div>
             <div className="home-hero-inset" aria-hidden>
-              {inset ? <Image src={inset} alt="" fill sizes="160px" className="object-cover" /> : null}
+              <Image
+                src="/smallhp.png"
+                alt=""
+                fill
+                sizes="(max-width: 899px) 30vw, 16vw"
+                className="object-contain"
+              />
             </div>
             <div className="home-seal" aria-hidden>
               <svg viewBox="0 0 100 100">
@@ -110,7 +119,7 @@ export function Hero({
               </svg>
               <span className="home-seal-mark"><BrandMark className="home-seal-logo" /></span>
             </div>
-          </div>
+          </button>
           <dl className="home-stat-grid">
             {stats.map((stat) => (
               <div key={stat.label} className={stat.featured ? 'home-stat-card home-stat-featured' : 'home-stat-card'}>

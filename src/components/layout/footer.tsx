@@ -13,7 +13,7 @@ export function Footer() {
   const locale = useLocale() as Locale;
 
   return (
-    <footer className={isHome ? 'home-footer' : 'mt-20 hidden bg-wine-900 md:block'}>
+    <footer className={isHome ? 'home-footer' : 'site-footer mt-20 hidden bg-wine-900 md:block'}>
       <div className="mx-auto max-w-[1720px] px-6 py-14 xl:px-8">
         <div className={isHome ? 'home-footer-grid grid' : 'grid grid-cols-12 gap-10'}>
           {/* Brand */}

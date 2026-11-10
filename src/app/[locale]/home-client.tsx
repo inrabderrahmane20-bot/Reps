@@ -152,7 +152,6 @@ export default function HomePage() {
   return (
     <div className="home-redesign">
       <Hero
-        promos={promos}
         providerCount={providerTotal}
         promoCount={promoTotal}
         categoryCount={categoryCount}
