@@ -1514,6 +1514,10 @@ body:has(.home-redesign) .home-seal-logo .annabid-heart-wrap {
   }
 
   .home-hero-actions .home-button-primary {
+    width: fit-content;
+    max-width: 100%;
+    flex: 0 1 auto;
+    align-self: flex-start;
     justify-content: flex-start;
     padding-inline: 20px;
   }
