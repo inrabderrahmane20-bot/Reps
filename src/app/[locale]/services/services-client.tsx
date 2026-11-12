@@ -45,7 +45,7 @@ type ProviderRow = PublicUser & {
   promotion?: PromotionInfo | null;
 };
 
-export default function ServicesPage() {
+export default function ServicesPage({ initialCategories }: { initialCategories: SearchCategoryNode[] }) {
   const t = useTranslations('services');
   const locale = useLocale();
   const [appliedCategoryId, setAppliedCategoryId] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export default function ServicesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>([]);
+  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>(initialCategories);
 
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
   const [sponsored, setSponsored] = useState<ServiceListing[]>([]);
@@ -110,7 +110,7 @@ export default function ServicesPage() {
     let active = true;
     let pending = false;
     async function refresh() {
-      if (pending || document.visibilityState === 'hidden') return;
+      if (pending) return;
       pending = true;
       try {
         const response = await api.get<{ categories: SearchCategoryNode[] }>('/categories/tree');
@@ -333,6 +333,7 @@ export default function ServicesPage() {
         <MoroccanDivider />
 
         {categoryError && <p role="alert" className="mb-4 text-sm text-terracotta-600">{t('loadError')}</p>}
+        {!serviceCategories.length && <p role="status" className="my-8 text-center text-typography-main/70">{t('noCategories')}</p>}
         <CategoryDiscovery
           categories={serviceCategories}
           selected={discoverySelection}

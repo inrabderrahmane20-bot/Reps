@@ -341,7 +341,8 @@
     "takeAdvantage": "Profiter",
     "tradeLabel": "M?tier",
     "refineService": "Pour quel type d?installation ?",
-    "seeProfessionals": "Voir les professionnels"
+    "seeProfessionals": "Voir les professionnels",
+    "noCategories": "Aucune cat?gorie de services n?est publi?e pour le moment."
   },
   "communities": {
     "title": "Communautés",

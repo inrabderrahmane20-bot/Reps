@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { buildMetadata } from '@/lib/seo';
 import ServicesClient from './services-client';
+import { getCategoryTree } from '@/lib/category-store';
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
@@ -16,6 +19,7 @@ export async function generateMetadata({
   });
 }
 
-export default function ServicesPage() {
-  return <ServicesClient />;
+export default async function ServicesPage() {
+  const categories = await getCategoryTree();
+  return <ServicesClient initialCategories={categories} />;
 }

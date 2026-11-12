@@ -341,7 +341,8 @@
     "takeAdvantage": "Take advantage",
     "tradeLabel": "Trade",
     "refineService": "What type of installation?",
-    "seeProfessionals": "Find professionals"
+    "seeProfessionals": "Find professionals",
+    "noCategories": "No service categories are currently published."
   },
   "communities": {
     "title": "Communities",
