@@ -11,7 +11,7 @@ function load(file) {
   const module = { exports: {} };
   cache.set(file, module);
   const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true, target: ts.ScriptTarget.ES2020 },
+    compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true, target: ts.ScriptTarget.ES2020 },
   }).outputText;
   function localRequire(name) {
     if (!name.startsWith('.') && !name.startsWith('@/')) return require(name);
@@ -66,3 +66,25 @@ console.log('Service selection checks passed: nested IDs, translated labels, par
   assert.equal((await store.getCategoryTree())[0].children[0].labels.fr, 'Plombier renommé');
   console.log('Admin save checks passed: parent/leaf renames preserve provider links and persist the updated tree.');
 })().catch(error => { console.error(error); process.exitCode = 1; });
+
+// Render the same browser used by navbar and services at multiple tree depths.
+const React = require('react');
+const { renderToStaticMarkup } = require('react-dom/server');
+const { NextIntlClientProvider } = require('next-intl');
+const { CategoryTreeBrowser } = load('src/components/search/category-tree-browser.tsx');
+function renderBrowser(initialPath) {
+  return renderToStaticMarkup(React.createElement(NextIntlClientProvider, {
+    locale: 'en', timeZone: 'Africa/Casablanca', messages: JSON.parse(fs.readFileSync('src/messages/en.json', 'utf8')),
+  }, React.createElement(CategoryTreeBrowser, { categories: tree[0].children, initialPath, onSelect() {} })));
+}
+const rootMarkup = renderBrowser([]);
+assert(rootMarkup.includes('data-category-id="tech"'));
+assert(rootMarkup.includes('data-category-id="animals"'));
+const tradeMarkup = renderBrowser(['tech']);
+assert(tradeMarkup.includes('data-category-id="electrician"'));
+const installationMarkup = renderBrowser(['tech', 'electrician', 'installation']);
+assert(installationMarkup.includes('data-category-id="electric-house"'));
+assert(installationMarkup.includes('data-category-id="electric-flat"'));
+assert(!installationMarkup.includes('<select'));
+assert(!installationMarkup.includes('svc-installations'));
+console.log('Shared category browser renders root, trade, and nested leaf levels without the custom dropdown or tiles.');

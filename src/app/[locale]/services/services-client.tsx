@@ -16,7 +16,7 @@ import { useAuth } from '@/context/auth-context';
 import type { PublicUser } from '@/lib/types';
 import { DEFAULT_FILTERS, type FiltersState } from '@/components/services/filters-panel';
 import { SponsoredStrip } from '@/components/services/sponsored-strip';
-import { ServiceFinder } from '@/components/services/service-finder';
+import { CategoryTreeBrowser } from '@/components/search/category-tree-browser';
 import { ServicesHero } from '@/components/services/services-hero';
 import { CategoryDiscovery, MoroccanDivider } from '@/components/services/category-discovery';
 import { homeSections } from '@/lib/home-categories';
@@ -272,7 +272,7 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
 
   const discoveryGroup = serviceCategories.find(node => node.id === selectedGroup)
     ?? serviceCategories.find(node => appliedCategoryId && categoryPath([node], appliedCategoryId))
-    ?? serviceCategories[0];
+;
   const discoverySelection = discoveryGroup?.id ?? null;
 
   useEffect(() => {
@@ -342,18 +342,29 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
 
         <MoroccanDivider />
 
-        {discoveryGroup && <div className="svc-finder-artwork">
-          <span className="svc-original-foliage" aria-hidden="true" />
-        <ServiceFinder key={discoverySelection} group={discoveryGroup} onChange={() => setShowResults(false)} onApply={(node) => {
-          setAppliedCategoryId(node.id);
-          setFiltersMerged({ cat: null });
-          setQ('');
-          setDebouncedQ('');
-          setLoading(true);
-          setProviders([]);
-          setShowResults(true);
-        }} />
-        </div>}
+        {serviceCategories.length > 0 && <section className="svc-category-tree overflow-hidden rounded-3xl border border-ink-900/10 bg-white/80" aria-label={t('categories')}>
+          <CategoryTreeBrowser
+            key={discoverySelection ?? 'service-root'}
+            categories={serviceCategories}
+            initialPath={discoverySelection ? [discoverySelection] : []}
+            rootLabel={t('categories')}
+            onNavigate={(path) => {
+              setSelectedGroup(path[0]?.id ?? null);
+              setAppliedCategoryId(null);
+              setShowResults(false);
+            }}
+            onSelect={(node, path) => {
+              setSelectedGroup(path[0]?.id ?? node.id);
+              setAppliedCategoryId(node.id);
+              setFiltersMerged({ cat: null });
+              setQ('');
+              setDebouncedQ('');
+              setLoading(true);
+              setProviders([]);
+              setShowResults(true);
+            }}
+          />
+        </section>}
         <MoroccanDivider />
 
         {showResults && <div className="svc-professional-results">
