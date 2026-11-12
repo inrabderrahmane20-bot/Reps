@@ -39,8 +39,6 @@ export function Hero({
           className="home-hero-img"
         />
       </div>
-      <div className="home-hero-bottom-blur" aria-hidden />
-
       <div className="home-container home-hero-inner">
         <div className="home-hero-copy">
           <span className="home-hero-kicker">

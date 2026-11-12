@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { requireAdminSession } from '@/lib/admin-api';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -10,9 +10,11 @@ const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/g
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'categories');
 
 export async function POST(req: NextRequest) {
-  return withErrors(async () => {
-    await requireAdmin();
+  // Verify the current session is an admin.
+  const denied = await requireAdminSession();
+  if (denied) return denied;
 
+  try {
     const formData = await req.formData();
     const file = formData.get('file');
     if (!(file instanceof File)) {
@@ -22,14 +24,14 @@ export async function POST(req: NextRequest) {
     if (!ALLOWED_TYPES.has(file.type)) {
       return NextResponse.json(
         { error: 'Only JPEG, PNG, WebP and GIF images are allowed.' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { error: 'Image must be smaller than 2 MB.' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -50,23 +52,11 @@ export async function POST(req: NextRequest) {
 
     const url = `/uploads/categories/${filename}`;
     return NextResponse.json({ url }, { status: 200 });
-  });
-}
-
-async function withErrors(fn: () => Promise<NextResponse>): Promise<NextResponse> {
-  try {
-    return await fn();
   } catch (err: any) {
-    if (err?.message === 'UNAUTHENTICATED') {
-      return NextResponse.json({ error: 'You must be signed in.' }, { status: 401 });
-    }
-    if (err?.message === 'FORBIDDEN') {
-      return NextResponse.json({ error: 'Administrator access is required.' }, { status: 403 });
-    }
-    console.error(err);
+    console.error('Upload error:', err);
     return NextResponse.json(
-      { error: 'Image upload failed.' },
-      { status: 500 },
+      { error: err.message || 'Image upload failed.' },
+      { status: 500 }
     );
   }
 }

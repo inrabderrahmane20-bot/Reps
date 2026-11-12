@@ -67,9 +67,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`site-header sticky top-0 z-50 border-b border-line/90 bg-ivory/95 shadow-[0_10px_30px_-26px_rgba(33,24,32,0.45)] backdrop-blur-xl backdrop-saturate-150${
-        isHome ? ' home-site-header' : ''
-      }`}
+      className={`site-header sticky top-0 z-50 border-b border-line/90 bg-ivory/95${isHome ? ' home-site-header' : ''}`}
     >
       {/* ---------------------------------------------------------------- */}
       {/* Compact bar — phones and small tablets                          */}
