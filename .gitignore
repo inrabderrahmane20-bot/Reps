@@ -6,3 +6,5 @@ src/data/db.json
 !.env.example
 src/data/visual-editor/
 public/uploads/visual-editor/
+
+/.local-data/

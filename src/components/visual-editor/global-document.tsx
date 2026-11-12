@@ -5,10 +5,10 @@ import type { DocumentId } from '@/lib/visual-editor/types';
 import { readDocument } from '@/lib/visual-editor/store';
 import { PublishedVisualDocument } from './config';
 
-export async function GlobalDocument({ id, locale, children, initialCategories }: { id: DocumentId; locale: Locale; children: ReactNode; initialCategories?: SearchCategoryNode[] }) {
+export async function GlobalDocument({ id, locale, children, initialCategories, initialCategoryId }: { id: DocumentId; locale: Locale; children: ReactNode; initialCategories?: SearchCategoryNode[]; initialCategoryId?: string }) {
   try {
     const document = await readDocument(id, locale);
-    if (document.published) return <PublishedVisualDocument id={id} locale={locale} data={document.published} initialCategories={initialCategories} />;
+    if (document.published) return <PublishedVisualDocument id={id} locale={locale} data={document.published} initialCategories={initialCategories} initialCategoryId={initialCategoryId} />;
   } catch (error) {
     console.error('Published visual document could not be loaded; using the existing component.', error);
   }

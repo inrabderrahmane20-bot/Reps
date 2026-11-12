@@ -1,6 +1,8 @@
 'use client';
 
-import Image from 'next/image';
+import { CategoryPhoto } from './category-photo';
+import { serviceCategoryHref } from '@/lib/services-browser';
+import { Link } from '@/i18n/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import {
   Baby,
@@ -22,7 +24,6 @@ import {
   Wrench,
   type LucideIcon,
 } from 'lucide-react';
-import { categoryImage } from '@/lib/category-images';
 import { getCategoryLabel, type SearchCategoryNode } from '@/lib/category-tree';
 
 const ICON_RULES: { pattern: RegExp; Icon: LucideIcon }[] = [
@@ -92,22 +93,15 @@ export function CategoryDiscovery({
           const active = selected === node.id;
           const Icon = categoryIcon(node);
           return (
-            <button
+            <Link
+              href={serviceCategoryHref(categories,node.id)}
               key={node.id}
-              type="button"
-              onClick={() => onSelect(node.id)}
-              aria-pressed={active}
+              onClick={event => {if(event.button===0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey){event.preventDefault();onSelect(node.id);}}}
+              aria-current={active ? 'true' : undefined}
               className="svc-cat-card"
             >
               <span className="svc-cat-media">
-                <Image
-                  src={categoryImage(node, 'services')}
-                  alt=""
-                  fill
-                  sizes="(max-width: 767px) 46vw, (max-width: 1023px) 44vw, (max-width: 1279px) 22vw, 280px"
-                  priority={index < 4}
-                  className="svc-cat-img"
-                />
+                <CategoryPhoto node={node} alt={label} sizes="(min-width: 1024px) 23vw, 45vw" priority={index < 2} />
               </span>
               {active && (
                 <span className="svc-cat-check" aria-hidden>
@@ -118,7 +112,7 @@ export function CategoryDiscovery({
                 <Icon size={15} strokeWidth={2} aria-hidden />
                 <span>{label}</span>
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>

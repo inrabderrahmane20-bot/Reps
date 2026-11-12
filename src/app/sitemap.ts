@@ -2,7 +2,9 @@ import type { MetadataRoute } from 'next';
 import { locales } from '@/i18n/config';
 import { readDb } from '@/lib/db';
 import { hreflangFor, localizedUrl } from '@/lib/seo';
-import { serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { normalizeCategory } from '@/lib/service-categories';
+import { flattenServiceCategories, serviceRoots, serviceCategoryHref } from '@/lib/services-browser';
+import { categoryBranchValues } from '@/lib/service-selection';
 import { getCategoryTree } from '@/lib/category-store';
 
 type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]['changeFrequency']>;
@@ -29,7 +31,6 @@ const STATIC_ROUTES: StaticRoute[] = [
   { path: '/meetings', changeFrequency: 'daily', priority: 0.6 },
   { path: '/map', changeFrequency: 'weekly', priority: 0.6 },
   { path: '/discover', changeFrequency: 'daily', priority: 0.8 },
-  { path: '/search', changeFrequency: 'weekly', priority: 0.5 },
 ];
 
 /** Category browse pages — one per top-level family of the taxonomy. */
@@ -37,13 +38,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
-  const categoryRoutes: StaticRoute[] = serviceTaxonomyFromTree(await getCategoryTree()).map((node) => ({
-    path: `/services?cat=${encodeURIComponent(node.name)}`,
-    changeFrequency: 'weekly',
-    priority: 0.6,
-  }));
-
+  const roots = serviceRoots(await getCategoryTree());
   const db = await readDb();
+  const publicCategories = new Set(db.users.filter(user=>user.providerStatus==='approved' && user.status==='active' && user.provider).map(user=>normalizeCategory(user.provider!.category)));
+  const categoryRoutes: StaticRoute[] = flattenServiceCategories(roots).filter(node=>node.children?.length || Array.from(categoryBranchValues(node)).some(value=>publicCategories.has(value))).map(node=>({path:serviceCategoryHref(roots,node.id),changeFrequency:'weekly',priority:0.6}));
 
   // Only providers that are approved *and* active are publicly reachable.
   const providers = db.users.filter(

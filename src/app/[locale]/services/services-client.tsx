@@ -1,5 +1,7 @@
 'use client';
 
+import '@/components/services/services-page.css';
+
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import {
@@ -16,10 +18,12 @@ import { useAuth } from '@/context/auth-context';
 import type { PublicUser } from '@/lib/types';
 import { DEFAULT_FILTERS, type FiltersState } from '@/components/services/filters-panel';
 import { SponsoredStrip } from '@/components/services/sponsored-strip';
-import { CategoryTreeBrowser } from '@/components/search/category-tree-browser';
+import { ServicesCategoryBrowser } from '@/components/services/services-category-browser';
+import { ServicesFilters } from '@/components/services/services-filters';
+import { defaultServiceRoot, serviceRoots } from '@/lib/services-browser';
+import { servicesCopy } from '@/lib/services-copy';
 import { ServicesHero } from '@/components/services/services-hero';
 import { CategoryDiscovery, MoroccanDivider } from '@/components/services/category-discovery';
-import { homeSections } from '@/lib/home-categories';
 import { getCategoryLabel, type SearchCategoryNode } from '@/lib/category-tree';
 import { categoryPath } from '@/lib/service-selection';
 import type { PromotionInfo } from '@/lib/types';
@@ -47,13 +51,19 @@ type ProviderRow = PublicUser & {
   promotion?: PromotionInfo | null;
 };
 
-export default function ServicesPage({ initialCategories, editorChildren }: { initialCategories: SearchCategoryNode[]; editorChildren?: ReactNode }) {
+export default function ServicesPage({ initialCategories, editorChildren, initialSelectedCategoryId }: { initialCategories: SearchCategoryNode[]; editorChildren?: ReactNode; initialSelectedCategoryId?: string }) {
   const t = useTranslations('services');
+  const common = useTranslations('common');
   const locale = useLocale();
-  const [appliedCategoryId, setAppliedCategoryId] = useState<string | null>(null);
+  const copy = servicesCopy(locale);
+  const initialRoots = serviceRoots(initialCategories);
+  const initialRoot = categoryPath(initialRoots, initialSelectedCategoryId ?? '')?.[0] ?? defaultServiceRoot(initialRoots);
+  const [browsedCategoryId, setBrowsedCategoryId] = useState<string | null>(initialSelectedCategoryId ?? initialRoot?.children?.[0]?.id ?? initialRoot?.id ?? null);
+  const [resultGroupBy, setResultGroupBy] = useState('none');
+  const [appliedCategoryId, setAppliedCategoryId] = useState<string | null>(initialSelectedCategoryId ?? null);
   const [categoryError, setCategoryError] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-  const [showResults, setShowResults] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(initialRoot?.id ?? null);
+  const [showResults, setShowResults] = useState(Boolean(initialSelectedCategoryId));
   const { user } = useAuth();
 
   const [q, setQ] = useState('');
@@ -88,13 +98,13 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
       setShowResults(true);
     }
     const initialCategoryId = params.get('catId');
-    if (initialCategoryId) { setAppliedCategoryId(initialCategoryId); setShowResults(true); }
+    if (initialCategoryId) { setAppliedCategoryId(initialCategoryId); setBrowsedCategoryId(initialCategoryId); setSelectedGroup(categoryPath(serviceRoots(initialCategories),initialCategoryId)?.[0]?.id ?? defaultServiceRoot(serviceRoots(initialCategories))?.id ?? null); setShowResults(true); }
     const initialCat = params.get('cat');
     if (initialCat) {
       setFilters((f) => ({ ...f, cat: initialCat }));
       setShowResults(true);
     }
-  }, []);
+  }, [initialCategories]);
 
   // Auto-select the user's saved zone once the session loads.
   useEffect(() => {
@@ -142,8 +152,7 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
   }, []);
 
   const serviceCategories = useMemo(() => {
-    const section = homeSections(categoryTree).find(section => section.kind === 'services');
-    return section?.root.children ?? [];
+    return serviceRoots(categoryTree);
   }, [categoryTree]);
 
   const buildQuery = useCallback(
@@ -261,6 +270,7 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
     setDebouncedQ('');
     setFilters(DEFAULT_FILTERS);
     setAppliedCategoryId(null);
+    setResultGroupBy('none');
   }
 
   function scrollToResults() {
@@ -269,12 +279,15 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
 
   function selectCategory(category: string | null) {
     setSelectedGroup(category);
+    const root = serviceCategories.find(node => node.id === category);
+    setBrowsedCategoryId(root?.children?.[0]?.id ?? root?.id ?? null);
+    setAppliedCategoryId(null);
     setShowResults(false);
   }
 
   const discoveryGroup = serviceCategories.find(node => node.id === selectedGroup)
     ?? serviceCategories.find(node => appliedCategoryId && categoryPath([node], appliedCategoryId))
-;
+    ?? defaultServiceRoot(serviceCategories);
   const discoverySelection = discoveryGroup?.id ?? null;
 
   useEffect(() => {
@@ -288,7 +301,20 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
     if (showResults) requestAnimationFrame(scrollToResults);
   }, [showResults]);
 
+  function renderProviderGroups() {
+    const groups = new Map<string,ServiceListing[]>();
+    for(const provider of providers) {
+      const key = resultGroupBy==='category' ? provider.category : resultGroupBy==='availability' ? provider.availability==='available' ? copy.available : provider.availability==='later' ? copy.later : common('offline') : '';
+      groups.set(key,[...(groups.get(key)??[]),provider]);
+    }
+    return Array.from(groups,([key,items])=><div key={key||'all'} className="svc-result-group">{key && <h3>{key} <span>({items.length})</span></h3>}
+      {view==='list' ? <div className="svc-results-shell mt-4 divide-y divide-line/80">{items.map(item=><ServiceListRow key={item.id} item={item} onRequest={setRequesting}/>)}</div> : view==='grid' ? <div className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-3">{items.map(item=><ServiceGridCard key={item.id} item={item} onRequest={setRequesting}/>)}</div> : <div className="mt-4 space-y-5">{items.map(item=><ServiceLargeCard key={item.id} item={item} onRequest={setRequesting}/>)}</div>}
+    </div>);
+  }
+
+  const routeCategory = categoryPath(serviceCategories,initialSelectedCategoryId ?? '')?.at(-1);
   const sections: PageSections = {
+    ServicesHero: (content) => <ServicesHero content={routeCategory ? {...content, heroTitle: `${getCategoryLabel(routeCategory,locale)} ${copy.categoryPage}`, heroSubtitle: copy.categoryDescription} : content}/>,
     ServicesSearch: (content) => (        <div className="svc-search-wrap relative z-10" data-tour-target="services-search">
           <form
             role="search"
@@ -335,30 +361,10 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
           selected={discoverySelection}
           onSelect={selectCategory}
         /></>),
-    ServicesTree: (content) => (serviceCategories.length > 0 && <section className="svc-category-tree overflow-hidden rounded-3xl border border-ink-900/10 bg-white/80" aria-label={(content.categories ?? t('categories'))}>
-          <CategoryTreeBrowser
-            key={discoverySelection ?? 'service-root'}
-            categories={serviceCategories}
-            initialPath={discoverySelection ? [discoverySelection] : []}
-            rootLabel={(content.categories ?? t('categories'))}
-            onNavigate={(path) => {
-              setSelectedGroup(path[0]?.id ?? null);
-              setAppliedCategoryId(null);
-              setShowResults(false);
-            }}
-            onSelect={(node, path) => {
-              setSelectedGroup(path[0]?.id ?? node.id);
-              setAppliedCategoryId(node.id);
-              setFiltersMerged({ cat: null });
-              setQ('');
-              setDebouncedQ('');
-              setLoading(true);
-              setProviders([]);
-              setShowResults(true);
-            }}
-          />
-        </section>),
-    ServicesResults: (_content, editing) => ((showResults || editing) && <div className="svc-professional-results">
+    ServicesTree: (content) => (discoveryGroup ? <ServicesCategoryBrowser heading={content.categories} roots={serviceCategories} root={discoveryGroup} activeId={browsedCategoryId} onBrowse={id => {setBrowsedCategoryId(id);setSelectedGroup(categoryPath(serviceCategories,id)?.[0]?.id ?? null);setShowResults(false);}} onSelect={node => {
+      setAppliedCategoryId(node.id);setFiltersMerged({cat:null});setQ('');setDebouncedQ('');setLoading(true);setProviders([]);setShowResults(true);
+    }}/> : null),
+    ServicesResults: (_content, editing) => (<><ServicesFilters value={filters} groupBy={resultGroupBy} onGroupBy={setResultGroupBy} onReset={resetAll} onChange={value=>{setFilters(value);setAppliedCategoryId(appliedCategoryId ?? browsedCategoryId);setShowResults(true);}}/>{(showResults || editing) && <div className="svc-professional-results">
           {/* Results */}
           <section
             ref={resultsRef}
@@ -421,32 +427,7 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
 
             {!loading && !error && total > 0 && (
               <>
-                {/* LIST */}
-                {view === 'list' && (
-                  <div className="svc-results-shell mt-4 divide-y divide-line/80">
-                    {providers.map((p) => (
-                      <ServiceListRow key={p.id} item={p} onRequest={setRequesting} />
-                    ))}
-                  </div>
-                )}
-
-                {/* GRID */}
-                {view === 'grid' && (
-                  <div className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-3">
-                    {providers.map((p) => (
-                      <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />
-                    ))}
-                  </div>
-                )}
-
-                {/* LARGE */}
-                {view === 'large' && (
-                  <div className="mt-4 space-y-5">
-                    {providers.map((p) => (
-                      <ServiceLargeCard key={p.id} item={p} onRequest={setRequesting} />
-                    ))}
-                  </div>
-                )}
+                {renderProviderGroups()}
 
                 {hasMore && (
                   <div className="mt-7 flex justify-center">
@@ -464,14 +445,14 @@ export default function ServicesPage({ initialCategories, editorChildren }: { in
               </>
             )}
           </section>
-        </div>),
+        </div>}</>),
   };
 
   return (
     <PageSectionsContext.Provider value={sections}>
     <div className={editorChildren ? undefined : "moroccan-canvas svc-page min-h-screen pb-16"} style={editorChildren ? { display: "contents" } : undefined}>
       {editorChildren ?? <>
-      <ServicesHero />
+      {sections.ServicesHero({},false)}
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
         {sections.ServicesSearch({}, false)}
         <MoroccanDivider />

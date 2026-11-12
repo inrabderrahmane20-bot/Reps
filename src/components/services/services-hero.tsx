@@ -5,17 +5,18 @@ import { useTranslations } from 'next-intl';
 
 /** Live heading over the reference-derived watercolor artwork. */
 export function ServicesHero({ content = {} }: { content?: Record<string, string> } = {}) {
+  const artwork = !content.src || content.src === '/images/services/marrakech-hero-artwork.png' ? '/images/services/marrakech-hero-panoramic.jpg' : content.src;
   const t = useTranslations('services');
   return (
     <section className="svc-hero svc-painted-hero" aria-labelledby="services-hero-title">
       <div className="svc-painted-scene">
         <Image
-          src={content.src ?? "/images/services/marrakech-hero-artwork.png"}
+          src={artwork}
           alt=""
-          width={1536}
-          height={1024}
+          width={2172}
+          height={724}
           priority
-          sizes="(min-width: 1280px) 1280px, 100vw"
+          sizes="100vw"
           className="svc-painted-background"
         />
         <div className="svc-painted-copy">

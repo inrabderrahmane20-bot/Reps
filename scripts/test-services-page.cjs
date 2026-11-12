@@ -1,0 +1,72 @@
+﻿// Browser checks use a local category tree and intercepted usage counters; no fake popularity is persisted.
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const {chromium}=require(path.join(process.env.APPDATA,'npm/node_modules/playwright-core'));
+const base=process.env.BASE_URL||'http://localhost:3002';
+(async()=>{
+ const browser=await chromium.launch({executablePath:path.join(process.env.LOCALAPPDATA,'ms-playwright/chromium-1223/chrome-win64/chrome.exe'),headless:true});
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ await context.addInitScript(()=>{localStorage.setItem('medina.languageSelected','1');localStorage.setItem('medina.selectedLanguage','en');});
+ let counts={};
+ await context.route('**/api/categories/popular/**',async route=>{if(route.request().method()==='POST'){const {categoryId}=route.request().postDataJSON();counts[categoryId]=(counts[categoryId]??0)+1;}await route.fulfill({json:{counts}});});
+ const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(`${page.url()}: ${error.message} ${error.stack}`));
+ try{
+  const tree=(await(await context.request.get(`${base}/api/categories/tree/`)).json()).categories;
+  const roots=tree.find(node=>/services/i.test(node.slug)).children;
+  const technical=roots.find(node=>/technique/i.test(node.slug));
+  const trade=technical.children[0];const wrapper=trade.children[0];
+  const leaf=wrapper.children.find(node=>/maison/i.test(node.slug));
+  await page.goto(`${base}/en/services/`);
+  await page.locator('[data-services-category-browser]').waitFor();
+  await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(600);
+  assert.match(await page.locator('.svc-cat-card[aria-current=true]').innerText(),/technique/i);
+  assert.match(await page.locator('.svc-branch-card[aria-current=true]').first().innerText(),/lectricien/i);
+  assert.equal(await page.locator('.svc-choice-grid .svc-choice-card').count(),wrapper.children.length);
+  assert.equal(await page.locator('.svc-choice-grid .svc-choice-card img').count(),wrapper.children.length);
+  assert.equal(await page.locator('#svc-popular-title').count(),0,'Empty usage history must not imply popularity.');
+  assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://annabid.com/en/services/');
+  assert.equal(await page.locator('link[hreflang=fr]').getAttribute('href'),'https://annabid.com/fr/services/');
+  assert.match(await page.title(),/Marrakech.*Annabid/);
+  const graph=JSON.parse(await page.locator('script[type="application/ld+json"]').first().textContent());
+  assert(graph['@graph'].some(node=>node['@type']==='BreadcrumbList'));
+  assert(graph['@graph'].some(node=>node['@type']==='CollectionPage'));
+  await page.getByPlaceholder('Filter categories').fill('maison');
+  await page.waitForFunction(()=>document.querySelectorAll('.svc-choice-grid .svc-choice-card').length===1);
+  assert.equal(await page.locator('.svc-choice-grid .svc-choice-card').count(),1);
+  await page.getByPlaceholder('Filter categories').fill('');
+  await page.getByLabel('Group by',{exact:true}).selectOption('parent');
+  await page.waitForFunction(()=>document.querySelectorAll('.svc-choice-group').length>1);
+  assert.equal(await page.locator('.svc-choice-group').count(),wrapper.children.length);
+  await page.getByLabel('Group by',{exact:true}).selectOption('none');
+  await page.locator(`.svc-choice-card[data-category-id="${leaf.id}"]`).click();
+  await page.locator('.svc-leaf-apply').waitFor();
+  const selectedRequest=page.waitForRequest(request=>request.url().includes('/api/providers')&&new URL(request.url()).searchParams.get('catId')===leaf.id);
+  await page.locator('.svc-leaf-apply').click();await selectedRequest;
+  await page.locator('[data-tour-target=services-results]').waitFor();
+  await page.locator('#svc-popular-title').waitFor();
+  const availabilityRequest=page.waitForRequest(request=>request.url().includes('/api/providers')&&new URL(request.url()).searchParams.get('availability')==='available');
+  await page.getByLabel('Availability',{exact:true}).selectOption('available');await availabilityRequest;
+  const ratingRequest=page.waitForRequest(request=>request.url().includes('/api/providers')&&new URL(request.url()).searchParams.get('minRating')==='4');
+  await page.getByLabel('Minimum rating',{exact:true}).selectOption('4');await ratingRequest;
+  await page.getByLabel('Group professionals by',{exact:true}).selectOption('category');
+  const categoryHref=await page.locator(`.svc-branch-card[data-category-id="${trade.id}"]`).first().getAttribute('href');
+  await page.goto(`${base}${categoryHref}`);
+  assert.match(await page.locator('#services-hero-title').textContent(),/Marrakech/);
+  assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),`https://annabid.com${categoryHref}`);
+  assert.equal(await page.locator('meta[name=robots]').getAttribute('content'),'index, follow');
+  const missing=await context.request.get(`${base}/en/services/categories/does-not-exist/`);assert.equal(missing.status(),404);
+  await page.goto(`${base}/en/services/?q=electrician`);
+  assert.match(await page.locator('meta[name=robots]').getAttribute('content'),/noindex/);
+  for(const [locale,width] of [['en',390],['fr',768],['ar',390],['en',1920]]){
+   await page.setViewportSize({width,height:1000});await page.goto(`${base}/${locale}/services/`);await page.locator('[data-services-category-browser]').waitFor();
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Horizontal overflow at ${locale}/${width}`);
+   assert.equal(await page.locator('.svc-choice-grid .svc-choice-card img').count(),wrapper.children.length);
+   await page.locator('.svc-browser-panel').screenshot({path:path.join(process.env.TEMP,`services-browser-${locale}-${width}.png`),animations:'disabled'});
+  }
+  const sitemap=await(await context.request.get(`${base}/sitemap.xml`)).text();
+  assert(sitemap.includes('https://annabid.com/en/services/categories/technique/'));
+  assert(!sitemap.includes('services?cat='));assert(!sitemap.includes('/en/search/'));
+  assert.deepEqual(errors,[]);
+  console.log('Services browser checks passed: default Technique/trade selection, all-image category levels, filtering/grouping, live provider queries, usage-based popularity, canonical/hreflang/schema, clean URLs/sitemap, 404/noindex, and EN/FR/AR responsive layouts.');
+ }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

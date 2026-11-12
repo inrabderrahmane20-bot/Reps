@@ -13,7 +13,7 @@ import { servicesBlocks, ServicesCanvas } from './page-blocks';
 import type { SearchCategoryNode } from '@/lib/category-tree';
 import { globalBlocks } from './global-blocks';
 
-export function visualConfig(id: DocumentId, locale: Locale, previewPath?: string, initialCategories?: SearchCategoryNode[]): Config {
+export function visualConfig(id: DocumentId, locale: Locale, previewPath?: string, initialCategories?: SearchCategoryNode[], initialCategoryId?: string): Config {
   const globals = globalBlocks(locale, previewPath);
   const globalType = id === 'navbar' ? 'Navbar' : 'Footer';
   const existing = LEGAL_DEFAULTS[id] ? legalBlocks(id) : id === 'home' ? homeBlocks(locale) : id === 'services' ? servicesBlocks(locale) : { [globalType]: globals[globalType] };
@@ -21,7 +21,7 @@ export function visualConfig(id: DocumentId, locale: Locale, previewPath?: strin
     root: { fields: {}, defaultProps: {}, render: ({ children, puck }: { children: ReactNode; puck?: { isEditing?: boolean } }) => {
       if (id === 'services' || id === 'home') {
         const pageChildren = isValidElement(children) ? cloneElement(children as ReactElement<{className?: string}>, {className: id === 'home' ? 'home-redesign' : 'moroccan-canvas svc-page min-h-screen pb-16'}) : children;
-        return id === 'home' ? <HomeCanvas editorChildren={pageChildren} /> : <ServicesCanvas initialCategories={initialCategories}>{pageChildren}</ServicesCanvas>;
+        return id === 'home' ? <HomeCanvas editorChildren={pageChildren} /> : <ServicesCanvas initialCategories={initialCategories} initialCategoryId={initialCategoryId}>{pageChildren}</ServicesCanvas>;
       }
       // Puck's root div must not become the sticky Navbar's containing block.
       if (!puck?.isEditing && isValidElement(children)) return cloneElement(children as ReactElement<{ style?: CSSProperties }>, { style: { display: 'contents' } });
@@ -31,6 +31,6 @@ export function visualConfig(id: DocumentId, locale: Locale, previewPath?: strin
     components: { ...existing, ...layoutBlocks, ...contentBlocks },
   };
 }
-export function PublishedVisualDocument({ id, locale, data, initialCategories }: { id: DocumentId; locale: Locale; data: Data; initialCategories?: SearchCategoryNode[] }) {
-  return <Render config={visualConfig(id, locale, undefined, initialCategories)} data={data} />;
+export function PublishedVisualDocument({ id, locale, data, initialCategories, initialCategoryId }: { id: DocumentId; locale: Locale; data: Data; initialCategories?: SearchCategoryNode[]; initialCategoryId?: string }) {
+  return <Render config={visualConfig(id, locale, undefined, initialCategories, initialCategoryId)} data={data} />;
 }

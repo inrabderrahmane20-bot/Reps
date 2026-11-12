@@ -872,3 +872,41 @@ export async function mutateVisualEditorRecord<T>(id: string, mutate: (current: 
     fs.unlinkSync(`${file}.lock`);
   }
 }
+
+// Anonymous, aggregate category-search counters. Kept separate from account/category records.
+let categorySearchSchema: Promise<void> | undefined;
+async function ensureCategorySearchSchema(pool: Pool) {
+  categorySearchSchema ??= pool.query(`CREATE TABLE IF NOT EXISTS public.category_search_counts (id text PRIMARY KEY, searches bigint NOT NULL DEFAULT 0, updated_at timestamptz NOT NULL DEFAULT now()); ALTER TABLE public.category_search_counts ENABLE ROW LEVEL SECURITY; DO $p$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='anon') THEN REVOKE ALL ON public.category_search_counts FROM anon; END IF; IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='authenticated') THEN REVOKE ALL ON public.category_search_counts FROM authenticated; END IF; IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='service_role') THEN GRANT ALL ON public.category_search_counts TO service_role; END IF; END $p$;`).then(()=>{}).catch(error=>{categorySearchSchema=undefined;throw error;});
+  await categorySearchSchema;
+}
+const CATEGORY_SEARCH_PATH = path.join(process.cwd(),'.local-data','category-searches.json');
+export async function readCategorySearchCounts(): Promise<Record<string,number>> {
+  const pool=getPool();
+  if (pool) {
+    await ensureCategorySearchSchema(pool);
+    const result=await queryWithRetry<{id:string;searches:string}>(pool,'SELECT id, searches FROM public.category_search_counts');
+    return Object.fromEntries(result.rows.map(row=>[row.id,Number(row.searches)]));
+  }
+  try {return JSON.parse(fs.readFileSync(CATEGORY_SEARCH_PATH,'utf8'));}
+  catch(error) {if((error as NodeJS.ErrnoException).code==='ENOENT') return {};throw error;}
+}
+export async function incrementCategorySearchCount(id:string): Promise<void> {
+  const pool=getPool();
+  if(pool) {
+    await ensureCategorySearchSchema(pool);
+    await queryWithRetry(pool,'INSERT INTO public.category_search_counts (id,searches) VALUES ($1,1) ON CONFLICT (id) DO UPDATE SET searches=category_search_counts.searches+1,updated_at=now()',[id]);
+    return;
+  }
+  fs.mkdirSync(path.dirname(CATEGORY_SEARCH_PATH),{recursive:true});
+  let lock:number|undefined;
+  for(let attempt=0;attempt<100;attempt++) {
+    try {lock=fs.openSync(`${CATEGORY_SEARCH_PATH}.lock`,'wx');break;}
+    catch(error) {if((error as NodeJS.ErrnoException).code!=='EEXIST') throw error;await sleep(20);}
+  }
+  if(lock===undefined) throw new Error('Category statistics are busy.');
+  const temporary=`${CATEGORY_SEARCH_PATH}.${process.pid}.tmp`;
+  try {
+    const counts=await readCategorySearchCounts();counts[id]=(counts[id]??0)+1;
+    fs.writeFileSync(temporary,JSON.stringify(counts));fs.renameSync(temporary,CATEGORY_SEARCH_PATH);
+  } finally {fs.closeSync(lock);fs.rmSync(`${CATEGORY_SEARCH_PATH}.lock`,{force:true});fs.rmSync(temporary,{force:true});}
+}

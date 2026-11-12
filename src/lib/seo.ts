@@ -11,7 +11,7 @@ import { defaultLocale, locales, type Locale } from '@/i18n/config';
 
 /** Canonical origin of the site (never ends with a slash). */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://reps-five-theta.vercel.app'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://annabid.com'
 ).replace(/\/+$/, '');
 
 /** `og:locale` value for every app locale. */
@@ -54,7 +54,8 @@ function localeLessPath(path: string): string {
 /** Absolute, locale-prefixed URL of a locale-less path. */
 export function localizedUrl(locale: string, path: string): string {
   const loc = normalizeLocale(locale);
-  return `${SITE_URL}/${loc}${localeLessPath(path)}`;
+  const [pathname, query] = localeLessPath(path).split('?');
+  return `${SITE_URL}/${loc}${pathname}/${query ? `?${query}` : ''}`;
 }
 
 /**
@@ -62,12 +63,11 @@ export function localizedUrl(locale: string, path: string): string {
  * locale, plus `x-default` pointing at the default locale.
  */
 export function hreflangFor(path: string): AlternateLanguages {
-  const suffix = localeLessPath(path);
   const languages: Record<string, string> = {};
   for (const locale of locales) {
-    languages[locale] = `${SITE_URL}/${locale}${suffix}`;
+    languages[locale] = localizedUrl(locale, path);
   }
-  languages['x-default'] = `${SITE_URL}/${defaultLocale}${suffix}`;
+  languages['x-default'] = localizedUrl(defaultLocale, path);
   return languages as AlternateLanguages;
 }
 

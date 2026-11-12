@@ -28,7 +28,7 @@ export function servicesDefaultDocument(locale: Locale): Data {
   const messages = editorMessages[locale].services;
   const block = (type: string, content: Record<string,string> = {}, suffix = '') => ({ type, props: { id: `services-${type}${suffix}`, content, styleFields: {} } });
   return { root: { props: {} }, content: [
-    block('ServicesHero', { heroKicker: messages.heroKicker, heroTitle: messages.heroTitle, heroSubtitle: messages.heroSubtitle, src: '/images/services/marrakech-hero-artwork.png' }),
+    block('ServicesHero', { heroKicker: messages.heroKicker, heroTitle: messages.heroTitle, heroSubtitle: messages.heroSubtitle, src: '/images/services/marrakech-hero-panoramic.jpg' }),
     { type: 'ServicesContent', props: { id: 'services-content', styleFields: {}, children: [
       block('ServicesSearch', { searchServices: messages.searchServices, searchButton: messages.searchButton, searchHint: messages.searchHint }),
       block('MoroccanDivider', {}, '1'),

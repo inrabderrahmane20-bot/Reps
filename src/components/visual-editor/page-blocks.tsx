@@ -1,7 +1,6 @@
 ﻿'use client';
 import type { ComponentConfig } from '@measured/puck';
 import ServicesClient from '@/app/[locale]/services/services-client';
-import { ServicesHero } from '@/components/services/services-hero';
 import { MoroccanDivider } from '@/components/services/category-discovery';
 import { LivePageSection } from './page-context';
 import { blockStyle, styleFields, VisualTypography } from './style-fields';
@@ -11,8 +10,8 @@ import type { Locale } from '@/i18n/config';
 import { servicesDefaultDocument } from '@/lib/visual-editor/defaults';
 import type { ReactNode } from 'react';
 
-export function ServicesCanvas({ children, initialCategories }: { children: ReactNode; initialCategories?: SearchCategoryNode[] }) {
-  return <ServicesClient initialCategories={initialCategories ?? []} editorChildren={children} />;
+export function ServicesCanvas({ children, initialCategories, initialCategoryId }: { children: ReactNode; initialCategories?: SearchCategoryNode[]; initialCategoryId?: string }) {
+  return <ServicesClient initialCategories={initialCategories ?? []} editorChildren={children} initialSelectedCategoryId={initialCategoryId} />;
 }
 const fieldLabels: Record<string,string> = { heroKicker: 'Eyebrow', heroTitle: 'Heading', heroSubtitle: 'Description', src: 'Watercolor artwork', searchServices: 'Search placeholder', searchButton: 'Search button', searchHint: 'Search hint', exploreTitle: 'Category heading', exploreSubtitle: 'Category description', categories: 'Category tree heading' };
 export function servicesBlocks(locale: Locale): Record<string, ComponentConfig<any>> {
@@ -28,7 +27,7 @@ export function servicesBlocks(locale: Locale): Record<string, ComponentConfig<a
       defaultProps: { content: item.props.content, styleFields: {} },
       render: ({ id, content, styleFields: styles, puck }) => <div data-visual-block={id} style={{ ...blockStyle(styles), ...(Object.keys(styles ?? {}).length ? {} : { display: puck?.isEditing ? 'block' : 'contents' }) }}>
         <VisualTypography id={id} value={styles} />
-        {name === 'ServicesHero' ? <ServicesHero content={content} /> : name === 'MoroccanDivider' ? <MoroccanDivider /> : <LivePageSection name={name} content={content} editing={Boolean(puck?.isEditing)} />}
+        {name === 'MoroccanDivider' ? <MoroccanDivider /> : <LivePageSection name={name} content={content} editing={Boolean(puck?.isEditing)} />}
       </div>,
     };
   }
