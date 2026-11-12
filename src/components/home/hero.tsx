@@ -63,7 +63,7 @@ export function Hero({
 
           <button
             type="button"
-            onClick={openGlobalSearch}
+            onClick={() => openGlobalSearch()}
             className="home-search"
             aria-label={t('heroCtaSearch')}
           >
