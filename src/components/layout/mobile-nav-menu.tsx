@@ -1,191 +1,377 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { ChevronRight, Menu, Percent, X } from 'lucide-react';
+import {
+  CalendarDays,
+  Compass,
+  Heart,
+  Home,
+  LogOut,
+  Map,
+  Menu,
+  Newspaper,
+  Percent,
+  Search,
+  UsersRound,
+  X,
+} from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { openGlobalSearch } from '@/lib/open-search';
 import { useAuth } from '@/context/auth-context';
+import { api } from '@/lib/api-client';
+import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import { Brand } from './brand';
+import { CityPicker } from './city-picker';
 import { LanguageSwitcher } from './language-switcher';
-import { usePrimaryNav } from './nav-links';
+import { MobileCategoryTree } from './mobile-category-tree';
+import { NotificationsBell } from './notifications-bell';
+
+const DRAWER_CLOSE_MS = 280;
 
 /**
- * Hamburger + full-screen navigation overlay for phones and tablets.
+ * Hamburger + premium navigation drawer for phones and tablets.
  *
  * The trigger is rendered by the navbar in the *physical* left slot of the
- * compact bar, and the reveal starts at that same physical edge — including in
+ * compact bar, and the drawer starts at that same physical edge — including in
  * Arabic, where the page direction is RTL but the button stays on the left.
- *
- * Inside the drawer the reading direction follows the page language: in
- * Arabic the labels are right-aligned and the leading icon sits on the right,
- * exactly like the rest of the interface.
- *
- * The drawer is rendered through a portal into <body>: the header uses
- * `backdrop-filter` (backdrop-blur), which makes it the containing block for
- * any `position: fixed` descendant. Without the portal the full-screen overlay
- * would be trapped inside the header and the menu would never appear.
+ * Inside the drawer the reading direction follows the page language.
  */
 export function MobileNavMenu() {
   const t = useTranslations('nav');
+  const footer = useTranslations('footer');
   const common = useTranslations('common');
-  const { user } = useAuth();
-  const [open, setOpen] = useState(false);
+  const home = useTranslations('home');
+  const { user, logout } = useAuth();
   const pathname = usePathname();
+
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [categories, setCategories] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
+  const [query, setQuery] = useState('');
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const links = usePrimaryNav();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<number | null>(null);
+  const openRef = useRef(false);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    openRef.current = open;
+  }, [open]);
+
+  const closeDrawer = useCallback((restoreFocus = true) => {
+    setOpen(false);
+    setQuery('');
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    closeTimer.current = window.setTimeout(
+      () => {
+        setMounted(false);
+        closeTimer.current = null;
+        if (restoreFocus) triggerRef.current?.focus();
+      },
+      reduced ? 0 : DRAWER_CLOSE_MS
+    );
+  }, []);
+
+  const openDrawer = useCallback(() => {
+    if (closeTimer.current) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setMounted(true);
+    setOpen(true);
+  }, []);
+
+  // Refresh the live admin tree every time the drawer opens.
+  useEffect(() => {
+    if (!mounted) return;
+    api
+      .get<{ categories: SearchCategoryNode[] }>('/categories/tree')
+      .then((response) => {
+        if (response.categories?.length) setCategories(response.categories);
+      })
+      .catch((error) => console.error('Could not load the current category tree.', error));
+  }, [mounted]);
+
+  // Close after a route change, without stealing focus from the new page.
+  useEffect(() => {
+    if (openRef.current) closeDrawer(false);
+  }, [pathname, closeDrawer]);
+
+  // Lock the page behind the drawer.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = previous;
     };
   }, [open]);
 
-  useEffect(() => setOpen(false), [pathname]);
-
+  // Escape, focus placement and a simple focus trap.
   useEffect(() => {
     if (!open) return;
-    function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false);
+
+    function onKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeDrawer();
+        return;
+      }
+      if (event.key !== 'Tab' || !panelRef.current) return;
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
+
     document.addEventListener('keydown', onKey);
-    const id = window.setTimeout(() => closeRef.current?.focus(), 40);
+    const id = window.setTimeout(() => closeRef.current?.focus(), 60);
     return () => {
       document.removeEventListener('keydown', onKey);
       window.clearTimeout(id);
     };
-  }, [open]);
+  }, [open, closeDrawer]);
+
+  useEffect(
+    () => () => {
+      if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    },
+    []
+  );
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
-  // `open` can only become true through a click, i.e. after the client has
-  // hydrated, so `createPortal(..., document.body)` is never evaluated during
-  // SSR or the first client render.
+  const mainLinks = [
+    { href: '/', label: t('home'), icon: Home },
+    { href: '/discover', label: t('discover'), icon: Compass },
+    { href: '/map', label: t('map'), icon: Map },
+    { href: '/favorites', label: t('favorites'), icon: Heart },
+  ];
+
+  const moreLinks = [
+    { href: '/news', label: t('news'), icon: Newspaper },
+    { href: '/activities', label: t('activities'), icon: CalendarDays },
+    { href: '/meetings', label: t('meetings'), icon: UsersRound },
+  ];
+
+  function submitSearch(event: React.FormEvent) {
+    event.preventDefault();
+    const value = query.trim();
+    closeDrawer(false);
+    window.setTimeout(() => openGlobalSearch(value), DRAWER_CLOSE_MS);
+  }
+
+  async function signOut() {
+    await logout();
+    closeDrawer();
+  }
+
   const drawer =
-    open &&
+    mounted &&
     createPortal(
-      <div className="fixed inset-0 z-[90]" role="dialog" aria-modal="true" aria-label={t('openMenu')}>
-        <div
-          className="absolute inset-0 bg-ink-900/45 backdrop-blur-[2px]"
-          onClick={() => setOpen(false)}
-          aria-hidden
-        />
-        <div className="mobile-nav-panel absolute inset-0 flex min-h-0 flex-col bg-ivory">
-          {/* Header */}
-          <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3.5">
-            <Brand />
-            <button
-              ref={closeRef}
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label={common('close')}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-500 shadow-card transition-colors hover:text-ink-900"
-            >
-              <X size={18} />
-            </button>
-          </div>
+      <div
+        className={`annabid-drawer-root${open ? ' is-open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('openMenu')}
+      >
+        <div className="annabid-drawer-overlay" onClick={() => closeDrawer()} aria-hidden />
 
-          {/* Primary navigation */}
-          <nav aria-label={t('primaryNav')} className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
-            <ul className="space-y-1">
-              {links.map((link) => {
-                const active = isActive(link.href);
-                const tone = link.hot
-                  ? active
-                    ? 'border-wine-700 bg-wine-700 font-semibold text-white shadow-sunset hover:bg-wine-800'
-                    : 'border-wine-200 bg-wine-50 font-semibold text-wine-700'
-                  : active || link.opensSearch
-                    ? 'border-wine-700 bg-wine-700 font-semibold text-white shadow-md hover:border-wine-800 hover:bg-wine-800'
-                    : 'border-line bg-white/90 text-ink-700 hover:border-wine-300 hover:bg-white hover:text-wine-700';
+        <div className="annabid-drawer-panel" ref={panelRef}>
+          <header className="annabid-drawer-header">
+            <Brand className="annabid-drawer-brand" />
+            <div className="annabid-drawer-header-actions">
+              <NotificationsBell />
+              <button
+                ref={closeRef}
+                type="button"
+                onClick={() => closeDrawer()}
+                aria-label={common('close')}
+                className="annabid-drawer-close"
+              >
+                <X size={19} aria-hidden />
+              </button>
+            </div>
+          </header>
 
-                const inner = (
-                  <>
-                    {link.hot && <Percent size={16} strokeWidth={2.6} aria-hidden />}
-                    <span className="min-w-0 flex-1 truncate">{link.label}</span>
-                    {link.hot && !active && (
-                      <ChevronRight size={15} className="flip-rtl shrink-0 text-sunset-400" aria-hidden />
-                    )}
-                  </>
-                );
-
-                return (
-                  <li key={link.href}>
-                    {link.opensSearch ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOpen(false);
-                          window.setTimeout(openGlobalSearch, 120);
-                        }}
-                        className={`flex min-h-[46px] w-full items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 text-start text-[15px] transition-colors ${tone}`}
-                      >
-                        {inner}
-                      </button>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        aria-current={active ? 'page' : undefined}
-                        className={`flex min-h-[46px] w-full items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 text-start text-[15px] transition-colors ${tone}`}
-                      >
-                        {inner}
-                      </Link>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-
-            <div className="my-4 border-t border-ink-900/[0.07]" />
-
-            <div className="px-1.5">
-              <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-ink-300">{t('language')}</p>
-              <LanguageSwitcher
-                accent="blue"
-                wrapperClassName="flex w-full"
-                className="h-11 w-full justify-between border-line px-4 text-[14px] hover:border-wine-300"
-              />
+          <div className="annabid-drawer-scroll">
+            <div className="annabid-drawer-location">
+              <CityPicker />
             </div>
 
-            <div className="my-4 border-t border-ink-900/[0.07]" />
+            <form role="search" className="annabid-drawer-search" onSubmit={submitSearch}>
+              <Search size={17} className="annabid-drawer-search-icon" aria-hidden />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t('drawerSearchPlaceholder')}
+                aria-label={t('drawerSearchPlaceholder')}
+                className="annabid-drawer-search-input"
+              />
+              <button type="submit" className="annabid-drawer-search-go" aria-label={home('searchButton')}>
+                <Search size={15} aria-hidden />
+              </button>
+            </form>
 
-            <div className="space-y-2 px-1.5">
+            <Link
+              href="/promotions"
+              onClick={() => closeDrawer(false)}
+              className="annabid-drawer-promo"
+            >
+              <span className="annabid-drawer-promo-icon" aria-hidden>
+                <Percent size={17} strokeWidth={2.5} />
+              </span>
+              <span className="annabid-drawer-promo-copy">
+                <strong>{home('offersBannerTitle')}</strong>
+                <span>{home('offersBannerSubtitle')}</span>
+              </span>
+              <span className="annabid-drawer-promo-arrow" aria-hidden>
+                →
+              </span>
+            </Link>
+
+            <nav aria-label={t('primaryNav')} className="annabid-drawer-section">
+              <p className="annabid-drawer-eyebrow">{t('sectionNavigation')}</p>
+              <ul className="annabid-drawer-main-links">
+                {mainLinks.map(({ href, label, icon: Icon }) => {
+                  const active = isActive(href);
+                  return (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        onClick={() => closeDrawer(false)}
+                        aria-current={active ? 'page' : undefined}
+                        className={`annabid-drawer-main-link${active ? ' is-active' : ''}`}
+                      >
+                        <Icon size={18} strokeWidth={active ? 2.3 : 1.9} aria-hidden />
+                        <span>{label}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <section className="annabid-drawer-section" aria-labelledby="annabid-categories-title">
+              <p className="annabid-drawer-eyebrow" id="annabid-categories-title">
+                {t('sectionCategories')}
+              </p>
+              <MobileCategoryTree
+                categories={categories}
+                onNavigate={() => closeDrawer(false)}
+              />
+            </section>
+
+            <section className="annabid-drawer-section" aria-labelledby="annabid-more-title">
+              <p className="annabid-drawer-eyebrow" id="annabid-more-title">
+                {t('sectionMore')}
+              </p>
+              <ul className="annabid-drawer-more-links">
+                {moreLinks.map(({ href, label, icon: Icon }) => (
+                  <li key={href}>
+                    <Link href={href} onClick={() => closeDrawer(false)}>
+                      <Icon size={16} aria-hidden />
+                      <span>{label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="annabid-drawer-section" aria-labelledby="annabid-account-title">
+              <p className="annabid-drawer-eyebrow" id="annabid-account-title">
+                {t('sectionAccount')}
+              </p>
+
               {user ? (
-                <>
-                  <Link href="/profile" className="flex min-h-[46px] items-center gap-2.5 rounded-2xl bg-white p-1.5 pe-4 shadow-card">
-                    <Image src={user.avatar} alt="" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />
-                    <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink-900">
-                      {user.firstName} {user.lastName}
+                <div className="annabid-drawer-account">
+                  <Link href="/profile" onClick={() => closeDrawer(false)} className="annabid-drawer-user">
+                    <Image
+                      src={user.avatar}
+                      alt=""
+                      width={42}
+                      height={42}
+                      className="annabid-drawer-avatar"
+                    />
+                    <span className="annabid-drawer-user-copy">
+                      <strong>
+                        {user.firstName} {user.lastName}
+                      </strong>
+                      <span>{t('profile')}</span>
                     </span>
                   </Link>
-                  <Link
-                    href="/profile"
-                    className="flex min-h-[46px] items-center justify-center rounded-2xl border border-ink-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700"
-                  >
-                    {common('myAccount')}
-                  </Link>
-                </>
+
+                  <div className="annabid-drawer-account-links">
+                    <Link href="/profile" onClick={() => closeDrawer(false)}>
+                      {common('myAccount')}
+                    </Link>
+                    {user.providerStatus === 'approved' ? (
+                      <Link href="/provider/dashboard" onClick={() => closeDrawer(false)}>
+                        {common('providerDashboard')}
+                      </Link>
+                    ) : null}
+                    {user.role === 'admin' ? (
+                      <a href="/admin" onClick={() => closeDrawer(false)}>
+                        {common('adminPanel')}
+                      </a>
+                    ) : null}
+                  </div>
+
+                  <button type="button" onClick={signOut} className="annabid-drawer-signout">
+                    <LogOut size={16} aria-hidden />
+                    {common('signOut')}
+                  </button>
+                </div>
               ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className="flex min-h-[46px] items-center justify-center rounded-2xl border border-ink-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700"
-                  >
+                <div className="annabid-drawer-auth">
+                  <Link href="/login" onClick={() => closeDrawer(false)} className="annabid-drawer-login">
                     {common('login')}
                   </Link>
-                  <Link
-                    href="/register"
-                    className="flex min-h-[46px] items-center justify-center rounded-2xl bg-wine-700 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-wine-800"
-                  >
+                  <Link href="/register" onClick={() => closeDrawer(false)} className="annabid-drawer-register">
                     {t('joinAnnabid')}
                   </Link>
-                </>
+                </div>
               )}
+            </section>
+
+            <section className="annabid-drawer-section">
+              <p className="annabid-drawer-eyebrow">{t('language')}</p>
+              <LanguageSwitcher
+                wrapperClassName="flex w-full"
+                className="annabid-drawer-lang-trigger w-full justify-between"
+              />
+            </section>
+
+            <div className="annabid-drawer-info">
+              <Link href="/rules" onClick={() => closeDrawer(false)}>
+                {footer('rules')}
+              </Link>
+              <Link href="/privacy" onClick={() => closeDrawer(false)}>
+                {footer('privacy')}
+              </Link>
+              <Link href="/terms" onClick={() => closeDrawer(false)}>
+                {footer('terms')}
+              </Link>
             </div>
-          </nav>
+          </div>
         </div>
       </div>,
       document.body
@@ -194,13 +380,14 @@ export function MobileNavMenu() {
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={openDrawer}
         aria-label={t('openMenu')}
         aria-expanded={open}
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white/90 text-ink-700 shadow-sm backdrop-blur transition-colors hover:border-wine-300 hover:bg-white hover:text-wine-700 lg:hidden"
+        className="annabid-menu-trigger"
       >
-        <Menu size={21} />
+        <Menu size={21} aria-hidden />
       </button>
 
       {drawer}

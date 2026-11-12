@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowDown, ArrowUp, ChevronDown, FolderPlus, Move, Pencil, Plus, RotateCcw, Save, Trash2, X } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowDown, ArrowUp, ChevronDown, FolderPlus, ImageIcon, Move, Pencil, Plus, RotateCcw, Save, Trash2, X } from 'lucide-react';
 import { api, apiErrorMessage } from '@/lib/api-client';
 import { slugifyCategory, type SearchCategoryNode } from '@/lib/category-tree';
 
@@ -132,6 +133,7 @@ export default function AdminCategoriesPage() {
   const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editLabels, setEditLabels] = useState<CategoryLabels>({ fr: '', en: '', ar: '' });
+  const [editImage, setEditImage] = useState('');
   const [movingId, setMovingId] = useState<string | null>(null);
   const [parentSelection, setParentSelection] = useState('');
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
@@ -165,6 +167,7 @@ export default function AdminCategoriesPage() {
   function startEditing(node: SearchCategoryNode) {
     setEditingId(node.id);
     setEditLabels({ fr: node.labels.fr ?? '', en: node.labels.en ?? '', ar: node.labels.ar ?? '' });
+    setEditImage(node.image ?? '');
   }
 
   function addCategory(parentId: string | null) {
@@ -209,6 +212,7 @@ export default function AdminCategoriesPage() {
         en: editLabels.en.trim() || french,
         ar: editLabels.ar.trim() || french,
       },
+      image: editImage.trim() || undefined,
     }));
     const duplicate = findDuplicateCategory(nextTree, french, editingId);
     if (duplicate) {
@@ -242,6 +246,7 @@ export default function AdminCategoriesPage() {
               en: editLabels.en.trim() || french,
               ar: editLabels.ar.trim() || french,
             },
+            image: editImage.trim() || undefined,
           };
         })
       : categories;
@@ -310,6 +315,19 @@ export default function AdminCategoriesPage() {
                 <ChevronDown size={14} className={`transition-transform ${collapsed ? '-rotate-90' : ''}`} />
               </button>
             )}
+            {node.image ? (
+              <Image
+                src={node.image}
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 shrink-0 rounded-lg border border-ink-900/10 object-cover"
+              />
+            ) : (
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sand-100 text-ink-400">
+                <ImageIcon size={15} />
+              </span>
+            )}
             <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink-900">{displayLabel}</span>
             {hasChildren && (
               <span className="rounded-full bg-sand-100 px-2 py-0.5 text-xs font-medium text-ink-500">
@@ -365,6 +383,37 @@ export default function AdminCategoriesPage() {
                   />
                 </label>
               ))}
+              <label className="text-xs font-semibold uppercase text-ink-500 sm:col-span-3">
+                Card photo URL
+                <span className="ms-2 font-normal normal-case text-ink-400">
+                  Use a path such as /images/categories/places.jpg or an https image.
+                </span>
+                <div className="mt-1 flex items-center gap-3">
+                  {editImage.trim() ? (
+                    <Image
+                      src={editImage.trim()}
+                      alt=""
+                      width={56}
+                      height={56}
+                      className="h-14 w-14 shrink-0 rounded-lg border border-ink-900/10 object-cover"
+                    />
+                  ) : (
+                    <span className="grid h-14 w-14 shrink-0 place-items-center rounded-lg bg-sand-100 text-ink-400">
+                      <ImageIcon size={20} />
+                    </span>
+                  )}
+                  <input
+                    value={editImage}
+                    onChange={(event) => {
+                      setEditImage(event.target.value);
+                      setDirty(true);
+                    }}
+                    placeholder="/images/categories/technique.jpg"
+                    className="w-full rounded-lg border border-ink-900/15 px-3 py-2 text-sm font-normal text-ink-900"
+                    maxLength={2048}
+                  />
+                </div>
+              </label>
               <div className="flex items-end gap-2 sm:col-span-3">
                 <button type="button" onClick={saveNodeLabels} disabled={!editLabels.fr.trim()} className="rounded-lg bg-majorelle-600 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">
                   Apply labels

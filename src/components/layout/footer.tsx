@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { locales, localeLabel, type Locale } from '@/i18n/config';
+import { BrandMark } from './brand';
 
 export function Footer() {
   const t = useTranslations('footer');
@@ -18,14 +19,16 @@ export function Footer() {
         <div className={isHome ? 'home-footer-grid grid' : 'grid grid-cols-12 gap-10'}>
           {/* Brand */}
           <div className="col-span-12 lg:col-span-4">
-            <div className="flex items-center gap-2.5">
-              <span
-                className="grid h-9 w-9 place-items-center rounded-[13px] bg-gradient-to-br from-wine-500 via-wine-700 to-wine-900 font-display text-[17px] font-bold text-white"
-                aria-hidden
-              >
-                M
+            <div className="annabid-footer-brand">
+              <span className="annabid-footer-mark" aria-hidden>
+                <BrandMark className="annabid-footer-logo" />
               </span>
-              <span className="font-display text-[21px] font-semibold tracking-tight text-white">Medina</span>
+              <span className="annabid-footer-wordmark">
+                <span className="annabid-footer-name">Annabid</span>
+                <span lang="ar" dir="rtl" className="annabid-footer-arabic">
+                  النابض
+                </span>
+              </span>
             </div>
             <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-white/70">{t('tagline')}</p>
             <p className="mt-4 text-[13px] font-medium text-wine-200">{t('footerNote')}</p>
@@ -85,7 +88,7 @@ export function Footer() {
             </Link>
           ))}
           <span className="ms-auto text-[13px] text-white/45">
-            © {new Date().getFullYear()} Medina · {t('rights')}
+            © {new Date().getFullYear()} Annabid · {t('rights')}
           </span>
         </div>
       </div>

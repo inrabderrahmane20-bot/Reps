@@ -161,7 +161,11 @@ export function FloatingSearch() {
 
   // Global triggers: the custom event (navbar "Recherche") and ⌘/Ctrl + K.
   useEffect(() => {
-    const onOpen = () => openSearch();
+    const onOpen = (event: Event) => {
+      const query = (event as CustomEvent<{ query?: string }>).detail?.query?.trim();
+      openSearch();
+      if (query) setQuery(query);
+    };
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();

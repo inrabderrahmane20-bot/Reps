@@ -103,7 +103,7 @@ export function FirstVisitLanguageModal() {
     // The outer layer scrolls; the inner layer centers with min-h-full so a
     // dialog taller than the viewport can scroll without its top being cut off.
     <div
-      className="fixed inset-0 z-[80] overflow-y-auto bg-ink-900/50 backdrop-blur-sm"
+      className="first-visit-language-overlay fixed inset-0 z-[80] overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label={t('title')}
@@ -111,25 +111,25 @@ export function FirstVisitLanguageModal() {
     >
       <div className="flex min-h-full items-center justify-center p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-6">
         <div
-          className="w-full max-w-md rounded-[24px] border border-white/60 bg-sand-50 p-5 shadow-float sm:p-7"
+          className="first-visit-language-card w-full max-w-md rounded-[24px] p-5 sm:p-7"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-start justify-between gap-3">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-sunset-500 to-sunset-600 text-white shadow-sunset">
+            <span className="first-visit-language-icon grid h-12 w-12 place-items-center rounded-full">
               <Globe size={23} aria-hidden />
             </span>
             <button
               type="button"
               onClick={dismiss}
               aria-label={t('skip')}
-              className="grid h-11 w-11 place-items-center rounded-full bg-white text-ink-500 shadow-card transition-colors hover:text-ink-900"
+              className="first-visit-language-close grid h-11 w-11 place-items-center rounded-full transition-colors"
             >
               <X size={17} aria-hidden />
             </button>
           </div>
 
-          <h2 className="mt-4 break-words font-display text-2xl font-semibold text-ink-900">{t('title')}</h2>
-          <p className="mt-1.5 break-words text-sm leading-relaxed text-ink-500">{t('intro')}</p>
+          <h2 className="first-visit-language-title mt-4 break-words font-display text-2xl font-semibold">{t('title')}</h2>
+          <p className="first-visit-language-copy mt-1.5 break-words text-sm leading-relaxed">{t('intro')}</p>
 
           <div role="radiogroup" aria-label={t('title')} className="mt-5 space-y-2">
             {locales.map((l) => {
@@ -141,21 +141,19 @@ export function FirstVisitLanguageModal() {
                   role="radio"
                   aria-checked={isSelected}
                   onClick={() => setSelected(l)}
-                  className={`flex min-h-11 w-full items-center gap-3 rounded-2xl border px-4 py-2.5 text-start transition-all ${
-                    isSelected
-                      ? 'border-sunset-500 bg-sunset-500/[0.08] shadow-card'
-                      : 'border-ink-900/10 bg-white hover:border-sunset-300'
+                  className={`first-visit-language-option flex min-h-11 w-full items-center gap-3 rounded-2xl border px-4 py-2.5 text-start transition-all ${
+                    isSelected ? 'is-selected' : ''
                   }`}
                 >
                   <span className="text-2xl leading-none" aria-hidden>
                     {FLAGS[l]}
                   </span>
-                  <span className="min-w-0 flex-1 break-words text-[15px] font-semibold text-ink-900">
+                  <span className="first-visit-language-option-label min-w-0 flex-1 break-words text-[15px] font-semibold">
                     {localeLabel[l]}
                   </span>
                   <span
-                    className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 transition-colors ${
-                      isSelected ? 'border-sunset-500 bg-sunset-500' : 'border-ink-900/20 bg-white'
+                    className={`first-visit-language-radio grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 transition-colors ${
+                      isSelected ? 'is-selected' : ''
                     }`}
                     aria-hidden
                   >
@@ -170,7 +168,7 @@ export function FirstVisitLanguageModal() {
             type="button"
             onClick={() => selected && choose(selected)}
             disabled={!selected}
-            className="mt-5 min-h-12 w-full rounded-full bg-sunset-500 py-3 text-[15px] font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="first-visit-language-continue mt-5 min-h-12 w-full rounded-full py-3 text-[15px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
           >
             {t('continue')}
           </button>

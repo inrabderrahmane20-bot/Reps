@@ -5,6 +5,8 @@ export type SearchCategoryNode = {
   id: string;
   slug: string;
   labels: Record<string, string>;
+  /** Optional admin-managed thumbnail (URL or /public path). */
+  image?: string;
   children?: SearchCategoryNode[];
 };
 
@@ -63,6 +65,7 @@ export function categoryNodesToTree(categories: CategoryNode[]): SearchCategoryN
         id: node.id,
         slug: node.slug,
         labels: node.labels,
+        ...(node.image ? { image: node.image } : {}),
         ...(children.length ? { children } : {}),
       };
     });
@@ -92,6 +95,7 @@ export function categoryTreeToNodes(tree: SearchCategoryNode[]): CategoryNode[] 
         slug: slugifyCategory(node.labels.fr),
         type: 'category',
         labels: node.labels,
+        ...(node.image ? { image: node.image } : {}),
         order,
         active: true,
       });

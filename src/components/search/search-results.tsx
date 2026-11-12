@@ -88,7 +88,7 @@ export function SearchResults() {
         }}
         className="mt-6 flex max-w-2xl items-center gap-2 rounded-full border border-ink-900/10 bg-white px-4 py-2 shadow-card focus-within:border-sunset-300"
       >
-        <SearchIcon size={18} className="shrink-0 text-sunset-600" aria-hidden />
+        <SearchIcon size={18} className="shrink-0 text-[#FF6E00]" aria-hidden />
         <input
           type="search"
           autoFocus
@@ -128,7 +128,7 @@ export function SearchResults() {
                       {item.image ? (
                         <Image src={item.image} alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl object-cover" />
                       ) : (
-                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-peach-100 text-sunset-600" aria-hidden>
+                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-peach-100 text-[#FF6E00]" aria-hidden>
                           <SearchIcon size={17} />
                         </span>
                       )}

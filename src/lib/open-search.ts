@@ -4,7 +4,7 @@
 export const OPEN_SEARCH_EVENT = 'reps:open-search';
 
 /** Open the floating search overlay (client side only). */
-export function openGlobalSearch(): void {
+export function openGlobalSearch(query?: string): void {
   if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT));
+  window.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT, { detail: { query: query?.trim() || '' } }));
 }

@@ -68,6 +68,12 @@ function validateCategoryTree(value: unknown): string | null {
       if (node.children !== undefined && !Array.isArray(node.children)) {
         return `Category "${node.id}" has an invalid children list.`;
       }
+      if (
+        node.image !== undefined &&
+        (typeof node.image !== 'string' || node.image.trim().length > 2048)
+      ) {
+        return `Category "${node.id}" has an invalid image URL.`;
+      }
       const childError = visit((node.children as unknown[] | undefined) ?? [], depth + 1);
       if (childError) return childError;
     }
@@ -95,6 +101,7 @@ function normalizeCategoryTree(nodes: SearchCategoryNode[]): SearchCategoryNode[
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, ''),
       labels,
+      ...(node.image?.trim() ? { image: node.image.trim() } : {}),
       ...(children.length ? { children } : {}),
     };
   });

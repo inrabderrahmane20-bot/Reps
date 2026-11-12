@@ -7,6 +7,7 @@ import { locales, localeDirection, type Locale } from '@/i18n/config';
 import { buildMetadata } from '@/lib/seo';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { MobileTabBar } from '@/components/layout/mobile-tab-bar';
 import { FirstVisitLanguageModal } from '@/components/layout/first-visit-language-modal';
 import { FloatingSearch } from '@/components/search/floating-search';
 import { CategorySearchRoot } from '@/components/search/category-search-root';
@@ -83,8 +84,9 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pb-[calc(70px+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
             <Footer />
+            <MobileTabBar />
             <FloatingSearch />
             <CategorySearchRoot />
             <FirstVisitLanguageModal />

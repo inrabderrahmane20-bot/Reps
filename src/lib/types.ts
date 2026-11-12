@@ -317,6 +317,8 @@ export interface CategoryNode {
   type: string;
   labels: Record<string, string>; // locale -> label
   icon?: string;
+  /** Optional admin-managed thumbnail for the category card. */
+  image?: string;
   order: number;
   active: boolean;
   filters?: string[];

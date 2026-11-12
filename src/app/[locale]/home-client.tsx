@@ -14,7 +14,7 @@ import { useAuth } from '@/context/auth-context';
 import { api } from '@/lib/api-client';
 import { serviceTaxonomyFromTree, topLevelCategories } from '@/lib/service-categories';
 import { Star, Users } from 'lucide-react';
-import type { SearchCategoryNode } from '@/lib/category-tree';
+import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
 
 type HomeProvider = {
@@ -75,6 +75,7 @@ export default function HomePage() {
   const [providerTotal, setProviderTotal] = useState(0);
   const [promoTotal, setPromoTotal] = useState(0);
   const [categoryCount, setCategoryCount] = useState(topLevelCategories().length);
+  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
   const [loadingHome, setLoadingHome] = useState(true);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
 
@@ -139,7 +140,10 @@ export default function HomePage() {
   useEffect(loadAll, [user?.zoneId, user?.homeLat, user?.homeLng]);
   useEffect(() => {
     api.get<{ categories: SearchCategoryNode[] }>('/categories/tree')
-      .then((response) => setCategoryCount(serviceTaxonomyFromTree(response.categories).length))
+      .then((response) => {
+        if (response.categories?.length) setCategoryTree(response.categories);
+        setCategoryCount(serviceTaxonomyFromTree(response.categories).length);
+      })
       .catch((error) => console.error('Could not load the current service category count.', error));
   }, []);
 
@@ -158,7 +162,7 @@ export default function HomePage() {
       />
 
       <div className="home-primary-sections">
-        <CategoryGrid />
+        <CategoryGrid categories={categoryTree} />
 
         <section className="home-best-rated" aria-labelledby="home-best-rated">
           <SectionHeader

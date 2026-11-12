@@ -5,7 +5,9 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { ChevronDown, Percent, Search, Star } from 'lucide-react';
 import { openCategorySearch } from '@/lib/open-category-search';
+import { useAuth } from '@/context/auth-context';
 import { Brand } from './brand';
+import { CityPicker } from './city-picker';
 import { LanguageSwitcher } from './language-switcher';
 import { AccountMenu } from './account-menu';
 import { NotificationsBell } from './notifications-bell';
@@ -29,9 +31,12 @@ import { usePrimaryNav } from './nav-links';
  */
 export function Navbar() {
   const t = useTranslations('nav');
+  const home = useTranslations('home');
+  const { user } = useAuth();
   const links = usePrimaryNav();
   const desktopLinks = links.filter((link) => !link.opensSearch);
   const pathname = usePathname();
+  const isHome = pathname === '/';
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
 
@@ -61,16 +66,35 @@ export function Navbar() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/90 bg-ivory/95 shadow-[0_10px_30px_-26px_rgba(33,24,32,0.45)] backdrop-blur-xl backdrop-saturate-150">
+    <header
+      className={`site-header sticky top-0 z-50 border-b border-line/90 bg-ivory/95 shadow-[0_10px_30px_-26px_rgba(33,24,32,0.45)] backdrop-blur-xl backdrop-saturate-150${
+        isHome ? ' home-site-header' : ''
+      }`}
+    >
       {/* ---------------------------------------------------------------- */}
       {/* Compact bar — phones and small tablets                          */}
       {/* ---------------------------------------------------------------- */}
       {/* `dir="ltr"` is deliberate: the hamburger must stay physically on */}
       {/* the LEFT in Arabic too, so the bar is never mirrored.           */}
-      <div dir="ltr" className="mx-auto flex h-16 max-w-[1720px] items-center gap-2 px-3 lg:hidden">
+      <div
+        dir="ltr"
+        className={`mobile-navbar-bar mx-auto flex h-16 max-w-[1720px] items-center gap-2 px-3 lg:hidden${
+          isHome ? ' home-compact-bar' : ''
+        }`}
+      >
         <MobileNavMenu />
 
-        <Brand />
+        {isHome ? (
+          <div className="home-mobile-identity">
+            <span className="home-mobile-greeting">
+              {home('greeting')}
+              {user?.firstName ? `, ${user.firstName}` : ''}
+            </span>
+            <CityPicker />
+          </div>
+        ) : (
+          <Brand />
+        )}
 
         <div className="ms-auto flex items-center gap-1.5">
           <Link
@@ -144,6 +168,7 @@ export function Navbar() {
 
         {/* Utility group */}
         <div className="ms-auto flex shrink-0 items-center gap-1.5">
+          <CityPicker variant="desktop" />
           <Link
             href="/favorites"
             aria-label={t('favorites')}
