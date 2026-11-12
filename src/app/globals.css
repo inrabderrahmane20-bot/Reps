@@ -4380,3 +4380,25 @@ body {
   .svc-cat-label { gap: 6px; padding-inline: 7px; }
   .svc-cat-label svg { width: 20px; height: 20px; }
 }
+
+/* Match the reference's two-column category and installation composition. */
+.svc-page > .mx-auto, .svc-hero > .mx-auto { max-width: 800px; }
+.svc-page .svc-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+.svc-page .svc-cat-media { aspect-ratio: 2.12 / 1; }
+.svc-page .svc-cat-label { padding: 10px 12px; min-height: 46px; }
+.svc-page .svc-cat-label span { font-size: clamp(.8rem, 3.3vw, 1.5rem); }
+.svc-page .svc-cat-label svg { width: clamp(23px, 5vw, 36px); height: clamp(23px, 5vw, 36px); }
+.svc-page .svc-installations { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
+.svc-page .svc-installations button { min-height: clamp(80px, 12vw, 100px); font-size: clamp(1rem, 3.5vw, 1.5rem); }
+.svc-page .svc-finder { margin-bottom: 18px; }
+.svc-page .svc-finder-path { font-size: clamp(.95rem, 3.4vw, 1.4rem); }
+.svc-page .svc-trade-select { min-height: 76px; }
+.svc-page .svc-trade-select select { font-size: clamp(1.1rem, 3.6vw, 1.65rem); }
+.svc-page .svc-trade-select label > span { font-size: .9rem; }
+.svc-page .svc-find-professionals { margin-top: 24px; min-height: 64px; }
+.svc-page .svc-hero-art { width: 120%; }
+.svc-page .svc-professional-results { padding-block: 8px 32px; }
+@media (max-width: 420px) {
+  .svc-page .svc-category-grid { gap: 12px; }
+  .svc-page .svc-cat-label { padding: 8px; min-height: 38px; }
+}

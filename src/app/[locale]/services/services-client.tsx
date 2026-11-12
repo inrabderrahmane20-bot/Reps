@@ -1,37 +1,26 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import {
   ArrowRight,
   ChevronDown,
-  MapPin,
   PackageSearch,
   Search,
-  SlidersHorizontal,
   X,
 } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
 import { RequestServiceModal } from '@/components/ui/request-service-modal';
 import { api } from '@/lib/api-client';
 import { useAuth } from '@/context/auth-context';
-import { getZone } from '@/lib/zones';
-import { Link } from '@/i18n/navigation';
 import type { PublicUser } from '@/lib/types';
-import {
-  FiltersPanel,
-  DEFAULT_FILTERS,
-  type FiltersState,
-} from '@/components/services/filters-panel';
-import { MobileFilterDrawer } from '@/components/services/mobile-filter-drawer';
-import { LayeredCategoryNavigation } from '@/components/services/layered-category-navigation';
-import { ClientSearchesPanel } from '@/components/services/client-searches-panel';
+import { DEFAULT_FILTERS, type FiltersState } from '@/components/services/filters-panel';
 import { SponsoredStrip } from '@/components/services/sponsored-strip';
 import { ServiceFinder } from '@/components/services/service-finder';
 import { ServicesHero } from '@/components/services/services-hero';
 import { CategoryDiscovery, MoroccanDivider } from '@/components/services/category-discovery';
 import { homeSectionItems, homeSections } from '@/lib/home-categories';
-import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
+import { getCategoryLabel, SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
 import {
   ServiceListRow,
@@ -57,7 +46,9 @@ type ProviderRow = PublicUser & {
 
 export default function ServicesPage() {
   const t = useTranslations('services');
-  const z = useTranslations('zones');
+  const locale = useLocale();
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [showResults, setShowResults] = useState(false);
   const { user } = useAuth();
 
   const [q, setQ] = useState('');
@@ -74,11 +65,7 @@ export default function ServicesPage() {
 
   const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [categoryNavigationOpen, setCategoryNavigationOpen] = useState(false);
-  const [categoryNavigationOrigin, setCategoryNavigationOrigin] = useState<{ x: number; y: number } | null>(null);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
-  const [clientSearchesKey, setClientSearchesKey] = useState(0);
   const [sponsored, setSponsored] = useState<ServiceListing[]>([]);
   const [sponsoredLoading, setSponsoredLoading] = useState(true);
 
@@ -93,10 +80,12 @@ export default function ServicesPage() {
     if (initialQ) {
       setQ(initialQ);
       setDebouncedQ(initialQ);
+      setShowResults(true);
     }
     const initialCat = params.get('cat');
     if (initialCat) {
       setFilters((f) => ({ ...f, cat: initialCat }));
+      setShowResults(true);
     }
   }, []);
 
@@ -207,8 +196,7 @@ export default function ServicesPage() {
         // client" section: record it so other clients and providers see it.
         if (r.total === 0 && debouncedQ.trim()) {
           api.post('/client-searches', { query: debouncedQ }).catch(() => {});
-          setClientSearchesKey((k) => k + 1);
-        }
+          }
       })
       .catch((err) => {
         if (requestSeq.current !== seq) return;
@@ -237,21 +225,10 @@ export default function ServicesPage() {
   }
 
   const hasMore = providers.length < total;
-  const activeZone = getZone(filters.zone);
-  const hasActiveFilters =
-    q.trim() !== '' || filters.cat !== null || filters.availability.length > 0 || filters.minRating != null || filters.zone !== 'all';
+
 
   function setFiltersMerged(partial: Partial<FiltersState>) {
     setFilters((f) => ({ ...f, ...partial }));
-  }
-
-  function openCategoryNavigation(event: React.MouseEvent<HTMLButtonElement>) {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    setCategoryNavigationOrigin({
-      x: bounds.left + bounds.width / 2,
-      y: bounds.top + bounds.height / 2,
-    });
-    setCategoryNavigationOpen(true);
   }
 
   function resetAll() {
@@ -265,8 +242,11 @@ export default function ServicesPage() {
   }
 
   function selectCategory(category: string | null) {
-    setFiltersMerged({ cat: category });
+    setSelectedGroup(category);
+    setShowResults(false);
   }
+
+  const discoverySelection = selectedGroup ?? (serviceCategories[0] ? getCategoryLabel(serviceCategories[0], locale) : null);
 
   return (
     <div className="moroccan-canvas svc-page min-h-screen pb-16">
@@ -280,6 +260,7 @@ export default function ServicesPage() {
             onSubmit={(event) => {
               event.preventDefault();
               setDebouncedQ(q.trim());
+              setShowResults(true);
             }}
             className="svc-search"
           >
@@ -309,92 +290,20 @@ export default function ServicesPage() {
           <p className="svc-search-hint mt-2 text-xs text-typography-main/50">{t('searchHint')}</p>
         </div>
 
-        {/* Zone / location notice */}
-        {!user && !activeZone && (
-          <div className="svc-zone-notice mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
-            <MapPin size={17} className="shrink-0 text-emerald-primary" aria-hidden />
-            <p className="flex-1 text-sm text-typography-main/75">{z('setZonePrompt')}</p>
-            <Link
-              href="/map"
-              className="shrink-0 rounded-full bg-emerald-primary px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-green-secondary"
-            >
-              {z('setYourZone')}
-            </Link>
-          </div>
-        )}
-        {activeZone && (
-          <div className="svc-zone-notice mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
-            <MapPin size={17} className="shrink-0 text-emerald-primary" aria-hidden />
-            <p className="flex-1 text-sm text-typography-main/75">
-              {t('showingInZone')}{' '}
-              <span className="font-semibold text-emerald-800">{activeZone.name}</span>
-            </p>
-            <Link
-              href="/map"
-              className="shrink-0 rounded-full border border-gold-muted/60 bg-card-soft px-4 py-2 text-xs font-semibold text-emerald-primary transition-colors hover:bg-selection-state"
-            >
-              {z('change')}
-            </Link>
-          </div>
-        )}
-
         <MoroccanDivider />
 
         <CategoryDiscovery
           categories={serviceCategories}
-          selected={filters.cat}
+          selected={discoverySelection}
           onSelect={selectCategory}
         />
 
         <MoroccanDivider />
 
-        <ServiceFinder categories={serviceCategories} selected={filters.cat} onApply={(cat) => { setFiltersMerged({ cat }); scrollToResults(); }} />
+        <ServiceFinder key={discoverySelection} categories={serviceCategories} selected={discoverySelection} onApply={(cat) => { setFiltersMerged({ cat }); setShowResults(true); requestAnimationFrame(scrollToResults); }} />
+        <MoroccanDivider />
 
-        {/* Mobile: category navigation + filter drawer trigger */}
-        <div className="mb-4 flex items-center gap-2 lg:hidden" data-tour-target="services-filters">
-          <button
-            type="button"
-            onClick={openCategoryNavigation}
-            className="flex min-h-11 min-w-0 flex-1 items-center gap-2 rounded-full border border-gold-muted/50 bg-card-soft px-3.5 text-start text-sm text-typography-main shadow-card transition-colors hover:bg-selection-state"
-          >
-            <span className="min-w-0 flex-1">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-typography-main/65">
-                {t('categories')}
-              </span>
-              <span className="block truncate text-[13px] font-semibold text-typography-main">
-                {filters.cat ?? t('allCategories')}
-              </span>
-            </span>
-            <ChevronDown size={16} className="shrink-0 text-typography-main/40" aria-hidden />
-          </button>
-          <button
-            type="button"
-            onClick={() => setDrawerOpen(true)}
-            className="relative flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-gold-muted/50 bg-card-soft px-3 text-sm font-medium text-typography-main transition-colors hover:bg-selection-state"
-            aria-label={t('filters')}
-          >
-            <SlidersHorizontal size={17} />
-            <span>{t('filters')}</span>
-            {hasActiveFilters && (
-              <span className="absolute end-1.5 top-1.5 h-2 w-2 rounded-full bg-terracotta-500" aria-hidden />
-            )}
-          </button>
-        </div>
-
-        <div className="gap-8 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[310px_minmax(0,1fr)] 2xl:grid-cols-[330px_minmax(0,1fr)]">
-          {/* Desktop sidebar */}
-          <aside className="hidden lg:block" data-tour-target="services-filters">
-            <div className="svc-filter-card sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto">
-              <FiltersPanel
-                value={filters}
-                onChange={setFilters}
-                onReset={resetAll}
-                onOpenCategories={openCategoryNavigation}
-              />
-              <ClientSearchesPanel refreshKey={clientSearchesKey} />
-            </div>
-          </aside>
-
+        {showResults && <div className="svc-professional-results">
           {/* Results */}
           <section
             ref={resultsRef}
@@ -500,30 +409,8 @@ export default function ServicesPage() {
               </>
             )}
           </section>
-        </div>
+        </div>}
       </div>
-
-      {/* Mobile filter drawer */}
-      {drawerOpen && (
-        <MobileFilterDrawer
-          value={filters}
-          onChange={setFilters}
-          onReset={resetAll}
-          onOpenCategories={openCategoryNavigation}
-          onClose={() => setDrawerOpen(false)}
-          clientSearchesKey={clientSearchesKey}
-        />
-      )}
-
-      <LayeredCategoryNavigation
-        open={categoryNavigationOpen}
-        selectedCategory={filters.cat}
-        origin={categoryNavigationOrigin}
-        searchValue={q}
-        onSearchChange={setQ}
-        onSelectCategory={(cat) => setFiltersMerged({ cat })}
-        onClose={() => setCategoryNavigationOpen(false)}
-      />
 
       {/* Request modal */}
       {requesting && (

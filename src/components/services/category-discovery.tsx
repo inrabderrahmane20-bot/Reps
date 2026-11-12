@@ -85,6 +85,7 @@ export function CategoryDiscovery({
       <div className="svc-category-grid mt-7">
         {categories.map((node, index) => {
           const label = getCategoryLabel(node, locale);
+          const displayLabel = label === label.toUpperCase() ? label.charAt(0) + label.slice(1).toLocaleLowerCase(locale) : label;
           const active = selected === label;
           const Icon = categoryIcon(node);
           return (
@@ -112,24 +113,13 @@ export function CategoryDiscovery({
               )}
               <span className="svc-cat-label">
                 <Icon size={15} strokeWidth={2} aria-hidden />
-                <span>{label}</span>
+                <span>{displayLabel}</span>
               </span>
             </button>
           );
         })}
       </div>
 
-      {selected && (
-        <div className="mt-5 text-center">
-          <button
-            type="button"
-            onClick={() => onSelect(null)}
-            className="text-xs font-semibold text-terracotta-600 underline decoration-terracotta-300 decoration-2 underline-offset-4 hover:text-terracotta-700"
-          >
-            {t('browseAll')}
-          </button>
-        </div>
-      )}
     </section>
   );
 }
