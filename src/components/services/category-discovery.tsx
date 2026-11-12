@@ -55,10 +55,14 @@ function categoryIcon(node: SearchCategoryNode): LucideIcon {
  */
 export function CategoryDiscovery({
   categories,
+  title,
+  subtitle,
   selected,
   onSelect,
 }: {
   categories: SearchCategoryNode[];
+  title?: string;
+  subtitle?: string;
   selected: string | null;
   onSelect: (category: string | null) => void;
 }) {
@@ -75,10 +79,10 @@ export function CategoryDiscovery({
           id="svc-explore-heading"
           className="font-display text-[1.7rem] font-semibold leading-tight text-typography-main sm:text-[2.1rem]"
         >
-          {t('exploreTitle')}
+          {title ?? t('exploreTitle')}
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-typography-main/60 sm:text-[15px]">
-          {t('exploreSubtitle')}
+          {subtitle ?? t('exploreSubtitle')}
         </p>
       </div>
 

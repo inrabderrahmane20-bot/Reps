@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { requireAdminSession } from '@/lib/admin-api';
 import { EditorValidationError } from '@/lib/visual-editor/validation';
 import { defaultDocument } from '@/lib/visual-editor/defaults';
-import { isDocumentId } from '@/lib/visual-editor/types';
+import { isDocumentId, PAGE_DOCUMENTS } from '@/lib/visual-editor/types';
 import { readDocument, saveDocument, RevisionConflict } from '@/lib/visual-editor/store';
 import { locales, type Locale } from '@/i18n/config';
 
@@ -30,7 +30,13 @@ export async function PUT(req: NextRequest, { params }: { params: { documentId: 
     const body = JSON.parse(text);
     if (!['draft','publish','reset'].includes(body.action) || !Number.isSafeInteger(body.revision) || body.revision < 0) return NextResponse.json({ error: 'Invalid action or revision.' }, { status: 400 });
     const document = await saveDocument(params.documentId, locale, body.action, body.revision, body.data);
-    revalidatePath(`/${locale}`, 'layout');
+    const page = PAGE_DOCUMENTS.find(page => page.id === params.documentId);
+    if (page) {
+      // Literal URLs are invalidated without a page/layout suffix.
+      revalidatePath(`/${locale}${page.path === '/' ? '' : page.path}/`);
+    } else {
+      revalidatePath('/[locale]', 'layout');
+    }
     return NextResponse.json({ document, defaults: defaultDocument(params.documentId, locale) });
   } catch (error) {
     if (error instanceof RevisionConflict) return NextResponse.json({ error: error.message }, { status: 409 });

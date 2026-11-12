@@ -13,17 +13,19 @@ import { openGlobalSearch } from '@/lib/open-search';
  * field that opens the real floating search overlay).
  */
 export function Hero({
+  content = {},
   providerCount,
   promoCount,
   categoryCount,
 }: {
+  content?: Record<string,string>;
   providerCount: number;
   promoCount: number;
   categoryCount: number;
 }) {
   const t = useTranslations('home');
   const locale = useLocale();
-  const title = t('heroTitle');
+  const title = content.heroTitle ?? t('heroTitle');
   const accent = locale === 'fr' ? 'aujourd’hui ?' : locale === 'en' ? 'today?' : 'اليوم؟';
   const accentStart = title.lastIndexOf(accent);
 
@@ -31,7 +33,7 @@ export function Hero({
     <section className="home-hero" aria-labelledby="home-hero-title">
       <div className="home-hero-media" aria-hidden>
         <Image
-          src="/homepage_background.png"
+          src={content.src ?? "/homepage_background.png"}
           alt=""
           fill
           priority
@@ -43,7 +45,7 @@ export function Hero({
         <div className="home-hero-copy">
           <span className="home-hero-kicker">
             <span className="home-hero-kicker-dot" aria-hidden />
-            {t('heroKicker')}
+            {content.heroKicker ?? t('heroKicker')}
           </span>
 
           <h1 id="home-hero-title">
@@ -57,20 +59,20 @@ export function Hero({
             )}
           </h1>
 
-          <p className="home-hero-lead">{t('heroSubtitle')}</p>
+          <p className="home-hero-lead">{content.heroSubtitle ?? t('heroSubtitle')}</p>
 
           <button
             type="button"
             onClick={() => openGlobalSearch()}
             className="home-search"
-            aria-label={t('heroCtaSearch')}
+            aria-label={content.heroCtaSearch ?? t('heroCtaSearch')}
           >
             <span className="home-search-icon" aria-hidden>
               <Search size={19} strokeWidth={2.2} />
             </span>
-            <span className="home-search-prompt">{t('searchPrompt')}</span>
+            <span className="home-search-prompt">{content.searchPrompt ?? t('searchPrompt')}</span>
             <span className="home-search-go">
-              {t('searchButton')}
+              {content.searchButton ?? t('searchButton')}
               <ArrowUpRight size={17} className="flip-rtl" aria-hidden />
             </span>
           </button>
@@ -78,15 +80,15 @@ export function Hero({
           <ul className="home-hero-meta">
             <li>
               <strong>{providerCount}</strong>
-              {t('heroStatProviders')}
+              {content.heroStatProviders ?? t('heroStatProviders')}
             </li>
             <li>
               <strong>{promoCount}</strong>
-              {t('heroStatPromotions')}
+              {content.heroStatPromotions ?? t('heroStatPromotions')}
             </li>
             <li>
               <strong>{categoryCount}</strong>
-              {t('heroStatCategories')}
+              {content.heroStatCategories ?? t('heroStatCategories')}
             </li>
           </ul>
         </div>

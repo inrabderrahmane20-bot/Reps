@@ -6,21 +6,31 @@ import type { Locale } from '@/i18n/config';
 import type { DocumentId } from '@/lib/visual-editor/types';
 import { layoutBlocks } from './layout-blocks';
 import { contentBlocks } from './content-blocks';
+import { legalBlocks } from './legal-blocks';
+import { LEGAL_DEFAULTS } from '@/lib/visual-editor/defaults';
+import { homeBlocks, HomeCanvas } from './home-blocks';
+import { servicesBlocks, ServicesCanvas } from './page-blocks';
+import type { SearchCategoryNode } from '@/lib/category-tree';
 import { globalBlocks } from './global-blocks';
 
-export function visualConfig(id: DocumentId, locale: Locale, previewPath?: string): Config {
+export function visualConfig(id: DocumentId, locale: Locale, previewPath?: string, initialCategories?: SearchCategoryNode[]): Config {
   const globals = globalBlocks(locale, previewPath);
   const globalType = id === 'navbar' ? 'Navbar' : 'Footer';
+  const existing = LEGAL_DEFAULTS[id] ? legalBlocks(id) : id === 'home' ? homeBlocks(locale) : id === 'services' ? servicesBlocks(locale) : { [globalType]: globals[globalType] };
   return {
     root: { fields: {}, defaultProps: {}, render: ({ children, puck }: { children: ReactNode; puck?: { isEditing?: boolean } }) => {
+      if (id === 'services' || id === 'home') {
+        const pageChildren = isValidElement(children) ? cloneElement(children as ReactElement<{className?: string}>, {className: id === 'home' ? 'home-redesign' : 'moroccan-canvas svc-page min-h-screen pb-16'}) : children;
+        return id === 'home' ? <HomeCanvas editorChildren={pageChildren} /> : <ServicesCanvas initialCategories={initialCategories}>{pageChildren}</ServicesCanvas>;
+      }
       // Puck's root div must not become the sticky Navbar's containing block.
       if (!puck?.isEditing && isValidElement(children)) return cloneElement(children as ReactElement<{ style?: CSSProperties }>, { style: { display: 'contents' } });
       return <>{children}</>;
     } },
-    categories: { global: { title: 'Existing component', components: [globalType] }, layout: { title: 'Layout', components: Object.keys(layoutBlocks) }, content: { title: 'Content', components: Object.keys(contentBlocks) } },
-    components: { [globalType]: globals[globalType], ...layoutBlocks, ...contentBlocks },
+    categories: { global: { title: 'Existing component', components: Object.keys(existing) }, layout: { title: 'Layout', components: Object.keys(layoutBlocks) }, content: { title: 'Content', components: Object.keys(contentBlocks) } },
+    components: { ...existing, ...layoutBlocks, ...contentBlocks },
   };
 }
-export function PublishedVisualDocument({ id, locale, data }: { id: DocumentId; locale: Locale; data: Data }) {
-  return <Render config={visualConfig(id, locale)} data={data} />;
+export function PublishedVisualDocument({ id, locale, data, initialCategories }: { id: DocumentId; locale: Locale; data: Data; initialCategories?: SearchCategoryNode[] }) {
+  return <Render config={visualConfig(id, locale, undefined, initialCategories)} data={data} />;
 }

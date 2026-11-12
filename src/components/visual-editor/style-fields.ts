@@ -24,5 +24,5 @@ export function VisualTypography({ id, value }: { id: string; value?: StyleValue
     const next = safeCssValue(resolved[key]);
     return next ? [`${key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)}:${next}`] : [];
   }).join(';');
-  return declarations ? createElement('style', null, `[data-visual-block="${id}"] :is(a,button,p,h3,span){${declarations}}`) : null;
+  return declarations ? createElement('style', null, `[data-visual-block="${id}"] :is(a,button,p,h1,h2,h3,h4,h5,h6,span){${declarations}}`) : null;
 }

@@ -820,7 +820,7 @@ async function ensureVisualEditorTable(pool: Pool): Promise<void> {
   await visualEditorSchema;
 }
 function visualEditorPath(id: string): string {
-  if (!/^(navbar|footer)-(en|fr|ar)$/.test(id)) throw new Error('Invalid visual document key.');
+  if (!/^(navbar|footer|services|home|privacy|terms|rules)-(en|fr|ar)$/.test(id)) throw new Error('Invalid visual document key.');
   return path.join(DATA_DIR, 'visual-editor', `${id}.json`);
 }
 export async function readVisualEditorRecord<T>(id: string): Promise<T | null> {

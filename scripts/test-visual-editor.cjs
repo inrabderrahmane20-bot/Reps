@@ -39,6 +39,8 @@ const { safeUrl, sanitizeRichText, sanitizeStyles, styleObject } = load('src/lib
 const { defaultDocument, navbarDefaults, footerDefaults, editorMessages } = load('src/lib/visual-editor/defaults.ts');
 const store = load('src/lib/visual-editor/store.ts');
 const { Navbar } = load('src/components/layout/navbar.tsx');
+const { Hero } = load('src/components/home/hero.tsx');
+const { ServicesHero } = load('src/components/services/services-hero.tsx');
 const { Footer } = load('src/components/layout/footer.tsx');
 function render(component, locale, content) {
   return renderToStaticMarkup(React.createElement(NextIntlClientProvider, { locale, messages: editorMessages[locale], timeZone: 'Africa/Casablanca' }, React.createElement(component, content ? { content } : {})));
@@ -49,7 +51,9 @@ for (const locale of ['en','fr','ar']) {
     assert.equal(render(Navbar, locale), render(Navbar, locale, navbarDefaults(locale)), `Navbar defaults changed for ${locale} ${route}`);
     assert.equal(render(Footer, locale), render(Footer, locale, footerDefaults(locale)), `Footer defaults changed for ${locale} ${route}`);
   }
-  for (const id of ['navbar','footer']) assert.doesNotThrow(() => sanitizeDocument(defaultDocument(id, locale), id));
+  assert.equal(render(Hero, locale), render(Hero, locale, defaultDocument('home', locale).content[0].props.content), `Home hero defaults changed for ${locale}`);
+  assert.equal(render(ServicesHero, locale), render(ServicesHero, locale, defaultDocument('services', locale).content[0].props.content), `Services hero defaults changed for ${locale}`);
+  for (const id of ['navbar','footer','services','home','privacy','terms','rules']) assert.doesNotThrow(() => sanitizeDocument(defaultDocument(id, locale), id));
 }
 assert.equal(safeUrl('javascript:alert(1)'), '');
 assert.equal(safeUrl('//evil.example/x'), '');
@@ -66,6 +70,10 @@ assert.throws(() => sanitizeDocument({ content: [{ type: 'Navbar', props: { id: 
 assert.throws(() => sanitizeDocument({ content: [{ type: 'Unknown', props: { id: 'x' } }] }, 'navbar'));
 const nested = { root: { props: {} }, content: [{ type: 'Section', props: { id: 's', styleFields: {}, children: [{ type: 'RichText', props: { id: 'r', html: '<p>Safe<script>bad()</script></p>', styleFields: {} } }] } }] };
 assert(!JSON.stringify(sanitizeDocument(nested, 'navbar')).includes('bad()'));
+assert.throws(() => sanitizeDocument(defaultDocument('services','en'), 'navbar'));
+assert.throws(() => sanitizeDocument(defaultDocument('navbar','en'), 'services'));
+const serviceImage = defaultDocument('services','en'); serviceImage.content[0].props.content.src = 'javascript:alert(1)';
+assert.equal(sanitizeDocument(serviceImage,'services').content[0].props.content.src, '');
 const duplicate = structuredClone(nested); duplicate.content[0].props.children[0].props.id = 's';
 assert.throws(() => sanitizeDocument(duplicate, 'navbar'));
 (async () => {

@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { NextIntlClientProvider } from 'next-intl';
 import { Puck, usePuck, type Data, type Overrides } from '@measured/puck';
@@ -10,6 +10,7 @@ import { AuthProvider } from '@/context/auth-context';
 import { ElementInspector } from '@/components/visual-editor/element-inspector';
 import { visualConfig } from '@/components/visual-editor/config';
 import { editorMessages } from '@/lib/visual-editor/defaults';
+import { DOCUMENTS, documentPath, PAGE_DOCUMENTS } from '@/lib/visual-editor/types';
 import type { DocumentId, EditorAction, VisualDocument } from '@/lib/visual-editor/types';
 import type { Locale } from '@/i18n/config';
 
@@ -33,7 +34,7 @@ export default function VisualEditorClient({ id, locale, initial, defaults, font
   const [document, setDocument] = useState(initial);
   const [initialData, setInitialData] = useState(initial.draft ?? initial.published ?? defaults);
   const [editorKey, setEditorKey] = useState(0);
-  const [previewPath, setPreviewPath] = useState('/services');
+  const [previewPath, setPreviewPath] = useState(documentPath(id));
   const [busy, setBusy] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [message, setMessage] = useState('');
@@ -51,7 +52,7 @@ export default function VisualEditorClient({ id, locale, initial, defaults, font
     window.addEventListener('beforeunload', warn);
     return () => window.removeEventListener('beforeunload', warn);
   }, [dirty]);
-  async function save(action: EditorAction, data: Data) {
+  const save = useCallback(async (action: EditorAction, data: Data) => {
     setBusy(true); setError(''); setMessage('');
     try {
       const response = await fetch(`/api/admin/visual-editor/documents/${id}/?locale=${locale}`, {
@@ -66,29 +67,29 @@ export default function VisualEditorClient({ id, locale, initial, defaults, font
       } else {
         savedData.current = JSON.stringify(data); setDirty(JSON.stringify(currentData.current) !== savedData.current);
       }
-      setMessage(action === 'draft' ? 'Draft saved. The public site is unchanged.' : action === 'publish' ? 'Published to all pages in this language.' : 'Default component restored on the public site.');
+      setMessage(action === 'draft' ? 'Draft saved. The public site is unchanged.' : action === 'publish' ? (PAGE_DOCUMENTS.some(page => page.id === id) ? 'Page published in this language.' : 'Published to all pages in this language.') : (PAGE_DOCUMENTS.some(page => page.id === id) ? 'Original page restored on the public site.' : 'Default component restored on the public site.'));
     } catch (error) { setError(error instanceof Error ? error.message : 'Save failed.'); }
     finally { setBusy(false); }
-  }
-  function reset() {
+  }, [defaults, document.revision, id, locale]);
+  const reset = useCallback(() => {
     if (window.confirm('Restore the original component? This clears its saved draft and published layout for this language.')) void save('reset', currentData.current);
-  }
-  const editorOverrides = useMemo(() => ({ ...overrides, headerActions: () => <EditorActions defaults={defaults} busy={busy} save={(action: EditorAction, data: Data) => void save(action, data)} reset={reset} /> }), [overrides, defaults, busy, document.revision]);
+  }, [save]);
+  const editorOverrides = useMemo(() => ({ ...overrides, headerActions: () => <EditorActions defaults={defaults} busy={busy} save={(action: EditorAction, data: Data) => void save(action, data)} reset={reset} /> }), [overrides, defaults, busy, save, reset]);
   return <div className={`ve-shell${expanded ? " ve-expanded" : ""}`}>
     <div className="ve-toolbar">
       <Link href={`/admin/visual-editor?locale=${locale}`}>← Visual Editor</Link>
-      <strong>{id === 'navbar' ? 'Navbar / Header' : 'Footer'} · {locale.toUpperCase()}</strong>
-      <label>Preview page <select value={previewPath} onChange={event => setPreviewPath(event.target.value)}><option value="/services">Standard page</option><option value="/">Home page</option></select></label>
+      <strong>{DOCUMENTS.find(document => document.id === id)!.label} · {locale.toUpperCase()}</strong>
+      {!PAGE_DOCUMENTS.some(page => page.id === id) && <label>Preview page <select value={previewPath} onChange={event => setPreviewPath(event.target.value)}><option value="/services">Standard page</option><option value="/">Home page</option></select></label>}
       <button type="button" onClick={() => setExpanded(value => !value)}>{expanded ? "Exit expanded workspace" : "Expand workspace"}</button>
       <span>{dirty ? 'Unsaved changes' : document.published ? 'Published' : 'Site default'}</span>
-      <a href={`/${locale}${previewPath}`} target="_blank" rel="noreferrer">View public page ↗</a>
+      <a href={`/${locale}${previewPath === "/" ? "" : previewPath}`} target="_blank" rel="noreferrer">View public page ↗</a>
     </div>
     <p className="ve-zoom-help">Expand the workspace, then choose Actual-size canvas for a readable 100% preview. Use the percentage control to zoom out, or the device controls to check responsive layouts.</p>
     {message && <p className="ve-message" role="status">{message}</p>}
     {error && <p className="ve-error" role="alert">{error}</p>}
     <NextIntlClientProvider locale={locale} messages={editorMessages[locale]} timeZone="Africa/Casablanca">
       <AuthProvider>
-        <Puck key={editorKey} config={config} data={initialData} headerTitle={id === 'navbar' ? 'Navbar / Header' : 'Footer'}
+        <Puck key={editorKey} config={config} data={initialData} headerTitle={DOCUMENTS.find(document => document.id === id)!.label}
           onChange={data => { currentData.current = data; setDirty(JSON.stringify(data) !== savedData.current); }}
           onPublish={data => void save('publish', data)}
           overrides={editorOverrides} iframe={{ enabled: true }}

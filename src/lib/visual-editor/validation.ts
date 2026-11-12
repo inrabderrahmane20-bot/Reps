@@ -1,9 +1,12 @@
-﻿import type { Data } from '@measured/puck';
+﻿import { HOME_SECTION_FIELDS, LEGAL_DEFAULTS } from './defaults';
+import type { Data } from '@measured/puck';
 import type { DocumentId } from './types';
 import { safeUrl, sanitizeRichText, sanitizeStyles, safeCssValue } from './sanitize';
 
 export class EditorValidationError extends Error {}
 
+export const HOME_BLOCKS = [...Object.keys(HOME_SECTION_FIELDS), 'HomeContent'];
+export const SERVICES_BLOCKS = ['ServicesHero','ServicesContent','ServicesSearch','ServicesCategories','ServicesTree','ServicesResults','MoroccanDivider'];
 export const SHARED_BLOCKS = ['Section','Column','Grid','Text','RichText','Image','Icon','Button'] as const;
 export function sanitizeDocument(input: unknown, documentId: DocumentId): Data {
   if ((JSON.stringify(input) ?? '').length > 500_000) throw new EditorValidationError('Document exceeds 500 KB.');
@@ -25,7 +28,7 @@ export function sanitizeDocument(input: unknown, documentId: DocumentId): Data {
     const source = value as Record<string, unknown>;
     const result: Record<string, unknown> = {};
     if ('type' in source) {
-      const allowed = [...SHARED_BLOCKS, documentId === 'navbar' ? 'Navbar' : 'Footer'];
+      const allowed = [...SHARED_BLOCKS, ...(LEGAL_DEFAULTS[documentId] ? ['LegalIntro'] : documentId === 'home' ? HOME_BLOCKS : documentId === 'services' ? SERVICES_BLOCKS : [documentId === 'navbar' ? 'Navbar' : 'Footer'])];
       if (typeof source.type !== 'string' || !allowed.includes(source.type as any)) throw new EditorValidationError('Unknown block type.');
       if (++blocks > 150) throw new EditorValidationError('A document can contain at most 150 blocks.');
       const id = (source.props as Record<string, unknown> | undefined)?.id;
@@ -66,9 +69,13 @@ function validateBlock(block: Record<string, any>) {
     if (!Array.isArray(props.content.columns) || props.content.columns.length > 12) throw new EditorValidationError('Invalid footer column fields.');
     for (const column of props.content.columns) { strings(column, ['title']); links(column.links); }
   }
-  if (['Section','Column','Grid'].includes(block.type)) {
+  if (['Section','Column','Grid','ServicesContent','HomeContent'].includes(block.type)) {
     if (!Array.isArray(props.children) || props.children.some((child: any) => !child || typeof child.type !== 'string')) throw new EditorValidationError('Invalid nested block fields.');
   }
+  if (block.type === 'LegalIntro') strings(props.content, ['title','description','icon']);
+  if (HOME_SECTION_FIELDS[block.type]) strings(props.content, [...HOME_SECTION_FIELDS[block.type], ...(block.type === 'HomeHero' ? ['src'] : [])]);
+  const required: Record<string,string[]> = { ServicesHero: ['heroKicker','heroTitle','heroSubtitle','src'], ServicesSearch: ['searchServices','searchButton','searchHint'], ServicesCategories: ['exploreTitle','exploreSubtitle'], ServicesTree: ['categories'], ServicesResults: [], MoroccanDivider: [] };
+  if (required[block.type]) strings(props.content, required[block.type]);
   if (block.type === 'Text') strings(props, ['text','as']);
   if (block.type === 'RichText') strings(props, ['html']);
   if (block.type === 'Image') strings(props, ['src','alt','objectFit']);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import {
   ArrowRight,
@@ -32,6 +32,8 @@ import {
   type ViewMode,
 } from '@/components/services/service-views';
 
+import { PageSectionsContext, type PageSections } from '@/components/visual-editor/page-context';
+
 const PAGE_SIZE = 24;
 type SortKey = 'newest' | 'rating' | 'available' | 'alpha';
 
@@ -45,7 +47,7 @@ type ProviderRow = PublicUser & {
   promotion?: PromotionInfo | null;
 };
 
-export default function ServicesPage({ initialCategories }: { initialCategories: SearchCategoryNode[] }) {
+export default function ServicesPage({ initialCategories, editorChildren }: { initialCategories: SearchCategoryNode[]; editorChildren?: ReactNode }) {
   const t = useTranslations('services');
   const locale = useLocale();
   const [appliedCategoryId, setAppliedCategoryId] = useState<string | null>(null);
@@ -286,13 +288,8 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
     if (showResults) requestAnimationFrame(scrollToResults);
   }, [showResults]);
 
-  return (
-    <div className="moroccan-canvas svc-page min-h-screen pb-16">
-      <ServicesHero />
-
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
-        {/* Main search bar */}
-        <div className="svc-search-wrap relative z-10" data-tour-target="services-search">
+  const sections: PageSections = {
+    ServicesSearch: (content) => (        <div className="svc-search-wrap relative z-10" data-tour-target="services-search">
           <form
             role="search"
             onSubmit={(event) => {
@@ -309,8 +306,8 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={t('searchServices')}
-              aria-label={t('searchServices')}
+              placeholder={(content.searchServices ?? t('searchServices'))}
+              aria-label={(content.searchServices ?? t('searchServices'))}
             />
             {q !== '' && (
               <button
@@ -322,32 +319,28 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
                 <X size={15} />
               </button>
             )}
-            <button type="submit" className="svc-search-btn" aria-label={t('searchButton')}>
+            <button type="submit" className="svc-search-btn" aria-label={(content.searchButton ?? t('searchButton'))}>
               <Search size={16} aria-hidden />
-              <span className="hidden sm:inline">{t('searchButton')}</span>
+              <span className="hidden sm:inline">{(content.searchButton ?? t('searchButton'))}</span>
             </button>
           </form>
-          <p className="svc-search-hint mt-2 text-xs text-typography-main/50">{t('searchHint')}</p>
-        </div>
-
-        <MoroccanDivider />
-
-        {categoryError && <p role="alert" className="mb-4 text-sm text-terracotta-600">{t('loadError')}</p>}
+          <p className="svc-search-hint mt-2 text-xs text-typography-main/50">{(content.searchHint ?? t('searchHint'))}</p>
+        </div>),
+    ServicesCategories: (content) => (<>        {categoryError && <p role="alert" className="mb-4 text-sm text-terracotta-600">{t('loadError')}</p>}
         {!serviceCategories.length && <p role="status" className="my-8 text-center text-typography-main/70">{t('noCategories')}</p>}
         <CategoryDiscovery
+          title={content.exploreTitle}
+          subtitle={content.exploreSubtitle}
           categories={serviceCategories}
           selected={discoverySelection}
           onSelect={selectCategory}
-        />
-
-        <MoroccanDivider />
-
-        {serviceCategories.length > 0 && <section className="svc-category-tree overflow-hidden rounded-3xl border border-ink-900/10 bg-white/80" aria-label={t('categories')}>
+        /></>),
+    ServicesTree: (content) => (serviceCategories.length > 0 && <section className="svc-category-tree overflow-hidden rounded-3xl border border-ink-900/10 bg-white/80" aria-label={(content.categories ?? t('categories'))}>
           <CategoryTreeBrowser
             key={discoverySelection ?? 'service-root'}
             categories={serviceCategories}
             initialPath={discoverySelection ? [discoverySelection] : []}
-            rootLabel={t('categories')}
+            rootLabel={(content.categories ?? t('categories'))}
             onNavigate={(path) => {
               setSelectedGroup(path[0]?.id ?? null);
               setAppliedCategoryId(null);
@@ -364,10 +357,8 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
               setShowResults(true);
             }}
           />
-        </section>}
-        <MoroccanDivider />
-
-        {showResults && <div className="svc-professional-results">
+        </section>),
+    ServicesResults: (_content, editing) => ((showResults || editing) && <div className="svc-professional-results">
           {/* Results */}
           <section
             ref={resultsRef}
@@ -473,9 +464,24 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
               </>
             )}
           </section>
-        </div>}
-      </div>
+        </div>),
+  };
 
+  return (
+    <PageSectionsContext.Provider value={sections}>
+    <div className={editorChildren ? undefined : "moroccan-canvas svc-page min-h-screen pb-16"} style={editorChildren ? { display: "contents" } : undefined}>
+      {editorChildren ?? <>
+      <ServicesHero />
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
+        {sections.ServicesSearch({}, false)}
+        <MoroccanDivider />
+        {sections.ServicesCategories({}, false)}
+        <MoroccanDivider />
+        {sections.ServicesTree({}, false)}
+        <MoroccanDivider />
+        {sections.ServicesResults({}, false)}
+      </div>
+      </>}
       {/* Request modal */}
       {requesting && (
         <RequestServiceModal
@@ -485,6 +491,7 @@ export default function ServicesPage({ initialCategories }: { initialCategories:
         />
       )}
     </div>
+    </PageSectionsContext.Provider>
   );
 }
 

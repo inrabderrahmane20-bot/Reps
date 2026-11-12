@@ -13,10 +13,12 @@ import type { ServiceListing } from '@/components/services/service-views';
  * (discount, original/promotional price, end date) — nothing is invented.
  */
 export function PromoShowcase({
+  content = {},
   items,
   loading,
   onRequest,
 }: {
+  content?: Record<string,string>;
   items: ServiceListing[];
   loading: boolean;
   onRequest: (item: ServiceListing) => void;
@@ -42,16 +44,16 @@ export function PromoShowcase({
             </span>
             <div className="min-w-0 flex-1">
               <h2 id="home-promos" className="break-words font-display text-[1.6rem] font-semibold leading-tight text-ink-900 sm:text-3xl">
-                {t('sectionPromotions')}
+                {content.sectionPromotions ?? t('sectionPromotions')}
               </h2>
-              <p className="mt-1 break-words text-[14px] text-ink-500">{t('sectionPromotionsSubtitle')}</p>
+              <p className="mt-1 break-words text-[14px] text-ink-500">{content.sectionPromotionsSubtitle ?? t('sectionPromotionsSubtitle')}</p>
             </div>
           </div>
           <Link
             href="/promotions"
             className="inline-flex max-w-full shrink-0 self-start items-center gap-2 rounded-full bg-sunset-500 px-4 py-2.5 text-[13px] font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600 sm:self-auto"
           >
-            <span className="min-w-0 break-words">{t('viewAllPromotions')}</span>
+            <span className="min-w-0 break-words">{content.viewAllPromotions ?? t('viewAllPromotions')}</span>
             <ArrowRight size={14} className="flip-rtl shrink-0" aria-hidden />
           </Link>
         </div>

@@ -1,7 +1,7 @@
 ﻿import type { Data } from '@measured/puck';
 import type { Locale } from '@/i18n/config';
 
-export type DocumentId = 'navbar' | 'footer';
+export type DocumentId = 'navbar' | 'footer' | 'services' | 'home' | 'privacy' | 'terms' | 'rules';
 export interface VisualDocument {
   id: DocumentId;
   locale: Locale;
@@ -32,5 +32,7 @@ export interface FooterContent {
   rights: string;
   columns: { title: string; links: EditableLink[] }[];
 }
-export const DOCUMENTS = [{ id: 'navbar', label: 'Navbar / Header' }, { id: 'footer', label: 'Footer' }] as const;
-export function isDocumentId(value: string): value is DocumentId { return value === 'navbar' || value === 'footer'; }
+export const PAGE_DOCUMENTS = [{id:'privacy',label:'Privacy',path:'/privacy'},{id:'terms',label:'Terms',path:'/terms'},{id:'rules',label:'Rules',path:'/rules'}, { id: 'home', label: 'Home', path: '/' }, { id: 'services', label: 'Services', path: '/services' }] as const;
+export function documentPath(id: DocumentId): string { return PAGE_DOCUMENTS.find(page => page.id === id)?.path ?? '/services'; }
+export const DOCUMENTS = [{ id: 'navbar', label: 'Navbar / Header' }, { id: 'footer', label: 'Footer' }, ...PAGE_DOCUMENTS] as const;
+export function isDocumentId(value: string): value is DocumentId { return DOCUMENTS.some(document => document.id === value); }

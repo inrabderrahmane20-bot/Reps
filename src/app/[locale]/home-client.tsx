@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Hero } from '@/components/home/hero';
@@ -16,6 +16,8 @@ import { serviceTaxonomyFromTree, topLevelCategories } from '@/lib/service-categ
 import { Star, Users } from 'lucide-react';
 import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
+
+import { PageSectionsContext, type PageSections } from '@/components/visual-editor/page-context';
 
 type HomeProvider = {
   id: string;
@@ -63,7 +65,7 @@ function toListing(p: HomeProvider): ServiceListing {
   };
 }
 
-export default function HomePage() {
+export default function HomePage({ editorChildren }: { editorChildren?: ReactNode } = {}) {
   const t = useTranslations('home');
   const { user } = useAuth();
 
@@ -153,24 +155,21 @@ export default function HomePage() {
     loadAll();
   }
 
-  return (
-    <div className="home-redesign">
-      <Hero
+  const sections: PageSections = {
+    HomeHero: (content) => (<Hero
+        content={content}
         providerCount={providerTotal}
         promoCount={promoTotal}
         categoryCount={categoryCount}
-      />
-
-      <div className="home-primary-sections">
-        <CategoryGrid categories={categoryTree} />
-
-        <section className="home-best-rated" aria-labelledby="home-best-rated">
+      />),
+    HomeCategories: (_content) => (<CategoryGrid categories={categoryTree} />),
+    HomeBestRated: (content) => (<section className="home-best-rated" aria-labelledby="home-best-rated">
           <SectionHeader
             id="home-best-rated"
-            title={t('sectionBestRated')}
-            subtitle={t('sectionBestRatedSubtitle')}
+            title={(content.sectionBestRated ?? t('sectionBestRated'))}
+            subtitle={(content.sectionBestRatedSubtitle ?? t('sectionBestRatedSubtitle'))}
             seeAllHref="/services?sort=rating"
-            seeAllLabel={t('seeAll')}
+            seeAllLabel={(content.seeAll ?? t('seeAll'))}
           />
           {loadingHome ? (
             <div className="home-card-grid">
@@ -183,19 +182,18 @@ export default function HomePage() {
           ) : (
             <div className="home-empty-card">
               <span className="home-empty-icon"><Star size={25} aria-hidden /></span>
-              <h3>{t('emptyProvidersTitle')}</h3>
-              <p>{t('emptyProvidersBody')}</p>
+              <h3>{(content.emptyProvidersTitle ?? t('emptyProvidersTitle'))}</h3>
+              <p>{(content.emptyProvidersBody ?? t('emptyProvidersBody'))}</p>
             </div>
           )}
-        </section>
-
-        <section className="home-communities" aria-labelledby="home-communities">
+        </section>),
+    HomeCommunities: (content) => (<section className="home-communities" aria-labelledby="home-communities">
           <SectionHeader
             id="home-communities"
-            title={t('sectionCommunities')}
-            subtitle={t('sectionCommunitiesSubtitle')}
+            title={(content.sectionCommunities ?? t('sectionCommunities'))}
+            subtitle={(content.sectionCommunitiesSubtitle ?? t('sectionCommunitiesSubtitle'))}
             seeAllHref="/communities"
-            seeAllLabel={t('seeAll')}
+            seeAllLabel={(content.seeAll ?? t('seeAll'))}
           />
           {loadingHome ? (
             <div className="home-card-grid">
@@ -218,34 +216,31 @@ export default function HomePage() {
           ) : (
             <div className="home-empty-card home-empty-community">
               <span className="home-empty-icon"><Users size={25} aria-hidden /></span>
-              <h3>{t('emptyCommunitiesTitle')}</h3>
-              <p>{t('emptyCommunitiesBody')}</p>
+              <h3>{(content.emptyCommunitiesTitle ?? t('emptyCommunitiesTitle'))}</h3>
+              <p>{(content.emptyCommunitiesBody ?? t('emptyCommunitiesBody'))}</p>
             </div>
           )}
-        </section>
-
-        <section className="home-additional-section" aria-label={t('sectionPromotions')}>
-          <PromoShowcase items={promos} loading={loadingHome} onRequest={setRequesting} />
-        </section>
-
-        {availableNow.length > 0 && (
+        </section>),
+    HomePromotions: (content) => (<section className="home-additional-section" aria-label={(content.sectionPromotions ?? t('sectionPromotions'))}>
+          <PromoShowcase content={content} items={promos} loading={loadingHome} onRequest={setRequesting} />
+        </section>),
+    HomeAvailable: (content) => (availableNow.length > 0 && (
           <section className="home-additional-section" aria-labelledby="home-available">
             <SectionHeader
               id="home-available"
-              title={t('sectionAvailableNow')}
-              subtitle={t('sectionAvailableNowSubtitle')}
+              title={(content.sectionAvailableNow ?? t('sectionAvailableNow'))}
+              subtitle={(content.sectionAvailableNowSubtitle ?? t('sectionAvailableNowSubtitle'))}
               seeAllHref="/services?availability=available"
-              seeAllLabel={t('seeAll')}
+              seeAllLabel={(content.seeAll ?? t('seeAll'))}
             />
             <div className="home-card-grid">
               {availableNow.map((p) => <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />)}
             </div>
           </section>
-        )}
-
-        {sponsored.length > 0 && (
+        )),
+    HomeSponsored: (content) => (sponsored.length > 0 && (
           <section className="home-additional-section" aria-labelledby="home-sponsored">
-            <SectionHeader id="home-sponsored" title={t('sectionSponsored')} />
+            <SectionHeader id="home-sponsored" title={(content.sectionSponsored ?? t('sectionSponsored'))} />
             {loadingHome ? (
               <div className="flex gap-3 overflow-hidden">
                 {[0, 1, 2].map((i) => <SponsoredCardSkeleton key={i} />)}
@@ -256,13 +251,27 @@ export default function HomePage() {
               </div>
             )}
           </section>
-        )}
+        )),
+  };
+  return (
+    <PageSectionsContext.Provider value={sections}>
+    <div className={editorChildren ? undefined : "home-redesign"} style={editorChildren ? { display: "contents" } : undefined}>
+      {editorChildren ?? <>
+      {sections.HomeHero({}, false)}
+      <div className="home-primary-sections">
+        {sections.HomeCategories({}, false)}
+        {sections.HomeBestRated({}, false)}
+        {sections.HomeCommunities({}, false)}
+        {sections.HomePromotions({}, false)}
+        {sections.HomeAvailable({}, false)}
+        {sections.HomeSponsored({}, false)}
       </div>
-
+      </>}
       {/* Request modal */}
       {requesting && (
         <RequestServiceModal providerId={requesting.id} category={requesting.category} onClose={() => setRequesting(null)} />
       )}
     </div>
+    </PageSectionsContext.Provider>
   );
 }
