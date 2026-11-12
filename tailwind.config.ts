@@ -20,8 +20,6 @@ const terracotta = {
   950: '#662D00',
 };
 
-const wine = terracotta;
-const sunset = terracotta;
 
 const config: Config = {
   darkMode: 'class',
