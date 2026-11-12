@@ -2,7 +2,22 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { ArrowDown, ArrowUp, ChevronDown, FolderPlus, ImageIcon, Move, Pencil, Plus, RotateCcw, Save, Trash2, X } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronDown,
+  FolderPlus,
+  Image as ImageIcon,
+
+  Move,
+  Pencil,
+  Plus,
+  RotateCcw,
+  Save,
+  Trash2,
+  Upload,
+  X,
+} from 'lucide-react';
 import { api, apiErrorMessage } from '@/lib/api-client';
 import { slugifyCategory, type SearchCategoryNode } from '@/lib/category-tree';
 
@@ -134,6 +149,9 @@ export default function AdminCategoriesPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editLabels, setEditLabels] = useState<CategoryLabels>({ fr: '', en: '', ar: '' });
   const [editImage, setEditImage] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [dragOver, setDragOver] = useState(false);
   const [movingId, setMovingId] = useState<string | null>(null);
   const [parentSelection, setParentSelection] = useState('');
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
@@ -168,6 +186,29 @@ export default function AdminCategoriesPage() {
     setEditingId(node.id);
     setEditLabels({ fr: node.labels.fr ?? '', en: node.labels.en ?? '', ar: node.labels.ar ?? '' });
     setEditImage(node.image ?? '');
+    setUploadedUrl(null);
+  }
+
+  async function uploadImage(file: File) {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await fetch('/api/admin/upload-image', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Image upload failed.');
+      }
+      const data = await res.json();
+      setUploadedUrl(data.url);
+      setEditImage(data.url);
+      setDirty(true);
+    } finally {
+      setUploading(false);
+    }
   }
 
   function addCategory(parentId: string | null) {
@@ -384,32 +425,85 @@ export default function AdminCategoriesPage() {
                 </label>
               ))}
               <label className="text-xs font-semibold uppercase text-ink-500 sm:col-span-3">
-                Card photo URL
+                Card photo
                 <span className="ms-2 font-normal normal-case text-ink-400">
-                  Use a path such as /images/categories/places.jpg or an https image.
+                  Upload from your device or enter a URL.
                 </span>
-                <div className="mt-1 flex items-center gap-3">
-                  {editImage.trim() ? (
-                    <Image
-                      src={editImage.trim()}
-                      alt=""
-                      width={56}
-                      height={56}
-                      className="h-14 w-14 shrink-0 rounded-lg border border-ink-900/10 object-cover"
-                    />
-                  ) : (
-                    <span className="grid h-14 w-14 shrink-0 place-items-center rounded-lg bg-sand-100 text-ink-400">
-                      <ImageIcon size={20} />
+                <div className="mt-1 flex flex-col items-center gap-2">
+                  {/* Drag-and-drop upload zone */}
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setDragOver(true);
+                    }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setDragOver(false);
+                      const files = e.dataTransfer.files;
+                      if (files.length) uploadImage(files[0]);
+                    }}
+                    className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-4 py-4 transition-colors ${
+                      dragOver
+                        ? 'border-terracotta-600 bg-terracotta-50/20'
+                        : 'border-ink-900/15 bg-sand-100/30 hover:border-terracotta-600 hover:bg-terracotta-50/10'
+                    }`}
+                  >
+                    <Upload size={20} className={`text-ink-600 ${dragOver ? 'text-terracotta-600 animate-pulse' : ''}`} />
+                    <span className="text-xs text-ink-600 font-medium">
+                      {dragOver ? 'Drop image here…' : 'Drag & drop or click to upload'}
                     </span>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      className="hidden"
+                      onChange={(e) => {
+                        const files = e.target.files;
+                        if (files?.length) uploadImage(files[0]);
+                      }}
+                    />
+                  </div>
+
+                  {/* Preview + max size hint */}
+                  {editImage.trim() || uploadedUrl ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <Image
+                        src={editImage.trim() || uploadedUrl!}
+                        alt=""
+                        width={56}
+                        height={56}
+                        className="h-14 w-14 shrink-0 rounded-lg border border-ink-900/10 object-cover"
+                      />
+                      {uploading ? (
+                        <span className="text-[10px] text-terracotta-600 font-medium">Uploading…</span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditImage('');
+                            setUploadedUrl(null);
+                            setDirty(true);
+                          }}
+                          className="text-[10px] text-ink-500 hover:text-ink-900 underline"
+                        >
+                          Keep empty
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <span className="text-[10px] text-ink-400">No image selected</span>
                   )}
+
+                  {/* Manual URL input */}
                   <input
                     value={editImage}
                     onChange={(event) => {
                       setEditImage(event.target.value);
+                      setUploadedUrl(null);
                       setDirty(true);
                     }}
                     placeholder="/images/categories/technique.jpg"
-                    className="w-full rounded-lg border border-ink-900/15 px-3 py-2 text-sm font-normal text-ink-900"
+                    className="w-full rounded-lg border border-ink-900/15 px-3 py-2 text-xs font-normal text-ink-900"
                     maxLength={2048}
                   />
                 </div>
