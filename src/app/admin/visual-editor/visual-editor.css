@@ -14,3 +14,19 @@
 .ve-image-field label { display: grid; gap: 8px; }
 .ve-image-field p[role=alert] { color: #a32621; }
 .ve-shell { font-family: system-ui, -apple-system, sans-serif; }
+.ve-expanded { position: fixed; inset: 0; z-index: 100; margin: 0; overflow: auto; background: #f5f7f7; }
+.ve-toolbar button { background: #fff; border: 1px solid #b8c8c3; border-radius: 6px; padding: 6px 10px; }
+.ve-inspector { position: fixed; inset: 90px 16px 16px auto; z-index: 200; width: min(440px, calc(100vw - 32px)); overflow: auto; background: white; border: 1px solid #afc1ba; box-shadow: 0 8px 40px #0003; border-radius: 10px; padding: 18px; font: 13px/1.5 system-ui, sans-serif; color: #173d34; }
+.ve-inspector-title { display: flex; align-items: center; justify-content: space-between; }
+.ve-inspector label { display: grid; gap: 6px; margin: 14px 0; font-weight: 600; }
+.ve-inspector select, .ve-inspector textarea, .ve-inspector output { width: 100%; padding: 8px; border: 1px solid #c8d2cd; border-radius: 5px; font: 13px/1.5 system-ui, sans-serif; font-weight: normal; }
+.ve-inspector select { white-space: pre; }
+.ve-inspector textarea { min-height: 90px; }
+.ve-inspector output { background: #f1f5f2; overflow-wrap: anywhere; white-space: pre-wrap; }
+.ve-inspector dl > div { display: grid; grid-template-columns: 120px 1fr; gap: 10px; border-bottom: 1px solid #e5ebe8; padding: 5px 0; }
+.ve-inspector dd { margin: 0; overflow-wrap: anywhere; }
+.ve-inspector p { margin: 10px 0; }
+.ve-pick-message { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 201; background: #07594c; color: white; padding: 12px 20px; border-radius: 8px; pointer-events: none; }
+/* Keep the zoomed canvas reachable from its left edge at 100% and above. */
+.ve-shell [class*="_PuckCanvas-root_"] { left: 0; transform-origin: top left; }
+.ve-zoom-help { padding: 8px 16px; margin: 0; font-size: 12px; background: #eef4f1; color: #315348; }
