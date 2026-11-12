@@ -3,6 +3,8 @@ import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
 import { classifyZone, haversineKm } from '@/lib/zones';
 import { expandCategory, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { categoryPath, categoryBranchValues } from '@/lib/service-selection';
+import { normalizeCategory } from '@/lib/service-categories';
 import { getCategoryTree } from '@/lib/category-store';
 import { activePromotion, isSponsorshipActive } from '@/lib/marketing';
 import type { Availability } from '@/lib/types';
@@ -34,6 +36,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q')?.toLowerCase();
   const cat = searchParams.get('cat');
+  const catId = searchParams.get('catId');
   const availabilityParam = searchParams.get('availability');
   const minRating = searchParams.get('minRating') ? Number(searchParams.get('minRating')) : null;
   const zone = searchParams.get('zone');
@@ -52,10 +55,16 @@ export async function GET(req: NextRequest) {
     .filter(Boolean) as Availability[];
 
   const db = await readDb();
-  const serviceTaxonomy = serviceTaxonomyFromTree(await getCategoryTree());
+  const categoryTree = await getCategoryTree();
+  const serviceTaxonomy = serviceTaxonomyFromTree(categoryTree);
   let providers = db.users.filter((u) => u.providerStatus === 'approved' && u.provider && u.status === 'active');
 
-  if (cat) {
+  if (catId) {
+    const path = categoryPath(categoryTree, catId);
+    if (!path) return NextResponse.json({ providers: [], total: 0 });
+    const values = categoryBranchValues(path[path.length - 1]);
+    providers = providers.filter(user => values.has(normalizeCategory(user.provider!.category)));
+  } else if (cat) {
     const leaves = expandCategory(cat, serviceTaxonomy);
     if (leaves.length === 0) {
       return NextResponse.json({ providers: [], total: 0 });

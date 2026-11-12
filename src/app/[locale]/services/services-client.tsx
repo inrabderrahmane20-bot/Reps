@@ -19,8 +19,9 @@ import { SponsoredStrip } from '@/components/services/sponsored-strip';
 import { ServiceFinder } from '@/components/services/service-finder';
 import { ServicesHero } from '@/components/services/services-hero';
 import { CategoryDiscovery, MoroccanDivider } from '@/components/services/category-discovery';
-import { homeSectionItems, homeSections } from '@/lib/home-categories';
-import { getCategoryLabel, SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
+import { homeSections } from '@/lib/home-categories';
+import { getCategoryLabel, type SearchCategoryNode } from '@/lib/category-tree';
+import { categoryPath } from '@/lib/service-selection';
 import type { PromotionInfo } from '@/lib/types';
 import {
   ServiceListRow,
@@ -47,6 +48,8 @@ type ProviderRow = PublicUser & {
 export default function ServicesPage() {
   const t = useTranslations('services');
   const locale = useLocale();
+  const [appliedCategoryId, setAppliedCategoryId] = useState<string | null>(null);
+  const [categoryError, setCategoryError] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [showResults, setShowResults] = useState(false);
   const { user } = useAuth();
@@ -63,7 +66,7 @@ export default function ServicesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
+  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>([]);
 
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
   const [sponsored, setSponsored] = useState<ServiceListing[]>([]);
@@ -82,6 +85,8 @@ export default function ServicesPage() {
       setDebouncedQ(initialQ);
       setShowResults(true);
     }
+    const initialCategoryId = params.get('catId');
+    if (initialCategoryId) { setAppliedCategoryId(initialCategoryId); setShowResults(true); }
     const initialCat = params.get('cat');
     if (initialCat) {
       setFilters((f) => ({ ...f, cat: initialCat }));
@@ -100,34 +105,51 @@ export default function ServicesPage() {
     return () => clearTimeout(id);
   }, [q]);
 
-  // Live category tree for the photographic discovery grid. Never hardcoded.
+  // Refresh after admin saves in another tab and when returning to this page.
   useEffect(() => {
     let active = true;
-    api
-      .get<{ categories: SearchCategoryNode[] }>('/categories/tree')
-      .then((r) => {
-        if (active) setCategoryTree(r.categories ?? []);
-      })
-      .catch(() => {
-        if (active) setCategoryTree(SEARCH_CATEGORIES);
-      });
+    let pending = false;
+    async function refresh() {
+      if (pending || document.visibilityState === 'hidden') return;
+      pending = true;
+      try {
+        const response = await api.get<{ categories: SearchCategoryNode[] }>('/categories/tree');
+        if (active) {
+          setCategoryTree(previous => JSON.stringify(previous) === JSON.stringify(response.categories) ? previous : response.categories);
+          setCategoryError(false);
+        }
+      } catch {
+        if (active) setCategoryError(true);
+      } finally { pending = false; }
+    }
+    function onStorage(event: StorageEvent) {
+      if (event.key === 'medina.categories.updated') void refresh();
+    }
+    void refresh();
+    const timer = window.setInterval(() => void refresh(), 30000);
+    window.addEventListener('focus', refresh);
+    window.addEventListener('storage', onStorage);
+    document.addEventListener('visibilitychange', refresh);
     return () => {
       active = false;
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refresh);
+      window.removeEventListener('storage', onStorage);
+      document.removeEventListener('visibilitychange', refresh);
     };
   }, []);
 
   const serviceCategories = useMemo(() => {
-    if (!categoryTree.length) return [];
-    const section = homeSections(categoryTree).find((s) => s.kind === 'services');
-    if (!section) return categoryTree.slice(0, 12);
-    return homeSectionItems(section.root, 'services', 12);
+    const section = homeSections(categoryTree).find(section => section.kind === 'services');
+    return section?.root.children ?? [];
   }, [categoryTree]);
 
   const buildQuery = useCallback(
     (offset: number) => {
       const params = new URLSearchParams();
       if (debouncedQ) params.set('q', debouncedQ);
-      if (filters.cat) params.set('cat', filters.cat);
+      if (appliedCategoryId) params.set('catId', appliedCategoryId);
+      else if (filters.cat) params.set('cat', filters.cat);
       if (filters.availability.length > 0) params.set('availability', filters.availability.join(','));
       if (filters.minRating != null) params.set('minRating', String(filters.minRating));
       if (filters.zone && filters.zone !== 'all') params.set('zone', filters.zone);
@@ -140,13 +162,13 @@ export default function ServicesPage() {
       if (offset > 0) params.set('offset', String(offset));
       return params;
     },
-    [debouncedQ, filters.cat, filters.availability, filters.minRating, filters.zone, sort, user?.homeLat, user?.homeLng]
+    [appliedCategoryId, debouncedQ, filters.cat, filters.availability, filters.minRating, filters.zone, sort, user?.homeLat, user?.homeLng]
   );
 
   const mapRow = useCallback((p: ProviderRow): ServiceListing => ({
     id: p.id,
     name: `${p.firstName} ${p.lastName}`,
-    category: p.provider!.category,
+    category: (() => { const path = categoryPath(categoryTree, p.provider!.category); return path ? getCategoryLabel(path[path.length - 1], locale) : p.provider!.category; })(),
     title: p.provider!.title,
     rating: p.rating ?? 0,
     reviewCount: p.reviewCount,
@@ -162,7 +184,7 @@ export default function ServicesPage() {
     sponsoredPlacement: p.sponsoredCampaign?.placement ?? 'both',
     sponsoredHref: p.sponsoredCampaign?.href,
     promotion: p.promotion ?? null,
-  }), []);
+  }), [categoryTree, locale]);
 
   // Sponsored placements — a fixed strip above organic results. Campaigns
   // scheduled for the homepage only are filtered out here, and a placement
@@ -181,8 +203,9 @@ export default function ServicesPage() {
       .finally(() => setSponsoredLoading(false));
   }, [mapRow]);
 
-  // Fetch the first page whenever any query dimension changes.
+  // Fetch only after the user requests professionals or submits a search.
   useEffect(() => {
+    if (!showResults) return;
     const seq = ++requestSeq.current;
     setLoading(true);
     setError(null);
@@ -205,7 +228,7 @@ export default function ServicesPage() {
       .finally(() => {
         if (requestSeq.current === seq) setLoading(false);
       });
-  }, [buildQuery, debouncedQ, mapRow]);
+  }, [buildQuery, debouncedQ, mapRow, showResults]);
 
   async function loadMore() {
     const seq = requestSeq.current;
@@ -235,6 +258,7 @@ export default function ServicesPage() {
     setQ('');
     setDebouncedQ('');
     setFilters(DEFAULT_FILTERS);
+    setAppliedCategoryId(null);
   }
 
   function scrollToResults() {
@@ -246,11 +270,24 @@ export default function ServicesPage() {
     setShowResults(false);
   }
 
-  const discoverySelection = selectedGroup ?? (serviceCategories[0] ? getCategoryLabel(serviceCategories[0], locale) : null);
+  const discoveryGroup = serviceCategories.find(node => node.id === selectedGroup)
+    ?? serviceCategories.find(node => appliedCategoryId && categoryPath([node], appliedCategoryId))
+    ?? serviceCategories[0];
+  const discoverySelection = discoveryGroup?.id ?? null;
+
+  useEffect(() => {
+    if (appliedCategoryId && categoryTree.length && !categoryPath(categoryTree, appliedCategoryId)) {
+      setAppliedCategoryId(null);
+      setShowResults(false);
+    }
+  }, [categoryTree, appliedCategoryId]);
+
+  useEffect(() => {
+    if (showResults) requestAnimationFrame(scrollToResults);
+  }, [showResults]);
 
   return (
     <div className="moroccan-canvas svc-page min-h-screen pb-16">
-      <span className="svc-original-corner" aria-hidden="true" />
       <ServicesHero />
 
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
@@ -261,6 +298,8 @@ export default function ServicesPage() {
             onSubmit={(event) => {
               event.preventDefault();
               setDebouncedQ(q.trim());
+              setAppliedCategoryId(null);
+              setFiltersMerged({ cat: null });
               setShowResults(true);
             }}
             className="svc-search"
@@ -293,6 +332,7 @@ export default function ServicesPage() {
 
         <MoroccanDivider />
 
+        {categoryError && <p role="alert" className="mb-4 text-sm text-terracotta-600">{t('loadError')}</p>}
         <CategoryDiscovery
           categories={serviceCategories}
           selected={discoverySelection}
@@ -301,10 +341,18 @@ export default function ServicesPage() {
 
         <MoroccanDivider />
 
-        <div className="svc-finder-artwork">
+        {discoveryGroup && <div className="svc-finder-artwork">
           <span className="svc-original-foliage" aria-hidden="true" />
-        <ServiceFinder key={discoverySelection} categories={serviceCategories} selected={discoverySelection} onApply={(cat) => { setFiltersMerged({ cat }); setShowResults(true); requestAnimationFrame(scrollToResults); }} />
-        </div>
+        <ServiceFinder key={discoverySelection} group={discoveryGroup} onChange={() => setShowResults(false)} onApply={(node) => {
+          setAppliedCategoryId(node.id);
+          setFiltersMerged({ cat: null });
+          setQ('');
+          setDebouncedQ('');
+          setLoading(true);
+          setProviders([]);
+          setShowResults(true);
+        }} />
+        </div>}
         <MoroccanDivider />
 
         {showResults && <div className="svc-professional-results">

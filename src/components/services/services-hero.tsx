@@ -12,7 +12,8 @@ export function ServicesHero() {
         <Image
           src="/images/services/marrakech-hero-artwork.png"
           alt=""
-          fill
+          width={1536}
+          height={1024}
           priority
           sizes="(min-width: 1280px) 1280px, 100vw"
           className="svc-painted-background"

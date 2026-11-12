@@ -312,6 +312,7 @@ export default function AdminCategoriesPage() {
     setError(null);
     try {
       const response = await api.put<{ categories: CategoryTree }>('/admin/categories', { categories: treeToSave });
+      try { localStorage.setItem('medina.categories.updated', String(Date.now())); } catch { /* Cross-tab refresh is optional. */ }
       setCategories(response.categories);
       setSavedCategories(response.categories);
       setDirty(false);

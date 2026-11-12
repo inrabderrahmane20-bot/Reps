@@ -4490,3 +4490,28 @@ body {
   .svc-page .svc-painted-copy .svc-hero-lead { max-width: 300px; font-size: .95rem; line-height: 1.65; margin-top: 18px; }
 }
 [dir='rtl'] .svc-painted-copy { inset-inline-start: auto; left: 11.5%; }
+
+/* Preserve the complete artwork instead of cropping it into a fixed-height box. */
+.svc-page .svc-painted-hero { overflow: visible; }
+.svc-page .svc-painted-scene { height: auto; aspect-ratio: auto; }
+.svc-page .svc-painted-background { display: block; position: relative; width: 100%; height: auto; object-fit: contain; }
+.svc-page .svc-option-levels { min-width: 0; }
+.svc-page .svc-option-level { min-width: 0; margin: 0 0 20px; padding: 0; border: 0; }
+.svc-page .svc-option-level legend { display: block; width: 100%; padding: 0; margin: 16px 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.45rem, 4.7vw, 2.3rem); font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+.svc-page .svc-trade-select { min-width: 0; }
+.svc-page .svc-trade-select select { max-width: 100%; }
+.svc-page .svc-finder-path { flex-wrap: wrap; overflow-wrap: anywhere; }
+.svc-page .svc-installations button { padding: 10px; overflow-wrap: anywhere; }
+.svc-page .svc-cat-label span { overflow-wrap: anywhere; }
+@media (min-width: 1024px) {
+  .svc-page .svc-option-levels { grid-column: 2; grid-row: 2 / span 2; }
+  .svc-page .svc-option-level legend { margin: 0 0 20px; font-size: 1.9rem; }
+  .svc-page .svc-option-level + .svc-option-level { margin-top: 24px; }
+  .svc-page .svc-find-professionals { align-self: start; }
+}
+
+/* Blend the paper edges into the page instead of leaving a hard rectangular seam. */
+.svc-page .svc-painted-background {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+}

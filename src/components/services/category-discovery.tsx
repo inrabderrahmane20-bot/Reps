@@ -85,14 +85,13 @@ export function CategoryDiscovery({
       <div className="svc-category-grid mt-7">
         {categories.map((node, index) => {
           const label = getCategoryLabel(node, locale);
-          const displayLabel = label === label.toUpperCase() ? label.charAt(0) + label.slice(1).toLocaleLowerCase(locale) : label;
-          const active = selected === label;
+          const active = selected === node.id;
           const Icon = categoryIcon(node);
           return (
             <button
               key={node.id}
               type="button"
-              onClick={() => onSelect(active ? null : label)}
+              onClick={() => onSelect(node.id)}
               aria-pressed={active}
               className="svc-cat-card"
             >
@@ -113,7 +112,7 @@ export function CategoryDiscovery({
               )}
               <span className="svc-cat-label">
                 <Icon size={15} strokeWidth={2} aria-hidden />
-                <span>{displayLabel}</span>
+                <span>{label}</span>
               </span>
             </button>
           );
