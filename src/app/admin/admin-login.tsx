@@ -30,7 +30,7 @@ export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean })
         setError('This account does not have administrator access.');
         return;
       }
-      window.location.href = '/admin/campaigns';
+      window.location.reload();
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {

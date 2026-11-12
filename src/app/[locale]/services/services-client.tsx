@@ -27,10 +27,11 @@ import { MobileFilterDrawer } from '@/components/services/mobile-filter-drawer';
 import { LayeredCategoryNavigation } from '@/components/services/layered-category-navigation';
 import { ClientSearchesPanel } from '@/components/services/client-searches-panel';
 import { SponsoredStrip } from '@/components/services/sponsored-strip';
+import { ServiceFinder } from '@/components/services/service-finder';
 import { ServicesHero } from '@/components/services/services-hero';
 import { CategoryDiscovery, MoroccanDivider } from '@/components/services/category-discovery';
 import { homeSectionItems, homeSections } from '@/lib/home-categories';
-import type { SearchCategoryNode } from '@/lib/category-tree';
+import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
 import {
   ServiceListRow,
@@ -71,7 +72,7 @@ export default function ServicesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>([]);
+  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [categoryNavigationOpen, setCategoryNavigationOpen] = useState(false);
@@ -119,7 +120,7 @@ export default function ServicesPage() {
         if (active) setCategoryTree(r.categories ?? []);
       })
       .catch(() => {
-        if (active) setCategoryTree([]);
+        if (active) setCategoryTree(SEARCH_CATEGORIES);
       });
     return () => {
       active = false;
@@ -265,7 +266,6 @@ export default function ServicesPage() {
 
   function selectCategory(category: string | null) {
     setFiltersMerged({ cat: category });
-    if (category) scrollToResults();
   }
 
   return (
@@ -274,7 +274,7 @@ export default function ServicesPage() {
 
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
         {/* Main search bar */}
-        <div className="relative z-10 -mt-6 sm:-mt-8" data-tour-target="services-search">
+        <div className="svc-search-wrap relative z-10" data-tour-target="services-search">
           <form
             role="search"
             onSubmit={(event) => {
@@ -306,12 +306,12 @@ export default function ServicesPage() {
               <span className="hidden sm:inline">{t('searchButton')}</span>
             </button>
           </form>
-          <p className="mt-2 text-xs text-typography-main/50">{t('searchHint')}</p>
+          <p className="svc-search-hint mt-2 text-xs text-typography-main/50">{t('searchHint')}</p>
         </div>
 
         {/* Zone / location notice */}
         {!user && !activeZone && (
-          <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
+          <div className="svc-zone-notice mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
             <MapPin size={17} className="shrink-0 text-emerald-primary" aria-hidden />
             <p className="flex-1 text-sm text-typography-main/75">{z('setZonePrompt')}</p>
             <Link
@@ -323,7 +323,7 @@ export default function ServicesPage() {
           </div>
         )}
         {activeZone && (
-          <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
+          <div className="svc-zone-notice mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
             <MapPin size={17} className="shrink-0 text-emerald-primary" aria-hidden />
             <p className="flex-1 text-sm text-typography-main/75">
               {t('showingInZone')}{' '}
@@ -347,6 +347,8 @@ export default function ServicesPage() {
         />
 
         <MoroccanDivider />
+
+        <ServiceFinder categories={serviceCategories} selected={filters.cat} onApply={(cat) => { setFiltersMerged({ cat }); scrollToResults(); }} />
 
         {/* Mobile: category navigation + filter drawer trigger */}
         <div className="mb-4 flex items-center gap-2 lg:hidden" data-tour-target="services-filters">

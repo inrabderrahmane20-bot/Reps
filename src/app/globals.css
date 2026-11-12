@@ -4317,3 +4317,66 @@ body {
     animation: none !important;
   }
 }
+
+/* Reference-inspired Marrakech services experience. */
+.svc-page {
+  background-color: #fff4e5;
+  background-image: radial-gradient(ellipse at 15% 12%, #dcad7530, transparent 45%), radial-gradient(ellipse at 90% 65%, #e6b38420, transparent 50%);
+}
+.svc-page .svc-hero { background: transparent; border: 0; }
+.svc-hero > .mx-auto { padding-top: 34px; padding-bottom: 26px; }
+.svc-hero-grid { grid-template-columns: 1.05fr 1fr; gap: 0; min-height: 220px; }
+.svc-hero h1 { position: relative; z-index: 1; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.8rem, 5.9vw, 4rem); font-weight: 700; line-height: 1.04; letter-spacing: -.035em; }
+.svc-hero-kicker, .svc-hero-lead { display: none; }
+.svc-hero-underline { width: 45%; margin: 12px auto 0; }
+.svc-hero-art { width: 115%; max-width: 520px; margin-inline-start: -10%; border-radius: 50% 50% 48% 48%; background: radial-gradient(ellipse at 55% 30%, #b5d4dd 0%, #f3d4af 58%, #e6b58b 100%); overflow: hidden; box-shadow: 0 0 0 2px #fff8ed, 12px 12px 0 -5px #e4b58e35; }
+.svc-hero-art svg { transform: scale(1.1); }
+.svc-search-wrap { margin-top: 0; }
+.svc-search { border-color: #a99378; border-radius: 12px; padding: 3px 3px 3px 12px; background: #fffbf5b8; box-shadow: 0 0 0 3px #fff9ef80; }
+.svc-search input { font-size: clamp(.82rem, 2.5vw, 1.25rem); padding-block: 12px; }
+.svc-search-btn { min-width: 48px; min-height: 42px; padding: 9px 16px; background: linear-gradient(110deg,#07594c,#063d35); }
+.svc-search-btn > span, .svc-search-hint { display: none; }
+.svc-zone-notice { font-size: .75rem; background: transparent; border: 0; padding: 4px 0; margin-top: 10px; }
+.svc-zone-notice p { font-size: .75rem; }
+.svc-page .moroccan-divider { margin-block: 22px; gap: 0; color: #bd572f; }
+.svc-page .moroccan-divider::before, .svc-page .moroccan-divider::after { height: 6px; max-width: 180px; opacity: .85; background: repeating-conic-gradient(from 45deg,#07574a 0% 25%,transparent 0% 50%,#c45a32 0% 75%,transparent 0%) 0 0 / 10px 10px; }
+.svc-page #svc-explore-heading { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.75rem,5.7vw,3rem); font-weight: 700; }
+.svc-page section[aria-labelledby='svc-explore-heading'] > div:first-child > span,
+.svc-page section[aria-labelledby='svc-explore-heading'] > div:first-child > p { display: none; }
+.svc-category-grid { gap: 12px; margin-top: 20px; }
+.svc-cat-card { border: 1px solid #b49b7b; padding: 2px; border-radius: 14px; box-shadow: 0 0 0 2px #fff9ef; }
+.svc-cat-media { aspect-ratio: 2.1 / 1; border-radius: 10px 10px 0 0; }
+.svc-cat-label { background: linear-gradient(110deg,#064e43,#103c34); gap: 9px; padding: 9px 10px; border-radius: 0 0 10px 10px; min-height: 37px; }
+.svc-cat-label span { font-size: clamp(.73rem,2vw,1.15rem); white-space: normal; line-height: 1.15; }
+.svc-cat-label svg { width: 23px; height: 23px; }
+.svc-cat-card[aria-pressed='true'] { border-color: #b88629; box-shadow: 0 0 0 2px #c89c40; }
+.svc-cat-check { border: 2px solid #fff9ef; }
+.svc-finder { margin-bottom: 28px; }
+.svc-finder-path { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; font-size: 1rem; font-weight: 600; }
+.svc-finder-path span:first-child { color: #07594c; text-transform: capitalize; }
+.svc-trade-select { display: flex; align-items: center; gap: 20px; min-height: 64px; padding: 8px 20px; border: 1px solid #ad977d; border-radius: 12px; background: #fffaf38a; }
+.svc-trade-select > svg:first-child { color: #07594c; }
+.svc-trade-select label { flex: 1; min-width: 0; }
+.svc-trade-select label > span { display: block; font-size: .75rem; color: #68716c; }
+.svc-trade-select select { display: block; width: 100%; appearance: none; background: transparent; font-size: 1.1rem; font-weight: 650; outline-offset: 4px; }
+.svc-finder h2 { margin: 16px 0; font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: clamp(1.45rem,4.7vw,2.3rem); line-height: 1.15; }
+.svc-installations { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 12px; }
+.svc-installations button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 80px; border: 1px solid #b69c80; border-radius: 14px; background: #fffbf680; font-size: 1rem; font-weight: 650; transition: background .2s; }
+.svc-installations button > svg { color: #07594c; }
+.svc-installations button[aria-pressed='true'] { background: #dce6d5c7; border: 1.5px solid #07594c; }
+.svc-installations .svc-option-check { position: absolute; top: 7px; inset-inline-end: 7px; border-radius: 50%; background: #07594c; color: white; padding: 2px; }
+.svc-find-professionals { display: flex; width: 100%; justify-content: center; align-items: center; gap: 14px; margin-top: 18px; padding: 15px; border-radius: 15px; background: linear-gradient(110deg,#07594c,#063e36); color: #fffaf0; font-size: clamp(1.05rem,3.2vw,1.55rem); font-weight: 650; }
+.svc-find-professionals:hover { background: #063e36; }
+.svc-finder button:focus-visible, .svc-cat-card:focus-visible { outline: 3px solid #b88629; outline-offset: 4px; }
+@media (min-width: 768px) {
+  .svc-hero-grid { min-height: 320px; }
+  .svc-category-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .svc-installations { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .svc-finder { max-width: 800px; margin-inline: auto; }
+}
+@media (max-width: 420px) {
+  .svc-hero > .mx-auto { padding-inline: 20px; padding-top: 22px; }
+  .svc-hero-grid { min-height: 190px; }
+  .svc-cat-label { gap: 6px; padding-inline: 7px; }
+  .svc-cat-label svg { width: 20px; height: 20px; }
+}

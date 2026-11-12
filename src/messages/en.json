@@ -338,7 +338,10 @@
     "backToServices": "Back to services",
     "contactProvider": "Contact provider",
     "sponsoredSection": "Sponsored services",
-    "takeAdvantage": "Take advantage"
+    "takeAdvantage": "Take advantage",
+    "tradeLabel": "Trade",
+    "refineService": "What type of installation?",
+    "seeProfessionals": "Find professionals"
   },
   "communities": {
     "title": "Communities",

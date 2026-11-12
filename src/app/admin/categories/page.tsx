@@ -190,22 +190,28 @@ export default function AdminCategoriesPage() {
   }
 
   async function uploadImage(file: File) {
+    setError(null);
     setUploading(true);
     const formData = new FormData();
     formData.append('file', file);
     try {
       const res = await fetch('/api/admin/upload-image', {
         method: 'POST',
+        credentials: 'same-origin',
         body: formData,
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || 'Image upload failed.');
+        throw new Error(res.status === 401
+          ? 'Your session has expired. Reload this page and sign in as an administrator, then try the upload again.'
+          : body.error || 'Image upload failed.');
       }
       const data = await res.json();
       setUploadedUrl(data.url);
       setEditImage(data.url);
       setDirty(true);
+    } catch (uploadError) {
+      setError(apiErrorMessage(uploadError, 'Image upload failed. Please try again.'));
     } finally {
       setUploading(false);
     }

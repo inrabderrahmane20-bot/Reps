@@ -338,7 +338,10 @@
     "backToServices": "العودة إلى الخدمات",
     "contactProvider": "التواصل مع مزود الخدمة",
     "sponsoredSection": "خدمات مموّلة",
-    "takeAdvantage": "استفد من العرض"
+    "takeAdvantage": "استفد من العرض",
+    "tradeLabel": "??????",
+    "refineService": "?? ??? ?????? ???? ????????",
+    "seeProfessionals": "??? ????????"
   },
   "communities": {
     "title": "المجتمعات",

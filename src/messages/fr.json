@@ -280,7 +280,7 @@
     "title": "Services locaux",
     "subtitle": "Trouvez un prestataire de confiance près de chez vous, disponible quand vous en avez besoin.",
     "searchHint": "Essayez « plombier », « électricien », « nettoyage »…",
-    "searchServices": "Rechercher un service, métier ou prestataire",
+    "searchServices": "Quel service recherchez-vous ?",
     "resultCount": "{count, plural, =0 {services} =1 {service} other {services}}",
     "results": "Résultats",
     "sort": "Trier par",
@@ -338,7 +338,10 @@
     "backToServices": "Retour aux services",
     "contactProvider": "Contacter le prestataire",
     "sponsoredSection": "Services sponsorisés",
-    "takeAdvantage": "Profiter"
+    "takeAdvantage": "Profiter",
+    "tradeLabel": "M?tier",
+    "refineService": "Pour quel type d?installation ?",
+    "seeProfessionals": "Voir les professionnels"
   },
   "communities": {
     "title": "Communautés",
