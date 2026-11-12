@@ -23,6 +23,7 @@ import { openGlobalSearch } from '@/lib/open-search';
 import { useAuth } from '@/context/auth-context';
 import { api } from '@/lib/api-client';
 import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
+import type { NavbarContent } from '@/lib/visual-editor/types';
 import { Brand } from './brand';
 import { CityPicker } from './city-picker';
 import { LanguageSwitcher } from './language-switcher';
@@ -39,7 +40,7 @@ const DRAWER_CLOSE_MS = 280;
  * Arabic, where the page direction is RTL but the button stays on the left.
  * Inside the drawer the reading direction follows the page language.
  */
-export function MobileNavMenu() {
+export function MobileNavMenu({ content }: { content?: NavbarContent } = {}) {
   const t = useTranslations('nav');
   const footer = useTranslations('footer');
   const common = useTranslations('common');
@@ -158,18 +159,21 @@ export function MobileNavMenu() {
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
-  const mainLinks = [
+  const defaultMainLinks = [
     { href: '/', label: t('home'), icon: Home },
     { href: '/discover', label: t('discover'), icon: Compass },
     { href: '/map', label: t('map'), icon: Map },
     { href: '/favorites', label: t('favorites'), icon: Heart },
   ];
 
-  const moreLinks = [
+  const defaultMoreLinks = [
     { href: '/news', label: t('news'), icon: Newspaper },
     { href: '/activities', label: t('activities'), icon: CalendarDays },
     { href: '/meetings', label: t('meetings'), icon: UsersRound },
   ];
+
+  const mainLinks = content?.mobileLinks ? content.mobileLinks.map(link => ({ ...link, icon: defaultMainLinks.find(item => item.href === link.href)?.icon ?? Compass })) : defaultMainLinks;
+  const moreLinks = content?.mobileMoreLinks ? content.mobileMoreLinks.map(link => ({ ...link, icon: defaultMoreLinks.find(item => item.href === link.href)?.icon ?? Compass })) : defaultMoreLinks;
 
   function submitSearch(event: React.FormEvent) {
     event.preventDefault();
@@ -196,7 +200,7 @@ export function MobileNavMenu() {
 
         <div className="annabid-drawer-panel" ref={panelRef}>
           <header className="annabid-drawer-header">
-            <Brand className="annabid-drawer-brand" />
+            <Brand className="annabid-drawer-brand" name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} />
             <div className="annabid-drawer-header-actions">
               <NotificationsBell />
               <button

@@ -1,5 +1,7 @@
 'use client';
 
+import type { CSSProperties } from 'react';
+import type { NavbarContent } from '@/lib/visual-editor/types';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
@@ -29,13 +31,15 @@ import { usePrimaryNav } from './nav-links';
  * utility group, so the tail of the list moves into a "Plus" menu. From 1280
  * the complete list is visible.
  */
-export function Navbar() {
+export function Navbar({ content, style, visualId, previewPath }: { content?: NavbarContent; style?: CSSProperties; visualId?: string; previewPath?: string } = {}) {
   const t = useTranslations('nav');
   const home = useTranslations('home');
   const { user } = useAuth();
-  const links = usePrimaryNav();
-  const desktopLinks = links.filter((link) => !link.opensSearch);
-  const pathname = usePathname();
+  const defaultLinks = usePrimaryNav();
+  const links = content?.links ?? defaultLinks;
+  const desktopLinks = content ? content.links.filter(link => !link.hiddenOnDesktop) : links.filter(link => !link.opensSearch);
+  const currentPathname = usePathname();
+  const pathname = previewPath ?? currentPathname;
   const isHome = pathname === '/';
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
@@ -66,7 +70,7 @@ export function Navbar() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header
+    <header style={style} data-visual-block={visualId}
       className={`site-header sticky top-0 z-50 border-b border-line/90 bg-ivory/95${isHome ? ' home-site-header' : ''}`}
     >
       {/* ---------------------------------------------------------------- */}
@@ -80,7 +84,7 @@ export function Navbar() {
           isHome ? ' home-compact-bar' : ''
         }`}
       >
-        <MobileNavMenu />
+        <MobileNavMenu content={content} />
 
         {isHome ? (
           <div className="home-mobile-identity">
@@ -91,7 +95,7 @@ export function Navbar() {
             <CityPicker />
           </div>
         ) : (
-          <Brand />
+          <Brand name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} />
         )}
 
         <div className="ms-auto flex items-center gap-1.5">
@@ -111,7 +115,7 @@ export function Navbar() {
       {/* Full bar — desktop                                               */}
       {/* ---------------------------------------------------------------- */}
       <div className="mx-auto hidden h-[68px] max-w-[1720px] items-center gap-3 px-4 md:px-6 lg:flex xl:px-8">
-        <Brand />
+        <Brand name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} />
 
         <nav aria-label={t('primaryNav')} className="flex min-w-0 items-center gap-0.5">
           {/* Complete list from 1280 up */}

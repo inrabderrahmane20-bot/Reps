@@ -801,3 +801,74 @@ export async function readUploadedImage(id: string): Promise<StoredMedia | null>
   if (!row) return null;
   return { mime: row.mime, data: row.data };
 }
+
+// Visual Editor documents are isolated from application/auth records.
+let visualEditorSchema: Promise<void> | undefined;
+async function ensureVisualEditorTable(pool: Pool): Promise<void> {
+  if (!visualEditorSchema) visualEditorSchema = (async () => {
+    await pool.query(`CREATE TABLE IF NOT EXISTS public.visual_editor_documents (
+      id text PRIMARY KEY, data jsonb NOT NULL CHECK (jsonb_typeof(data) = 'object'),
+      updated_at timestamptz NOT NULL DEFAULT now()
+    )`);
+    await pool.query('ALTER TABLE public.visual_editor_documents ENABLE ROW LEVEL SECURITY');
+    await pool.query(`DO $permissions$ BEGIN
+      IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN REVOKE ALL ON public.visual_editor_documents FROM anon; END IF;
+      IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN REVOKE ALL ON public.visual_editor_documents FROM authenticated; END IF;
+      IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'service_role') THEN GRANT ALL ON public.visual_editor_documents TO service_role; END IF;
+    END $permissions$`);
+  })().catch(error => { visualEditorSchema = undefined; throw error; });
+  await visualEditorSchema;
+}
+function visualEditorPath(id: string): string {
+  if (!/^(navbar|footer)-(en|fr|ar)$/.test(id)) throw new Error('Invalid visual document key.');
+  return path.join(DATA_DIR, 'visual-editor', `${id}.json`);
+}
+export async function readVisualEditorRecord<T>(id: string): Promise<T | null> {
+  const file = visualEditorPath(id);
+  const pool = getPool();
+  if (pool) {
+    await ensureVisualEditorTable(pool);
+    const result = await queryWithRetry<{ data: T }>(pool, 'SELECT data FROM public.visual_editor_documents WHERE id = $1', [id]);
+    return result.rows[0]?.data ?? null;
+  }
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')) as T; }
+  catch (error) { if ((error as NodeJS.ErrnoException).code === 'ENOENT') return null; throw error; }
+}
+export async function mutateVisualEditorRecord<T>(id: string, mutate: (current: T | null) => T): Promise<T> {
+  const file = visualEditorPath(id);
+  const pool = getPool();
+  if (pool) {
+    await ensureVisualEditorTable(pool);
+    const client = await connectWithRetry(pool);
+    try {
+      await client.query('BEGIN');
+      await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1, 0))', [`visual-editor:${id}`]);
+      const result = await client.query<{ data: T }>('SELECT data FROM public.visual_editor_documents WHERE id = $1 FOR UPDATE', [id]);
+      const next = mutate(result.rows[0]?.data ?? null);
+      await client.query('INSERT INTO public.visual_editor_documents (id,data) VALUES ($1,$2::jsonb) ON CONFLICT (id) DO UPDATE SET data=EXCLUDED.data, updated_at=now()', [id, JSON.stringify(next)]);
+      await client.query('COMMIT');
+      return next;
+    } catch (error) { await client.query('ROLLBACK'); throw error; }
+    finally { client.release(); }
+  }
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  let lock: number | undefined;
+  for (let attempt = 0; attempt < 100; attempt++) {
+    try { lock = fs.openSync(`${file}.lock`, 'wx'); break; }
+    catch (error) { if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error; await sleep(20); }
+  }
+  if (lock === undefined) throw new Error('Document is busy. Please retry.');
+  const temporary = `${file}.${process.pid}.tmp`;
+  try {
+    let current: T | null = null;
+    try { current = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error; }
+    const next = mutate(current);
+    fs.writeFileSync(temporary, JSON.stringify(next, null, 2));
+    retryOnLock(() => fs.renameSync(temporary, file));
+    return next;
+  } finally {
+    if (fs.existsSync(temporary)) fs.unlinkSync(temporary);
+    fs.closeSync(lock);
+    fs.unlinkSync(`${file}.lock`);
+  }
+}

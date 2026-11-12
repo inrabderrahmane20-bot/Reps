@@ -1,3 +1,4 @@
+import { GlobalDocument } from '@/components/visual-editor/global-document';
 import type { Metadata } from 'next';
 import { Cairo, DM_Sans, Familjen_Grotesk, Manrope, Playfair_Display } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
@@ -84,9 +85,9 @@ export default async function LocaleLayout({
       <body className={`${playfairDisplay.variable} ${manrope.variable} ${cairo.variable} ${familjen.variable} ${dmSans.variable} moroccan-canvas flex min-h-screen flex-col bg-ivory-main`}>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
-            <Navbar />
+            <GlobalDocument id="navbar" locale={locale as Locale}><Navbar /></GlobalDocument>
             <main className="flex-1 pb-[calc(70px+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
-            <Footer />
+            <GlobalDocument id="footer" locale={locale as Locale}><Footer /></GlobalDocument>
             <MobileTabBar />
             <FloatingSearch />
             <CategorySearchRoot />

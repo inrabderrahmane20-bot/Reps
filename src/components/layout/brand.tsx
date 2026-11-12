@@ -1,10 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 
 /** Shared Annabid wordmark used by both navbar layouts and the mobile drawer. */
-export function Brand({ compact = false, className = '' }: { compact?: boolean; className?: string }) {
+export function Brand({ compact = false, className = '', name = 'Annabid', arabicName = '\u0627\u0644\u0646\u0627\u0628\u0636', image = '' }: { compact?: boolean; className?: string; name?: string; arabicName?: string; image?: string }) {
   const t = useTranslations('nav');
   return (
     <Link
@@ -12,12 +13,12 @@ export function Brand({ compact = false, className = '' }: { compact?: boolean; 
       className={`flex shrink-0 items-center gap-1 rounded-full border border-line bg-white/90 px-2 py-1 shadow-sm backdrop-blur ${className}`}
       aria-label={t('brandHome')}
     >
-      <BrandMark className="annabid-logo h-8 w-16 shrink-0" />
+      {image ? <Image src={image} alt={name} width={64} height={32} className="h-8 w-16 shrink-0 object-contain" /> : <BrandMark className="annabid-logo h-8 w-16 shrink-0" />}
       {!compact && (
         <span className="annabid-wordmark flex flex-col items-center whitespace-nowrap leading-none text-[#e30e1b]">
-          <span className="annabid-wordmark-latin font-display text-[17px] font-extrabold tracking-[-0.025em]">Annabid</span>
+          <span className="annabid-wordmark-latin font-display text-[17px] font-extrabold tracking-[-0.025em]">{name}</span>
           <span lang="ar" dir="rtl" className="annabid-wordmark-arabic mt-0.5 font-arabic text-[12px] font-bold">
-            النابض
+            {arabicName}
           </span>
         </span>
       )}

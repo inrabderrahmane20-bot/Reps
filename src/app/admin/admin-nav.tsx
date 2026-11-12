@@ -7,6 +7,7 @@ import { LayoutDashboard, BadgeCheck, Users, Flag, Newspaper, ExternalLink, Cale
 const links = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/providers', label: 'Provider verification', icon: BadgeCheck },
+  { href: '/admin/visual-editor', label: 'Visual Editor', icon: LayoutDashboard },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
   { href: '/admin/campaigns', label: 'Campaigns', icon: Megaphone },
   { href: '/admin/positions', label: 'Provider positions', icon: MapPin },

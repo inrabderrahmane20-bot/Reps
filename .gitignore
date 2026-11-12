@@ -4,3 +4,5 @@ out/
 src/data/db.json
 .env*
 !.env.example
+src/data/visual-editor/
+public/uploads/visual-editor/
