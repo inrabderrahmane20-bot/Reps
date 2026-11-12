@@ -250,6 +250,7 @@ export default function ServicesPage() {
 
   return (
     <div className="moroccan-canvas svc-page min-h-screen pb-16">
+      <span className="svc-original-corner" aria-hidden="true" />
       <ServicesHero />
 
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
@@ -300,7 +301,10 @@ export default function ServicesPage() {
 
         <MoroccanDivider />
 
+        <div className="svc-finder-artwork">
+          <span className="svc-original-foliage" aria-hidden="true" />
         <ServiceFinder key={discoverySelection} categories={serviceCategories} selected={discoverySelection} onApply={(cat) => { setFiltersMerged({ cat }); setShowResults(true); requestAnimationFrame(scrollToResults); }} />
+        </div>
         <MoroccanDivider />
 
         {showResults && <div className="svc-professional-results">

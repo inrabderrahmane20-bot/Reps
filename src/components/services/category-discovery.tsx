@@ -101,7 +101,7 @@ export function CategoryDiscovery({
                   src={categoryImage(node, 'services')}
                   alt=""
                   fill
-                  sizes="(max-width: 767px) 46vw, (max-width: 1179px) 30vw, 22vw"
+                  sizes="(max-width: 767px) 46vw, (max-width: 1023px) 44vw, (max-width: 1279px) 22vw, 280px"
                   priority={index < 4}
                   className="svc-cat-img"
                 />
@@ -137,14 +137,5 @@ function Ornament() {
 
 /** Thin geometric rule used between the major services-page sections. */
 export function MoroccanDivider() {
-  return (
-    <div className="moroccan-divider" aria-hidden>
-      <svg width="72" height="16" viewBox="0 0 72 16" fill="none">
-        <path d="M0 8h20" stroke="currentColor" strokeWidth="1" opacity="0.55" />
-        <path d="M52 8h20" stroke="currentColor" strokeWidth="1" opacity="0.55" />
-        <path d="M36 1l7 7-7 7-7-7 7-7z" stroke="currentColor" strokeWidth="1.1" />
-        <circle cx="36" cy="8" r="2" fill="currentColor" opacity="0.75" />
-      </svg>
-    </div>
-  );
+  return <div className="moroccan-divider svc-original-divider" aria-hidden="true" />;
 }
