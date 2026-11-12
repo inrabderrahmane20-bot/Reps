@@ -96,6 +96,8 @@ const globalForDb = globalThis as typeof globalThis & {
     version: string;
     loadedAt: number;
   };
+  mediaTableReady?: boolean;
+  mediaTablePromise?: Promise<void>;
 };
 const APP_META_VERSION_KEY = 'dbVersion';
 const DB_CACHE_MAX_AGE_MS = 5 * 60_000;
@@ -720,4 +722,82 @@ let counter = 0;
 export function newId(prefix: string): string {
   counter += 1;
   return `${prefix}_${Date.now().toString(36)}${counter.toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+}
+
+/* ------------------------------------------------------------------ */
+/* Uploaded media (category photos)                                    */
+/* ------------------------------------------------------------------ */
+/*
+ * Vercel functions run on a read-only filesystem, so admin image uploads
+ * cannot be written to `public/`. On a configured Postgres database we store
+ * the bytes in `public.media_uploads` and serve them through
+ * `/api/uploads/categories/[filename]`. Local development without a database
+ * keeps using the filesystem fallback in the upload route.
+ */
+
+export interface StoredMedia {
+  mime: string;
+  data: Buffer;
+}
+
+export function isDatabaseConfigured(): boolean {
+  return Boolean(getDatabaseUrl());
+}
+
+async function ensureMediaTable(pool: Pool): Promise<void> {
+  if (globalForDb.mediaTableReady) return;
+  if (!globalForDb.mediaTablePromise) {
+    globalForDb.mediaTablePromise = (async () => {
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS public.media_uploads (
+          id text PRIMARY KEY,
+          mime text NOT NULL,
+          data bytea NOT NULL,
+          created_at timestamptz NOT NULL DEFAULT now()
+        )
+      `);
+      // Match the hardened permissions used by the application collections.
+      // These are best-effort so local databases without Supabase roles still work.
+      try {
+        await pool.query('ALTER TABLE public.media_uploads ENABLE ROW LEVEL SECURITY');
+        await pool.query('REVOKE ALL ON TABLE public.media_uploads FROM anon, authenticated');
+        await pool.query('GRANT ALL ON TABLE public.media_uploads TO service_role');
+      } catch {
+        /* Supabase-specific roles are absent on plain Postgres installs. */
+      }
+      globalForDb.mediaTableReady = true;
+    })().finally(() => {
+      globalForDb.mediaTablePromise = undefined;
+    });
+  }
+  await globalForDb.mediaTablePromise;
+}
+
+export async function saveUploadedImage(input: {
+  id: string;
+  mime: string;
+  data: Buffer;
+}): Promise<void> {
+  const pool = getPool();
+  if (!pool) throw new Error('The application database is not configured.');
+  await ensureMediaTable(pool);
+  await pool.query(
+    `INSERT INTO public.media_uploads (id, mime, data)
+     VALUES ($1, $2, $3)
+     ON CONFLICT (id) DO UPDATE SET mime = EXCLUDED.mime, data = EXCLUDED.data`,
+    [input.id, input.mime, input.data]
+  );
+}
+
+export async function readUploadedImage(id: string): Promise<StoredMedia | null> {
+  const pool = getPool();
+  if (!pool) return null;
+  await ensureMediaTable(pool);
+  const result = await pool.query<{ mime: string; data: Buffer }>(
+    'SELECT mime, data FROM public.media_uploads WHERE id = $1 LIMIT 1',
+    [id]
+  );
+  const row = result.rows[0];
+  if (!row) return null;
+  return { mime: row.mime, data: row.data };
 }

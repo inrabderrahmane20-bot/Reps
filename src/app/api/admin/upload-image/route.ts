@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminSession } from '@/lib/admin-api';
+import { isDatabaseConfigured, saveUploadedImage } from '@/lib/db';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -7,6 +8,12 @@ export const dynamic = 'force-dynamic';
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+const EXTENSION_BY_TYPE: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/gif': 'gif',
+};
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'categories');
 
 export async function POST(req: NextRequest) {
@@ -35,28 +42,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Ensure upload directory exists.
-    if (!fs.existsSync(UPLOAD_DIR)) {
-      fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-    }
-
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // Generate a unique filename: category-<timestamp>-<random>.<ext>
-    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
+    const ext =
+      EXTENSION_BY_TYPE[file.type] ??
+      file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') ??
+      'jpg';
     const filename = `category-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const filePath = path.join(UPLOAD_DIR, filename);
 
-    fs.writeFileSync(filePath, buffer);
+    // Vercel functions run on a read-only filesystem. When the application is
+    // connected to Postgres, persist the bytes there and serve them through
+    // /api/uploads/categories/[filename]. Local development without a database
+    // keeps the filesystem fallback so `npm run dev` works out of the box.
+    if (isDatabaseConfigured()) {
+      await saveUploadedImage({ id: filename, mime: file.type, data: buffer });
+      return NextResponse.json({ url: `/api/uploads/categories/${filename}` }, { status: 200 });
+    }
 
-    const url = `/uploads/categories/${filename}`;
-    return NextResponse.json({ url }, { status: 200 });
-  } catch (err: any) {
+    if (process.env.VERCEL) {
+      return NextResponse.json(
+        { error: 'Image storage is not configured. Connect the application database.' },
+        { status: 500 }
+      );
+    }
+
+    if (!fs.existsSync(UPLOAD_DIR)) {
+      fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+    }
+
+    fs.writeFileSync(path.join(UPLOAD_DIR, filename), buffer);
+    return NextResponse.json({ url: `/api/uploads/categories/${filename}` }, { status: 200 });
+  } catch (err) {
     console.error('Upload error:', err);
-    return NextResponse.json(
-      { error: err.message || 'Image upload failed.' },
-      { status: 500 }
-    );
+    const message = err instanceof Error ? err.message : 'Image upload failed.';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

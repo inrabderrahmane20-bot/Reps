@@ -1,8 +1,16 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { PackageSearch, Search, SlidersHorizontal, ChevronDown, X } from 'lucide-react';
+import {
+  ArrowRight,
+  ChevronDown,
+  MapPin,
+  PackageSearch,
+  Search,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
 import { RequestServiceModal } from '@/components/ui/request-service-modal';
 import { api } from '@/lib/api-client';
@@ -19,6 +27,10 @@ import { MobileFilterDrawer } from '@/components/services/mobile-filter-drawer';
 import { LayeredCategoryNavigation } from '@/components/services/layered-category-navigation';
 import { ClientSearchesPanel } from '@/components/services/client-searches-panel';
 import { SponsoredStrip } from '@/components/services/sponsored-strip';
+import { ServicesHero } from '@/components/services/services-hero';
+import { CategoryDiscovery, MoroccanDivider } from '@/components/services/category-discovery';
+import { homeSectionItems, homeSections } from '@/lib/home-categories';
+import type { SearchCategoryNode } from '@/lib/category-tree';
 import type { PromotionInfo } from '@/lib/types';
 import {
   ServiceListRow,
@@ -59,6 +71,8 @@ export default function ServicesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>([]);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [categoryNavigationOpen, setCategoryNavigationOpen] = useState(false);
   const [categoryNavigationOrigin, setCategoryNavigationOrigin] = useState<{ x: number; y: number } | null>(null);
@@ -68,6 +82,7 @@ export default function ServicesPage() {
   const [sponsoredLoading, setSponsoredLoading] = useState(true);
 
   const requestSeq = useRef(0);
+  const resultsRef = useRef<HTMLElement | null>(null);
 
   // Read ?q= and ?cat= on first mount for existing service-directory links.
   useEffect(() => {
@@ -94,6 +109,29 @@ export default function ServicesPage() {
     const id = setTimeout(() => setDebouncedQ(q.trim()), 300);
     return () => clearTimeout(id);
   }, [q]);
+
+  // Live category tree for the photographic discovery grid. Never hardcoded.
+  useEffect(() => {
+    let active = true;
+    api
+      .get<{ categories: SearchCategoryNode[] }>('/categories/tree')
+      .then((r) => {
+        if (active) setCategoryTree(r.categories ?? []);
+      })
+      .catch(() => {
+        if (active) setCategoryTree([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const serviceCategories = useMemo(() => {
+    if (!categoryTree.length) return [];
+    const section = homeSections(categoryTree).find((s) => s.kind === 'services');
+    if (!section) return categoryTree.slice(0, 12);
+    return homeSectionItems(section.root, 'services', 12);
+  }, [categoryTree]);
 
   const buildQuery = useCallback(
     (offset: number) => {
@@ -221,190 +259,246 @@ export default function ServicesPage() {
     setFilters(DEFAULT_FILTERS);
   }
 
+  function scrollToResults() {
+    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function selectCategory(category: string | null) {
+    setFiltersMerged({ cat: category });
+    if (category) scrollToResults();
+  }
+
   return (
-    <div className="mx-auto max-w-[1720px] px-4 py-8 md:px-6 xl:px-8">
-      {/* Header */}
-      <h1 className="font-display text-[2.1rem] font-semibold leading-tight text-ink-900 sm:text-4xl">{t('title')}</h1>
-      <p className="mt-1.5 max-w-xl text-sm text-ink-500">{t('subtitle')}</p>
+    <div className="moroccan-canvas svc-page min-h-screen pb-16">
+      <ServicesHero />
 
-      {!user && !activeZone && (
-        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl bg-sand-100 px-4 py-3">
-          <p className="flex-1 text-sm text-ink-700">{z('setZonePrompt')}</p>
-          <Link href="/map" className="shrink-0 rounded-full bg-majorelle-600 px-4 py-2 text-xs font-semibold text-white hover:bg-majorelle-700">
-            {z('setYourZone')}
-          </Link>
-        </div>
-      )}
-      {activeZone && (
-        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl bg-sand-100 px-4 py-3">
-          <p className="flex-1 text-sm text-ink-700">
-            {t('showingInZone')} <span className="font-semibold text-majorelle-700">{activeZone.name}</span>
-          </p>
-          <Link href="/map" className="shrink-0 rounded-full border border-ink-900/10 px-4 py-2 text-xs font-semibold text-ink-700 hover:bg-white">
-            {z('change')}
-          </Link>
-        </div>
-      )}
-
-      {/* Dedicated service search */}
-      <div className="mt-6 hidden md:block lg:mt-8" data-tour-target="services-search">
-        <div className="relative">
-          <Search size={18} className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-ink-500" />
-          <input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder={t('searchServices')}
-            aria-label={t('searchServices')}
-            className="w-full rounded-2xl border border-ink-900/[0.08] bg-white py-3.5 pe-12 ps-11 text-[15px] text-ink-900 shadow-card outline-none transition-colors placeholder:text-ink-300 focus:border-majorelle-500"
-          />
-          {q !== '' && (
-            <button
-              type="button"
-              onClick={() => setQ('')}
-              aria-label={t('clearSearch')}
-              className="absolute end-3 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full text-ink-500 transition-colors hover:bg-sand-100 hover:text-ink-900"
-            >
-              <X size={15} />
-            </button>
-          )}
-        </div>
-        <p className="mt-2 text-xs text-ink-500">{t('searchHint')}</p>
-      </div>
-
-      {/* Mobile: category navigation + filter drawer trigger */}
-          <div className="mt-4 flex items-center gap-2 lg:hidden" data-tour-target="services-filters">
-            <button
-              type="button"
-              onClick={openCategoryNavigation}
-              className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-ink-900/10 bg-white px-3.5 text-start text-sm text-ink-700 shadow-card transition-colors hover:bg-sand-50"
-            >
-              <span className="min-w-0 flex-1">
-                <span className="block text-[10px] font-bold uppercase tracking-wider text-ink-400">{t('categories')}</span>
-                <span className="block truncate text-[13px] font-semibold text-ink-900">
-                  {filters.cat ?? t('allCategories')}
-                </span>
-              </span>
-              <ChevronDown size={16} className="shrink-0 text-ink-400" aria-hidden />
-            </button>
-            <button
-          type="button"
-          onClick={() => setDrawerOpen(true)}
-          className="relative flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-ink-900/10 bg-white px-3 text-sm font-medium text-ink-700 transition-colors hover:bg-sand-100"
-          aria-label={t('filters')}
-        >
-          <SlidersHorizontal size={17} />
-          <span>{t('filters')}</span>
-          {hasActiveFilters && <span className="absolute end-1.5 top-1.5 h-2 w-2 rounded-full bg-saffron-500" aria-hidden />}
-        </button>
-      </div>
-
-      <div className="mt-5 gap-8 lg:mt-8 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[310px_minmax(0,1fr)] 2xl:grid-cols-[330px_minmax(0,1fr)]">
-        {/* Desktop sidebar */}
-        <aside className="hidden lg:block" data-tour-target="services-filters">
-          <div className="sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto rounded-2xl border border-ink-900/[0.06] bg-white/70 p-4 shadow-card">
-            <FiltersPanel
-              value={filters}
-              onChange={setFilters}
-              onReset={resetAll}
-              onOpenCategories={openCategoryNavigation}
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
+        {/* Main search bar */}
+        <div className="relative z-10 -mt-6 sm:-mt-8" data-tour-target="services-search">
+          <form
+            role="search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setDebouncedQ(q.trim());
+            }}
+            className="svc-search"
+          >
+            <Search size={20} className="shrink-0 text-emerald-primary" aria-hidden />
+            <input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={t('searchServices')}
+              aria-label={t('searchServices')}
             />
-            <ClientSearchesPanel refreshKey={clientSearchesKey} />
+            {q !== '' && (
+              <button
+                type="button"
+                onClick={() => setQ('')}
+                aria-label={t('clearSearch')}
+                className="svc-search-clear"
+              >
+                <X size={15} />
+              </button>
+            )}
+            <button type="submit" className="svc-search-btn" aria-label={t('searchButton')}>
+              <Search size={16} aria-hidden />
+              <span className="hidden sm:inline">{t('searchButton')}</span>
+            </button>
+          </form>
+          <p className="mt-2 text-xs text-typography-main/50">{t('searchHint')}</p>
+        </div>
+
+        {/* Zone / location notice */}
+        {!user && !activeZone && (
+          <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
+            <MapPin size={17} className="shrink-0 text-emerald-primary" aria-hidden />
+            <p className="flex-1 text-sm text-typography-main/75">{z('setZonePrompt')}</p>
+            <Link
+              href="/map"
+              className="shrink-0 rounded-full bg-emerald-primary px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-green-secondary"
+            >
+              {z('setYourZone')}
+            </Link>
           </div>
-        </aside>
-
-        {/* Results */}
-        <section aria-label={t('results')} className="min-w-0" data-tour-target="services-results">
-          <SponsoredStrip items={sponsored} loading={sponsoredLoading} onRequest={setRequesting} />
-
-          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm font-medium text-ink-700">
-              <span className="font-display text-lg font-semibold text-ink-900">{total}</span>{' '}
-              {t('resultCount', { count: total })}
+        )}
+        {activeZone && (
+          <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-gold-muted/40 bg-beige-secondary/60 px-4 py-3">
+            <MapPin size={17} className="shrink-0 text-emerald-primary" aria-hidden />
+            <p className="flex-1 text-sm text-typography-main/75">
+              {t('showingInZone')}{' '}
+              <span className="font-semibold text-emerald-800">{activeZone.name}</span>
             </p>
-            <div className="flex flex-wrap items-center gap-2.5">
-              <SortSelect value={sort} onChange={setSort} />
-              <ViewSwitcher value={view} onChange={setView} allowLarge />
-            </div>
+            <Link
+              href="/map"
+              className="shrink-0 rounded-full border border-gold-muted/60 bg-card-soft px-4 py-2 text-xs font-semibold text-emerald-primary transition-colors hover:bg-selection-state"
+            >
+              {z('change')}
+            </Link>
           </div>
+        )}
 
-          {/* Skeleton while the first page loads */}
-          {loading && providers.length === 0 && (
-            <div className={`mt-4 space-y-2.5 ${view === 'grid' ? 'grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-3' : ''}`} aria-hidden>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-24 animate-pulse rounded-2xl bg-sand-100" />
-              ))}
+        <MoroccanDivider />
+
+        <CategoryDiscovery
+          categories={serviceCategories}
+          selected={filters.cat}
+          onSelect={selectCategory}
+        />
+
+        <MoroccanDivider />
+
+        {/* Mobile: category navigation + filter drawer trigger */}
+        <div className="mb-4 flex items-center gap-2 lg:hidden" data-tour-target="services-filters">
+          <button
+            type="button"
+            onClick={openCategoryNavigation}
+            className="flex min-h-11 min-w-0 flex-1 items-center gap-2 rounded-full border border-gold-muted/50 bg-card-soft px-3.5 text-start text-sm text-typography-main shadow-card transition-colors hover:bg-selection-state"
+          >
+            <span className="min-w-0 flex-1">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-typography-main/65">
+                {t('categories')}
+              </span>
+              <span className="block truncate text-[13px] font-semibold text-typography-main">
+                {filters.cat ?? t('allCategories')}
+              </span>
+            </span>
+            <ChevronDown size={16} className="shrink-0 text-typography-main/40" aria-hidden />
+          </button>
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            className="relative flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-gold-muted/50 bg-card-soft px-3 text-sm font-medium text-typography-main transition-colors hover:bg-selection-state"
+            aria-label={t('filters')}
+          >
+            <SlidersHorizontal size={17} />
+            <span>{t('filters')}</span>
+            {hasActiveFilters && (
+              <span className="absolute end-1.5 top-1.5 h-2 w-2 rounded-full bg-terracotta-500" aria-hidden />
+            )}
+          </button>
+        </div>
+
+        <div className="gap-8 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[310px_minmax(0,1fr)] 2xl:grid-cols-[330px_minmax(0,1fr)]">
+          {/* Desktop sidebar */}
+          <aside className="hidden lg:block" data-tour-target="services-filters">
+            <div className="svc-filter-card sticky top-[84px] max-h-[calc(100dvh-104px)] overflow-y-auto">
+              <FiltersPanel
+                value={filters}
+                onChange={setFilters}
+                onReset={resetAll}
+                onOpenCategories={openCategoryNavigation}
+              />
+              <ClientSearchesPanel refreshKey={clientSearchesKey} />
             </div>
-          )}
+          </aside>
 
-          {error && (
-            <div className="mt-6 rounded-2xl border border-clay-200 bg-clay-50 p-6 text-center">
-              <p className="text-sm text-ink-700">{t('loadError')}</p>
-            </div>
-          )}
+          {/* Results */}
+          <section
+            ref={resultsRef}
+            aria-label={t('results')}
+            className="min-w-0 scroll-mt-24"
+            data-tour-target="services-results"
+          >
+            <SponsoredStrip items={sponsored} loading={sponsoredLoading} onRequest={setRequesting} />
 
-          {!loading && !error && total === 0 && (
-            <div className="mt-6">
-              <EmptyState icon={PackageSearch} title={t('empty')} />
-              {debouncedQ.trim() !== '' && (
-                <p className="mt-3 text-center text-sm text-ink-500">{t('searchRecorded', { query: debouncedQ })}</p>
-              )}
-              <div className="mt-4 text-center">
-                <button
-                  type="button"
-                  onClick={resetAll}
-                  className="rounded-full bg-majorelle-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-majorelle-700"
-                >
-                  {t('clearFilters')}
-                </button>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm font-medium text-typography-main/70">
+                <span className="font-display text-lg font-semibold text-typography-main">{total}</span>{' '}
+                {t('resultCount', { count: total })}
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <SortSelect value={sort} onChange={setSort} />
+                <ViewSwitcher value={view} onChange={setView} allowLarge />
               </div>
             </div>
-          )}
 
-          {!loading && !error && total > 0 && (
-            <>
-              {/* LIST */}
-              {view === 'list' && (
-                <div className="mt-4 divide-y divide-ink-900/[0.06] overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-sand-50/60">
-                  {providers.map((p) => (
-                    <ServiceListRow key={p.id} item={p} onRequest={setRequesting} />
-                  ))}
-                </div>
-              )}
+            {/* Skeleton while the first page loads */}
+            {loading && providers.length === 0 && (
+              <div
+                className={`mt-4 space-y-2.5 ${
+                  view === 'grid' ? 'grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-3' : ''
+                }`}
+                aria-hidden
+              >
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="h-24 animate-pulse rounded-2xl bg-beige-secondary/80" />
+                ))}
+              </div>
+            )}
 
-              {/* GRID */}
-              {view === 'grid' && (
-                <div className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-3">
-                  {providers.map((p) => (
-                    <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />
-                  ))}
-                </div>
-              )}
+            {error && (
+              <div className="mt-6 rounded-2xl border border-terracotta-200 bg-terracotta-50 p-6 text-center">
+                <p className="text-sm text-typography-main/75">{t('loadError')}</p>
+              </div>
+            )}
 
-              {/* LARGE */}
-              {view === 'large' && (
-                <div className="mt-4 space-y-5">
-                  {providers.map((p) => (
-                    <ServiceLargeCard key={p.id} item={p} onRequest={setRequesting} />
-                  ))}
-                </div>
-              )}
-
-              {hasMore && (
-                <div className="mt-6 flex justify-center">
+            {!loading && !error && total === 0 && (
+              <div className="mt-6 rounded-2xl border border-gold-muted/40 bg-card-soft px-4 py-8">
+                <EmptyState icon={PackageSearch} title={t('empty')} />
+                {debouncedQ.trim() !== '' && (
+                  <p className="mt-3 text-center text-sm text-typography-main/55">
+                    {t('searchRecorded', { query: debouncedQ })}
+                  </p>
+                )}
+                <div className="mt-4 text-center">
                   <button
                     type="button"
-                    onClick={loadMore}
-                    disabled={loadingMore}
-                    className="inline-flex items-center gap-2 rounded-full border border-majorelle-200 bg-white px-6 py-2.5 text-sm font-semibold text-majorelle-700 shadow-card transition-colors hover:bg-majorelle-600 hover:text-white disabled:opacity-60"
+                    onClick={resetAll}
+                    className="rounded-full bg-emerald-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-secondary"
                   >
-                    {loadingMore ? t('loadingMore') : t('loadMore')}
+                    {t('clearFilters')}
                   </button>
                 </div>
-              )}
-            </>
-          )}
-        </section>
+              </div>
+            )}
+
+            {!loading && !error && total > 0 && (
+              <>
+                {/* LIST */}
+                {view === 'list' && (
+                  <div className="svc-results-shell mt-4 divide-y divide-line/80">
+                    {providers.map((p) => (
+                      <ServiceListRow key={p.id} item={p} onRequest={setRequesting} />
+                    ))}
+                  </div>
+                )}
+
+                {/* GRID */}
+                {view === 'grid' && (
+                  <div className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-3">
+                    {providers.map((p) => (
+                      <ServiceGridCard key={p.id} item={p} onRequest={setRequesting} />
+                    ))}
+                  </div>
+                )}
+
+                {/* LARGE */}
+                {view === 'large' && (
+                  <div className="mt-4 space-y-5">
+                    {providers.map((p) => (
+                      <ServiceLargeCard key={p.id} item={p} onRequest={setRequesting} />
+                    ))}
+                  </div>
+                )}
+
+                {hasMore && (
+                  <div className="mt-7 flex justify-center">
+                    <button
+                      type="button"
+                      onClick={loadMore}
+                      disabled={loadingMore}
+                      className="svc-load-more disabled:opacity-60"
+                    >
+                      {loadingMore ? t('loadingMore') : t('loadMore')}
+                      <ArrowRight size={15} className="flip-rtl" aria-hidden />
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </section>
+        </div>
       </div>
 
       {/* Mobile filter drawer */}
@@ -456,7 +550,7 @@ function SortSelect({ value, onChange }: { value: SortKey; onChange: (sort: Sort
         value={value}
         onChange={(e) => onChange(e.target.value as SortKey)}
         aria-label={t('sort')}
-        className="h-9 cursor-pointer appearance-none rounded-full border border-ink-900/10 bg-white pe-9 ps-3.5 text-[13px] font-semibold text-ink-700 outline-none transition-colors hover:bg-sand-100"
+        className="h-9 cursor-pointer appearance-none rounded-full border border-gold-muted/60 bg-card-soft pe-9 ps-3.5 text-[13px] font-semibold text-typography-main/80 outline-none transition-colors hover:bg-selection-state"
       >
         {options.map((o) => (
           <option key={o.key} value={o.key}>
@@ -464,7 +558,10 @@ function SortSelect({ value, onChange }: { value: SortKey; onChange: (sort: Sort
           </option>
         ))}
       </select>
-      <ChevronDown size={15} className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 text-ink-500" />
+      <ChevronDown
+        size={15}
+        className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 text-typography-main/50"
+      />
     </div>
   );
 }

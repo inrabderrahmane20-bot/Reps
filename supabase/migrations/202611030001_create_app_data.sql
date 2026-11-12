@@ -43,6 +43,16 @@ CREATE TABLE IF NOT EXISTS public.app_meta (
   value jsonb NOT NULL
 );
 
+-- Admin-uploaded category photos. Vercel functions run on a read-only
+-- filesystem, so image bytes are persisted here and served by
+-- /api/uploads/categories/[filename].
+CREATE TABLE IF NOT EXISTS public.media_uploads (
+  id text PRIMARY KEY,
+  mime text NOT NULL,
+  data bytea NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
 DO $permissions$
 DECLARE
   table_name text;
@@ -70,7 +80,8 @@ BEGIN
     'categories',
     'places',
     'listings',
-    'app_meta'
+    'app_meta',
+    'media_uploads'
   ]
   LOOP
     EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', table_name);

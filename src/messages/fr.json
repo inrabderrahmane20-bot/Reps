@@ -270,6 +270,13 @@
     "save": "Enregistrer"
   },
   "services": {
+    "heroKicker": "Artisans & professionnels",
+    "heroTitle": "Les savoir-faire de votre ville.",
+    "heroSubtitle": "Découvrez les professionnels et artisans de confiance près de chez vous.",
+    "exploreTitle": "Explorez nos services",
+    "exploreSubtitle": "Parcourez les métiers de votre ville et trouvez le bon prestataire en quelques clics.",
+    "browseAll": "Voir toutes les catégories",
+    "searchButton": "Rechercher",
     "title": "Services locaux",
     "subtitle": "Trouvez un prestataire de confiance près de chez vous, disponible quand vous en avez besoin.",
     "searchHint": "Essayez « plombier », « électricien », « nettoyage »…",

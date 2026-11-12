@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cairo, DM_Sans, Familjen_Grotesk, Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
+import { Cairo, DM_Sans, Familjen_Grotesk, Manrope, Playfair_Display } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -14,16 +14,17 @@ import { CategorySearchRoot } from '@/components/search/category-search-root';
 import { AuthProvider } from '@/context/auth-context';
 import '../globals.css';
 
-const fraunces = Fraunces({
+const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  axes: ['opsz'],
+  weight: ['400', '500', '600', '700'],
 });
-const plusJakartaSans = Plus_Jakarta_Sans({
+const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -80,7 +81,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body className={`${fraunces.variable} ${plusJakartaSans.variable} ${cairo.variable} ${familjen.variable} ${dmSans.variable} flex min-h-screen flex-col bg-sand-50`}>
+      <body className={`${playfairDisplay.variable} ${manrope.variable} ${cairo.variable} ${familjen.variable} ${dmSans.variable} moroccan-canvas flex min-h-screen flex-col bg-ivory-main`}>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <Navbar />

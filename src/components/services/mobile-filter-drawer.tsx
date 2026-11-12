@@ -40,21 +40,24 @@ export function MobileFilterDrawer({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[80] bg-ink-900/40 lg:hidden" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] bg-forest-950/45 lg:hidden" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
         aria-label={t('filters')}
-        className="absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[1.75rem] bg-sand-50 shadow-float"
+        className="absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[1.75rem] border-t border-gold-muted/50 bg-ivory-main shadow-float"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-ink-900/[0.07] px-5 py-4">
-          <h3 className="font-display text-lg font-semibold text-ink-900">{t('filters')}</h3>
+        <div className="flex items-center justify-between border-b border-line px-5 py-4">
+          <div className="flex items-center gap-2">
+            <span className="h-1 w-8 rounded-full bg-gold-muted/60" aria-hidden />
+            <h3 className="font-display text-lg font-semibold text-typography-main">{t('filters')}</h3>
+          </div>
           <button
             type="button"
             onClick={onClose}
             aria-label={common('close')}
-            className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink-500 shadow-card transition-colors hover:text-ink-900"
+            className="grid h-9 w-9 place-items-center rounded-full border border-gold-muted/40 bg-card-soft text-typography-main/60 shadow-card transition-colors hover:text-typography-main"
           >
             <X size={18} />
           </button>

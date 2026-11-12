@@ -48,7 +48,7 @@ export function SponsoredCard({
     <article className={`card-hover group flex w-[320px] shrink-0 snap-start overflow-hidden rounded-2xl border border-ink-900/[0.06] bg-white shadow-card sm:w-[360px] ${className}`}>
       <Link
         href={item.sponsoredHref || `/services/${item.id}`}
-        aria-label={item.name}
+        aria-label={`${common('sponsored')} — ${item.name}`}
         onClick={() => trackProvider(item.id, 'clicks')}
         className="relative min-h-[176px] w-[36%] shrink-0 overflow-hidden bg-sand-100"
       >
@@ -90,7 +90,7 @@ export function SponsoredCard({
             trackProvider(item.id, ['clicks', 'requests']);
             onRequest(item);
           }}
-          className="mt-3 w-full rounded-full bg-sunset-500 px-2 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
+          className="mt-3 w-full rounded-full bg-sunset-600 px-2 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-700"
         >
           {t('requestService')}
         </button>
@@ -166,7 +166,7 @@ export function PromotionCard({
           <button
             type="button"
             onClick={() => onRequest(item)}
-            className="flex-1 rounded-full bg-sunset-500 px-4 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-600"
+            className="flex-1 rounded-full bg-sunset-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sunset transition-colors hover:bg-sunset-700"
           >
             {t('takeAdvantage')}
           </button>

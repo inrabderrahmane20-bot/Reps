@@ -81,7 +81,13 @@ export function LanguageSwitcher({
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={t('language')}
+        aria-label={
+          showLabel
+            ? `${t('language')} : ${localeLabel[locale]}`
+            : showCode
+              ? `${t('language')} : ${locale}`
+              : t('language')
+        }
         title={localeLabel[locale]}
         className={`inline-flex h-10 items-center rounded-full border bg-white/85 font-semibold text-ink-700 shadow-sm backdrop-blur transition-colors hover:bg-peach-50 hover:text-sunset-700 ${
           blueAccent

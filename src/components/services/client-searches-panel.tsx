@@ -38,21 +38,24 @@ export function ClientSearchesPanel({ refreshKey = 0 }: { refreshKey?: number })
   return (
     <section
       aria-label={t('clientSearches')}
-      className="mt-4 rounded-2xl border border-ink-900/[0.07] bg-sand-100/60 p-3.5"
+      className="mt-5 rounded-2xl border border-gold-muted/40 bg-beige-secondary/70 p-3.5"
     >
-      <h3 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-ink-300">
-        <SearchX size={13} className="text-majorelle-600" aria-hidden />
+      <h3 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-typography-main/45">
+        <SearchX size={13} className="text-terracotta-500" aria-hidden />
         {t('clientSearches')}
       </h3>
-      <p className="mt-1.5 text-[11.5px] leading-snug text-ink-500">{t('clientSearchesHint')}</p>
+      <p className="mt-1.5 text-[11.5px] leading-snug text-typography-main/55">{t('clientSearchesHint')}</p>
       {searches.length === 0 ? (
-        <p className="mt-2 text-[11.5px] text-ink-300">{t('clientSearchesEmpty')}</p>
+        <p className="mt-2 text-[11.5px] text-typography-main/35">{t('clientSearchesEmpty')}</p>
       ) : (
         <ul className="mt-2.5 space-y-1.5">
           {searches.map((s) => (
             <li key={s.query} className="flex items-center gap-2 text-[12.5px]">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-saffron-500" aria-hidden />
-              <span className="min-w-0 flex-1 truncate font-medium text-ink-700" title={s.query}>
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta-500" aria-hidden />
+              <span
+                className="min-w-0 flex-1 truncate font-medium text-typography-main/75"
+                title={s.query}
+              >
                 «{s.query}»
               </span>
             </li>
