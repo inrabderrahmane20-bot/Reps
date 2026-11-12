@@ -1,6 +1,6 @@
 import { GlobalDocument } from '@/components/visual-editor/global-document';
 import type { Metadata } from 'next';
-import { Cairo, DM_Sans, Familjen_Grotesk, Manrope, Playfair_Display } from 'next/font/google';
+import { siteFontClassName } from '@/lib/site-fonts';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -14,36 +14,6 @@ import { FloatingSearch } from '@/components/search/floating-search';
 import { CategorySearchRoot } from '@/components/search/category-search-root';
 import { AuthProvider } from '@/context/auth-context';
 import '../globals.css';
-
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-});
-const manrope = Manrope({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-});
-const cairo = Cairo({
-  subsets: ['arabic', 'latin'],
-  variable: '--font-arabic',
-  display: 'swap',
-});
-const familjen = Familjen_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-home-display',
-  weight: ['500', '600', '700'],
-  display: 'swap',
-});
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-home-sans',
-  weight: ['400', '500', '600'],
-  display: 'swap',
-});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -82,7 +52,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body className={`${playfairDisplay.variable} ${manrope.variable} ${cairo.variable} ${familjen.variable} ${dmSans.variable} moroccan-canvas flex min-h-screen flex-col bg-ivory-main`}>
+      <body className={`${siteFontClassName} moroccan-canvas flex min-h-screen flex-col bg-ivory-main`}>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <GlobalDocument id="navbar" locale={locale as Locale}><Navbar /></GlobalDocument>

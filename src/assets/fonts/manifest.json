@@ -1,0 +1,51 @@
+[
+  {
+    "family": "Playfair Display",
+    "file": "playfair-display.woff2",
+    "version": "Version 1.203",
+    "pinnedAxes": {},
+    "sourceSha256": "c40f2293766a503bc70cce9e512ef844a4ccb7cbcde792fe2ea31d191917d8d6",
+    "woff2Sha256": "20ab48e2725a7b53d68ee5b3ec7908acef427eb9dc8692e80cfb251b6fd618f7",
+    "bytes": 106460
+  },
+  {
+    "family": "Manrope ExtraLight",
+    "file": "manrope.woff2",
+    "version": "Version 4.505",
+    "pinnedAxes": {},
+    "sourceSha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+    "woff2Sha256": "98e137c8c7a9139ccee9987ec0db1c5d45ed067e7f7094dfb95d2c1105bddf61",
+    "bytes": 53632
+  },
+  {
+    "family": "Cairo",
+    "file": "cairo.woff2",
+    "version": "Version 3.130;gftools[0.9.24]",
+    "pinnedAxes": {
+      "slnt": 0
+    },
+    "sourceSha256": "667c987182391c91f4e57a2f455b1794fb5e3ee6ca4ef3383e86bb690fa9c964",
+    "woff2Sha256": "cf750a7bd58fb911196ad0697e47c891d2e3ecdfd3f429b18a4ed87694384227",
+    "bytes": 100416
+  },
+  {
+    "family": "Familjen Grotesk",
+    "file": "familjen-grotesk.woff2",
+    "version": "Version 2.002",
+    "pinnedAxes": {},
+    "sourceSha256": "2d25fc41321a04561fab20a90fc8bc9ed4d1c0743fe8ba76cc51cd3632138b80",
+    "woff2Sha256": "a37ba7b8e281ff37d602b2b6a492ef1cfdf1cf9234dd234ccbc66d77fe4b1f0b",
+    "bytes": 33500
+  },
+  {
+    "family": "DM Sans 9pt",
+    "file": "dm-sans.woff2",
+    "version": "Version 4.004;gftools[0.9.30]",
+    "pinnedAxes": {
+      "opsz": 14
+    },
+    "sourceSha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d",
+    "woff2Sha256": "3227baed1d1978a35a95575404ee797e3e6884f357f17fb4caae82b040fef05e",
+    "bytes": 54280
+  }
+]
