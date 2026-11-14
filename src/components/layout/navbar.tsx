@@ -7,7 +7,6 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { ChevronDown, Percent, Search, Star } from 'lucide-react';
 import { openCategorySearch } from '@/lib/open-category-search';
-import { useAuth } from '@/context/auth-context';
 import { Brand } from './brand';
 import { CityPicker } from './city-picker';
 import { LanguageSwitcher } from './language-switcher';
@@ -16,25 +15,8 @@ import { NotificationsBell } from './notifications-bell';
 import { MobileNavMenu } from './mobile-nav-menu';
 import { usePrimaryNav } from './nav-links';
 
-/**
- * The single page header.
- *
- * Two rows live inside one `<header>`:
- *   • a compact bar for phones/tablets — the hamburger is pinned to the
- *     physical LEFT (also in Arabic: the row is explicitly `dir="ltr"` so the
- *     layout is *not* mirrored), the wordmark sits next to it and the
- *     language + account actions sit on the opposite side.
- *   • a full bar from `lg` up — wordmark, the primary navigation (Home →
- *     Promotions → Search → …) and the utility group.
- *
- * Between 1024 and 1279 the nine primary destinations do not fit next to the
- * utility group, so the tail of the list moves into a "Plus" menu. From 1280
- * the complete list is visible.
- */
 export function Navbar({ content, style, visualId, previewPath }: { content?: NavbarContent; style?: CSSProperties; visualId?: string; previewPath?: string } = {}) {
   const t = useTranslations('nav');
-  const home = useTranslations('home');
-  const { user } = useAuth();
   const defaultLinks = usePrimaryNav();
   const links = content?.links ?? defaultLinks;
   const desktopLinks = content ? content.links.filter(link => !link.hiddenOnDesktop) : links.filter(link => !link.opensSearch);
@@ -86,17 +68,7 @@ export function Navbar({ content, style, visualId, previewPath }: { content?: Na
       >
         <MobileNavMenu content={content} />
 
-        {isHome ? (
-          <div className="home-mobile-identity">
-            <span className="home-mobile-greeting">
-              {home('greeting')}
-              {user?.firstName ? `, ${user.firstName}` : ''}
-            </span>
-            <CityPicker />
-          </div>
-        ) : (
-          <Brand name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} />
-        )}
+        <Brand name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} />
 
         <div className="ms-auto flex items-center gap-1.5">
           <Link

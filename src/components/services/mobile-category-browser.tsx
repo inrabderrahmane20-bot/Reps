@@ -9,6 +9,7 @@ import { categoryPath } from '@/lib/service-selection';
 import { serviceCategoryHref } from '@/lib/services-browser';
 import { servicesCopy } from '@/lib/services-copy';
 import { CategoryPhoto } from './category-photo';
+import { CategoryMobileIcon, useCategoryAppearance } from '@/components/category-appearance';
 
 /** A separate presentation keeps the desktop directory and its controls intact. */
 export function MobileCategoryBrowser({ roots, activeId, onBrowse, onSelect }: {
@@ -18,6 +19,7 @@ export function MobileCategoryBrowser({ roots, activeId, onBrowse, onSelect }: {
   onSelect: (node: SearchCategoryNode) => void;
 }) {
   const locale = useLocale();
+  const appearance = useCategoryAppearance();
   const copy = servicesCopy(locale);
   const [expanded, setExpanded] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -61,6 +63,7 @@ export function MobileCategoryBrowser({ roots, activeId, onBrowse, onSelect }: {
         href={serviceCategoryHref(roots, node.id)}
         className="svc-mobile-choice"
         data-category-id={node.id}
+        data-mobile-size={appearance.get(node.id)?.mobileSize ?? 'regular'}
         onClick={event => {
           if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
           event.preventDefault();
@@ -68,7 +71,8 @@ export function MobileCategoryBrowser({ roots, activeId, onBrowse, onSelect }: {
         }}
       >
         <span className="svc-mobile-photo"><CategoryPhoto node={node} fallbackKey={path[0]?.slug} alt="" sizes="56px" /></span>
-        <span>{getCategoryLabel(node, locale)}</span>
+        <CategoryMobileIcon categoryId={node.id} />
+        <span className="svc-mobile-choice-label">{getCategoryLabel(node, locale)}</span>
         <ChevronRight size={18} className="flip-rtl" aria-hidden />
       </Link>)}
     </div>}

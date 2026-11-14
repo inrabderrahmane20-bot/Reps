@@ -42,6 +42,33 @@ const { Navbar } = load('src/components/layout/navbar.tsx');
 const { Hero } = load('src/components/home/hero.tsx');
 const { ServicesHero } = load('src/components/services/services-hero.tsx');
 const { Footer } = load('src/components/layout/footer.tsx');
+const { CategoryGrid } = load('src/components/home/category-grid.tsx');
+const { CategoryAppearanceProvider } = load('src/components/category-appearance.tsx');
+const { SEARCH_CATEGORIES } = load('src/lib/category-tree.ts');
+const categoryAppearance = [{ categoryId: 'services', mobileSize: 'icon', icon: 'Wrench', iconSrc: '/images/categories/services.jpg' }];
+const categoryDocument = defaultDocument('home', 'en');
+categoryDocument.root.props.categoryAppearance = categoryAppearance;
+assert.deepEqual(sanitizeDocument(categoryDocument, 'home').root.props.categoryAppearance, categoryAppearance);
+const unsafeIcon = structuredClone(categoryDocument);
+unsafeIcon.root.props.categoryAppearance[0].iconSrc = 'javascript:alert(1)';
+assert.equal(sanitizeDocument(unsafeIcon, 'home').root.props.categoryAppearance[0].iconSrc, '');
+for (const patch of [{ mobileSize: 'giant' }, { icon: 'UnknownIcon' }, { categoryId: '' }]) {
+  const invalid = structuredClone(categoryDocument);
+  Object.assign(invalid.root.props.categoryAppearance[0], patch);
+  assert.throws(() => sanitizeDocument(invalid, 'home'));
+}
+const duplicateAppearance = structuredClone(categoryDocument);
+duplicateAppearance.root.props.categoryAppearance.push(categoryAppearance[0]);
+assert.throws(() => sanitizeDocument(duplicateAppearance, 'home'));
+function renderCategories(settings) {
+  return renderToStaticMarkup(React.createElement(NextIntlClientProvider, { locale: 'en', messages: editorMessages.en, timeZone: 'Africa/Casablanca' },
+    React.createElement(CategoryAppearanceProvider, { value: settings }, React.createElement(CategoryGrid, { categories: SEARCH_CATEGORIES }))));
+}
+const iconMarkup = renderCategories(categoryAppearance);
+assert.match(iconMarkup, /data-category-id="services" data-mobile-size="icon"/);
+assert.equal((iconMarkup.match(/class="category-mobile-icon"/g) ?? []).length, 1, 'Only the chosen category gets an icon');
+assert.match(iconMarkup, /class="home-discovery-media"/, 'Keep desktop photography');
+assert(!renderCategories([]).includes('class="category-mobile-icon"'), 'Regular mode restores photographs');
 function render(component, locale, content) {
   return renderToStaticMarkup(React.createElement(NextIntlClientProvider, { locale, messages: editorMessages[locale], timeZone: 'Africa/Casablanca' }, React.createElement(component, content ? { content } : {})));
 }
@@ -91,6 +118,19 @@ assert.throws(() => sanitizeDocument(duplicate, 'navbar'));
   assert.equal((await store.readDocument('footer','en')).published, null);
   document = await store.saveDocument('navbar','en','reset',document.revision);
   assert.equal(document.published, null); assert.equal(document.draft, null);
+  let homeDocument = await store.readDocument('home', 'en');
+  homeDocument = await store.saveDocument('home', 'en', 'draft', homeDocument.revision, categoryDocument);
+  assert.equal(homeDocument.published, null);
+  homeDocument = await store.saveDocument('home', 'en', 'publish', homeDocument.revision, categoryDocument);
+  assert.deepEqual((await store.readDocument('home', 'en')).published.root.props.categoryAppearance, categoryAppearance);
+  assert.equal((await store.readDocument('home', 'fr')).published, null);
+  assert.equal((await store.readDocument('services', 'en')).published, null, 'Home icon settings must not leak to Services');
+  const serviceDocument = defaultDocument('services', 'en');
+  serviceDocument.root.props.categoryAppearance = [{ ...categoryAppearance[0], icon: 'Car' }];
+  await store.saveDocument('services', 'en', 'publish', 0, serviceDocument);
+  assert.equal((await store.readDocument('services', 'en')).published.root.props.categoryAppearance[0].icon, 'Car');
+  assert.equal((await store.readDocument('home', 'en')).published.root.props.categoryAppearance[0].icon, 'Wrench');
+  console.log('Category appearance checks passed: per-category rendering, safe uploads, validation, draft/publish persistence, and independent page/language settings.');
   console.log('Visual editor checks passed: unchanged Navbar/Footer defaults across 3 languages and both layouts; validation; nested sanitization; uploads; draft/publish/reset; locale isolation; revision conflicts.');
 })().catch(error => { console.error(error); process.exitCode = 1; });
 

@@ -6,6 +6,7 @@ import { ArrowUpRight, Percent } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { SEARCH_CATEGORIES, type SearchCategoryNode } from '@/lib/category-tree';
 import { categoryImage } from '@/lib/category-images';
+import { CategoryMobileIcon, useCategoryAppearance } from '@/components/category-appearance';
 import {
   countCategoryLeaves,
   homeRootHref,
@@ -34,6 +35,7 @@ function labelFor(node: SearchCategoryNode, locale: string): string {
 export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] }) {
   const t = useTranslations('home');
   const locale = useLocale();
+  const appearance = useCategoryAppearance();
   const tree = categories.length ? categories : SEARCH_CATEGORIES;
   const sections = homeSections(tree);
   const byKind = new Map(sections.map((section) => [section.kind, section]));
@@ -50,6 +52,8 @@ export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] 
               key={section.kind}
               href={homeRootHref(section.kind)}
               className="home-discovery-card"
+              data-category-id={section.root.id}
+              data-mobile-size={appearance.get(section.root.id)?.mobileSize ?? 'regular'}
             >
               <span className="home-discovery-media" aria-hidden>
                 <Image
@@ -60,6 +64,7 @@ export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] 
                   className="home-discovery-img"
                 />
               </span>
+              <CategoryMobileIcon categoryId={section.root.id} />
               <span className="home-discovery-shade" aria-hidden />
               <span className="home-discovery-body">
                 <span className="home-discovery-label">{labelFor(section.root, locale)}</span>
@@ -115,7 +120,7 @@ export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] 
                   const count = countCategoryLeaves(item);
                   return (
                     <li key={`${item.id}-${index}`}>
-                      <Link href={homeSectionHref(section.kind, item)} className="hc-card">
+                      <Link href={homeSectionHref(section.kind, item)} className="hc-card" data-category-id={item.id} data-mobile-size={appearance.get(item.id)?.mobileSize ?? 'regular'}>
                         <span className="hc-card-media" aria-hidden>
                           <Image
                             src={categoryImage(item, section.root.slug)}
@@ -125,6 +130,7 @@ export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] 
                             className="hc-card-img"
                           />
                         </span>
+                        <CategoryMobileIcon categoryId={item.id} />
                         <span className="hc-card-body">
                           <span className="hc-card-name">{labelFor(item, locale)}</span>
                           {count > 1 ? (

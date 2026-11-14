@@ -8,7 +8,7 @@ import { Link } from '@/i18n/navigation';
 import { blockStyle, styleFields } from './style-fields';
 import { safeCssValue, safeUrl, sanitizeRichText } from '@/lib/visual-editor/sanitize';
 
-function ImageUpload({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+export function ImageUpload({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   async function upload(file: File) {

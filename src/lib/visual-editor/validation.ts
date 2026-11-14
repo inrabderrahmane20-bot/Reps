@@ -2,6 +2,7 @@
 import type { Data } from '@measured/puck';
 import type { DocumentId } from './types';
 import { safeUrl, sanitizeRichText, sanitizeStyles, safeCssValue } from './sanitize';
+import { sanitizeCategoryAppearance } from '../category-appearance';
 
 export class EditorValidationError extends Error {}
 
@@ -47,6 +48,11 @@ export function sanitizeDocument(input: unknown, documentId: DocumentId): Data {
   const result = visit({ content: source.content, root: source.root ?? { props: {} }, ...(source.zones ? { zones: source.zones } : {}) });
   for (const block of result.content) {
     if (!block || typeof block !== 'object' || typeof block.type !== 'string') throw new EditorValidationError('Invalid content block.');
+  }
+  if (result.root?.props?.categoryAppearance !== undefined) {
+    if (!['home', 'services'].includes(documentId)) throw new EditorValidationError('Category appearance belongs to a page.');
+    try { result.root.props.categoryAppearance = sanitizeCategoryAppearance(result.root.props.categoryAppearance); }
+    catch (error) { throw new EditorValidationError(error instanceof Error ? error.message : 'Invalid category appearance.'); }
   }
   return result as Data;
 }

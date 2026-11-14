@@ -30,3 +30,9 @@
 /* Keep the zoomed canvas reachable from its left edge at 100% and above. */
 .ve-shell [class*="_PuckCanvas-root_"] { left: 0; transform-origin: top left; }
 .ve-zoom-help { padding: 8px 16px; margin: 0; font-size: 12px; background: #eef4f1; color: #315348; }
+.ve-category-appearance { display: grid; gap: 12px; font-size: 13px; line-height: 1.5; }
+.ve-category-appearance label { display: grid; gap: 6px; font-weight: 600; }
+.ve-category-appearance input, .ve-category-appearance select { width: 100%; min-width: 0; padding: 8px; border: 1px solid #ccd4d0; border-radius: 5px; background: white; font-size: 13px; font-weight: 400; }
+.ve-category-appearance button { padding: 8px; border: 1px solid #ccd4d0; border-radius: 5px; color: #07594c; }
+.ve-category-appearance p { margin: 0; color: #526d65; }
+.ve-category-appearance [role='alert'] { color: #a32621; }

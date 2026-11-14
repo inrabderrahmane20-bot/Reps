@@ -14,10 +14,11 @@ import { DOCUMENTS, documentPath, PAGE_DOCUMENTS } from '@/lib/visual-editor/typ
 import type { DocumentId, EditorAction, VisualDocument } from '@/lib/visual-editor/types';
 import type { Locale } from '@/i18n/config';
 
-function EditorActions({ busy, save, reset, defaults }: { defaults: Data; busy: boolean; save: (action: EditorAction, data: Data) => void; reset: () => void }) {
+function EditorActions({ busy, save, reset, defaults, categorySettings }: { defaults: Data; busy: boolean; save: (action: EditorAction, data: Data) => void; reset: () => void; categorySettings: boolean }) {
   const { appState, dispatch } = usePuck();
   return <div className="ve-actions">
     <ElementInspector defaults={defaults} />
+    {categorySettings && <button type="button" onClick={() => dispatch({ type: 'setUi', ui: { itemSelector: null, rightSideBarVisible: true, viewports: { ...appState.ui.viewports, current: { width: 390, height: 'auto' } } }, recordHistory: false })}>Category images</button>}
     <button type="button" onClick={() => dispatch({ type: 'setUi', ui: { leftSideBarVisible: !appState.ui.leftSideBarVisible, rightSideBarVisible: !appState.ui.rightSideBarVisible }, recordHistory: false })}>Toggle side panels</button>
     <button type="button" onClick={event => {
       const width = Math.max(320, Math.floor(event.currentTarget.closest('.ve-shell')!.getBoundingClientRect().width - 64));
@@ -74,7 +75,7 @@ export default function VisualEditorClient({ id, locale, initial, defaults, font
   const reset = useCallback(() => {
     if (window.confirm('Restore the original component? This clears its saved draft and published layout for this language.')) void save('reset', currentData.current);
   }, [save]);
-  const editorOverrides = useMemo(() => ({ ...overrides, headerActions: () => <EditorActions defaults={defaults} busy={busy} save={(action: EditorAction, data: Data) => void save(action, data)} reset={reset} /> }), [overrides, defaults, busy, save, reset]);
+  const editorOverrides = useMemo(() => ({ ...overrides, headerActions: () => <EditorActions defaults={defaults} busy={busy} save={(action: EditorAction, data: Data) => void save(action, data)} reset={reset} categorySettings={id === 'home' || id === 'services'} /> }), [overrides, defaults, busy, save, reset, id]);
   return <div className={`ve-shell${expanded ? " ve-expanded" : ""}`}>
     <div className="ve-toolbar">
       <Link href={`/admin/visual-editor?locale=${locale}`}>← Visual Editor</Link>

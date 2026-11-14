@@ -12,16 +12,19 @@ import { homeBlocks, HomeCanvas } from './home-blocks';
 import { servicesBlocks, ServicesCanvas } from './page-blocks';
 import type { SearchCategoryNode } from '@/lib/category-tree';
 import { globalBlocks } from './global-blocks';
+import { CategoryAppearanceProvider } from '@/components/category-appearance';
+import type { CategoryAppearance } from '@/lib/category-appearance';
+import { categoryAppearanceField } from './category-appearance-field';
 
 export function visualConfig(id: DocumentId, locale: Locale, previewPath?: string, initialCategories?: SearchCategoryNode[], initialCategoryId?: string): Config {
   const globals = globalBlocks(locale, previewPath);
   const globalType = id === 'navbar' ? 'Navbar' : 'Footer';
   const existing = LEGAL_DEFAULTS[id] ? legalBlocks(id) : id === 'home' ? homeBlocks(locale) : id === 'services' ? servicesBlocks(locale) : { [globalType]: globals[globalType] };
   return {
-    root: { fields: {}, defaultProps: {}, render: ({ children, puck }: { children: ReactNode; puck?: { isEditing?: boolean } }) => {
+    root: { fields: id === 'home' || id === 'services' ? { categoryAppearance: categoryAppearanceField(id, locale) } : {}, defaultProps: {}, render: ({ children, puck, categoryAppearance }: { children: ReactNode; puck?: { isEditing?: boolean }; categoryAppearance?: CategoryAppearance[] }) => {
       if (id === 'services' || id === 'home') {
         const pageChildren = isValidElement(children) ? cloneElement(children as ReactElement<{className?: string}>, {className: id === 'home' ? 'home-redesign' : 'moroccan-canvas svc-page min-h-screen pb-16'}) : children;
-        return id === 'home' ? <HomeCanvas editorChildren={pageChildren} /> : <ServicesCanvas initialCategories={initialCategories} initialCategoryId={initialCategoryId}>{pageChildren}</ServicesCanvas>;
+        return <CategoryAppearanceProvider value={categoryAppearance}>{id === 'home' ? <HomeCanvas editorChildren={pageChildren} /> : <ServicesCanvas initialCategories={initialCategories} initialCategoryId={initialCategoryId}>{pageChildren}</ServicesCanvas>}</CategoryAppearanceProvider>;
       }
       // Puck's root div must not become the sticky Navbar's containing block.
       if (!puck?.isEditing && isValidElement(children)) return cloneElement(children as ReactElement<{ style?: CSSProperties }>, { style: { display: 'contents' } });
