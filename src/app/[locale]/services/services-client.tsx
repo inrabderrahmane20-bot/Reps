@@ -64,6 +64,7 @@ export default function ServicesPage({ initialCategories, editorChildren, initia
   const [categoryError, setCategoryError] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(initialRoot?.id ?? null);
   const [showResults, setShowResults] = useState(Boolean(initialSelectedCategoryId));
+  const [mobileCategoryId, setMobileCategoryId] = useState<string | null>(initialSelectedCategoryId ?? null);
   const { user } = useAuth();
 
   const [q, setQ] = useState('');
@@ -86,6 +87,7 @@ export default function ServicesPage({ initialCategories, editorChildren, initia
 
   const requestSeq = useRef(0);
   const resultsRef = useRef<HTMLElement | null>(null);
+  const mobileResultsRef = useRef<HTMLDivElement | null>(null);
 
   // Read ?q= and ?cat= on first mount for existing service-directory links.
   useEffect(() => {
@@ -98,6 +100,7 @@ export default function ServicesPage({ initialCategories, editorChildren, initia
       setShowResults(true);
     }
     const initialCategoryId = params.get('catId');
+    if (initialCategoryId) setMobileCategoryId(initialCategoryId);
     if (initialCategoryId) { setAppliedCategoryId(initialCategoryId); setBrowsedCategoryId(initialCategoryId); setSelectedGroup(categoryPath(serviceRoots(initialCategories),initialCategoryId)?.[0]?.id ?? defaultServiceRoot(serviceRoots(initialCategories))?.id ?? null); setShowResults(true); }
     const initialCat = params.get('cat');
     if (initialCat) {
@@ -274,7 +277,17 @@ export default function ServicesPage({ initialCategories, editorChildren, initia
   }
 
   function scrollToResults() {
-    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const target = window.matchMedia('(max-width: 639px)').matches ? mobileResultsRef.current : resultsRef.current;
+    target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function returnToMobileCategories() {
+    setShowResults(false);
+    requestAnimationFrame(() => {
+      const heading = document.getElementById('svc-mobile-heading');
+      heading?.focus({ preventScroll: true });
+      heading?.scrollIntoView({ block: 'start' });
+    });
   }
 
   function selectCategory(category: string | null) {
@@ -361,10 +374,17 @@ export default function ServicesPage({ initialCategories, editorChildren, initia
           selected={discoverySelection}
           onSelect={selectCategory}
         /></>),
-    ServicesTree: (content) => (discoveryGroup ? <ServicesCategoryBrowser heading={content.categories} roots={serviceCategories} root={discoveryGroup} activeId={browsedCategoryId} onBrowse={id => {setBrowsedCategoryId(id);setSelectedGroup(categoryPath(serviceCategories,id)?.[0]?.id ?? null);setShowResults(false);}} onSelect={node => {
+    ServicesTree: (content) => (discoveryGroup ? <ServicesCategoryBrowser heading={content.categories} roots={serviceCategories} root={discoveryGroup} activeId={browsedCategoryId} mobileActiveId={mobileCategoryId} onMobileBrowse={setMobileCategoryId} showResults={showResults} onBrowse={id => {setBrowsedCategoryId(id);setSelectedGroup(categoryPath(serviceCategories,id)?.[0]?.id ?? null);setShowResults(false);}} onSelect={node => {
       setAppliedCategoryId(node.id);setFiltersMerged({cat:null});setQ('');setDebouncedQ('');setLoading(true);setProviders([]);setShowResults(true);
     }}/> : null),
-    ServicesResults: (_content, editing) => (<><ServicesFilters value={filters} groupBy={resultGroupBy} onGroupBy={setResultGroupBy} onReset={resetAll} onChange={value=>{setFilters(value);setAppliedCategoryId(appliedCategoryId ?? browsedCategoryId);setShowResults(true);}}/>{(showResults || editing) && <div className="svc-professional-results">
+    ServicesResults: (_content, editing) => (<>
+      <div ref={mobileResultsRef} className="svc-mobile-results-start" hidden={!showResults}>
+        <button type="button" className="svc-mobile-back" onClick={returnToMobileCategories}>{copy.showCategories}</button>
+      </div>
+      <div className={showResults || editing ? undefined : 'svc-desktop-only'}>
+        <ServicesFilters value={filters} groupBy={resultGroupBy} onGroupBy={setResultGroupBy} onReset={resetAll} onChange={value=>{setFilters(value);setAppliedCategoryId(appliedCategoryId ?? browsedCategoryId);setShowResults(true);}}/>
+      </div>
+      {(showResults || editing) && <div className="svc-professional-results">
           {/* Results */}
           <section
             ref={resultsRef}

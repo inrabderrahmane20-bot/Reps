@@ -61,7 +61,7 @@ const base=process.env.BASE_URL||'http://localhost:3002';
    await page.setViewportSize({width,height:1000});await page.goto(`${base}/${locale}/services/`);await page.locator('[data-services-category-browser]').waitFor();
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Horizontal overflow at ${locale}/${width}`);
    assert.equal(await page.locator('.svc-choice-grid .svc-choice-card img').count(),wrapper.children.length);
-   await page.locator('.svc-browser-panel').screenshot({path:path.join(process.env.TEMP,`services-browser-${locale}-${width}.png`),animations:'disabled'});
+   await page.locator(width < 640 ? '.svc-mobile-browser' : '.svc-browser-panel').screenshot({path:path.join(process.env.TEMP,`services-browser-${locale}-${width}.png`),animations:'disabled'});
   }
   const sitemap=await(await context.request.get(`${base}/sitemap.xml`)).text();
   assert(sitemap.includes('https://annabid.com/en/services/categories/technique/'));

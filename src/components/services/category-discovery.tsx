@@ -71,7 +71,7 @@ export function CategoryDiscovery({
   const locale = useLocale();
 
   return (
-    <section aria-labelledby="svc-explore-heading">
+    <section className="svc-desktop-only" aria-labelledby="svc-explore-heading">
       <div className="flex flex-col items-center text-center">
         <span className="mb-3 text-emerald-primary" aria-hidden>
           <Ornament />

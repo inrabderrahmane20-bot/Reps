@@ -8,12 +8,14 @@ import { getCategoryLabel, type SearchCategoryNode } from '@/lib/category-tree';
 import { branchSearchCount, flattenServiceCategories, matchesCategory, serviceCategoryHref, type CategorySearchCounts } from '@/lib/services-browser';
 import { servicesCopy } from '@/lib/services-copy';
 import { CategoryPhoto } from './category-photo';
+import { MobileCategoryBrowser } from './mobile-category-browser';
 
 function selectInline(event: MouseEvent<HTMLAnchorElement>, callback: () => void) {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault(); callback();
 }
-export function ServicesCategoryBrowser({ roots, root, activeId, onBrowse, onSelect, heading }: {
+export function ServicesCategoryBrowser({ roots, root, activeId, onBrowse, onSelect, heading, mobileActiveId, onMobileBrowse, showResults }: {
+  mobileActiveId: string | null; onMobileBrowse: (id: string | null) => void; showResults: boolean;
   heading?: string; roots: SearchCategoryNode[]; root: SearchCategoryNode; activeId: string | null;
   onBrowse: (id: string) => void; onSelect: (node: SearchCategoryNode) => void;
 }) {
@@ -53,7 +55,8 @@ export function ServicesCategoryBrowser({ roots, root, activeId, onBrowse, onSel
     {node.id===current.id ? <Check size={18} aria-hidden/> : <ChevronRight size={18} className="flip-rtl" aria-hidden/>}
   </Link>;
   return <div className="svc-browse-layout" data-services-category-browser="true">
-    <section className="svc-browser-panel" aria-label={copy.categories}>
+    <div className="svc-mobile-only" hidden={showResults}><MobileCategoryBrowser roots={roots} activeId={mobileActiveId} onBrowse={onMobileBrowse} onSelect={node => void choose(node)} /></div>
+    <section className="svc-browser-panel svc-desktop-only" aria-label={copy.categories}>
       <header className="svc-browser-heading"><div><span className="svc-section-eyebrow">{heading ?? copy.choose}</span><h2>{getCategoryLabel(root,locale)}</h2></div><SlidersHorizontal size={23} aria-hidden/></header>
       <div className="svc-browser-columns">
         <aside className="svc-branch-nav" aria-label={copy.subcategories}>
