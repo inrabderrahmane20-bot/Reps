@@ -1,11 +1,13 @@
 'use client';
 
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Hero } from '@/components/home/hero';
 import { CategoryGrid } from '@/components/home/category-grid';
 import { PromoShowcase } from '@/components/home/promo-showcase';
+import { Link, useRouter } from '@/i18n/navigation';
+import { VerificationLink } from '@/components/ui/verification-link';
 import { CommunityCard } from '@/components/cards/community-card';
 import { ServiceGridCard, type ServiceListing } from '@/components/services/service-views';
 import { SponsoredCard, SponsoredCardSkeleton } from '@/components/services/marketing-cards';
@@ -67,6 +69,8 @@ function toListing(p: HomeProvider): ServiceListing {
 
 export default function HomePage({ editorChildren }: { editorChildren?: ReactNode } = {}) {
   const t = useTranslations('home');
+  const common = useTranslations('common');
+  const router = useRouter();
   const { user } = useAuth();
 
   const [communities, setCommunities] = useState<any[]>([]);
@@ -80,66 +84,41 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
   const [categoryTree, setCategoryTree] = useState<SearchCategoryNode[]>(SEARCH_CATEGORIES);
   const [loadingHome, setLoadingHome] = useState(true);
   const [requesting, setRequesting] = useState<ServiceListing | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const loadVersion = useRef(0);
 
-  function loadAll() {
+  const loadAll = useCallback(async () => {
+    const version = ++loadVersion.current;
     const params = new URLSearchParams();
     if (user?.zoneId) params.set('zone', user.zoneId);
-    if (user?.homeLat != null && user.homeLng != null) {
-      params.set('lat', String(user.homeLat));
-      params.set('lng', String(user.homeLng));
+    if (user?.homeLat != null && user?.homeLng != null) {
+      params.set('lat', String(user.homeLat)); params.set('lng', String(user.homeLng));
     }
-    const geo = params.toString() ? `&${params.toString()}` : '';
-    setLoadingHome(true);
+    const geo = params.size ? '&' + params.toString() : '';
+    setLoadingHome(true); setLoadError(false);
+    const providerRequest = (path: string) => api.get<{ providers: HomeProvider[]; total: number }>(path);
+    const results = await Promise.allSettled([
+      api.get<{ communities: any[] }>('/communities'),
+      providerRequest('/providers?limit=1'),
+      providerRequest('/providers?sort=rating&limit=8' + geo),
+      providerRequest('/providers?availability=available&sort=available&limit=8' + geo),
+      providerRequest('/providers?sponsored=1&sort=sponsored&limit=6'),
+      providerRequest('/providers?promotion=1&sort=rating&limit=8'),
+    ]);
+    if (version !== loadVersion.current) return;
+    const [community, count, best, available, ads, promo] = results;
+    setCommunities(community.status === 'fulfilled' ? community.value.communities.slice(0, 4) : []);
+    setProviderTotal(count.status === 'fulfilled' ? count.value.total : 0);
+    setFeatured(best.status === 'fulfilled' ? best.value.providers.map(toListing) : []);
+    setAvailableNow(available.status === 'fulfilled' ? available.value.providers.map(toListing) : []);
+    setSponsored(ads.status === 'fulfilled' ? ads.value.providers.map(toListing).filter(p => p.sponsoredPlacement === 'both' || p.sponsoredPlacement === 'home') : []);
+    setPromos(promo.status === 'fulfilled' ? promo.value.providers.map(toListing) : []);
+    setPromoTotal(promo.status === 'fulfilled' ? promo.value.total : 0);
+    setLoadError(results.some(result => result.status === 'rejected'));
+    setLoadingHome(false);
+  }, [user?.zoneId, user?.homeLat, user?.homeLng]);
 
-    api
-      .get<{ communities: any[] }>('/communities')
-      .then((r) => setCommunities(r.communities.slice(0, 4)))
-      .catch(() => setCommunities([]));
-
-    // Total number of live providers — used for the honest hero counters.
-    api
-      .get<{ providers: HomeProvider[]; total: number }>('/providers?limit=1')
-      .then((r) => setProviderTotal(r.total ?? 0))
-      .catch(() => setProviderTotal(0));
-
-    // Best rated — ranked by the real review average.
-    api
-      .get<{ providers: HomeProvider[] }>(`/providers?sort=rating&limit=8${geo}`)
-      .then((r) => setFeatured(r.providers.map(toListing)))
-      .catch(() => setFeatured([]));
-
-    // Currently available providers.
-    api
-      .get<{ providers: HomeProvider[] }>(`/providers?availability=available&sort=available&limit=8${geo}`)
-      .then((r) => setAvailableNow(r.providers.map(toListing)))
-      .catch(() => setAvailableNow([]));
-
-    api
-      .get<{ providers: HomeProvider[] }>('/providers?sponsored=1&sort=sponsored&limit=6')
-      .then((r) =>
-        setSponsored(
-          r.providers
-            .map(toListing)
-            // A campaign configured for the services page only must not appear here.
-            .filter((p) => p.sponsoredPlacement === 'both' || p.sponsoredPlacement === 'home')
-        )
-      )
-      .catch(() => setSponsored([]));
-
-    api
-      .get<{ providers: HomeProvider[]; total: number }>('/providers?promotion=1&sort=rating&limit=8')
-      .then((r) => {
-        setPromos(r.providers.map(toListing));
-        setPromoTotal(r.total ?? 0);
-      })
-      .catch(() => {
-        setPromos([]);
-        setPromoTotal(0);
-      })
-      .finally(() => setLoadingHome(false));
-  }
-
-  useEffect(loadAll, [user?.zoneId, user?.homeLat, user?.homeLng]);
+  useEffect(() => { void loadAll(); return () => { ++loadVersion.current; }; }, [loadAll]);
   useEffect(() => {
     api.get<{ categories: SearchCategoryNode[] }>('/categories/tree')
       .then((response) => {
@@ -150,9 +129,9 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
   }, []);
 
   async function toggleJoinCommunity(id: string) {
-    if (!user) return (window.location.href = '/login');
-    await api.post(`/communities/${id}/join`);
-    loadAll();
+    if (!user) return router.push('/login');
+    try { await api.post(`/communities/${id}/join`); void loadAll(); }
+    catch { setLoadError(true); }
   }
 
   const sections: PageSections = {
@@ -162,7 +141,7 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
         promoCount={promoTotal}
         categoryCount={categoryCount}
       />),
-    HomeCategories: (_content) => (<CategoryGrid categories={categoryTree} />),
+    HomeCategories: (_content) => (<CategoryGrid categories={categoryTree} showPromotions={promoTotal > 0} />),
     HomeBestRated: (content) => (<section className="home-best-rated" aria-labelledby="home-best-rated">
           <SectionHeader
             id="home-best-rated"
@@ -184,6 +163,7 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
               <span className="home-empty-icon"><Star size={25} aria-hidden /></span>
               <h3>{(content.emptyProvidersTitle ?? t('emptyProvidersTitle'))}</h3>
               <p>{(content.emptyProvidersBody ?? t('emptyProvidersBody'))}</p>
+              <Link href="/profile" className="mt-4 inline-block text-majorelle-700 underline">{t('providerAction')}</Link>
             </div>
           )}
         </section>),
@@ -218,10 +198,11 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
               <span className="home-empty-icon"><Users size={25} aria-hidden /></span>
               <h3>{(content.emptyCommunitiesTitle ?? t('emptyCommunitiesTitle'))}</h3>
               <p>{(content.emptyCommunitiesBody ?? t('emptyCommunitiesBody'))}</p>
+              <Link href="/communities" className="mt-4 inline-block text-majorelle-700 underline">{t('joinAction')}</Link>
             </div>
           )}
         </section>),
-    HomePromotions: (content) => (<section className="home-additional-section" aria-label={(content.sectionPromotions ?? t('sectionPromotions'))}>
+    HomePromotions: (content) => ((loadingHome || promos.length > 0) && <section className="home-additional-section" aria-label={(content.sectionPromotions ?? t('sectionPromotions'))}>
           <PromoShowcase content={content} items={promos} loading={loadingHome} onRequest={setRequesting} />
         </section>),
     HomeAvailable: (content) => (availableNow.length > 0 && (
@@ -255,6 +236,7 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
   };
   return (
     <PageSectionsContext.Provider value={sections}>
+    {loadError && <div role="alert" className="mx-auto max-w-7xl p-4 text-ink-900">{t('loadError')} <button onClick={() => void loadAll()} disabled={loadingHome} className="underline">{common('tryAgain')}</button></div>}
     <div className={editorChildren ? undefined : "home-redesign"} style={editorChildren ? { display: "contents" } : undefined}>
       {editorChildren ?? <>
       {sections.HomeHero({}, false)}
@@ -267,6 +249,7 @@ export default function HomePage({ editorChildren }: { editorChildren?: ReactNod
         {sections.HomeSponsored({}, false)}
       </div>
       </>}
+      <div className="mx-auto max-w-7xl px-5 py-6"><VerificationLink /></div>
       {/* Request modal */}
       {requesting && (
         <RequestServiceModal providerId={requesting.id} category={requesting.category} onClose={() => setRequesting(null)} />

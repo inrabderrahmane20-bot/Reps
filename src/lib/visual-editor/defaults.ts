@@ -55,12 +55,12 @@ export function homeDefaultDocument(locale: Locale): Data {
   return {root: {props:{}}, content:[blocks[0], {type:'HomeContent', props:{id:'home-content',styleFields:{},children:blocks.slice(1)}}]};
 }
 export const LEGAL_DEFAULTS: Record<string,{title:string;description:string;icon:string}> = {
-  privacy: {title:'Privacy Policy',description:'How Medina collects, uses and protects your data will be published here.',icon:'ShieldCheck'},
+  privacy: {title:'Privacy Policy',description:'How Annabid collects, uses and protects your data will be published here.',icon:'ShieldCheck'},
   terms: {title:'Terms of Service',description:'Full legal terms will be published here before launch.',icon:'FileText'},
-  rules: {title:'Community rules',description:'Guidelines every member agrees to when joining Medina.',icon:'BookOpen'},
+  rules: {title:'Community rules',description:'Guidelines every member agrees to when joining Annabid.',icon:'BookOpen'},
 };
 export function defaultDocument(id: DocumentId, locale: Locale): Data {
-  if (LEGAL_DEFAULTS[id]) return {root:{props:{}},content:[{type:'LegalIntro',props:{id:`${id}-intro`,content:LEGAL_DEFAULTS[id],styleFields:{}}}]};
+  if (LEGAL_DEFAULTS[id]) return {root:{props:{}},content:[{type:'LegalIntro',props:{id:`${id}-intro`,content:{...LEGAL_DEFAULTS[id],title:editorMessages[locale].trust[`${id}Title` as keyof typeof editorMessages.en.trust],description:editorMessages[locale].trust.pending},styleFields:{}}}]};
   if (id === 'home') return homeDefaultDocument(locale);
   if (id === 'services') return servicesDefaultDocument(locale);
   return { root: { props: {} }, content: [{ type: id === 'navbar' ? 'Navbar' : 'Footer', props: {

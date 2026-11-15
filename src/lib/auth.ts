@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
-import { readAdminUser, readSessionUser, updateDb, newId } from './db';
+import { readSessionUser, updateDb, newId } from './db';
 import type { User } from './types';
 
 export const SESSION_COOKIE = 'medina_session';
@@ -63,7 +63,8 @@ export async function getSessionUser(): Promise<User | null> {
   if (!token) return null;
   const sessionUser = await readSessionUser(token);
   if (!sessionUser) return null;
-  if (new Date(sessionUser.session.expiresAt).getTime() < Date.now()) return null;
+  if (!(new Date(sessionUser.session.expiresAt).getTime() > Date.now())) return null;
+  if (sessionUser.user.status !== 'active') return null;
   return sessionUser.user;
 }
 
@@ -78,10 +79,8 @@ export async function requireUser(): Promise<User> {
 }
 
 export async function requireAdmin(): Promise<User> {
-  const admin = await readAdminUser();
-  if (!admin) {
-    throw new Error('No administrator account is configured.');
-  }
+  const admin = await requireUser();
+  if (admin.role !== 'admin') throw Object.assign(new Error('FORBIDDEN'), { status: 403 });
   return admin;
 }
 

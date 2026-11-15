@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     const { userId } = await req.json();
     if (!userId) return jsonError('Recipient is required.');
     const db = await readDb();
-    if (!db.users.some((u) => u.id === userId)) return jsonError('User not found.', 404);
+    if (userId === me.id || !db.users.some((u) => u.id === userId && u.status === 'active')) return jsonError('User not found.', 404);
     if (me.blockedUserIds?.includes(userId)) return jsonError('You have blocked this user.');
     const target = db.users.find((u) => u.id === userId)!;
     if (target.blockedUserIds?.includes(me.id)) return jsonError('You cannot message this user.');

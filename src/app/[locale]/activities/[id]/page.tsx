@@ -1,12 +1,13 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { ChevronLeft, CalendarDays, MapPin, Users, Gauge, MessageCircle, Flag } from 'lucide-react';
+import { ChevronLeft, CalendarDays, MapPin, Users, Gauge } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { activities } from '@/data/mock';
+import { readDb } from '@/lib/db';
+import { getSessionUser } from '@/lib/auth';
+import { MembershipActions } from '@/components/ui/membership-actions';
+import { ReportButton } from '@/components/ui/report-modal';
 
-export function generateStaticParams() {
-  return activities.map((a) => ({ id: a.id }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function ActivityDetailPage({
   params,
@@ -14,8 +15,12 @@ export default async function ActivityDetailPage({
   params: { locale: string; id: string };
 }) {
   setRequestLocale(params.locale);
-  const activity = activities.find((a) => a.id === params.id);
-  if (!activity) notFound();
+  const db = await readDb();
+  const record = db.activities.find(a => a.id === params.id && a.status !== 'cancelled');
+  const user = await getSessionUser();
+  if (!record || (record.visibility === 'private' && user?.role !== 'admin' && record.creatorId !== user?.id && !record.participantIds.includes(user?.id ?? ''))) notFound();
+  const host = db.users.find(u => u.id === record.creatorId);
+  const activity = { ...record, participants: record.participantIds.length, minParticipants: record.min, host: host ? host.firstName + ' ' + host.lastName : '' };
 
   const t = await getTranslations('activities');
   const common = await getTranslations('common');
@@ -85,26 +90,10 @@ export default async function ActivityDetailPage({
           <div className="rounded-2xl bg-white p-4 shadow-card">
             <p className="text-xs text-ink-500">{t('minParticipants')}</p>
             <p className="mt-1 text-sm font-semibold text-ink-900">{activity.minParticipants}</p>
-            <button
-              type="button"
-              className="mt-4 w-full rounded-full bg-majorelle-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-majorelle-700"
-            >
-              {t('joinActivity')}
-            </button>
-            <button
-              type="button"
-              className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-ink-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 hover:bg-sand-100"
-            >
-              <MessageCircle size={15} /> {t('groupChat')}
-            </button>
+<MembershipActions kind="activities" id={activity.id} memberIds={activity.participantIds} closed={activity.status !== 'open'} />
           </div>
 
-          <button
-            type="button"
-            className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-ink-900/10 bg-white px-4 py-2.5 text-xs font-semibold text-ink-500 hover:bg-sand-100"
-          >
-            <Flag size={13} /> {common('report')}
-          </button>
+<ReportButton targetType="activity" targetId={activity.id} />
         </aside>
       </div>
     </div>

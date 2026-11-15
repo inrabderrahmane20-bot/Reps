@@ -28,6 +28,7 @@ const availabilityColor: Record<string, string> = {
 
 export default function MapPage() {
   const t = useTranslations('map');
+  const common = useTranslations('common');
   const z = useTranslations('zones');
   const locale = useLocale();
   const { user, setUser } = useAuth();
@@ -42,6 +43,9 @@ export default function MapPage() {
   const [locating, setLocating] = useState(false);
   const [geoDenied, setGeoDenied] = useState(false);
   const [zoneSaved, setZoneSaved] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const [mapError, setMapError] = useState(false);
+  const [retry, setRetry] = useState(0);
   const [points, setPoints] = useState<{ providers: MapPoint[]; activities: MapPoint[]; communities: MapPoint[] }>({
     providers: [],
     activities: [],
@@ -62,11 +66,15 @@ export default function MapPage() {
   }, [user]);
 
   useEffect(() => {
+    let cancelled = false;
+    setLoadError(false);
     const params = zone && zone !== 'all' ? `?zone=${encodeURIComponent(zone)}` : '';
     api
       .get<{ providers: MapPoint[]; activities: MapPoint[]; communities: MapPoint[] }>(`/map/points${params}`)
-      .then(setPoints);
-  }, [zone]);
+      .then((data) => { if (!cancelled) setPoints(data); })
+      .catch(() => { if (!cancelled) setLoadError(true); });
+    return () => { cancelled = true; };
+  }, [zone, retry]);
 
   // Initialize the Leaflet map once the CDN script has loaded.
   useEffect(() => {
@@ -127,7 +135,7 @@ export default function MapPage() {
     points.providers.forEach((p) => {
       const marker = L.marker([p.lat, p.lng], { icon: dot(availabilityColor[p.availability || 'offline']) });
       marker.bindPopup(
-        `<strong>${escapeHtml(p.name)}</strong><br/>${escapeHtml(p.category)}<br/><a href="/${locale}/services/${p.id}" style="color:#4C3AA8;font-weight:600;">View provider →</a>`
+        `<strong>${escapeHtml(p.name)}</strong><br/>${escapeHtml(p.category)}<br/><a href="/${locale}/services/${encodeURIComponent(p.id)}" style="color:#4C3AA8;font-weight:600;">${escapeHtml(t('viewProvider'))} →</a>`
       );
       marker.addTo(groups.providers);
     });
@@ -136,7 +144,7 @@ export default function MapPage() {
     points.activities.forEach((a) => {
       const marker = L.marker([a.lat, a.lng], { icon: dot('#C2703D') });
       marker.bindPopup(
-        `<strong>${escapeHtml(a.name)}</strong><br/>${escapeHtml(a.category)} · ${escapeHtml(a.date || '')}<br/><a href="/${locale}/activities/${a.id}" style="color:#4C3AA8;font-weight:600;">View activity →</a>`
+        `<strong>${escapeHtml(a.name)}</strong><br/>${escapeHtml(a.category)} · ${escapeHtml(a.date || '')}<br/><a href="/${locale}/activities/${encodeURIComponent(a.id)}" style="color:#4C3AA8;font-weight:600;">${escapeHtml(t('viewActivity'))} →</a>`
       );
       marker.addTo(groups.activities);
     });
@@ -145,11 +153,11 @@ export default function MapPage() {
     points.communities.forEach((c) => {
       const marker = L.marker([c.lat, c.lng], { icon: dot('#1E6E73') });
       marker.bindPopup(
-        `<strong>${escapeHtml(c.name)}</strong><br/>${escapeHtml(c.category)}<br/><a href="/${locale}/communities/${c.id}" style="color:#4C3AA8;font-weight:600;">View community →</a>`
+        `<strong>${escapeHtml(c.name)}</strong><br/>${escapeHtml(c.category)}<br/><a href="/${locale}/communities/${encodeURIComponent(c.id)}" style="color:#4C3AA8;font-weight:600;">${escapeHtml(t('viewCommunity'))} →</a>`
       );
       marker.addTo(groups.communities);
     });
-  }, [points, leafletReady, locale]);
+  }, [points, leafletReady, locale, t]);
 
   // Toggle layer visibility.
   useEffect(() => {
@@ -163,7 +171,7 @@ export default function MapPage() {
         map.removeLayer(groups[key]);
       }
     });
-  }, [layers]);
+  }, [layers, leafletReady]);
 
   function shareLocation() {
     if (!('geolocation' in navigator)) {
@@ -189,18 +197,25 @@ export default function MapPage() {
 
   async function saveZone() {
     if (!user) return;
+    setLoadError(false);
+    try {
     const res = await api.patch<{ user: any }>('/users/me', {
       zoneId: zone,
       ...(home ? { homeLat: home.lat, homeLng: home.lng } : {}),
     });
     setUser(res.user);
     setZoneSaved(true);
+    } catch { setLoadError(true); }
   }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <Script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" strategy="afterInteractive" onLoad={() => setLeafletReady(true)} />
+      <Script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" strategy="afterInteractive" onReady={() => setLeafletReady(true)} onError={() => setMapError(true)} />
+      {(loadError || mapError) && <div role="alert" className="mb-4 rounded-xl bg-sand-100 p-4 text-sm">
+        {t('loadError')} <button className="underline" onClick={() => mapError ? window.location.reload() : setRetry((value) => value + 1)}>{common('tryAgain')}</button>
+        {' · '}<Link href="/services" className="underline">{t('browse')}</Link>
+      </div>}
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -267,9 +282,9 @@ export default function MapPage() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-4 text-xs text-ink-500">
-        <Legend color={availabilityColor.available} label="Available" />
-        <Legend color={availabilityColor.later} label="Available later" />
-        <Legend color={availabilityColor.offline} label="Offline" />
+        <Legend color={availabilityColor.available} label={common('available')} />
+        <Legend color={availabilityColor.later} label={common('availableLater')} />
+        <Legend color={availabilityColor.offline} label={common('offline')} />
       </div>
 
       <div ref={containerRef} className="relative z-0 isolate mt-4 h-[70vh] w-full overflow-hidden rounded-2xl shadow-card" />

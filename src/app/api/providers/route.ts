@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
 import { classifyZone, haversineKm } from '@/lib/zones';
-import { expandCategory, serviceTaxonomyFromTree } from '@/lib/service-categories';
+import { expandCategory, findNode, serviceTaxonomyFromTree, type TaxNode } from '@/lib/service-categories';
 import { categoryPath, categoryBranchValues } from '@/lib/service-selection';
 import { normalizeCategory } from '@/lib/service-categories';
 import { getCategoryTree } from '@/lib/category-store';
@@ -34,7 +34,7 @@ export const dynamic = 'force-dynamic';
 //   clients can render badges without re-deriving date logic.
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const q = searchParams.get('q')?.toLowerCase();
+  const q = normalizeCategory(searchParams.get('q') ?? '').trim();
   const cat = searchParams.get('cat');
   const catId = searchParams.get('catId');
   const availabilityParam = searchParams.get('availability');
@@ -45,8 +45,10 @@ export async function GET(req: NextRequest) {
   const requestedSponsored = searchParams.get('sponsored') === '1';
   const requestedPromotion = searchParams.get('promotion') === '1';
   const sort = searchParams.get('sort') ?? 'newest';
-  const limit = searchParams.get('limit') ? Math.max(1, Number(searchParams.get('limit'))) : 24;
-  const offset = searchParams.get('offset') ? Math.max(0, Number(searchParams.get('offset'))) : 0;
+  const limitValue = Number(searchParams.get('limit') ?? 24);
+  const offsetValue = Number(searchParams.get('offset') ?? 0);
+  const limit = Number.isFinite(limitValue) ? Math.min(100, Math.max(1, Math.floor(limitValue))) : 24;
+  const offset = Number.isFinite(offsetValue) ? Math.max(0, Math.floor(offsetValue)) : 0;
 
   // Accept both singular and plural param names for availability (comma-separated).
   const availability = (availabilityParam ?? searchParams.get('available') ?? '')
@@ -65,12 +67,14 @@ export async function GET(req: NextRequest) {
     const values = categoryBranchValues(path[path.length - 1]);
     providers = providers.filter(user => values.has(normalizeCategory(user.provider!.category)));
   } else if (cat) {
-    const leaves = expandCategory(cat, serviceTaxonomy);
+    const branch = findNode(cat, serviceTaxonomy);
+    const values = (node: TaxNode): string[] => [node.name, ...(node.children ?? []).flatMap(values)];
+    const leaves = branch ? values(branch) : expandCategory(cat, serviceTaxonomy);
     if (leaves.length === 0) {
       return NextResponse.json({ providers: [], total: 0 });
     }
-    const leafSet = new Set(leaves.map((l) => l.toLowerCase()));
-    providers = providers.filter((u) => leafSet.has(u.provider!.category.toLowerCase()));
+    const leafSet = new Set(leaves.map(normalizeCategory));
+    providers = providers.filter((u) => leafSet.has(normalizeCategory(u.provider!.category)));
   }
   if (availability.length > 0) {
     const states = new Set(availability);
@@ -82,9 +86,7 @@ export async function GET(req: NextRequest) {
   if (q) {
     providers = providers.filter(
       (u) =>
-        u.provider!.title.toLowerCase().includes(q) ||
-        u.provider!.category.toLowerCase().includes(q) ||
-        `${u.firstName} ${u.lastName}`.toLowerCase().includes(q)
+        normalizeCategory(`${u.provider!.title} ${u.provider!.category} ${u.firstName} ${u.lastName}`).includes(q)
     );
   }
 

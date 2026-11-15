@@ -59,6 +59,8 @@ export async function withErrors(fn: () => Promise<Response> | Response): Promis
   } catch (err: any) {
     if (err?.message === 'UNAUTHENTICATED') return jsonError('You must be signed in.', 401);
     if (err?.message === 'FORBIDDEN') return jsonError('Not allowed.', 403);
+    if (err instanceof SyntaxError) return jsonError('Invalid JSON.', 400);
+    if (err?.status === 409) return jsonError('This record has already changed. Refresh and retry.', 409);
     console.error(err);
 
     const code = typeof err?.code === 'string' ? err.code : undefined;

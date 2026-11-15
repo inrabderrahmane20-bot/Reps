@@ -60,7 +60,8 @@ export function homeSectionItems(
   kind: HomeRootKind,
   limit = 6
 ): SearchCategoryNode[] {
-  let items = root.children ?? [];
+  // The imported placeholder has no confirmed meaning or launch content yet.
+  let items = (root.children ?? []).filter((node) => !Object.values(node.labels).some((label) => label.trim().toUpperCase() === 'ENTIKITER'));
 
   if (kind === 'places' && items.length === 1 && items[0].children?.length) {
     items = items[0].children;

@@ -32,7 +32,7 @@ function labelFor(node: SearchCategoryNode, locale: string): string {
  * `/categories/tree` payload, so admin renames and re-ordering are reflected
  * here automatically.
  */
-export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] }) {
+export function CategoryGrid({ categories, showPromotions = false }: { categories: SearchCategoryNode[]; showPromotions?: boolean }) {
   const t = useTranslations('home');
   const locale = useLocale();
   const appearance = useCategoryAppearance();
@@ -76,7 +76,7 @@ export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] 
           ))}
         </div>
 
-        <Link href="/promotions" className="home-offer-banner">
+        {showPromotions && <Link href="/promotions" className="home-offer-banner">
           <span className="home-offer-icon" aria-hidden>
             <Percent size={19} strokeWidth={2.4} />
           </span>
@@ -88,7 +88,7 @@ export function CategoryGrid({ categories }: { categories: SearchCategoryNode[] 
             {t('offersBannerCta')}
             <ArrowUpRight size={16} className="flip-rtl" aria-hidden />
           </span>
-        </Link>
+        </Link>}
 
         {ordered.map((section) => {
           const items = section.items.length ? section.items : [section.root];

@@ -1,56 +1,28 @@
-'use client';
+import { getTranslations } from 'next-intl/server';
+import { readDb } from '@/lib/db';
+import { Link } from '@/i18n/navigation';
+import { FavoriteButton } from '@/components/ui/favorite-button';
 
-import { useTranslations } from 'next-intl';
-
-export default function SellPage() {
-  const t = useTranslations('sell');
-
-  const groups = [
-    {
-      title: t('voitures'),
-      items: [t('voitures_list'), t('pieces_voiture'), t('roues_voiture')],
-      slug: 'voitures',
-    },
-    {
-      title: t('motos'),
-      items: [t('motos_list'), t('pieces_moto'), t('roues_moto')],
-      slug: 'motos',
-    },
-    {
-      title: t('velos'),
-      items: [t('velos_list'), t('pieces_velo'), t('roues_velo')],
-      slug: 'velos',
-    },
-    {
-      title: t('camions'),
-      items: [t('camions_list'), t('remorques'), t('pieces_accessoires')],
-      slug: 'camions-remorques',
-    },
-  ];
-
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
-      <h1 className="font-display text-3xl font-semibold text-ink-900">{t('title')}</h1>
-      <p className="mt-1.5 text-sm text-ink-500">{t('subtitle')}</p>
-
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-tour-target="sell-categories">
-        {groups.map((group) => (
-          <section key={group.title} className="rounded-2xl border border-ink-900/[0.06] bg-white shadow-card">
-            <header className="border-b border-ink-900/[0.05] px-4 py-3">
-              <h2 className="font-display text-lg font-semibold text-ink-900">{group.title}</h2>
-            </header>
-            <ul className="divide-y divide-ink-900/[0.04]">
-              {group.items.map((item) => (
-                <li key={item} className="px-4 py-2.5 text-sm text-ink-700 hover:bg-sand-50">
-                  <a href={`/fr/a-vendre/${group.slug}`} className="block w-full">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-    </div>
-  );
+export const dynamic = 'force-dynamic';
+export default async function SellPage({ params, searchParams }: { params: { locale: string }; searchParams: { cat?: string } }) {
+  const t = await getTranslations({ locale: params.locale, namespace: 'sell' });
+  const empty = await getTranslations({ locale: params.locale, namespace: 'favorites' });
+  const db = await readDb();
+  const listings = db.listings.filter(item => item.status === 'available' && db.users.some(user => user.id === item.sellerId && user.status === 'active'));
+  const categories = [...new Set(listings.map(item => item.category))];
+  const filtered = searchParams.cat ? listings.filter(item => item.category === searchParams.cat) : listings;
+  return <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
+    <h1 className="font-display text-3xl font-semibold">{t('title')}</h1>
+    <p className="mt-2 text-ink-700">{t('subtitle')}</p>
+    <nav className="mt-6 flex flex-wrap gap-3">
+      <Link href="/sell" className="underline">{t('title')}</Link>
+      {categories.map(category => <Link key={category} href={'/sell?cat=' + encodeURIComponent(category)} className="underline">{category}</Link>)}
+    </nav>
+    {!filtered.length && <p role="status" className="mt-8">{empty('emptySection')}</p>}
+    <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{filtered.map(item => <article key={item.id} className="rounded-2xl bg-white p-5 shadow-card">
+      <h2 className="text-xl font-semibold">{item.title}</h2>
+      <p className="mt-2">{item.description}</p><p className="mt-3 font-semibold">{new Intl.NumberFormat(params.locale, { style: 'currency', currency: item.currency || 'MAD' }).format(item.price)}</p>
+      <p className="mt-2">{item.city}</p><FavoriteButton type="listing" targetId={item.id} meta={{ title: item.title }} />
+    </article>)}</div>
+  </div>;
 }

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const db = await readDb();
   const u = db.users.find((x) => x.id === params.id);
-  if (!u || !u.provider || u.providerStatus !== 'approved') {
+  if (!u || !u.provider || u.providerStatus !== 'approved' || u.status !== 'active') {
     return NextResponse.json({ error: 'Provider not found.' }, { status: 404 });
   }
   const reviews = db.reviews

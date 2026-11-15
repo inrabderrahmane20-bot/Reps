@@ -410,7 +410,18 @@ export interface PublicUser {
   createdAt: string;
 }
 
-export function toPublicUser(u: User): PublicUser {
+// Private fields are opt-in, exclusively for the account owner and administrators.
+export function toPublicUser(u: User, includePrivate = false): PublicUser {
+  const provider = u.provider ? { ...u.provider } : null;
+  if (provider && !includePrivate) {
+    provider.documents = [];
+    delete provider.rejectionReason;
+    delete provider.insights;
+    if (provider.sponsored) {
+      provider.sponsored = { ...provider.sponsored };
+      delete provider.sponsored.notes;
+    }
+  }
   return {
     id: u.id,
     firstName: u.firstName,
@@ -424,9 +435,8 @@ export function toPublicUser(u: User): PublicUser {
     role: u.role,
     status: u.status,
     providerStatus: u.providerStatus,
-    provider: u.provider,
-    homeLat: u.homeLat,
-    homeLng: u.homeLng,
+    provider,
+    ...(includePrivate ? { homeLat: u.homeLat, homeLng: u.homeLng } : {}),
     zoneId: u.zoneId,
     createdAt: u.createdAt,
   };

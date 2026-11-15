@@ -5,7 +5,8 @@ import { getSessionUser } from '@/lib/auth';
 import '../globals.css';
 
 export const metadata: Metadata = {
-  title: 'Medina Admin',
+  title: 'Annabid Admin',
+  robots: { index: false, follow: false },
 };
 
 // The admin panel is intentionally a completely separate surface from the

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   return withErrors(async () => {
     const { email, password } = (await req.json()) ?? {};
-    if (!email || !password) return jsonError('Email and password are required.');
+    if (typeof email !== 'string' || typeof password !== 'string' || !email.trim() || !password || email.length > 254 || password.length > 128) return jsonError('Email and password are required.');
 
     const normalizedEmail = String(email).trim().toLowerCase();
     const user = (await readDb()).users.find((u) => u.email.toLowerCase() === normalizedEmail);
@@ -21,6 +21,6 @@ export async function POST(req: NextRequest) {
     }
 
     await createSessionCookie(user.id);
-    return NextResponse.json({ user: toPublicUser(user) });
+    return NextResponse.json({ user: toPublicUser(user, true) });
   });
 }

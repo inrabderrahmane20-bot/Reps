@@ -1,14 +1,13 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronLeft, Share2, Bookmark } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { NewsCard } from '@/components/cards/news-card';
-import { newsItems } from '@/data/mock';
+import { readDb } from '@/lib/db';
+import { FavoriteButton } from '@/components/ui/favorite-button';
 
-export function generateStaticParams() {
-  return newsItems.map((item) => ({ id: item.id }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function NewsArticlePage({
   params,
@@ -16,11 +15,11 @@ export default async function NewsArticlePage({
   params: { locale: string; id: string };
 }) {
   setRequestLocale(params.locale);
+  const newsItems = (await readDb()).news.filter(item => item.status === 'published');
   const article = newsItems.find((item) => item.id === params.id);
   if (!article) notFound();
 
   const t = await getTranslations('news');
-  const common = await getTranslations('common');
   const related = newsItems.filter((item) => item.id !== article.id).slice(0, 2);
 
   return (
@@ -54,20 +53,7 @@ export default async function NewsArticlePage({
         <Image src={article.image} alt="" fill className="object-cover" sizes="(min-width: 768px) 768px, 100vw" />
       </div>
 
-      <div className="mt-6 flex items-center gap-3">
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-700 shadow-card hover:bg-sand-100"
-        >
-          <Share2 size={14} /> {common('share')}
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-700 shadow-card hover:bg-sand-100"
-        >
-          <Bookmark size={14} /> {common('save')}
-        </button>
-      </div>
+<div className="mt-6"><FavoriteButton type="news" targetId={article.id} meta={{ title: article.title }} /></div>
 
       <div className="prose-medina mt-8 space-y-4">
         {article.content.map((paragraph, i) => (

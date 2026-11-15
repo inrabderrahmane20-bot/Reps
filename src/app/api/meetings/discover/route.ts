@@ -35,7 +35,7 @@ export async function GET() {
     const results = candidates
       .map((p) => {
         const user = db.users.find((u) => u.id === p.userId)!;
-        if (user.blockedUserIds?.includes(me.id)) return null;
+        if (!user || user.status !== 'active' || user.blockedUserIds?.includes(me.id)) return null;
         const { score: compat, shared } = score(myProfile, p, me.interests, user.interests);
         return {
           userId: user.id,

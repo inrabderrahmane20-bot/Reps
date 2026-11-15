@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { category, title, description, specialties, serviceArea, priceRange, documents } = body ?? {};
 
-    if (!category || !title || !description) {
+    if (![category, title, description].every((value) => typeof value === 'string' && value.trim().length > 0 && value.length <= 5000)) {
       return jsonError('Category, title and description are required.');
     }
 
@@ -24,16 +24,17 @@ export async function POST(req: NextRequest) {
       const u = db.users.find((x) => x.id === me.id)!;
       u.providerStatus = 'pending';
       u.provider = {
+        ...u.provider,
         category,
         title,
         description,
         specialties: Array.isArray(specialties) ? specialties : [],
         serviceArea: serviceArea || '',
         priceRange: priceRange || '',
-        availability: 'later',
-        lat: 31.6295 + (Math.random() - 0.5) * 0.04,
-        lng: -8.0089 + (Math.random() - 0.5) * 0.04,
-        portfolio: [],
+        availability: u.provider?.availability ?? 'later',
+        lat: u.provider?.lat ?? 31.6295,
+        lng: u.provider?.lng ?? -8.0089,
+        portfolio: u.provider?.portfolio ?? [],
         documents: Array.isArray(documents) ? documents : [],
       };
       // Notify admins
@@ -49,6 +50,6 @@ export async function POST(req: NextRequest) {
     });
 
     const updated = (await readDb()).users.find((u) => u.id === me.id)!;
-    return NextResponse.json({ user: toPublicUser(updated) });
+    return NextResponse.json({ user: toPublicUser(updated, true) });
   });
 }

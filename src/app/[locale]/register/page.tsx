@@ -40,33 +40,33 @@ export default function RegisterPage() {
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-semibold text-ink-700">{t('firstNameLabel')}</label>
-            <input required value={form.firstName} onChange={(e) => set('firstName', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+            <label htmlFor="register-firstName" className="text-xs font-semibold text-ink-700">{t('firstNameLabel')}</label>
+            <input required id="register-firstName" autoComplete="given-name" value={form.firstName} onChange={(e) => set('firstName', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-ink-700">{t('lastNameLabel')}</label>
-            <input required value={form.lastName} onChange={(e) => set('lastName', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+            <label htmlFor="register-lastName" className="text-xs font-semibold text-ink-700">{t('lastNameLabel')}</label>
+            <input required id="register-lastName" autoComplete="family-name" value={form.lastName} onChange={(e) => set('lastName', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
           </div>
         </div>
         <div>
-          <label className="text-xs font-semibold text-ink-700">{t('emailLabel')}</label>
-          <input type="email" required value={form.email} onChange={(e) => set('email', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+          <label htmlFor="register-email" className="text-xs font-semibold text-ink-700">{t('emailLabel')}</label>
+          <input type="email" required id="register-email" autoComplete="email" value={form.email} onChange={(e) => set('email', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
         </div>
         <div>
-          <label className="text-xs font-semibold text-ink-700">{t('passwordLabel')}</label>
-          <input type="password" required minLength={6} value={form.password} onChange={(e) => set('password', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+          <label htmlFor="register-password" className="text-xs font-semibold text-ink-700">{t('passwordLabel')}</label>
+          <input type="password" required minLength={6} id="register-password" autoComplete="new-password" value={form.password} onChange={(e) => set('password', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-semibold text-ink-700">{t('cityLabel')}</label>
-            <input value={form.city} onChange={(e) => set('city', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+            <label htmlFor="register-city" className="text-xs font-semibold text-ink-700">{t('cityLabel')}</label>
+            <input id="register-city" autoComplete="address-level2" value={form.city} onChange={(e) => set('city', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-ink-700">{t('neighborhoodLabel')}</label>
-            <input value={form.neighborhood} onChange={(e) => set('neighborhood', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+            <label htmlFor="register-neighborhood" className="text-xs font-semibold text-ink-700">{t('neighborhoodLabel')}</label>
+            <input id="register-neighborhood" autoComplete="address-level3" value={form.neighborhood} onChange={(e) => set('neighborhood', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
           </div>
         </div>
-        {error && <p className="text-sm text-clay-500">{error}</p>}
+        {error && <p role="alert" className="text-sm text-clay-500">{error}</p>}
         <button
           type="submit"
           disabled={loading}

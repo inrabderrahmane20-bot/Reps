@@ -5,5 +5,5 @@ import { toPublicUser } from '@/lib/types';
 export async function GET() {
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ user: null });
-  return NextResponse.json({ user: toPublicUser(user) });
+  return NextResponse.json({ user: toPublicUser(user, true) });
 }

@@ -21,7 +21,7 @@ export interface AdminStats {
   bannedUsers: number;
 }
 
-const DATA_DIR = path.join(process.cwd(), 'src', 'data');
+const DATA_DIR = process.env.LOCAL_DATA_DIR ? path.resolve(process.env.LOCAL_DATA_DIR) : path.join(process.cwd(), 'src', 'data');
 const DB_PATH = path.join(DATA_DIR, 'db.json');
 const SEED_PATH = path.join(DATA_DIR, 'db.seed.json');
 // Supabase's database/pooler certificates are signed by a private CA that is
@@ -268,6 +268,10 @@ function getPool(): Pool | null {
 }
 
 function readLocalDb(): Db {
+  // Production must never silently publish demo accounts and generated reviews.
+  if (process.env.NODE_ENV === 'production' && process.env.ALLOW_LOCAL_DB !== 'true') {
+    throw new Error('A production database connection is required.');
+  }
   const sourcePath = fs.existsSync(DB_PATH) ? DB_PATH : SEED_PATH;
   const raw = retryOnLock(() =>
     fs.existsSync(sourcePath) ? fs.readFileSync(sourcePath, 'utf-8') : JSON.stringify(emptyDb())

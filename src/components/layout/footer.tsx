@@ -18,7 +18,7 @@ export function Footer({ content, style, visualId, previewPath }: { content?: Fo
   const locale = useLocale() as Locale;
 
   return (
-    <footer style={style} data-visual-block={visualId} className={isHome ? 'home-footer' : 'site-footer mt-20 hidden bg-wine-900 md:block'}>
+    <footer style={style} data-visual-block={visualId} className={isHome ? 'home-footer' : 'site-footer mt-20 bg-wine-900 pb-24 md:pb-0'}>
       <div className="mx-auto max-w-[1720px] px-6 py-14 xl:px-8">
         <div className={isHome ? 'home-footer-grid grid' : 'grid grid-cols-12 gap-10'}>
           {/* Brand */}
@@ -85,6 +85,11 @@ export function Footer({ content, style, visualId, previewPath }: { content?: Fo
           </>}
         </div>
 
+        <nav aria-label={t('trust')} className="mt-10 flex flex-wrap gap-x-6 gap-y-4 text-sm text-white">
+          {(['contact', 'legal', 'privacy', 'terms', 'rules', 'verification'] as const).map((page) => (
+            <Link key={page} href={`/${page}`} className="underline underline-offset-4 hover:text-wine-200">{t(page)}</Link>
+          ))}
+        </nav>
         {/* Language row */}
         <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6">
           <span className="text-[13px] font-semibold text-white/80">{content?.languageLabel ?? t('language')}</span>

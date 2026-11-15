@@ -14,6 +14,7 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     const result = await updateDb((db) => {
       const a = db.activities.find((x) => x.id === params.id);
       if (!a) return null;
+      if (a.status !== 'open') return { error: 'This activity is closed.' };
 
       if (a.participantIds.includes(me.id)) {
         a.participantIds = a.participantIds.filter((id) => id !== me.id);

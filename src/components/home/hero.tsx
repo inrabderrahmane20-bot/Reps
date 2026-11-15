@@ -78,18 +78,18 @@ export function Hero({
           </button>
 
           <ul className="home-hero-meta">
-            <li>
+            {providerCount > 0 && <li>
               <strong>{providerCount}</strong>
               {content.heroStatProviders ?? t('heroStatProviders')}
-            </li>
-            <li>
+            </li>}
+            {promoCount > 0 && <li>
               <strong>{promoCount}</strong>
               {content.heroStatPromotions ?? t('heroStatPromotions')}
-            </li>
-            <li>
+            </li>}
+            {categoryCount > 0 && <li>
               <strong>{categoryCount}</strong>
               {content.heroStatCategories ?? t('heroStatCategories')}
-            </li>
+            </li>}
           </ul>
         </div>
       </div>

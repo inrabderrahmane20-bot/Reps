@@ -10,9 +10,7 @@ import { jsonError } from './api-helpers';
 import type { MarketingIssue } from './marketing-validation';
 
 /**
- * 401/403 for anybody who is not an administrator. `requireAdmin()` only
- * guarantees that an administrator account exists — the caller still has to
- * prove it with a session.
+ * 401/403 for anybody who is not an administrator. Both admin guards validate the active session and its role.
  */
 export async function requireAdminSession(): Promise<NextResponse | null> {
   const session = await getSessionUser();

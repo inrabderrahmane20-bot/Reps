@@ -26,6 +26,6 @@ export async function PATCH(req: NextRequest) {
     });
 
     const updated = (await readDb()).users.find((u) => u.id === me.id)!;
-    return NextResponse.json({ user: toPublicUser(updated) });
+    return NextResponse.json({ user: toPublicUser(updated, true) });
   });
 }

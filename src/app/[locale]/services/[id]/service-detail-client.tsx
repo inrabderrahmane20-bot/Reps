@@ -7,9 +7,10 @@ import { ChevronLeft, BadgeCheck, MapPin, Wallet } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Rating } from '@/components/ui/rating';
 import { AvailabilityBadge } from '@/components/ui/availability-badge';
+import { VerificationLink } from '@/components/ui/verification-link';
 import { ReportButton } from '@/components/ui/report-modal';
 import { RequestServiceModal } from '@/components/ui/request-service-modal';
-import { api } from '@/lib/api-client';
+import { api, ApiError } from '@/lib/api-client';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from '@/i18n/navigation';
 
@@ -18,27 +19,37 @@ export default function ProviderDetailPage({ params }: { params: { id: string } 
   const common = useTranslations('common');
   const [provider, setProvider] = useState<any>(null);
   const [notFound, setNotFound] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const [retry, setRetry] = useState(0);
   const [showRequest, setShowRequest] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
   async function messageProvider() {
     if (!user) return router.push('/login');
-    await api.post('/conversations', { userId: provider.id });
-    router.push('/messages');
+    try {
+      await api.post('/conversations', { userId: provider.id });
+      router.push('/messages');
+    } catch { setLoadError(true); }
   }
 
   useEffect(() => {
+    setLoadError(false);
+    setNotFound(false);
     api
       .get<{ provider: any }>(`/providers/${params.id}`)
       .then((r) => setProvider(r.provider))
-      .catch(() => setNotFound(true));
-  }, [params.id]);
+      .catch((error) => error instanceof ApiError && error.status === 404 ? setNotFound(true) : setLoadError(true));
+  }, [params.id, retry]);
+
+  if (loadError) return <div role="alert" className="mx-auto max-w-4xl px-4 py-16">
+    {common('somethingWentWrong')} <button className="underline" onClick={() => setRetry((value) => value + 1)}>{common('tryAgain')}</button>
+  </div>;
 
   if (notFound) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-16 text-center text-sm text-ink-500">
-        Provider not found. <Link href="/services" className="font-semibold text-majorelle-700">Back to services</Link>
+        {common('somethingWentWrong')} <Link href="/services" className="font-semibold text-majorelle-700">{t('backToServices')}</Link>
       </div>
     );
   }
@@ -63,6 +74,7 @@ export default function ProviderDetailPage({ params }: { params: { id: string } 
             <BadgeCheck size={19} className="shrink-0 text-zellige-500" aria-label={common('verified')} />
           </div>
           <p className="mt-0.5 text-sm text-ink-500">{provider.provider.title}</p>
+          <VerificationLink />
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
             <Rating value={provider.rating ?? 0} count={provider.reviews?.length ?? 0} />
             <AvailabilityBadge status={provider.provider.availability} />

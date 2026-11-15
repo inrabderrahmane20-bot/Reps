@@ -165,7 +165,7 @@
     "offersBannerSubtitle": "Deals from local providers, updated every day.",
     "offersBannerCta": "See offers",
     "placesSectionSubtitle": "Gardens, museums, monuments and the experiences that make Marrakech unique.",
-    "searchPlaceholder": "Try “plumber”, “swimming”, “Medina news”…",
+    "searchPlaceholder": "Try “plumber”, “swimming”, “Annabid news”…",
     "changeCity": "Change city",
     "useMyLocation": "Use my location",
     "greeting": "Good morning",
@@ -189,7 +189,7 @@
     "heroTrust": "Verified providers · Real promotions · Community life near you",
     "heroPromoKicker": "Offer of the moment",
     "sectionCategories": "Explore by category",
-    "sectionCategoriesSubtitle": "The trades available in Marrakech, grouped by family.",
+    "sectionCategoriesSubtitle": "Explore Marrakech categories by topic.",
     "exploreAllCategories": "Explore all categories",
     "sectionBestRated": "Best rated",
     "sectionBestRatedSubtitle": "Ranked from customer reviews.",
@@ -198,7 +198,7 @@
     "sectionPromotionsSubtitle": "Active offers from Marrakech providers.",
     "sectionCommunitiesSubtitle": "Join the groups of your neighbourhood.",
     "promoValidUntil": "Until {date}",
-    "categoryCount": "{count} services",
+    "categoryCount": "{count} categories",
     "heroStatProviders": "verified providers",
     "heroStatPromotions": "active promotions",
     "heroStatCategories": "service categories",
@@ -206,7 +206,10 @@
     "emptyProvidersTitle": "No rated providers yet",
     "emptyProvidersBody": "The first customer reviews will appear here.",
     "emptyCommunitiesTitle": "No communities yet",
-    "emptyCommunitiesBody": "Neighbourhood groups will appear here."
+    "emptyCommunitiesBody": "Neighbourhood groups will appear here.",
+    "loadError": "Some sections are temporarily unavailable.",
+    "joinAction": "Create a community",
+    "providerAction": "Offer my services"
   },
   "common": {
     "loading": "Loading…",
@@ -417,10 +420,12 @@
     "community": "Local life",
     "becomeProvider": "Become a provider",
     "contact": "Contact",
-    "footerNote": "The local platform for Marrakech."
+    "footerNote": "The local platform for Marrakech.",
+    "trust": "Information and trust",
+    "verification": "Verified providers"
   },
   "search": {
-    "title": "Search Medina",
+    "title": "Search Annabid",
     "placeholder": "Search services, news, communities, activities…",
     "resultsFor": "Results for",
     "noResults": "No results found. Try a different search term.",
@@ -430,13 +435,13 @@
     "categoryActivities": "Activities",
     "categoryMeetings": "Meeting profiles",
     "allResults": "results",
-    "categoryCount": "{count} services"
+    "categoryCount": "{count} categories"
   },
   "auth": {
     "loginTitle": "Welcome back",
-    "loginSubtitle": "Log in to your Medina account.",
+    "loginSubtitle": "Log in to your Annabid account.",
     "registerTitle": "Create your account",
-    "registerSubtitle": "Join your local community on Medina.",
+    "registerSubtitle": "Join your local community on Annabid.",
     "emailLabel": "Email",
     "passwordLabel": "Password",
     "firstNameLabel": "First name",
@@ -447,7 +452,11 @@
     "registerButton": "Create account",
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
-    "demoHint": "Demo account: demo@medina.ma / demo1234 — admin: admin@medina.ma / admin123"
+    "invalidCredentials": "Incorrect email or password.",
+    "unavailable": "Unable to sign in. Check your connection and retry.",
+    "suspended": "This account is suspended.",
+    "recovery": "Forgot password",
+    "recoveryPending": "Password recovery will be available when the support service is configured."
   },
   "profile": {
     "title": "Profile",
@@ -493,7 +502,13 @@
     "layerServices": "Services",
     "layerActivities": "Activities",
     "layerCommunities": "Communities",
-    "zoneDetected": "Showing everything in"
+    "zoneDetected": "Showing everything in",
+    "viewProvider": "View provider",
+    "viewActivity": "View activity",
+    "viewCommunity": "View community",
+    "loadError": "The map or its data is unavailable. Retry or browse the services list.",
+    "empty": "No places match this area. Choose another area.",
+    "browse": "Browse services"
   },
   "zones": {
     "subtitle": "Share your position and pick your house — services will adjust to what's available around it.",
@@ -612,7 +627,7 @@
     "loadMore": "Show more offers"
   },
   "gate": {
-    "title": "Welcome to Medina",
+    "title": "Welcome to Annabid",
     "intro": "Choose your language to personalize your experience.",
     "continue": "Continue",
     "skip": "Close"
@@ -663,9 +678,9 @@
     "explore": "Explore"
   },
   "seo": {
-    "siteName": "Medina",
-    "defaultTitle": "Medina — Local services, news and city life in Marrakech, all in one place",
-    "defaultDescription": "Medina brings together verified local providers, city news, communities, activities and meetups in Marrakech. Find a plumber, electrician or photographer near you in seconds and request a service with confidence.",
+    "siteName": "Annabid",
+    "defaultTitle": "Annabid — Local services, news and city life in Marrakech, all in one place",
+    "defaultDescription": "Annabid brings together verified local providers, city news, communities, activities and meetups in Marrakech. Find a plumber, electrician or photographer near you in seconds and request a service with confidence.",
     "title": {
       "home": "Marrakech: local services, news and city life in one place",
       "services": "Directory of verified services and artisans in Marrakech",
@@ -685,7 +700,7 @@
       "news": "Follow the latest from Marrakech and Morocco: new openings, city projects, neighbourhood life and the cultural agenda, with a clear summary and the practical details for every story.",
       "communities": "Join Marrakech neighbourhood communities: parent groups, sport clubs, local business circles and hobby groups. Share recommendations and organise meet-ups close to home.",
       "activities": "Find group activities in Marrakech: sport outings, workshops, cultural visits and open sign-ups. Pick an activity and take part in the local scene.",
-      "meetings": "Meet people around you in Marrakech who share your interests, and connect safely and respectfully through the meetups built into Medina.",
+      "meetings": "Meet people around you in Marrakech who share your interests, and connect safely and respectfully through the meetups built into Annabid.",
       "map": "Browse the map of Marrakech service providers: technicians, artisans, shops and service companies. Spot professionals near you and send a request straight from the map.",
       "discover": "See everything happening in Marrakech at a glance: the latest news, communities, activities and standout services — one starting point for finding what you need in your city.",
       "search": "Search across Marrakech services, news, communities and activities. Type a keyword or pick a category to reach the results that matter to you."
@@ -758,5 +773,17 @@
     "camions_list": "Truck",
     "remorques": "Trailer",
     "pieces_accessoires": "Parts & accessories"
+  },
+  "trust": {
+    "pending": "This information is being prepared.",
+    "back": "Back to home",
+    "contactTitle": "Contact",
+    "legalTitle": "Legal information",
+    "privacyTitle": "Privacy",
+    "termsTitle": "Terms of use",
+    "rulesTitle": "Community rules",
+    "verificationTitle": "What does “verified provider” mean?",
+    "verificationBody": "This badge means an administrator approved the professional profile before publication. Pending and rejected profiles are not published. Detailed document requirements are being prepared. The badge does not guarantee qualifications, insurance or service quality. Read the description and reviews, then confirm the terms with the provider before any work.",
+    "verificationLink": "Understand verification"
   }
 }

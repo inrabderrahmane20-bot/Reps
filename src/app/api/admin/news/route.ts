@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         neighborhood: neighborhood || '',
         date: new Date().toISOString(),
         image: image || 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=800&auto=format&fit=crop',
-        author: 'Medina Editorial Team',
+        author: 'Annabid Editorial Team',
         summary,
         content: Array.isArray(content) ? content : [content || summary],
         tags: Array.isArray(tags) ? tags : [],

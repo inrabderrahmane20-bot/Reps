@@ -23,7 +23,7 @@ export function AdminNav() {
   return (
     <nav className="flex w-64 shrink-0 flex-col border-e border-ink-900/10 bg-white p-5">
       <div className="mb-8">
-        <p className="font-display text-lg font-semibold">Medina Admin</p>
+        <p className="font-display text-lg font-semibold">Annabid Admin</p>
         <p className="mt-0.5 text-xs text-ink-500">Admin management</p>
       </div>
       <ul className="flex-1 space-y-1">

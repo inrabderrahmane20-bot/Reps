@@ -11,8 +11,8 @@ export default function LoginPage() {
   const common = useTranslations('common');
   const { login } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState('demo@medina.ma');
-  const [password, setPassword] = useState('demo1234');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +24,7 @@ export default function LoginPage() {
       const u = await login(email, password);
       router.push(u.role === 'admin' ? '/admin' : '/profile');
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+      setError(t(err instanceof ApiError && err.status === 401 ? 'invalidCredentials' : err instanceof ApiError && err.status === 403 ? 'suspended' : 'unavailable'));
     } finally {
       setLoading(false);
     }
@@ -37,8 +37,10 @@ export default function LoginPage() {
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         <div>
-          <label className="text-xs font-semibold text-ink-700">{t('emailLabel')}</label>
+          <label htmlFor="login-email" className="text-xs font-semibold text-ink-700">{t('emailLabel')}</label>
           <input
+            id="login-email"
+            autoComplete="email"
             type="email"
             required
             value={email}
@@ -47,8 +49,10 @@ export default function LoginPage() {
           />
         </div>
         <div>
-          <label className="text-xs font-semibold text-ink-700">{t('passwordLabel')}</label>
+          <label htmlFor="login-password" className="text-xs font-semibold text-ink-700">{t('passwordLabel')}</label>
           <input
+            id="login-password"
+            autoComplete="current-password"
             type="password"
             required
             value={password}
@@ -56,7 +60,7 @@ export default function LoginPage() {
             className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none"
           />
         </div>
-        {error && <p className="text-sm text-clay-500">{error}</p>}
+        {error && <p role="alert" className="text-sm text-clay-500">{error}</p>}
         <button
           type="submit"
           disabled={loading}
@@ -66,7 +70,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <p className="mt-4 text-xs text-ink-300">{t('demoHint')}</p>
+      <details className="mt-4 text-sm text-ink-700"><summary className="cursor-pointer">{t('recovery')}</summary><p className="mt-2">{t('recoveryPending')}</p></details>
 
       <p className="mt-6 text-center text-sm text-ink-500">
         {t('noAccount')}{' '}

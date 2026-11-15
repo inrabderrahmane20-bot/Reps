@@ -27,6 +27,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     await updateDb((d) => {
       const r = d.serviceRequests.find((x) => x.id === params.id)!;
+      const allowedFrom = status === 'completed' ? ['accepted'] : status === 'cancelled' ? ['pending', 'accepted'] : ['pending'];
+      if (!allowedFrom.includes(r.status)) throw Object.assign(new Error('Invalid request transition.'), { status: 409 });
       r.status = status;
       const notifyId = isProvider ? r.clientId : r.providerId;
       const label =

@@ -13,7 +13,7 @@ const nextConfig = {
   basePath: isGithubPages ? '/Reps' : '',
   assetPrefix: isGithubPages ? '/Reps/' : undefined,
   images: {
-    unoptimized: true,
+    unoptimized: isGithubPages,
     remotePatterns: [{ protocol: 'https', hostname: '**' }],
   },
   experimental: {
@@ -25,6 +25,15 @@ const nextConfig = {
   },
   async headers() {
     return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
+        ],
+      },
       {
         // API responses are per-user/admin data and can expose transient
         // failures. Never let a browser or shared cache replay them.

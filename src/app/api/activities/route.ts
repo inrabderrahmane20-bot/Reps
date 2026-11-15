@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   const zone = searchParams.get('zone');
   const city = searchParams.get('city');
   const db = await readDb();
-  let list = db.activities.filter((a) => a.status !== 'cancelled');
+  let list = db.activities.filter((a) => a.status !== 'cancelled' && a.visibility === 'public');
   // Filter out service appointment/catalog entries that are mislabeled as activities
   list = list.filter((a) => {
     const title = (a.title || '').toString().toLowerCase();

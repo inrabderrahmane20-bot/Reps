@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       return jsonError('Provider, description, location and date are required.');
     }
     const db = await readDb();
-    const provider = db.users.find((u) => u.id === providerId && u.providerStatus === 'approved');
+    const provider = db.users.find((u) => u.id === providerId && u.providerStatus === 'approved' && u.status === 'active' && u.provider);
     if (!provider) return jsonError('Provider not found.', 404);
 
     const id = newId('sr');

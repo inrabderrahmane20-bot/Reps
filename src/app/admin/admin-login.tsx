@@ -42,7 +42,7 @@ export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean })
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="mb-6 text-center">
-          <p className="font-display text-2xl font-semibold text-ink-900">Medina Admin</p>
+          <p className="font-display text-2xl font-semibold text-ink-900">Annabid Admin</p>
           <p className="mt-1 text-sm text-ink-500">Sign in as an administrator</p>
         </div>
         <form onSubmit={onSubmit} className="space-y-4 rounded-2xl border border-ink-900/10 bg-white p-6 shadow-sm">

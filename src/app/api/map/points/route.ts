@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const db = await readDb();
 
   const providers = db.users
-    .filter((u) => u.providerStatus === 'approved' && u.provider && forZone(u.provider.lat, u.provider.lng, u.neighborhood))
+    .filter((u) => u.status === 'active' && u.providerStatus === 'approved' && u.provider && forZone(u.provider.lat, u.provider.lng, u.neighborhood))
     .map((u) => ({
       id: u.id,
       kind: 'provider' as const,

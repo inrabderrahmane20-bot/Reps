@@ -18,6 +18,7 @@ const DISALLOWED = [
     `/${locale}/messages`,
     `/${locale}/profile`,
     `/${locale}/provider/`,
+    `/${locale}/favorites`,
   ]),
 ];
 

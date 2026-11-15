@@ -189,7 +189,7 @@
     "heroTrust": "Prestataires vérifiés · Promotions réelles · Vie locale près de chez vous",
     "heroPromoKicker": "Offre du moment",
     "sectionCategories": "Explorer par catégorie",
-    "sectionCategoriesSubtitle": "Les métiers disponibles à Marrakech, classés par famille.",
+    "sectionCategoriesSubtitle": "Les catégories disponibles à Marrakech, classées par rubrique.",
     "exploreAllCategories": "Explorer toutes les catégories",
     "sectionBestRated": "Les mieux notés",
     "sectionBestRatedSubtitle": "Classement établi à partir des avis des clients.",
@@ -198,7 +198,7 @@
     "sectionPromotionsSubtitle": "Offres actives des prestataires de Marrakech.",
     "sectionCommunitiesSubtitle": "Rejoignez les groupes de votre quartier.",
     "promoValidUntil": "Jusqu’au {date}",
-    "categoryCount": "{count} métiers",
+    "categoryCount": "{count} catégories",
     "heroStatProviders": "prestataires vérifiés",
     "heroStatPromotions": "promotions actives",
     "heroStatCategories": "catégories de services",
@@ -206,7 +206,10 @@
     "emptyProvidersTitle": "Aucun prestataire noté pour l’instant",
     "emptyProvidersBody": "Les premiers avis de clients apparaîtront ici.",
     "emptyCommunitiesTitle": "Aucune communauté pour l’instant",
-    "emptyCommunitiesBody": "Les groupes de quartier s’afficheront ici."
+    "emptyCommunitiesBody": "Les groupes de quartier s’afficheront ici.",
+    "loadError": "Certaines rubriques ne sont pas disponibles pour le moment.",
+    "joinAction": "Créer une communauté",
+    "providerAction": "Proposer mes services"
   },
   "common": {
     "loading": "Chargement…",
@@ -417,10 +420,12 @@
     "community": "Vie locale",
     "becomeProvider": "Devenir prestataire",
     "contact": "Contact",
-    "footerNote": "La plateforme locale de Marrakech."
+    "footerNote": "La plateforme locale de Marrakech.",
+    "trust": "Informations et confiance",
+    "verification": "Prestataires vérifiés"
   },
   "search": {
-    "title": "Rechercher sur Medina",
+    "title": "Rechercher sur Annabid",
     "placeholder": "Rechercher des services, actualités, communautés, activités…",
     "resultsFor": "Résultats pour",
     "noResults": "Aucun résultat. Essayez un autre terme de recherche.",
@@ -430,13 +435,13 @@
     "categoryActivities": "Activités",
     "categoryMeetings": "Profils de rencontre",
     "allResults": "résultats",
-    "categoryCount": "{count} métiers"
+    "categoryCount": "{count} catégories"
   },
   "auth": {
     "loginTitle": "Content de vous revoir",
-    "loginSubtitle": "Connectez-vous à votre compte Medina.",
+    "loginSubtitle": "Connectez-vous à votre compte Annabid.",
     "registerTitle": "Créez votre compte",
-    "registerSubtitle": "Rejoignez votre communauté locale sur Medina.",
+    "registerSubtitle": "Rejoignez votre communauté locale sur Annabid.",
     "emailLabel": "E-mail",
     "passwordLabel": "Mot de passe",
     "firstNameLabel": "Prénom",
@@ -447,7 +452,11 @@
     "registerButton": "Créer le compte",
     "noAccount": "Pas encore de compte ?",
     "haveAccount": "Vous avez déjà un compte ?",
-    "demoHint": "Compte de démo : demo@medina.ma / demo1234 — admin : admin@medina.ma / admin123"
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "unavailable": "Connexion impossible. Vérifiez votre connexion et réessayez.",
+    "suspended": "Ce compte est suspendu.",
+    "recovery": "Mot de passe oublié",
+    "recoveryPending": "La récupération du mot de passe sera disponible lorsque le service d’assistance sera configuré."
   },
   "profile": {
     "title": "Profil",
@@ -493,7 +502,13 @@
     "layerServices": "Services",
     "layerActivities": "Activités",
     "layerCommunities": "Communautés",
-    "zoneDetected": "Afficher tout dans"
+    "zoneDetected": "Afficher tout dans",
+    "viewProvider": "Voir le prestataire",
+    "viewActivity": "Voir l’activité",
+    "viewCommunity": "Voir la communauté",
+    "loadError": "La carte ou ses données ne sont pas disponibles. Réessayez ou consultez la liste des services.",
+    "empty": "Aucun lieu ne correspond à cette zone. Choisissez une autre zone.",
+    "browse": "Voir les services"
   },
   "zones": {
     "subtitle": "Partagez votre position et choisissez votre maison — les services s’adapteront à ce qui est disponible autour.",
@@ -612,7 +627,7 @@
     "loadMore": "Voir plus d’offres"
   },
   "gate": {
-    "title": "Bienvenue sur Medina",
+    "title": "Bienvenue sur Annabid",
     "intro": "Choisissez votre langue pour personnaliser votre expérience.",
     "continue": "Continuer",
     "skip": "Fermer"
@@ -663,9 +678,9 @@
     "explore": "Explorer"
   },
   "seo": {
-    "siteName": "Medina",
-    "defaultTitle": "Medina — Services, actualités et vie de Marrakech au même endroit",
-    "defaultDescription": "Medina réunit à Marrakech les prestataires vérifiés, l’actualité locale, les communautés, les activités et les rencontres. Trouvez un artisan, un plombier ou un photographe près de chez vous en quelques clics.",
+    "siteName": "Annabid",
+    "defaultTitle": "Annabid — Services, actualités et vie de Marrakech au même endroit",
+    "defaultDescription": "Annabid réunit à Marrakech les prestataires vérifiés, l’actualité locale, les communautés, les activités et les rencontres. Trouvez un artisan, un plombier ou un photographe près de chez vous en quelques clics.",
     "title": {
       "home": "Marrakech : services, actualités et vie locale en un seul endroit",
       "services": "Annuaire des services et artisans vérifiés à Marrakech",
@@ -685,7 +700,7 @@
       "news": "Suivez l’actualité de Marrakech et du Maroc : ouvertures, projets urbains, vie des quartiers et agenda culturel. Chaque article propose un résumé clair et les informations pratiques utiles.",
       "communities": "Rejoignez les communautés de quartier de Marrakech : échanges entre voisins, groupes de parents, de sportifs et de commerçants. Partagez les bons plans et organisez des rencontres près de chez vous.",
       "activities": "Découvrez les activités collectives à Marrakech : sorties, ateliers, événements culturels et rendez-vous ouverts aux inscriptions. Choisissez votre activité et participez à la vie locale.",
-      "meetings": "Faites connaissance avec des personnes de Marrakech qui partagent vos centres d’intérêt, et échangez de façon respectueuse et sécurisée via les rencontres intégrées à Medina.",
+      "meetings": "Faites connaissance avec des personnes de Marrakech qui partagent vos centres d’intérêt, et échangez de façon respectueuse et sécurisée via les rencontres intégrées à Annabid.",
       "map": "Parcourez la carte des prestataires de services à Marrakech : techniciens, artisans, commerces et sociétés de services. Repérez les professionnels proches de chez vous et lancez une demande.",
       "discover": "Découvrez tout ce qui se passe à Marrakech : dernières actualités, communautés, activités et services en vedette. Un point d’entrée unique pour trouver ce dont vous avez besoin dans votre ville.",
       "search": "Recherchez parmi les services, les actualités, les communautés et les activités de Marrakech. Saisissez un mot-clé ou choisissez une catégorie pour atteindre les résultats qui vous intéressent."
@@ -758,5 +773,17 @@
     "camions_list": "Camion",
     "remorques": "Remorque",
     "pieces_accessoires": "Pièces et accessoires"
+  },
+  "trust": {
+    "pending": "Ces informations sont en cours de préparation.",
+    "back": "Retour à l’accueil",
+    "contactTitle": "Contact",
+    "legalTitle": "Mentions légales",
+    "privacyTitle": "Confidentialité",
+    "termsTitle": "Conditions d’utilisation",
+    "rulesTitle": "Règles de la communauté",
+    "verificationTitle": "Que signifie « prestataire vérifié » ?",
+    "verificationBody": "Ce badge indique qu’un administrateur a approuvé la fiche professionnelle avant sa publication. Les fiches en attente ou refusées ne sont pas publiées. Les critères documentaires détaillés sont en cours de préparation. Ce badge ne constitue pas une garantie de qualification, d’assurance ou de qualité du service. Consultez la description et les avis, puis confirmez les conditions avec le prestataire avant toute intervention.",
+    "verificationLink": "Comprendre la vérification"
   }
 }

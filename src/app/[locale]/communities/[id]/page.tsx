@@ -1,13 +1,13 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronLeft, Users, ShieldCheck, MessageCircle, Heart, Flag } from 'lucide-react';
+import { ChevronLeft, Users, ShieldCheck, MessageCircle, Heart } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { communities } from '@/data/mock';
+import { readDb } from '@/lib/db';
+import { MembershipActions } from '@/components/ui/membership-actions';
+import { ReportButton } from '@/components/ui/report-modal';
 
-export function generateStaticParams() {
-  return communities.map((c) => ({ id: c.id }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function CommunityDetailPage({
   params,
@@ -15,11 +15,16 @@ export default async function CommunityDetailPage({
   params: { locale: string; id: string };
 }) {
   setRequestLocale(params.locale);
-  const community = communities.find((c) => c.id === params.id);
-  if (!community) notFound();
+  const db = await readDb();
+  const record = db.communities.find(c => c.id === params.id);
+  if (!record) notFound();
+  const name = (id: string) => { const u = db.users.find(u => u.id === id); return u ? u.firstName + ' ' + u.lastName : ''; };
+  const community = { ...record, members: record.memberIds.length,
+    admins: record.adminIds.map(name), posts: db.communityPosts.filter(p => p.communityId === record.id).map(p => ({
+      ...p, author: name(p.authorId), date: p.createdAt, likes: p.likeUserIds.length, comments: p.comments.length,
+    })) };
 
   const t = await getTranslations('communities');
-  const common = await getTranslations('common');
 
   return (
     <div>
@@ -54,16 +59,7 @@ export default async function CommunityDetailPage({
               {community.members.toLocaleString()} {t('membersLabel')}
             </p>
           </div>
-          <button
-            type="button"
-            className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
-              community.joined
-                ? 'bg-sand-100 text-ink-700 hover:bg-sand-200'
-                : 'bg-majorelle-600 text-white hover:bg-majorelle-700'
-            }`}
-          >
-            {community.joined ? t('leaveGroup') : t('joinGroup')}
-          </button>
+<MembershipActions kind="communities" id={community.id} memberIds={community.memberIds} />
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -132,12 +128,7 @@ export default async function CommunityDetailPage({
               </ul>
             </div>
 
-            <button
-              type="button"
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-ink-900/10 bg-white px-4 py-2.5 text-xs font-semibold text-ink-500 hover:bg-sand-100"
-            >
-              <Flag size={13} /> {common('report')}
-            </button>
+<ReportButton targetType="community" targetId={community.id} />
           </aside>
         </div>
       </div>

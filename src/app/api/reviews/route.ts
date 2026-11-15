@@ -11,7 +11,8 @@ export async function POST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { requestId, rating, content } = await req.json();
-    if (!requestId || !rating) return jsonError('A rating is required.');
+    if (!requestId || !Number.isInteger(rating) || rating < 1 || rating > 5) return jsonError('A rating from 1 to 5 is required.');
+    if (typeof content !== 'string' || content.length > 5000) return jsonError('Invalid review content.');
 
     const db = await readDb();
     const request = db.serviceRequests.find((r) => r.id === requestId);
@@ -21,6 +22,7 @@ export async function POST(req: NextRequest) {
 
     const id = newId('rv');
     await updateDb((d) => {
+      if (d.reviews.some((r) => r.requestId === requestId)) throw Object.assign(new Error('Duplicate review.'), { status: 409 });
       d.reviews.push({
         id,
         providerId: request.providerId,

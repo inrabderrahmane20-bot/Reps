@@ -31,6 +31,9 @@ const STATIC_ROUTES: StaticRoute[] = [
   { path: '/meetings', changeFrequency: 'daily', priority: 0.6 },
   { path: '/map', changeFrequency: 'weekly', priority: 0.6 },
   { path: '/discover', changeFrequency: 'daily', priority: 0.8 },
+  { path: '/places', changeFrequency: 'weekly', priority: 0.6 },
+  { path: '/sell', changeFrequency: 'weekly', priority: 0.6 },
+  { path: '/verification', changeFrequency: 'monthly', priority: 0.3 },
 ];
 
 /** Category browse pages — one per top-level family of the taxonomy. */

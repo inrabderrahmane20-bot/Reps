@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const q = new URL(req.url).searchParams.get('q')?.toLowerCase();
     let list = (await readDb()).users;
     if (q) list = list.filter((u) => `${u.firstName} ${u.lastName} ${u.email}`.toLowerCase().includes(q));
-    return NextResponse.json({ users: list.map((u) => ({ ...toPublicUser(u), email: u.email })) });
+    return NextResponse.json({ users: list.map((u) => ({ ...toPublicUser(u, true), email: u.email })) });
   });
 }
 
@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
     if (existing) return jsonError('An account with this email already exists.', 409);
 
     const finalRole = role === 'admin' ? 'admin' : 'user';
-    const { salt, hash } = hashPassword(password || 'medina1234');
+    if (typeof password !== 'string' || password.length < 12 || password.length > 128) return jsonError('Provide a password with 12 to 128 characters.');
+    const { salt, hash } = hashPassword(password);
     const id = newId('u');
 
     await updateDb((db) => {
@@ -58,6 +59,6 @@ export async function POST(req: NextRequest) {
     });
 
     const user = (await readDb()).users.find((u) => u.id === id)!;
-    return NextResponse.json({ user: { ...toPublicUser(user), email: user.email } }, { status: 201 });
+    return NextResponse.json({ user: { ...toPublicUser(user, true), email: user.email } }, { status: 201 });
   });
 }

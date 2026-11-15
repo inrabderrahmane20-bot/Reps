@@ -12,14 +12,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { email, password, firstName, lastName, city, neighborhood, interests } = body ?? {};
 
-    if (!email || !password || !firstName || !lastName) {
+    if (![email, firstName, lastName].every((value) => typeof value === 'string' && value.trim().length > 0 && value.length <= 254)) {
       return jsonError('First name, last name, email and password are required.');
     }
-    if (typeof password !== 'string' || password.length < 6) {
+    if (typeof password !== 'string' || password.length < 6 || password.length > 128) {
       return jsonError('Password must be at least 6 characters.');
     }
 
     const normalizedEmail = String(email).trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) return jsonError('Invalid email address.');
     const existing = (await readDb()).users.find((u) => u.email.toLowerCase() === normalizedEmail);
     if (existing) {
       return jsonError('An account with this email already exists.', 409);
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest) {
     const id = newId('u');
 
     await updateDb((db) => {
+      if (db.users.some((user) => user.email.toLowerCase() === normalizedEmail)) throw Object.assign(new Error('Duplicate email.'), { status: 409 });
       db.users.push({
         id,
         email: normalizedEmail,
@@ -54,6 +56,6 @@ export async function POST(req: NextRequest) {
 
     await createSessionCookie(id);
     const user = (await readDb()).users.find((u) => u.id === id)!;
-    return NextResponse.json({ user: toPublicUser(user) }, { status: 201 });
+    return NextResponse.json({ user: toPublicUser(user, true) }, { status: 201 });
   });
 }

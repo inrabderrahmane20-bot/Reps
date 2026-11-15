@@ -13,6 +13,6 @@ export async function GET(req: NextRequest) {
     const db = await readDb();
     let list = db.users.filter((u) => u.provider);
     if (status) list = list.filter((u) => u.providerStatus === status);
-    return NextResponse.json({ providers: list.map(toPublicUser) });
+    return NextResponse.json({ providers: list.map((user) => toPublicUser(user, true)) });
   });
 }

@@ -77,15 +77,18 @@ const keyField = {
   meetingProfiles: 'userId',
 };
 
-const sourcePath = path.join(root, 'src', 'data', 'db.json');
-const seedPath = path.join(root, 'src', 'data', 'db.seed.json');
+// Schema-only by default. Import only a deliberately selected, reviewed file.
+const sourcePath = process.env.MIGRATION_DATA_FILE ? path.resolve(process.env.MIGRATION_DATA_FILE) : null;
 const migrationPath = path.join(
   root,
   'supabase',
   'migrations',
   '202611030001_create_app_data.sql'
 );
-const source = JSON.parse(fs.readFileSync(fs.existsSync(sourcePath) ? sourcePath : seedPath, 'utf8'));
+const source = sourcePath ? JSON.parse(fs.readFileSync(sourcePath, 'utf8')) : {};
+if (source.users?.some((user) => /@medina\.ma$/i.test(user.email) || /^u_catalog_/.test(user.id))) {
+  throw new Error('Demo accounts cannot be imported by the production migration. Supply reviewed real data.');
+}
 const pool = new Pool({ ...getPoolOptions(), max: 1, connectionTimeoutMillis: 10_000 });
 
 try {

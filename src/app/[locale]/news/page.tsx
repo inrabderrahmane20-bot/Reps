@@ -1,49 +1,24 @@
-import { useTranslations } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { NewsCard } from '@/components/cards/news-card';
-import { newsItems } from '@/data/mock';
+import { readDb } from '@/lib/db';
+import { Link } from '@/i18n/navigation';
 
-const categories = [
-  'Local Life',
-  'Traffic',
-  'Transportation',
-  'Events',
-  'Culture',
-  'Sports',
-  'New Businesses',
-  'Education',
-];
-
-export default function NewsPage({ params }: { params: { locale: string } }) {
-  setRequestLocale(params.locale);
-  const t = useTranslations('news');
-
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
-      <h1 className="font-display text-3xl font-semibold text-ink-900">{t('title')}</h1>
-      <p className="mt-1.5 max-w-xl text-sm text-ink-500">{t('subtitle')}</p>
-
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2" data-tour-target="news-topics">
-        {categories.map((cat, i) => (
-          <button
-            key={cat}
-            type="button"
-            className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              i === 0
-                ? 'bg-majorelle-600 text-white'
-                : 'bg-white text-ink-700 hover:bg-sand-100'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" data-tour-target="news-list">
-        {[...newsItems, ...newsItems].map((item, i) => (
-          <NewsCard key={`${item.id}-${i}`} {...item} />
-        ))}
-      </div>
-    </div>
-  );
+export const dynamic = 'force-dynamic';
+export default async function NewsPage({ params, searchParams }: { params: { locale: string }; searchParams: { category?: string } }) {
+  const t = await getTranslations({ locale: params.locale, namespace: 'news' });
+  const common = await getTranslations({ locale: params.locale, namespace: 'common' });
+  const search = await getTranslations({ locale: params.locale, namespace: 'search' });
+  const articles = (await readDb()).news.filter(article => article.status === 'published');
+  const categories = [...new Set(articles.map(article => article.category))];
+  const filtered = searchParams.category ? articles.filter(article => article.category === searchParams.category) : articles;
+  return <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
+    <h1 className="font-display text-3xl font-semibold">{t('title')}</h1>
+    <p className="mt-2 text-ink-700">{t('subtitle')}</p>
+    <nav className="mt-6 flex flex-wrap gap-3" aria-label={t('title')}>
+      {searchParams.category && <Link href="/news" className="underline">{common('cancel')}</Link>}
+      {categories.map(category => <Link key={category} href={'/news?category=' + encodeURIComponent(category)} className="rounded-full bg-white px-4 py-2 shadow-card">{category}</Link>)}
+    </nav>
+    {!filtered.length && <p role="status" className="mt-8">{search('noResults')}</p>}
+    <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{filtered.map(article => <NewsCard key={article.id} {...article} />)}</div>
+  </div>;
 }
