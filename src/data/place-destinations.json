@@ -1,0 +1,2040 @@
+{
+  "generatedAt": "2026-11-15T18:03:14.357Z",
+  "attribution": "Descriptions and photographs from Wikipedia and Wikimedia Commons (CC BY-SA).",
+  "destinations": [
+    {
+      "name": "Jardin Majorelle",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.641398,
+      "lng": -8.00303,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Le_jardin_des_majorelle_16.JPG/1400px-Le_jardin_des_majorelle_16.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Blue%2C_green_and_pink.jpg/1920px-Blue%2C_green_and_pink.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Jardin_Majorelle_-_Ville_Nouvelle_%28New_City%29_-_Marrakesh_-_Morocco.jpg/1920px-Jardin_Majorelle_-_Ville_Nouvelle_%28New_City%29_-_Marrakesh_-_Morocco.jpg"
+      ],
+      "description": {
+        "fr": "Le jardin Majorelle est un jardin botanique touristique d'environ 300 espèces sur près d'un hectare, une villa Art déco labellisée Maisons des Illustres depuis 2011, et un musée de l'Histoire des Berbères, à Marrakech au Maroc.",
+        "en": "The Majorelle Garden is a one-hectare (two-acre) botanical garden and artist's landscape garden in Marrakesh, Morocco. It was created by the French Orientalist artist Jacques Majorelle over almost forty years, starting in 1923, and features a Cubist villa designed by French architect Paul Sinoir in the 1930s. The property was the residence of the artist and his wife from 1923 until their divorce in the 1950s.",
+        "ar": "حديقة ماجوريل هي محمية نباتية وواحدة من أهم المعالم والمواقع السياحية لمدينة مراكش بمعدل 600 ألف زائر سنويًا، ترجع تسميتها \"ماجوريل\" نسبة لمؤسسها الرسام الفرنسي جاك ماجوريل."
+      },
+      "short": {
+        "fr": "Le jardin Majorelle est un jardin botanique touristique d'environ 300 espèces sur près d'un hectare, une villa Art déco labellisée Maisons des Illustres depuis 2011, et un musée de…",
+        "en": "The Majorelle Garden is a one-hectare (two-acre) botanical garden and artist's landscape garden in Marrakesh, Morocco.",
+        "ar": "حديقة ماجوريل هي محمية نباتية وواحدة من أهم المعالم والمواقع السياحية لمدينة مراكش بمعدل 600 ألف زائر سنويًا، ترجع تسميتها \"ماجوريل\" نسبة لمؤسسها الرسام الفرنسي جاك ماجوريل."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Jardin_Majorelle",
+        "en": "https://en.wikipedia.org/wiki/Majorelle_Garden",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AD%D8%AF%D9%8A%D9%82%D8%A9_%D9%85%D8%A7%D8%AC%D9%88%D8%B1%D9%8A%D9%84"
+      },
+      "wikipediaTitle": "Jardin Majorelle"
+    },
+    {
+      "name": "Jardin de la Ménara",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.613333,
+      "lng": -8.021667,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Jardins_de_la_M%C3%A9nara.jpg/1400px-Jardins_de_la_M%C3%A9nara.jpg",
+        "/images/categories/jardins-et-nature.jpg"
+      ],
+      "description": {
+        "fr": "La Ménara est un vaste jardin planté d'oliviers aménagé sous la dynastie des Almoahades à environ 45 minutes à pied de la place Jemaa el-Fna, au centre de Marrakech, au Maroc. Au cœur de ce jardin, un grand bassin au pied d'un pavillon sert de réservoir d'eau pour irriguer les agricultures. C'est un endroit très paisible, à l'écart du tumulte de la ville. C'est donc un lieu privilégié pour les promenades.",
+        "en": "The Menara Gardens are a historic public garden and orchard in Marrakesh, Morocco. They were established in the 12th century by the Almohad Caliphate ruler Abd al-Mu'min. Along with the Agdal Gardens and the historic walled city of Marrakesh, the gardens have been listed as UNESCO World Heritage Site since 1985. The gardens are laid out around a central water basin and reservoir, next to which is a pleasure pavilion dating in its current form from the 19th century. The reservoir and its pavilion, often framed in pictures against the background of the High Atlas Mountains to the south, are considered one of the iconic views and symbols of Marrakesh.",
+        "ar": "حدائق المنارة هي حديقة عامة تاريخية وبستان في مراكش، المغرب. تأسست في القرن الثاني عشر من قبل عبد المؤمن حاكم الدولة الموحدية. إلى جانب حدائق أكدال ومدينة مراكش التاريخية المسورة، أُدرجت الحدائق موقعًا للتراث العالمي لليونسكو منذ عام 1985 م. وضعت الحدائق حول حوض مياه مركزي وخزان، وبجوارهما سرادق يعود إلى شكله الحالي من القرن التاسع عشر. يعتبر الخزان وسرادقه، اللذان غالبًا ما يكونان مؤطران على خلفية جبال الأطلس الكبير في الجنوب، أحد المناظر والرموز المميزة لمراكش."
+      },
+      "short": {
+        "fr": "La Ménara est un vaste jardin planté d'oliviers aménagé sous la dynastie des Almoahades à environ 45 minutes à pied de la place Jemaa el-Fna, au centre de Marrakech, au Maroc.",
+        "en": "The Menara Gardens are a historic public garden and orchard in Marrakesh, Morocco.",
+        "ar": "حدائق المنارة هي حديقة عامة تاريخية وبستان في مراكش، المغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/M%C3%A9nara_(jardin)",
+        "en": "https://en.wikipedia.org/wiki/Menara_Gardens",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AD%D8%AF%D8%A7%D8%A6%D9%82_%D8%A7%D9%84%D9%85%D9%86%D8%A7%D8%B1%D8%A9"
+      },
+      "wikipediaTitle": "Ménara (jardin)"
+    },
+    {
+      "name": "Jardins de l'Agdal",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.60611,
+      "lng": -7.97972,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Agdale.jpg/1400px-Agdale.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/a/a9/Marrakech%2C_Agdal_Gardens%2C_2007-08-01_retouched.jpg"
+      ],
+      "description": {
+        "fr": "Les jardins de l'Agdal sont les plus anciens jardins de Marrakech, conçus au XIIe siècle sous le règne d'Abd el-Moumen, un souverain almohade.",
+        "en": "The Agdal Gardens are a large area of historic gardens and orchards in Marrakesh, Morocco. The gardens are located to the south of the city's historic Kasbah and its royal palace. Together with the medina of Marrakech and the Menara Gardens, the Agdal Gardens were listed by UNESCO as a World Heritage Site in 1985. The gardens contain several historic water reservoirs as well as several historic palaces and pavilions, including the Dar el-Hana and the Dar al-Bayda.",
+        "ar": "حدائق أكدال أو بساتين أكدال هي منتزه طبيعي على مشارف مراكش بالمغرب.أسسها الخليفة الموحدي عبد المومن بن علي. يمكن للزائر أن يجد فيها مئات من أشجار الزيتون والبرتقال والمشمش وغيرها من الأشجار المثمرة. هذه الحدائق تعتبر مكانا مميزا للاستمتاع بالهدوء والاسترخاء، فهي بعيدة عن الضجيج وملاذ حقيقي للفارين من ضوضاء المدينة الحمراء."
+      },
+      "short": {
+        "fr": "Les jardins de l'Agdal sont les plus anciens jardins de Marrakech, conçus au XIIe siècle sous le règne d'Abd el-Moumen, un souverain almohade.",
+        "en": "The Agdal Gardens are a large area of historic gardens and orchards in Marrakesh, Morocco.",
+        "ar": "حدائق أكدال أو بساتين أكدال هي منتزه طبيعي على مشارف مراكش بالمغرب.أسسها الخليفة الموحدي عبد المومن بن علي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Jardins_de_l'Agdal",
+        "en": "https://en.wikipedia.org/wiki/Agdal_Gardens",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AD%D8%AF%D8%A7%D8%A6%D9%82_%D8%A3%D9%83%D8%AF%D8%A7%D9%84"
+      },
+      "wikipediaTitle": "Jardins de l'Agdal"
+    },
+    {
+      "name": "Le Jardin Secret",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.630875,
+      "lng": -7.990053,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/0/00/Marrakech_Le_Jardin_Secret.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Morocco_-_Marrakech_-_Le_Jardin_Secret_%2849133994097%29.jpg/1920px-Morocco_-_Marrakech_-_Le_Jardin_Secret_%2849133994097%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Morocco_-_Marrakech_-_Le_Jardin_Secret_%2849133982557%29.jpg/1920px-Morocco_-_Marrakech_-_Le_Jardin_Secret_%2849133982557%29.jpg"
+      ],
+      "description": {
+        "fr": "Au cœur de la médina, Le Jardin Secret réunit deux jardins historiques restaurés avec un soin rare : un jardin islamique structuré par l'eau et un jardin exotique luxuriant. Une pause de fraîcheur et de calme, ponctuée de vues sur les terrasses de Marrakech.",
+        "en": "In the heart of the medina, Le Jardin Secret brings together two historic gardens restored with rare care: an Islamic garden shaped by water and a lush exotic garden. A cool, quiet pause with views over the rooftops of Marrakech.",
+        "ar": "في قلب المدينة القديمة، يجمع «Le Jardin Secret» حديقتين تاريخيتين رُممتا بعناية فائقة: حديقة إسلامية يُشكّلها الماء وحديقة استوائية غنّاء. محطة هادئة ومنعشة تطل على أسطح مراكش."
+      },
+      "short": {
+        "fr": "Au cœur de la médina, Le Jardin Secret réunit deux jardins historiques restaurés avec un soin rare : un jardin islamique structuré par l'eau et un jardin exotique luxuriant.",
+        "en": "In the heart of the medina, Le Jardin Secret brings together two historic gardens restored with rare care: an Islamic garden shaped by water and a lush exotic garden.",
+        "ar": "في قلب المدينة القديمة، يجمع «Le Jardin Secret» حديقتين تاريخيتين رُممتا بعناية فائقة: حديقة إسلامية يُشكّلها الماء وحديقة استوائية غنّاء."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Cyber Park Arsat Moulay Abdeslam",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.626564,
+      "lng": -7.999141,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/CyberParc1.JPG/1400px-CyberParc1.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Bacs_de_compostage.jpg/1920px-Bacs_de_compostage.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Borne_interactive.jpg/1920px-Borne_interactive.jpg"
+      ],
+      "description": {
+        "fr": "Au centre de Marrakech, le très ancien jardin Arsat Moulay Abdessalam est devenu le Cyber Parc Arsat Moulay Abdessalam",
+        "en": "A historic eight-hectare garden in the heart of Marrakech, Arsat Moulay Abdeslam is now a cyber park: shaded paths and hundred-year-old trees combined with free Wi-Fi. One of the city’s oldest green spaces, a few minutes from Jemaa el-Fna.",
+        "ar": "عرصة مولاي عبد السلام هي حديقةٌ ثقافية وتاريخية تقع في وسط مدينة مراكش بالمغرب وتبعد مئات الأمتار عن ساحة جامع الفنا. تبلغ مساحتها ثمانية هكتارات، وهي مليئة بالنباتات المتنوعة، وأشجار عمرها مئة عام. تُعد أول حديقة متصلة كليًا بشبكة الإنترنت عالي الصبيب في المغرب. تعد من أقدم الحدائق في المدينة، حيث تعود جذورها إلى القرن الثامن عشر، وقد أعيد تأهيلها وتحديثها عام 2005 بمبادرة من مؤسسة محمد السادس لحماية البيئة وبتعاون مع شركة اتصالات المغرب."
+      },
+      "short": {
+        "fr": "Au centre de Marrakech, le très ancien jardin Arsat Moulay Abdessalam est devenu le Cyber Parc Arsat Moulay Abdessalam",
+        "en": "A historic eight-hectare garden in the heart of Marrakech, Arsat Moulay Abdeslam is now a cyber park: shaded paths and hundred-year-old trees combined with free Wi-Fi.",
+        "ar": "عرصة مولاي عبد السلام هي حديقةٌ ثقافية وتاريخية تقع في وسط مدينة مراكش بالمغرب وتبعد مئات الأمتار عن ساحة جامع الفنا."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Jardin_Arsat_Moulay_Abdessalam",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%B9%D8%B1%D8%B5%D8%A9_%D9%85%D9%88%D9%84%D8%A7%D9%8A_%D8%B9%D8%A8%D8%AF_%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85"
+      },
+      "wikipediaTitle": "Jardin Arsat Moulay Abdessalam"
+    },
+    {
+      "name": "Palmeraie de Marrakech",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.687568,
+      "lng": -7.973328,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Palmeraie_de_Marrakech.JPG/1400px-Palmeraie_de_Marrakech.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/06052012-Palmeraie_Marrakech_by_night_%287157746578%29.jpg/1920px-06052012-Palmeraie_Marrakech_by_night_%287157746578%29.jpg"
+      ],
+      "description": {
+        "fr": "La palmeraie de Marrakech est une importante palmeraie du XIe siècle du nord de Marrakech, au Maroc. Patrimoine naturel marocain de près de 100 000 palmiers, sur environ 15 000 hectares, elle est un des hauts lieux historiques de la culture, de l'économie, et du tourisme marocains.",
+        "en": "Palmeraie is a palm oasis of several hundred thousand trees outside of Marrakesh, Morocco. Situated at the edge of the city's northern section, it measures 5 miles (8.0 km) in length, and covers an area of 54 square miles (140 km2). It is known for its eponymous palm trees and resorts, as well as the Palmeraie Rotana Resort, and Nikki Beach. It is approached on the Circuit de la Palmeraie, which branches off from the N8 highway to Fez.",
+        "ar": "بستان النخيل في مراكش هي واحة نخيل تضم مئات الآلاف من الأشجار، ويقع البستان على حافة القسم الشمالي من مدينة مراكش في المغرب. ويبلغ طوله 5 ميل (8.0 كـم) في الطول وتغطي مساحة 54 ميل مربع (140 كـم2). تُعدّ واحة نخيل مراكش من أبرز الواحات في المغرب، وتمثل عنصرًا أساسيًا في الهوية التاريخية والمجالية لمدينة مراكش، إذ اضطلعت عبر مختلف الحقب بدور مهم في حياة سكان المدينة والمناطق القروية المحيطة بها. كما حافظت هذه المنظومة المجالية، بما تمثله من تراث بيئي وإيكولوجي ثمين، على قدر كبير من التوازن والاستقرار على مدى قرون، بفضل نمط من التدبير المحلي المتكامل الذي استطاع الإنسان التكيف معه وتطويره بما ينسجم مع خصوصيات المجال الطبيعي."
+      },
+      "short": {
+        "fr": "La palmeraie de Marrakech est une importante palmeraie du XIe siècle du nord de Marrakech, au Maroc.",
+        "en": "Palmeraie is a palm oasis of several hundred thousand trees outside of Marrakesh, Morocco.",
+        "ar": "بستان النخيل في مراكش هي واحة نخيل تضم مئات الآلاف من الأشجار، ويقع البستان على حافة القسم الشمالي من مدينة مراكش في المغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Palmeraie_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Palmeraie_(Marrakesh)",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A8%D8%B3%D8%AA%D8%A7%D9%86_%D8%A7%D9%84%D9%86%D8%AE%D9%8A%D9%84"
+      },
+      "wikipediaTitle": "Palmeraie de Marrakech"
+    },
+    {
+      "name": "Parc Lalla Hasna",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.623146,
+      "lng": -7.995005,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Marrakech_Parc_Lalla_Hasna_%2854273634952%29.jpg/1920px-Marrakech_Parc_Lalla_Hasna_%2854273634952%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Koutoubia_Gardens_01.jpg/1920px-Koutoubia_Gardens_01.jpg"
+      ],
+      "description": {
+        "fr": "Vaste jardin public à l'ouest de la Koutoubia, le parc Lalla Hasna offre pelouses, bassins et allées ombragées face aux remparts. Un lieu apprécié des familles pour une pause au vert au sortir de la médina.",
+        "en": "A large public garden west of the Koutoubia, Parc Lalla Hasna offers lawns, basins and shaded paths facing the ramparts. A family favourite for a green pause just outside the medina.",
+        "ar": "حديقة عامة واسعة غرب جامع الكتبية، تضم مساحات خضراء وأحواض ماء وممرات مظللة مقابل الأسوار. مكان مفضل للعائلات للاستراحة في الهواء الطلق قرب المدينة القديمة."
+      },
+      "short": {
+        "fr": "Vaste jardin public à l'ouest de la Koutoubia, le parc Lalla Hasna offre pelouses, bassins et allées ombragées face aux remparts.",
+        "en": "A large public garden west of the Koutoubia, Parc Lalla Hasna offers lawns, basins and shaded paths facing the ramparts.",
+        "ar": "حديقة عامة واسعة غرب جامع الكتبية، تضم مساحات خضراء وأحواض ماء وممرات مظللة مقابل الأسوار."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Oliveraie de la Ménara",
+      "category": "jardin",
+      "city": "Marrakech",
+      "lat": 31.6085,
+      "lng": -8.0225,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Jardins_de_la_M%C3%A9nara.jpg/1400px-Jardins_de_la_M%C3%A9nara.jpg",
+        "/images/categories/jardins-et-nature.jpg"
+      ],
+      "description": {
+        "fr": "L'oliveraie de la Ménara prolonge le célèbre jardin autour du grand bassin. Sous les oliviers centenaires, allées, canaux et petites parcelles dessinent un paysage agricole paisible aux portes de Marrakech.",
+        "en": "The Menara olive grove surrounds the famous garden and its great basin. Beneath centenarian olive trees, paths, channels and small plots form a peaceful agricultural landscape at the edge of Marrakech.",
+        "ar": "تمتد أوليفية المنارة حول الحديقة الشهيرة وحوضها الكبير. تحت أشجار الزيتون المعمّرة، ترسم الممرات والقنوات والقطع الزراعية الصغيرة مشهداً ريفياً هادئاً على أبواب مراكش."
+      },
+      "short": {
+        "fr": "L'oliveraie de la Ménara prolonge le célèbre jardin autour du grand bassin.",
+        "en": "The Menara olive grove surrounds the famous garden and its great basin.",
+        "ar": "تمتد أوليفية المنارة حول الحديقة الشهيرة وحوضها الكبير."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/M%C3%A9nara_(jardin)",
+        "en": "https://en.wikipedia.org/wiki/Menara_Gardens",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AD%D8%AF%D8%A7%D8%A6%D9%82_%D8%A7%D9%84%D9%85%D9%86%D8%A7%D8%B1%D8%A9"
+      },
+      "wikipediaTitle": "Ménara (jardin)"
+    },
+    {
+      "name": "Koutoubia",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.62444,
+      "lng": -7.99306,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Kutubiyya_Mosque%2C_2010.jpg/1400px-Kutubiyya_Mosque%2C_2010.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/d/db/Koutoubia_Mosque%2CMarrakech%2CMorocco.jpg"
+      ],
+      "description": {
+        "fr": "La mosquée Koutoubia est un édifice religieux construit au XIIe siècle à Marrakech, Maroc. Elle est la plus grande mosquée de la ville. Son architecture et son décor ascétique reflètent l'art des Almohades.",
+        "en": "The Kutubiyya Mosque or Koutoubia Mosque is the largest mosque in Marrakesh, Morocco. It is located in the southwest medina quarter of Marrakesh, near the Jemaa el-Fnaa market place, and is flanked by large gardens.",
+        "ar": "جامع الكُتبية هو أكبر مسجد في مراكش، ويوجد في جنوب غرب المدينة بالقرب من ساحة جامع الفنا في المغرب، وتحيط به حدائق كبيرة. ترجع تسمية المسجد إلى «الكتبيين»، وهو اسم سوق لبيع الكتب و المخطوطات كان بمقربة من المسجد، وأُحرق خلال فترة الاستعمار الفرنسية للمغرب. بني المسجد بأمر الحاكم الموحدي عبد المؤمن بن علي الكومي عام 1147م. تضرر الجزء العلوي من الصومعة عام 2023م بسبب زلزال الحوز، ورمم بعد ذلك."
+      },
+      "short": {
+        "fr": "La mosquée Koutoubia est un édifice religieux construit au XIIe siècle à Marrakech, Maroc.",
+        "en": "The Kutubiyya Mosque or Koutoubia Mosque is the largest mosque in Marrakesh, Morocco.",
+        "ar": "جامع الكُتبية هو أكبر مسجد في مراكش، ويوجد في جنوب غرب المدينة بالقرب من ساحة جامع الفنا في المغرب، وتحيط به حدائق كبيرة."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mosqu%C3%A9e_Koutoubia",
+        "en": "https://en.wikipedia.org/wiki/Kutubiyya_Mosque",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AC%D8%A7%D9%85%D8%B9_%D8%A7%D9%84%D9%83%D8%AA%D8%A8%D9%8A%D8%A9"
+      },
+      "wikipediaTitle": "Mosquée Koutoubia"
+    },
+    {
+      "name": "Médersa Ben Youssef",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.632,
+      "lng": -7.986,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Ben_Youseff_Madressa.jpg/1400px-Ben_Youseff_Madressa.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Ben_Youssef_Madrasa_IMG_5132_%2818124671810%29.jpg/1920px-Ben_Youssef_Madrasa_IMG_5132_%2818124671810%29.jpg"
+      ],
+      "description": {
+        "fr": "La médersa Ben Youssef est une médersa, école coranique. Joyau de l'architecture saadienne, elle est située à Marrakech, au Maroc.",
+        "en": "The Ben Youssef Madrasa is an Islamic madrasa (college) in Marrakesh, Morocco. The madrasa is named after the adjacent Ben Youssef Mosque, and was commissioned in 1564–65 CE by the Saadian sultan Abdallah al-Ghalib. Functioning today as a historical site, the Ben Youssef Madrasa was the largest Islamic college in the Maghreb at its height, and is widely recognized as a pinnacle of Saadian and Moroccan architecture.",
+        "ar": "مدرسة ابن يوسف هي مدرسة في مدينة مراكش، تعدّ من أشهر مدارس المغرب، وهي تحفة معمارية تعود إلى عهد الدولة المرينية، شيدها السلطان أبو الحسن المريني عام 747هـ، 1346م. وهي تمتاز بتناسق عمارتها وروعة زخرفتها، تتكون من الداخل من صحن أوسط مكشوف يحفه من الجانب الجنوبي إيوان القبلة. ومن جوانبه الثلاثة الشرقية والغربية والشمالية ثلاث ظلات تحمل جميعها حجرات وسكن الطلاب، وقد جددت عمارة المدرسة في عصر السعديين، دون أن تغير شيئاً من عناصرها القديمة. مدرسة ابن يوسف هي وجهة للزوار و السياح و لكل المهتمين بالتاريخ و الحرفية للصناعة التقليدية."
+      },
+      "short": {
+        "fr": "La médersa Ben Youssef est une médersa, école coranique.",
+        "en": "The Ben Youssef Madrasa is an Islamic madrasa (college) in Marrakesh, Morocco.",
+        "ar": "مدرسة ابن يوسف هي مدرسة في مدينة مراكش، تعدّ من أشهر مدارس المغرب، وهي تحفة معمارية تعود إلى عهد الدولة المرينية، شيدها السلطان أبو الحسن المريني عام 747هـ، 1346م."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/M%C3%A9dersa_Ben_Youssef",
+        "en": "https://en.wikipedia.org/wiki/Ben_Youssef_Madrasa",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AF%D8%B1%D8%B3%D8%A9_%D8%A7%D8%A8%D9%86_%D9%8A%D9%88%D8%B3%D9%81_(%D9%85%D8%B1%D8%A7%D9%83%D8%B4)"
+      },
+      "wikipediaTitle": "Médersa Ben Youssef"
+    },
+    {
+      "name": "Palais de la Bahia",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.621521,
+      "lng": -7.981739,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Bahia_Palace_large_court.jpg/1400px-Bahia_Palace_large_court.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Bahia001%28js%29.jpg/1920px-Bahia001%28js%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Bahia_Palace_03.jpg/1920px-Bahia_Palace_03.jpg"
+      ],
+      "description": {
+        "fr": "Le palais de la Bahia est un ancien palais du XIXe siècle de huit hectares de style mauresque / islamique, à Marrakech au Maroc. Actuel musée, il est un des chefs-d'œuvre de l'architecture marocaine et de l'art marocain, un des monuments majeurs du patrimoine culturel du pays, et un des principaux lieux de tourisme au Maroc.",
+        "en": "The Bahia Palace is a mid to late 19th-century palace in Marrakesh, Morocco. The palace was first begun by Si Musa, grand vizier under the Alawi sultan Muhammad ibn Abd al-Rahman, in the 1860s. It was expanded by his son Si Ba Ahmed ibn Musa, grand vizier of Sultan Moulay Abdelaziz, between 1894 and 1900. Today it is a well-known historic monument and tourist attraction in the city.",
+        "ar": "قصر الباهية أحد المعالم التاريخية لمدينة مراكش المغربية..."
+      },
+      "short": {
+        "fr": "Le palais de la Bahia est un ancien palais du XIXe siècle de huit hectares de style mauresque / islamique, à Marrakech au Maroc.",
+        "en": "The Bahia Palace is a mid to late 19th-century palace in Marrakesh, Morocco.",
+        "ar": "قصر الباهية أحد المعالم التاريخية لمدينة مراكش المغربية..."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Palais_de_la_Bahia",
+        "en": "https://en.wikipedia.org/wiki/Bahia_Palace",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%B1_%D8%A7%D9%84%D8%A8%D8%A7%D9%87%D9%8A%D8%A9"
+      },
+      "wikipediaTitle": "Palais de la Bahia"
+    },
+    {
+      "name": "Palais El Badiî",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.618333,
+      "lng": -7.985833,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Badi%2C_pal%C3%A1c%2C_Marr%C3%A1ke%C5%A1%2C_2025_%2810%29.jpg/1400px-Badi%2C_pal%C3%A1c%2C_Marr%C3%A1ke%C5%A1%2C_2025_%2810%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/El_Badi_Palace.jpg/1920px-El_Badi_Palace.jpg"
+      ],
+      "description": {
+        "fr": "Le palais El Badi signifie littéralement « palais de l'incomparable », situé à Marrakech au Maroc, est un palais, édifié par le sultan saadien Ahmed al-Mansur ad-Dhahbî pour célébrer la victoire sur l'armée portugaise, en 1578, dans la bataille des Trois Rois.",
+        "en": "El Badi Palace or Badi' Palace is a ruined palace in Marrakesh, Morocco. It was commissioned by the sultan Ahmad al-Mansur of the Saadian dynasty a few months after his accession in 1578, with construction and embellishment continuing throughout most of his reign. The palace, decorated with materials imported from numerous countries ranging from Italy to Mali, was used for receptions and designed to showcase the Sultan's wealth and power. It was one part of a larger Saadian palace complex occupying the Kasbah district of Marrakesh.",
+        "ar": "قصر البديع هو قصر بُني في نهاية القرن السادس عشر، ويقع في مراكش بالمغرب. بناه السلطان السعدي أحمد المنصور الذهبي شهورا قليلة بعد تولّيه الحكم احتفالا بانتصاره على البرتغاليين في معركة وادي المخازن عام 1578. مع استمرار البناء والتزيين معظم فترة حكمه، تم تزيين القصر بمواد مستوردة من بلدان عديدة من إيطاليا إلى مالي، واختار أحمد المنصور الزاوية الشمالية-الشرقية لبناء هذا القصر الذي خُصِّصَ لإقامة الحفلات وتنظيم الاستقبالات الرسمية. كان القصر جزءًا من مجمع قصور السعديين الأكبر الذي يحتل منطقة القصبة في مراكش."
+      },
+      "short": {
+        "fr": "Le palais El Badi signifie littéralement « palais de l'incomparable », situé à Marrakech au Maroc, est un palais, édifié par le sultan saadien Ahmed al-Mansur ad-Dhahbî pour célébrer la…",
+        "en": "El Badi Palace or Badi' Palace is a ruined palace in Marrakesh, Morocco.",
+        "ar": "قصر البديع هو قصر بُني في نهاية القرن السادس عشر، ويقع في مراكش بالمغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Palais_El_Badi",
+        "en": "https://en.wikipedia.org/wiki/El_Badi_Palace",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%B1_%D8%A7%D9%84%D8%A8%D8%AF%D9%8A%D8%B9"
+      },
+      "wikipediaTitle": "Palais El Badi"
+    },
+    {
+      "name": "Tombeaux Saadiens",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.6173,
+      "lng": -7.988702,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Saadian_Tombs_1044-HDR.jpg/1400px-Saadian_Tombs_1044-HDR.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/9/95/0063_SAADIER-GR%C3%84BER%2C_Marrakesch_%2836548736594%29.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/8/87/0064_SAADIER-GR%C3%84BER%2C_Marrakeschn_%2837400910185%29.jpg"
+      ],
+      "description": {
+        "fr": "Les Tombeaux saadiens sont une nécropole royale historique à Marrakech, au Maroc. Ils datent de l'époque de la dynastie saadienne, et en particulier du règne d'Ahmad al-Mansur (1578-1603). Ils sont situés immédiatement au sud de la mosquée de la Kasbah, à l'intérieur du quartier royal de la kasbah de la ville (citadelle). En raison de la beauté de leur décoration, ils constituent une attraction majeure auprès des visiteurs de la ville ocre.",
+        "en": "The Saadian Tombs are a historic royal necropolis in Marrakesh, Morocco, located on the south side of the Kasbah Mosque, inside the royal kasbah (citadel) district of the city. They date to the time of the Saadian dynasty and in particular to the reign of Ahmad al-Mansur (1578–1603), though members of Morocco's monarchy continued to be buried here for a time afterwards. The complex is regarded by many art historians as the high point of Moroccan architecture in the Saadian period due to its luxurious decoration and careful interior design. Today the site is a major tourist attraction in Marrakesh.",
+        "ar": "ضريح الشرفاء السعديين هو من أشهر الأضرحة في المغرب وأحد المعالم التاريخية لمدينة مراكش، يوجد في القصيبة وكان مغلقًا إلى زمن الحماية، حيث اكتشفت كمعلمة تاريخية سنة 1917م. تم تشييده سنة 1557م من قبل السلطان عبد الله الغالب ووسعه السلطان أحمد المنصور، يضم هذا الضريح معظم مقابر أشهر السلاطين السعديين وأفراد عائلتهم من نسل السلطان أحمد المنصور الذي يصل عددهم إلى أزيد من 60 فرداً في مجموعة مقابر داخل هذا الضريح. لذلك فهو يعتبر من أشهر و أهم المعالم التاريخية بمدينة مراكش."
+      },
+      "short": {
+        "fr": "Les Tombeaux saadiens sont une nécropole royale historique à Marrakech, au Maroc.",
+        "en": "The Saadian Tombs are a historic royal necropolis in Marrakesh, Morocco, located on the south side of the Kasbah Mosque, inside the royal kasbah (citadel) district of the city.",
+        "ar": "ضريح الشرفاء السعديين هو من أشهر الأضرحة في المغرب وأحد المعالم التاريخية لمدينة مراكش، يوجد في القصيبة وكان مغلقًا إلى زمن الحماية، حيث اكتشفت كمعلمة تاريخية سنة 1917م."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Tombeaux_saadiens",
+        "en": "https://en.wikipedia.org/wiki/Saadian_Tombs",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%B6%D8%B1%D9%8A%D8%AD_%D8%A7%D9%84%D8%B3%D8%B9%D8%AF%D9%8A%D9%8A%D9%86"
+      },
+      "wikipediaTitle": "Tombeaux saadiens"
+    },
+    {
+      "name": "Bab Agnaou",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.617854,
+      "lng": -7.990283,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Bab_Agnaou.jpg/1400px-Bab_Agnaou.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Maroc_Marrakech_Bab_Agnaou_Luc_Viatour.jpg/1920px-Maroc_Marrakech_Bab_Agnaou_Luc_Viatour.jpg"
+      ],
+      "description": {
+        "fr": "Bab Agnaou est l'une des dix neuf Bab (portes) de Marrakech, au Maroc. Elle a été construite au XIIe siècle, au temps de la dynastie des Almohade.",
+        "en": "Bab Agnaou, also transliterated as Bab Agnaw, is one of the best-known gates of Marrakesh, Morocco. Its construction is attributed to the Almohad caliph Abu Yusuf Ya'qub al-Mansur and was completed around 1188 or 1190.",
+        "ar": "باب أكناو أحد أبواب أسوار مدينة مراكش التسعة عشر، وهو باب داخلي يفصل قصبة مراكش عن باقي المدينة. تم تأسيسه في عهد الخليفة الموحدي عبد المؤمن بن علي الكومي. وقد طُبعت صورته على أوراق العملة المغربية في عهد السكة المحمدية، بأمر الملك محمد الخامس."
+      },
+      "short": {
+        "fr": "Bab Agnaou est l'une des dix neuf Bab (portes) de Marrakech, au Maroc.",
+        "en": "Bab Agnaou, also transliterated as Bab Agnaw, is one of the best-known gates of Marrakesh, Morocco.",
+        "ar": "باب أكناو أحد أبواب أسوار مدينة مراكش التسعة عشر، وهو باب داخلي يفصل قصبة مراكش عن باقي المدينة."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Bab_Agnaou",
+        "en": "https://en.wikipedia.org/wiki/Bab_Agnaou",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A8%D8%A7%D8%A8_%D8%A3%D9%83%D9%86%D8%A7%D9%88"
+      },
+      "wikipediaTitle": "Bab Agnaou"
+    },
+    {
+      "name": "Bab Boujloud",
+      "category": "monuments",
+      "city": "Fès",
+      "lat": 34.06267,
+      "lng": -4.984141,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Fes_Bab_Bou_Jeloud_2011.jpg/1400px-Fes_Bab_Bou_Jeloud_2011.jpg",
+        "/images/categories/monuments-historiques-patrimoine.jpg"
+      ],
+      "description": {
+        "fr": "Bab Boujloud ou porte de Bou Jeloud est une des portes de l'ancienne Medina de Fès. C’est l’un des symboles de la ville et de tout le pays. Faisant partie de la médina de Fès, elle est inscrite au patrimoine mondial de l’UNESCO depuis 1981.",
+        "en": "Bab Bou Jeloud is an ornate city gate in Fes el Bali, the old city of Fez, Morocco. The current gate was built by the French colonial administration in 1913 to serve as the grand entrance to the old city.",
+        "ar": "باب بوجلود هو أحد أهم بوابات السور المحيط بفاس القديمة، وتُعد هذه البوابة الأكثر شهرة لفاس البالي و تقع من الجهة الشمالية الغربية لفاس البالي إلى جانب ساحة الباشا البغدادي. يعود تاريخ بناءها على الأرجح إلى القرن الثاني عشر الميلادي. تعد هذه الباب لذى الكثيرين المدخل الرئيسي لفاس البالي."
+      },
+      "short": {
+        "fr": "Bab Boujloud ou porte de Bou Jeloud est une des portes de l'ancienne Medina de Fès.",
+        "en": "Bab Bou Jeloud is an ornate city gate in Fes el Bali, the old city of Fez, Morocco.",
+        "ar": "باب بوجلود هو أحد أهم بوابات السور المحيط بفاس القديمة، وتُعد هذه البوابة الأكثر شهرة لفاس البالي و تقع من الجهة الشمالية الغربية لفاس البالي إلى جانب ساحة الباشا البغدادي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Bab_Boujloud",
+        "en": "https://en.wikipedia.org/wiki/Bab_Bou_Jeloud",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A8%D8%A7%D8%A8_%D8%A8%D9%88%D8%AC%D9%84%D9%88%D8%AF"
+      },
+      "wikipediaTitle": "Bab Boujloud"
+    },
+    {
+      "name": "Musée de Marrakech",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.631214,
+      "lng": -7.986771,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/MuseeDeMarrakech.jpg/1400px-MuseeDeMarrakech.jpg",
+        "/images/categories/monuments-historiques-patrimoine.jpg"
+      ],
+      "description": {
+        "fr": "Le musée de Marrakech, anciennement connu sous le nom de Dar El Menebhi du nom du vizir de Moulay abdelaziz El Mehdi El Menebhi, situé à côté de la medersa Ben Youssef, est un palais établi sur une parcelle de 2 108 m2 et doté d'un vaste patio de 709 m2, typique de l'art mauresque, transformé en musée privé et lieu d'accueil d'activités culturelles.",
+        "en": "The Museum of Marrakech is a historic palace and museum located in the old center of Marrakesh, Morocco. In addition to its notable architecture, the museum's collection showcases various historic art objects and contemporary art from Morocco.",
+        "ar": "متحف مراكش هو متحف يقع في وسط مراكش بالقرب من مدرسة بن يوسف الدينية، الذي بني في نهاية القرن التاسع عشر من قبل مهدي منبهي. تم استعادة القصر بعناية من قبل مؤسسة عمر بنجلون وتحويله إلى متحف في عام 1997. المنزل في حد ذاته متحف يمثل العمارة التقليدية، يشمل على حد سواء فنون حديثة وتقليديه جنبا إلى جنب مع الفن المغربي، من كتب تاريخية، فخار، وقطع نقدية مغربيه."
+      },
+      "short": {
+        "fr": "Le musée de Marrakech, anciennement connu sous le nom de Dar El Menebhi du nom du vizir de Moulay abdelaziz El Mehdi El Menebhi, situé à côté de la medersa Ben Youssef, est un palais établi…",
+        "en": "The Museum of Marrakech is a historic palace and museum located in the old center of Marrakesh, Morocco.",
+        "ar": "متحف مراكش هو متحف يقع في وسط مراكش بالقرب من مدرسة بن يوسف الدينية، الذي بني في نهاية القرن التاسع عشر من قبل مهدي منبهي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Marrakech_Museum",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Musée de Marrakech"
+    },
+    {
+      "name": "Musée de Mouassine",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.629306,
+      "lng": -7.988833,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Mouassine_douiria_DSCF8927.jpg/1400px-Mouassine_douiria_DSCF8927.jpg",
+        "/images/categories/monuments-historiques-patrimoine.jpg"
+      ],
+      "description": {
+        "fr": "Le musée de Mouassine est un musée situé dans le quartier de Mouassine, au cœur de la médina historique de Marrakech, au Maroc. Le musée est hébergé dans un bâtiment récemment[C'est-à-dire ?] restauré, offrant un aperçu de l'histoire et de la culture de la région.",
+        "en": "The Mouassine Museum is a museum in the Mouassine neighbourhood of the historic medina of Marrakesh, Morocco. The museum is housed in a recently restored 16th to 17th-century house which includes an upper-floor apartment known as a douiria. It was recently converted to a Museum of Music, with permanent and temporary exhibits.",
+        "ar": "متحف المواسين هو متحف يقع في الحي التاريخي «المواسين»، بالمدينة العتيقة لمراكش بالمغرب. يقع المتحف في منزل يعود للقرنين السادس عشر والسابع عشر، تم ترميمه مؤخرًا ويضم شقة في الطابق العلوي تُعرف باسم الدويرية. تم تحويله مؤخرًا إلى متحف للموسيقى، مع معارض دائمة ومؤقتة."
+      },
+      "short": {
+        "fr": "Le musée de Mouassine est un musée situé dans le quartier de Mouassine, au cœur de la médina historique de Marrakech, au Maroc.",
+        "en": "The Mouassine Museum is a museum in the Mouassine neighbourhood of the historic medina of Marrakesh, Morocco.",
+        "ar": "متحف المواسين هو متحف يقع في الحي التاريخي «المواسين»، بالمدينة العتيقة لمراكش بالمغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_Mouassine",
+        "en": "https://en.wikipedia.org/wiki/Mouassine_Museum",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%B3%D9%8A%D9%86"
+      },
+      "wikipediaTitle": "Musée de Mouassine"
+    },
+    {
+      "name": "Dar El Bacha",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.631573,
+      "lng": -7.992403,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Dar_el_Bacha.jpg/1400px-Dar_el_Bacha.jpg"
+      ],
+      "description": {
+        "fr": "Dar el Bacha, plus rarement appelé Dar el Glaoui, est un palais situé dans la médina de Marrakech, au Maroc. Il a appartenu à Thami El Glaoui, puissant pacha de Marrakech pendant le protectorat.",
+        "en": "Dar el Bacha is a palace situated in the old medina of Marrakesh, Morocco. It currently houses the Museum of Confluences.",
+        "ar": "دار الباشا هو معلم تاريخي وقصر يقع في المدينة القديمة لمراكش بالمغرب. وكان مملوكًا للتهامي الكلاوي باشا مراكش خلال فترة الحماية الفرنسية على المغرب، تم تحويله إلى متحف منذ سنة 2017."
+      },
+      "short": {
+        "fr": "Dar el Bacha, plus rarement appelé Dar el Glaoui, est un palais situé dans la médina de Marrakech, au Maroc.",
+        "en": "Dar el Bacha is a palace situated in the old medina of Marrakesh, Morocco.",
+        "ar": "دار الباشا هو معلم تاريخي وقصر يقع في المدينة القديمة لمراكش بالمغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Dar_el_Bacha",
+        "en": "https://en.wikipedia.org/wiki/Dar_el_Bacha",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AF%D8%A7%D8%B1_%D8%A7%D9%84%D8%A8%D8%A7%D8%B4%D8%A7"
+      },
+      "wikipediaTitle": "Dar el Bacha"
+    },
+    {
+      "name": "Maison de la Photographie",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.632017,
+      "lng": -7.984464,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Maison_de_la_Photographie_de_Marrakech%2C_a_small_photography_museum.-_House_of_Photography_in_Marrakech%2C_Morroco.jpg/1400px-Maison_de_la_Photographie_de_Marrakech%2C_a_small_photography_museum.-_House_of_Photography_in_Marrakech%2C_Morroco.jpg"
+      ],
+      "description": {
+        "fr": "La Maison de la photographie de Marrakech est située à Marrakech, en plein cœur de la médina. Elle a ouvert ses portes en avril 2009 et rassemble une collection photographique qui s'étend des années 1870 aux années 1950.",
+        "en": "Opened in 2009 in a restored medina house, the Maison de la Photographie holds a remarkable collection of Moroccan photography from the 1870s to the 1950s. Its rooftop café is one of the medina’s loveliest viewpoints.",
+        "ar": "متحف التصوير أو بيت التصوير هو متحف للصور الفوتوغرافية، يقع في قلب المدينة العتيقة في مدينة مراكش المغربية، تأسس في أبريل 2009، صممه السير ديفيد تشيبرفيلد على غرار الهندسة المعمارية المغربية والإسلامية، وهو يتكون من فناء مركزي واسع وكبير، يتوسطه حوض ماء، يعرض مجموعة من الصور الفوتوغرافية التي التقطت في المغرب من سبعينيات القرن التاسع عشر إلى خمسينيات القرن الماضي والفن المعاصر. هو المتحف الأكبر من نوعه في العالم، بمساحة 80,000 قدم مربع، وتوجد فيه مجموعة من الأعمال الصورية للعديد من الفنانين والمصورين المغاربة، مثل: حسن حجاج ويتو بارادا وكارول بينتاح وهشام بن اوحود وعلي شريبي وياسمين بوزيان داوود وهشام غارداف ولميا ناجي وليلى سادل واولاد سياد."
+      },
+      "short": {
+        "fr": "La Maison de la photographie de Marrakech est située à Marrakech, en plein cœur de la médina.",
+        "en": "Opened in 2009 in a restored medina house, the Maison de la Photographie holds a remarkable collection of Moroccan photography from the 1870s to the 1950s.",
+        "ar": "متحف التصوير أو بيت التصوير هو متحف للصور الفوتوغرافية، يقع في قلب المدينة العتيقة في مدينة مراكش المغربية، تأسس في أبريل 2009، صممه السير ديفيد تشيبرفيلد على غرار الهندسة المعمارية…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Maison_de_la_photographie_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D8%AA%D8%B5%D9%88%D9%8A%D8%B1_(%D9%85%D8%B1%D8%A7%D9%83%D8%B4)"
+      },
+      "wikipediaTitle": "Maison de la photographie de Marrakech"
+    },
+    {
+      "name": "Musée Dar Si Saïd",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.623333,
+      "lng": -7.983611,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Marrakech_museum.jpg/1400px-Marrakech_museum.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Dar_Si_Said_1.JPG/1920px-Dar_Si_Said_1.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Dar_Si_Said_2.JPG/1920px-Dar_Si_Said_2.JPG"
+      ],
+      "description": {
+        "fr": "Le musée Dar Si Saïd est un musée situé à Marrakech, entièrement consacré à l'artisanat marocain du bois. Cette grande demeure a été construite à la fin du XIXe siècle par Si Saïd, frère de Ba Ahmed, chambellan du sultan Moulay Hassan Ier et grand vizir de Moulay Abdelaziz, pour lui servir de résidence. Dar Si Saïd a été aménagé en musée en 1932 par l’Administration des Beaux Arts.",
+        "en": "Dar Si Said is a historic late 19th-century palace and present-day museum in Marrakesh, Morocco. It currently houses the National Museum of Weaving and Carpets.",
+        "ar": "متحف دار السي سعيد يقع بمدينة مراكش المغربية. من المنازل التقليدية الفاخرة بمدينة مراكش التي أنشئت في النصف الثاني من القرن التاسع عشر من طرف سعيد بن موسى الذي كان يمارس مهام وزير للحربية في عهد السلطان المولى عبد العزيز كما أنه أخ أحمد بن موسى الشرقي كبير وزراء السلطان آنذاك والمعروف بــ باحماد."
+      },
+      "short": {
+        "fr": "Le musée Dar Si Saïd est un musée situé à Marrakech, entièrement consacré à l'artisanat marocain du bois.",
+        "en": "Dar Si Said is a historic late 19th-century palace and present-day museum in Marrakesh, Morocco.",
+        "ar": "متحف دار السي سعيد يقع بمدينة مراكش المغربية."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_Dar_Si_Sa%C3%AFd",
+        "en": "https://en.wikipedia.org/wiki/Dar_Si_Said",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%AF%D8%A7%D8%B1_%D8%A7%D9%84%D8%B3%D9%8A_%D8%B3%D8%B9%D9%8A%D8%AF"
+      },
+      "wikipediaTitle": "Musée Dar Si Saïd"
+    },
+    {
+      "name": "Musée de la Femme",
+      "category": "monuments",
+      "city": "Marrakech",
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Hafida_Zizi_au_mus%C3%A9e_de_la_femme_Marrakech.jpg/1920px-Hafida_Zizi_au_mus%C3%A9e_de_la_femme_Marrakech.jpg",
+        "/images/categories/monuments-historiques-patrimoine.jpg"
+      ],
+      "description": {
+        "fr": "Consacré aux savoir-faire et aux récits des femmes marocaines, ce musée de la médina présente costumes, bijoux, objets du quotidien et témoignages. Une visite intime qui éclaire une part essentielle de la culture du pays.",
+        "en": "Dedicated to the crafts and stories of Moroccan women, this medina museum presents costumes, jewellery, everyday objects and personal testimonies. An intimate visit that illuminates an essential part of the country’s culture.",
+        "ar": "متحف مخصص لحرف وحكايات المرأة المغربية، يعرض أزياء وحلياً وأدوات يومية وشهادات شخصية. زيارة حميمة تُضيء جانباً أساسياً من ثقافة البلاد."
+      },
+      "short": {
+        "fr": "Consacré aux savoir-faire et aux récits des femmes marocaines, ce musée de la médina présente costumes, bijoux, objets du quotidien et témoignages.",
+        "en": "Dedicated to the crafts and stories of Moroccan women, this medina museum presents costumes, jewellery, everyday objects and personal testimonies.",
+        "ar": "متحف مخصص لحرف وحكايات المرأة المغربية، يعرض أزياء وحلياً وأدوات يومية وشهادات شخصية."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Souk Semmarine",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.627915,
+      "lng": -7.988092,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Souk_Semmarine%2C_Marrakech.jpg/1920px-Souk_Semmarine%2C_Marrakech.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Souks_Marrakech_120.JPG/1400px-Souks_Marrakech_120.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/b/b1/Daily_Work_%28262555971%29.jpeg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Covered_Souk_Semmarine%2C_Marrakech%2C_2008.jpg/1920px-Covered_Souk_Semmarine%2C_Marrakech%2C_2008.jpg"
+      ],
+      "description": {
+        "fr": "Artère commerçante la plus animée de la médina, le souk Semmarine déroule ses étals de cuir, de lanternes, de tapis et de bijoux. Un dédale vivant où l'on flâne autant qu'on négocie.",
+        "en": "The liveliest shopping artery in the medina, Souk Semmarine lines up stalls of leather, lanterns, rugs and jewellery. A living maze made for wandering as much as bargaining.",
+        "ar": "أكثر شرايين المدينة القديمة حيوية، يصطف فيه باعة الجلود والفوانيس والزرابي والحلي. متاهة نابضة تدعو إلى التجول والمساومة."
+      },
+      "short": {
+        "fr": "Artère commerçante la plus animée de la médina, le souk Semmarine déroule ses étals de cuir, de lanternes, de tapis et de bijoux.",
+        "en": "The liveliest shopping artery in the medina, Souk Semmarine lines up stalls of leather, lanterns, rugs and jewellery.",
+        "ar": "أكثر شرايين المدينة القديمة حيوية، يصطف فيه باعة الجلود والفوانيس والزرابي والحلي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Souks_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A3%D8%B3%D9%88%D8%A7%D9%82_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Souks de Marrakech"
+    },
+    {
+      "name": "Souk des Teinturiers",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.630212,
+      "lng": -7.988606,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Leather_at_the_Dyers%27_Souk_in_Marrakech.jpg/1920px-Leather_at_the_Dyers%27_Souk_in_Marrakech.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Leather_at_the_Dyers%27_Souk_in_Marrakech_2.jpg/1920px-Leather_at_the_Dyers%27_Souk_in_Marrakech_2.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Marr%C3%A1ke%C5%A1%2C_v_barv%C3%AD%C5%99sk%C3%A9_uli%C4%8Dce%2C_20250313_194650.jpg/1920px-Marr%C3%A1ke%C5%A1%2C_v_barv%C3%AD%C5%99sk%C3%A9_uli%C4%8Dce%2C_20250313_194650.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Souks_Marrakech_120.JPG/1400px-Souks_Marrakech_120.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Fonds_Achille_Dassonville_%281890-1967%29_-_Maroc_-_Plusieurs_passants_%C3%A0_cot%C3%A9_de_la_porte_d%27entr%C3%A9e_externe_du_Souk_des_teinturiers_%C3%A0_Marrakech_%28M%C3%A9diHAL_4051961%29.jpg/1920px-thumbnail.jpg"
+      ],
+      "description": {
+        "fr": "Ici, les écheveaux de laine et de soie sèchent au-dessus des ruelles aux couleurs éclatantes. Le souk des Teinturiers perpétue un artisanat spectaculaire, entre cuves de pigments et façades ocre.",
+        "en": "Here, skeins of wool and silk dry above the alleys in vivid colours. Souk des Teinturiers keeps a spectacular craft alive among pigment vats and ochre façades.",
+        "ar": "هنا تُنشر خيوط الصوف والحرير فوق الأزقة بألوانها الزاهية. يحافظ سوق الصباغين على حرفة مذهلة بين أحواض الأصباغ والواجهات الترابية."
+      },
+      "short": {
+        "fr": "Ici, les écheveaux de laine et de soie sèchent au-dessus des ruelles aux couleurs éclatantes.",
+        "en": "Here, skeins of wool and silk dry above the alleys in vivid colours.",
+        "ar": "هنا تُنشر خيوط الصوف والحرير فوق الأزقة بألوانها الزاهية."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Souks_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A3%D8%B3%D9%88%D8%A7%D9%82_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Souks de Marrakech"
+    },
+    {
+      "name": "Souk des Bijoutiers",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.6286,
+      "lng": -7.9887,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Souks_Marrakech_120.JPG/1400px-Souks_Marrakech_120.JPG"
+      ],
+      "description": {
+        "fr": "Le souk des Bijoutiers concentre les ateliers et vitrines des orfèvres de la médina. Pièces d'or et d'argent, filigranes et parures traditionnelles s'y exposent dans une lumière dorée.",
+        "en": "Souk des Bijoutiers gathers the medina’s goldsmith workshops and windows. Gold and silver pieces, filigree and traditional ornaments shine in a golden light.",
+        "ar": "يجمع سوق الصاغة ورشات ونوافذ صاغة المدينة القديمة. قطع الذهب والفضة والتفاصيل الدقيقة والحلي التقليدية تلمع في ضوء ذهبي."
+      },
+      "short": {
+        "fr": "Le souk des Bijoutiers concentre les ateliers et vitrines des orfèvres de la médina.",
+        "en": "Souk des Bijoutiers gathers the medina’s goldsmith workshops and windows.",
+        "ar": "يجمع سوق الصاغة ورشات ونوافذ صاغة المدينة القديمة."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Souks_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A3%D8%B3%D9%88%D8%A7%D9%82_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Souks de Marrakech"
+    },
+    {
+      "name": "Souk Haddadine",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.630729,
+      "lng": -7.987834,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Souks_Marrakech_120.JPG/1400px-Souks_Marrakech_120.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Oriental_hanging_lanterns._Souk_Haddadine%2C_Marrakech_Medina%2C_Morocco.jpg/1920px-Oriental_hanging_lanterns._Souk_Haddadine%2C_Marrakech_Medina%2C_Morocco.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Oriental_hanging_lanterns._Souk_Haddadine%2C_Marrakech_Medina_%28%D8%B3%D9%88%D9%82_%D8%A7%D9%84%D8%AD%D8%AF%D8%A7%D8%AF%D9%8A%D9%86_%D9%85%D8%B1%D8%A7%D9%83%D8%B4%29.jpg/1920px-Oriental_hanging_lanterns._Souk_Haddadine%2C_Marrakech_Medina_%28%D8%B3%D9%88%D9%82_%D8%A7%D9%84%D8%AD%D8%AF%D8%A7%D8%AF%D9%8A%D9%86_%D9%85%D8%B1%D8%A7%D9%83%D8%B4%29.jpg"
+      ],
+      "description": {
+        "fr": "Le quartier des forgerons résonne du marteau sur le métal. Entre ateliers et échoppes, le souk Haddadine montre un artisanat du feu toujours en activité.",
+        "en": "The blacksmiths’ quarter rings with hammers on metal. Between workshops and stalls, Souk Haddadine shows a craft of fire that is still very much alive.",
+        "ar": "حي الحدادين يتردد فيه صوت المطرقة على المعدن. بين الورشات والدكاكين، يُظهر سوق الحدادين حرفة النار التي لا تزال حيّة."
+      },
+      "short": {
+        "fr": "Le quartier des forgerons résonne du marteau sur le métal.",
+        "en": "The blacksmiths’ quarter rings with hammers on metal.",
+        "ar": "حي الحدادين يتردد فيه صوت المطرقة على المعدن."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Souks_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A3%D8%B3%D9%88%D8%A7%D9%82_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Souks de Marrakech"
+    },
+    {
+      "name": "Place des Épices",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.628868,
+      "lng": -7.987206,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Souks_Marrakech_120.JPG/1400px-Souks_Marrakech_120.JPG"
+      ],
+      "description": {
+        "fr": "Petite place ombragée au cœur des souks, la place des Épices embaume le cumin, le safran et la cannelle. Un carrefour idéal pour observer la vie du quartier autour d'un thé.",
+        "en": "A small shaded square in the heart of the souks, Place des Épices smells of cumin, saffron and cinnamon. An ideal crossroads for watching neighbourhood life over a glass of tea.",
+        "ar": "ساحة صغيرة مظللة في قلب الأسواق، تفوح منها رائحة الكمون والزعفران والقرفة. ملتقى مثالي لمشاهدة حياة الحي على كأس شاي."
+      },
+      "short": {
+        "fr": "Petite place ombragée au cœur des souks, la place des Épices embaume le cumin, le safran et la cannelle.",
+        "en": "A small shaded square in the heart of the souks, Place des Épices smells of cumin, saffron and cinnamon.",
+        "ar": "ساحة صغيرة مظللة في قلب الأسواق، تفوح منها رائحة الكمون والزعفران والقرفة."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Souks_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A3%D8%B3%D9%88%D8%A7%D9%82_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Souks de Marrakech"
+    },
+    {
+      "name": "Place des Ferblantiers",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.619807,
+      "lng": -7.984871,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/A02_-_Marrakech%2C_Mellah.jpg/1920px-A02_-_Marrakech%2C_Mellah.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Marrakech_Place_des_Ferblantiers_%2854241742497%29.jpg/1920px-Marrakech_Place_des_Ferblantiers_%2854241742497%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Marrakech_Place_des_Ferblantiers_%2854248212350%29.jpg/1920px-Marrakech_Place_des_Ferblantiers_%2854248212350%29.jpg"
+      ],
+      "description": {
+        "fr": "La place des Ferblantiers borde la Kasbah et rassemble les artisans du métal. Lanternes, plateaux et objets en fer-blanc y dessinent des étals scintillants, à deux pas du palais de la Bahia.",
+        "en": "Place des Ferblantiers borders the Kasbah and gathers metalworkers. Lanterns, trays and tin objects make glittering displays just steps from the Bahia Palace.",
+        "ar": "تقع ساحة الصفارين قرب القصبة وتجمع حرفيي المعدن. الفوانيس والصواني والأواني المعدنية تشكّل عروضاً لامعة على بُعد خطوات من قصر الباهية."
+      },
+      "short": {
+        "fr": "La place des Ferblantiers borde la Kasbah et rassemble les artisans du métal.",
+        "en": "Place des Ferblantiers borders the Kasbah and gathers metalworkers.",
+        "ar": "تقع ساحة الصفارين قرب القصبة وتجمع حرفيي المعدن."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Quartier de la Kasbah",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.6188,
+      "lng": -7.9848,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Bab_Agnaou.jpg/1400px-Bab_Agnaou.jpg",
+        "/images/categories/monuments-historiques-patrimoine.jpg"
+      ],
+      "description": {
+        "fr": "La Kasbah de Marrakech, anciennement Tamurakusht, est un vaste quartier fortifié dans la partie sud-ouest de la médina de Marrakech, au Maroc, qui servait historiquement de citadelle (kasbah) et de complexe palatial royal au sein de la ville. Une partie importante du quartier est encore occupée de nos jours par le palais royal qui sert de résidence au roi du Maroc lorsqu'il se trouve à la ville de Marrakech",
+        "en": "The Kasbah of Marrakesh is a large walled district in the southern part of the medina of Marrakesh, Morocco, which historically served as the citadel (kasbah) and royal palace complex of the city. A large part of the district is still occupied by the official royal palace, the Dar al-Makhzen, which serves as the residence of the King of Morocco when he visits the city. The rest of the district consists of various neighbourhoods and monuments. It was founded by the Almohads in the late 12th century, with most of the construction carried out by Caliph Ya'qub al-Mansur. Two of its most important surviving structures today, the Kasbah Mosque and the main gate of Bab Agnaou, date from al-Mansur's reign.",
+        "ar": "قصبة مراكش هي منطقة كبيرة مُسوّرة تقع في الجزء الجنوبي من المدينة العتيقة لمراكش بالمغرب. كانت تاريخياً بمثابة قلعة (قصبة) ومجمع القصر الملكي في المدينة. لا يزال القصر الملكي الرسمي، دار المخزن، جزءًا كبيرًا من المنطقة. يعمل دار المخزن كمقر إقامة للعاهل المغربي عندما يزور المدينة. تتكون باقي المنطقة من مختلف الأحياء والمعالم الأثرية."
+      },
+      "short": {
+        "fr": "La Kasbah de Marrakech, anciennement Tamurakusht, est un vaste quartier fortifié dans la partie sud-ouest de la médina de Marrakech, au Maroc, qui servait historiquement de citadelle…",
+        "en": "The Kasbah of Marrakesh is a large walled district in the southern part of the medina of Marrakesh, Morocco, which historically served as the citadel (kasbah) and royal palace complex of…",
+        "ar": "قصبة مراكش هي منطقة كبيرة مُسوّرة تقع في الجزء الجنوبي من المدينة العتيقة لمراكش بالمغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Kasbah_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Kasbah_of_Marrakesh",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%A8%D8%A9_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Kasbah de Marrakech"
+    },
+    {
+      "name": "Quartier de Mouassine",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.6307,
+      "lng": -7.9894,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Place_mouassine_DSCF8855.jpg/1920px-Place_mouassine_DSCF8855.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Mouassine_mosque_03.jpg/1920px-Mouassine_mosque_03.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Mouassine_mosque_02.jpg/1400px-Mouassine_mosque_02.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Image_hammam_mouassine01.jpg/1920px-Image_hammam_mouassine01.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Image_hammam_mouassine02.jpg/1920px-Image_hammam_mouassine02.jpg"
+      ],
+      "description": {
+        "fr": "L'un des plus anciens quartiers de la médina, Mouassine s'organise autour de sa mosquée, de sa fontaine et de ses maisons à patio. Un dédale vivant de galeries, de riads et de cafés perchés.",
+        "en": "One of the oldest quarters of the medina, Mouassine clusters around its mosque, fountain and patio houses. A lively maze of galleries, riads and rooftop cafés.",
+        "ar": "من أقدم أحياء المدينة القديمة، يتجمّع حول مسجده ونافورته ومنازله ذات الأفنية. متاهة نابضة بالمعارض ودور الضيافة والمقاهي العلوية."
+      },
+      "short": {
+        "fr": "L'un des plus anciens quartiers de la médina, Mouassine s'organise autour de sa mosquée, de sa fontaine et de ses maisons à patio.",
+        "en": "One of the oldest quarters of the medina, Mouassine clusters around its mosque, fountain and patio houses.",
+        "ar": "من أقدم أحياء المدينة القديمة، يتجمّع حول مسجده ونافورته ومنازله ذات الأفنية."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mosqu%C3%A9e_El_Mouassine",
+        "en": "https://en.wikipedia.org/wiki/Mouassine_Mosque",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AC%D8%A7%D9%85%D8%B9_%D8%A7%D9%84%D8%B4%D8%B1%D9%81%D8%A7%D8%A1"
+      },
+      "wikipediaTitle": "Mosquée El Mouassine"
+    },
+    {
+      "name": "Quartier Mellah",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.6216,
+      "lng": -7.9842,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/In_the_narrow_streets_of_Mellah_of_Marrakech.jpg/1400px-In_the_narrow_streets_of_Mellah_of_Marrakech.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/b/be/Mellah_de_Marrakech_01.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/e/e7/Mellah_de_Marrakech_02.JPG"
+      ],
+      "description": {
+        "fr": "Le Mellah de Marrakech, anciennement connu sous le nom de Hay Essalam est le quartier juif de la ville de Marrakech, au Maroc. C'est le deuxième plus ancien du genre dans le pays.",
+        "en": "The Mellah of Marrakesh, formerly known as Hay Essalam is the Jewish Quarter (Mellah) of the city of Marrakesh, Morocco. It is the second oldest of its kind in the country.",
+        "ar": "ملاح مراكش المعروف سابقًا باسم حي السلام، هُو الحي اليهودي في مدينة مراكش المغربيَّة. يعتبرُ ملاح مراكش ثاني أقدم ملَّاح في البلاد."
+      },
+      "short": {
+        "fr": "Le Mellah de Marrakech, anciennement connu sous le nom de Hay Essalam est le quartier juif de la ville de Marrakech, au Maroc.",
+        "en": "The Mellah of Marrakesh, formerly known as Hay Essalam is the Jewish Quarter (Mellah) of the city of Marrakesh, Morocco.",
+        "ar": "ملاح مراكش المعروف سابقًا باسم حي السلام، هُو الحي اليهودي في مدينة مراكش المغربيَّة."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mellah_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Mellah_of_Marrakesh",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D9%84%D8%A7%D8%AD_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Mellah de Marrakech"
+    },
+    {
+      "name": "Synagogue Lazama",
+      "category": "monuments",
+      "city": "Marrakech",
+      "lat": 31.620128,
+      "lng": -7.982408,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Lazama_Jewish_Synagogue_-_Mellah_-_Hay_Essalam_-_Marrakech%2C_Morocco_%288138997209%29.jpg/1400px-Lazama_Jewish_Synagogue_-_Mellah_-_Hay_Essalam_-_Marrakech%2C_Morocco_%288138997209%29.jpg",
+        "/images/categories/monuments-historiques-patrimoine.jpg"
+      ],
+      "description": {
+        "fr": "La synagogue Salat al-Azama ou Slat el Azama, Al Zama ou Lazama est une synagogue située dans la ville de Marrakech, au Maroc.",
+        "en": "The Slat al-Azama Synagogue or Lazama Synagogue is a Jewish congregation and synagogue, located in Marrakesh, Marrakesh-Safi, Morocco. It is located in the historic Mellah of the old city.",
+        "ar": "صلاة الأزمة هو كنيس يهودي يقع في مدينة مراكش، المغرب. و يعتبره يهود مراكش أقدم كنيس في المدينة."
+      },
+      "short": {
+        "fr": "La synagogue Salat al-Azama ou Slat el Azama, Al Zama ou Lazama est une synagogue située dans la ville de Marrakech, au Maroc.",
+        "en": "The Slat al-Azama Synagogue or Lazama Synagogue is a Jewish congregation and synagogue, located in Marrakesh, Marrakesh-Safi, Morocco.",
+        "ar": "صلاة الأزمة هو كنيس يهودي يقع في مدينة مراكش، المغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Synagogue_Salat_Al_Azama_(Marrakech)",
+        "en": "https://en.wikipedia.org/wiki/Slat_al-Azama_Synagogue",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%83%D9%86%D9%8A%D8%B3_%D8%B5%D9%84%D8%A7%D8%A9_%D8%A7%D9%84%D8%A3%D8%B2%D9%85%D8%A9"
+      },
+      "wikipediaTitle": "Synagogue Salat Al Azama (Marrakech)"
+    },
+    {
+      "name": "Musée Yves Saint Laurent Marrakech",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.642788,
+      "lng": -8.003141,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/YSL_01_Eingangsportal.jpg/1400px-YSL_01_Eingangsportal.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Architetti_studio_ko%2C_museo_YSL_a_Marrakech.jpg/1920px-Architetti_studio_ko%2C_museo_YSL_a_Marrakech.jpg"
+      ],
+      "description": {
+        "fr": "Le musée Yves-Saint-Laurent de Marrakech (MYSLM) est un musée consacré au couturier Yves Saint Laurent à Marrakech, au Maroc, ainsi qu'à Jacques Majorelle et à l'art marocain.",
+        "en": "The Yves Saint Laurent Museum in Marrakech is a museum dedicated to the fashion designer Yves Saint Laurent located in Marrakesh, Morocco.",
+        "ar": "متحف إيف سان لوران في مراكش هو متحف مخصص لمصمم الأزياء إيف سان لوران الذي يقع في مدينة مراكش المغربية."
+      },
+      "short": {
+        "fr": "Le musée Yves-Saint-Laurent de Marrakech (MYSLM) est un musée consacré au couturier Yves Saint Laurent à Marrakech, au Maroc, ainsi qu'à Jacques Majorelle et à l'art marocain.",
+        "en": "The Yves Saint Laurent Museum in Marrakech is a museum dedicated to the fashion designer Yves Saint Laurent located in Marrakesh, Morocco.",
+        "ar": "متحف إيف سان لوران في مراكش هو متحف مخصص لمصمم الأزياء إيف سان لوران الذي يقع في مدينة مراكش المغربية."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_Yves-Saint-Laurent_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Yves_Saint_Laurent_Museum_in_Marrakesh",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%A5%D9%8A%D9%81_%D8%B3%D8%A7%D9%86_%D9%84%D9%88%D8%B1%D8%A7%D9%86_%D9%81%D9%8A_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Musée Yves-Saint-Laurent de Marrakech"
+    },
+    {
+      "name": "Musée Mohammed VI pour la civilisation de l’eau au Maroc",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.685439,
+      "lng": -7.994264,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/%D9%85%D8%AA%D8%AD%D9%81_%D9%85%D8%AD%D9%85%D8%AF_%D8%A7%D9%84%D8%B3%D8%A7%D8%AF%D8%B3_%D9%84%D8%AD%D8%B6%D8%A7%D8%B1%D8%A9_%D8%A7%D9%84%D9%85%D8%A7%D8%A1_%D9%81%D9%8A_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8.jpg/1400px-%D9%85%D8%AA%D8%AD%D9%81_%D9%85%D8%AD%D9%85%D8%AF_%D8%A7%D9%84%D8%B3%D8%A7%D8%AF%D8%B3_%D9%84%D8%AD%D8%B6%D8%A7%D8%B1%D8%A9_%D8%A7%D9%84%D9%85%D8%A7%D8%A1_%D9%81%D9%8A_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8.jpg",
+        "/images/categories/musees-et-culture.jpg"
+      ],
+      "description": {
+        "fr": "Le Musée Aman, également appelé Musée de l'eau de Marrakech ou Musée Mohammed VI pour la civilisation de l'eau, est un musée à Marrakech consacré à l'eau et aux techniques hydrauliques dans le Maroc traditionnel. Il est situé à l'entrée nord de Marrakech, dans le secteur de la Palmeraie.",
+        "en": "Also known as the Museum of Water, Musée Aman is dedicated to water and traditional hydraulic techniques in Morocco. At the northern entrance of Marrakech, in the Palmeraie, it tells the story of a vital resource through gardens, models and displays.",
+        "ar": "متحف أمان أو متحف المياه في مراكش أو متحف محمد السادس لحضارة المياه، هو متحف يقع في مدينة مراكش مخصص للمياه والتقنيات الهيدروليكية في المغرب، يقع في بستان النخيل الثقافي، افتتح المتحف في 5 يناير 2017 بحضور ولي العهد الأمير الحسن بن محمد، وفتح أبوابه للزائرين في مايو من نفس العام، ويعود أصل المشروع إلى عام 2011، حيث بلغت تكلفة المشروع حوالي 163 مليون درهم. حالياً تتولى إدارة المتحف شركة لون كوم ومديرها العام يوسف موحيي، حيث بلغ عدد زواره في عام 2018، حوالي 37500 زائر. يحتوي المتحف على مساحة عرض دائمة بمساحة 2 235 م² موزعة على ثلاثة مستويات، ومساحة للمعارض المؤقتة بمساحة 570 م². يحتوي المتحف أيضًا على غرفة متعددة الأغراض بسعة 350 مقعدًا، وقاعة مخصصة للمعارض المؤقتة، وغرفة اجتماعات."
+      },
+      "short": {
+        "fr": "Le Musée Aman, également appelé Musée de l'eau de Marrakech ou Musée Mohammed VI pour la civilisation de l'eau, est un musée à Marrakech consacré à l'eau et aux techniques hydrauliques dans…",
+        "en": "Also known as the Museum of Water, Musée Aman is dedicated to water and traditional hydraulic techniques in Morocco.",
+        "ar": "متحف أمان أو متحف المياه في مراكش أو متحف محمد السادس لحضارة المياه، هو متحف يقع في مدينة مراكش مخصص للمياه والتقنيات الهيدروليكية في المغرب، يقع في بستان النخيل الثقافي، افتتح المتحف في 5…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_Aman",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D9%85%D8%A7%D8%A1"
+      },
+      "wikipediaTitle": "Musée Aman"
+    },
+    {
+      "name": "Musée des Confluences – Dar El Bacha",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.631573,
+      "lng": -7.992403,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Dar_el_Bacha.jpg/1400px-Dar_el_Bacha.jpg"
+      ],
+      "description": {
+        "fr": "Dar el Bacha, plus rarement appelé Dar el Glaoui, est un palais situé dans la médina de Marrakech, au Maroc. Il a appartenu à Thami El Glaoui, puissant pacha de Marrakech pendant le protectorat.",
+        "en": "Dar el Bacha is a palace situated in the old medina of Marrakesh, Morocco. It currently houses the Museum of Confluences.",
+        "ar": "دار الباشا هو معلم تاريخي وقصر يقع في المدينة القديمة لمراكش بالمغرب. وكان مملوكًا للتهامي الكلاوي باشا مراكش خلال فترة الحماية الفرنسية على المغرب، تم تحويله إلى متحف منذ سنة 2017."
+      },
+      "short": {
+        "fr": "Dar el Bacha, plus rarement appelé Dar el Glaoui, est un palais situé dans la médina de Marrakech, au Maroc.",
+        "en": "Dar el Bacha is a palace situated in the old medina of Marrakesh, Morocco.",
+        "ar": "دار الباشا هو معلم تاريخي وقصر يقع في المدينة القديمة لمراكش بالمغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Dar_el_Bacha",
+        "en": "https://en.wikipedia.org/wiki/Dar_el_Bacha",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%AF%D8%A7%D8%B1_%D8%A7%D9%84%D8%A8%D8%A7%D8%B4%D8%A7"
+      },
+      "wikipediaTitle": "Dar el Bacha"
+    },
+    {
+      "name": "Musée de Marrakech",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.631214,
+      "lng": -7.986771,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/MuseeDeMarrakech.jpg/1400px-MuseeDeMarrakech.jpg",
+        "/images/categories/musees-et-culture.jpg"
+      ],
+      "description": {
+        "fr": "Le musée de Marrakech, anciennement connu sous le nom de Dar El Menebhi du nom du vizir de Moulay abdelaziz El Mehdi El Menebhi, situé à côté de la medersa Ben Youssef, est un palais établi sur une parcelle de 2 108 m2 et doté d'un vaste patio de 709 m2, typique de l'art mauresque, transformé en musée privé et lieu d'accueil d'activités culturelles.",
+        "en": "The Museum of Marrakech is a historic palace and museum located in the old center of Marrakesh, Morocco. In addition to its notable architecture, the museum's collection showcases various historic art objects and contemporary art from Morocco.",
+        "ar": "متحف مراكش هو متحف يقع في وسط مراكش بالقرب من مدرسة بن يوسف الدينية، الذي بني في نهاية القرن التاسع عشر من قبل مهدي منبهي. تم استعادة القصر بعناية من قبل مؤسسة عمر بنجلون وتحويله إلى متحف في عام 1997. المنزل في حد ذاته متحف يمثل العمارة التقليدية، يشمل على حد سواء فنون حديثة وتقليديه جنبا إلى جنب مع الفن المغربي، من كتب تاريخية، فخار، وقطع نقدية مغربيه."
+      },
+      "short": {
+        "fr": "Le musée de Marrakech, anciennement connu sous le nom de Dar El Menebhi du nom du vizir de Moulay abdelaziz El Mehdi El Menebhi, situé à côté de la medersa Ben Youssef, est un palais établi…",
+        "en": "The Museum of Marrakech is a historic palace and museum located in the old center of Marrakesh, Morocco.",
+        "ar": "متحف مراكش هو متحف يقع في وسط مراكش بالقرب من مدرسة بن يوسف الدينية، الذي بني في نهاية القرن التاسع عشر من قبل مهدي منبهي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Marrakech_Museum",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D9%85%D8%B1%D8%A7%D9%83%D8%B4"
+      },
+      "wikipediaTitle": "Musée de Marrakech"
+    },
+    {
+      "name": "Maison de la Photographie",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.632017,
+      "lng": -7.984464,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Maison_de_la_Photographie_de_Marrakech%2C_a_small_photography_museum.-_House_of_Photography_in_Marrakech%2C_Morroco.jpg/1400px-Maison_de_la_Photographie_de_Marrakech%2C_a_small_photography_museum.-_House_of_Photography_in_Marrakech%2C_Morroco.jpg"
+      ],
+      "description": {
+        "fr": "La Maison de la photographie de Marrakech est située à Marrakech, en plein cœur de la médina. Elle a ouvert ses portes en avril 2009 et rassemble une collection photographique qui s'étend des années 1870 aux années 1950.",
+        "en": "Opened in 2009 in a restored medina house, the Maison de la Photographie holds a remarkable collection of Moroccan photography from the 1870s to the 1950s. Its rooftop café is one of the medina’s loveliest viewpoints.",
+        "ar": "متحف التصوير أو بيت التصوير هو متحف للصور الفوتوغرافية، يقع في قلب المدينة العتيقة في مدينة مراكش المغربية، تأسس في أبريل 2009، صممه السير ديفيد تشيبرفيلد على غرار الهندسة المعمارية المغربية والإسلامية، وهو يتكون من فناء مركزي واسع وكبير، يتوسطه حوض ماء، يعرض مجموعة من الصور الفوتوغرافية التي التقطت في المغرب من سبعينيات القرن التاسع عشر إلى خمسينيات القرن الماضي والفن المعاصر. هو المتحف الأكبر من نوعه في العالم، بمساحة 80,000 قدم مربع، وتوجد فيه مجموعة من الأعمال الصورية للعديد من الفنانين والمصورين المغاربة، مثل: حسن حجاج ويتو بارادا وكارول بينتاح وهشام بن اوحود وعلي شريبي وياسمين بوزيان داوود وهشام غارداف ولميا ناجي وليلى سادل واولاد سياد."
+      },
+      "short": {
+        "fr": "La Maison de la photographie de Marrakech est située à Marrakech, en plein cœur de la médina.",
+        "en": "Opened in 2009 in a restored medina house, the Maison de la Photographie holds a remarkable collection of Moroccan photography from the 1870s to the 1950s.",
+        "ar": "متحف التصوير أو بيت التصوير هو متحف للصور الفوتوغرافية، يقع في قلب المدينة العتيقة في مدينة مراكش المغربية، تأسس في أبريل 2009، صممه السير ديفيد تشيبرفيلد على غرار الهندسة المعمارية…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Maison_de_la_photographie_de_Marrakech",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D8%AA%D8%B5%D9%88%D9%8A%D8%B1_(%D9%85%D8%B1%D8%A7%D9%83%D8%B4)"
+      },
+      "wikipediaTitle": "Maison de la photographie de Marrakech"
+    },
+    {
+      "name": "Musée Dar Si Saïd",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.623333,
+      "lng": -7.983611,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Marrakech_museum.jpg/1400px-Marrakech_museum.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Dar_Si_Said_1.JPG/1920px-Dar_Si_Said_1.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Dar_Si_Said_2.JPG/1920px-Dar_Si_Said_2.JPG"
+      ],
+      "description": {
+        "fr": "Le musée Dar Si Saïd est un musée situé à Marrakech, entièrement consacré à l'artisanat marocain du bois. Cette grande demeure a été construite à la fin du XIXe siècle par Si Saïd, frère de Ba Ahmed, chambellan du sultan Moulay Hassan Ier et grand vizir de Moulay Abdelaziz, pour lui servir de résidence. Dar Si Saïd a été aménagé en musée en 1932 par l’Administration des Beaux Arts.",
+        "en": "Dar Si Said is a historic late 19th-century palace and present-day museum in Marrakesh, Morocco. It currently houses the National Museum of Weaving and Carpets.",
+        "ar": "متحف دار السي سعيد يقع بمدينة مراكش المغربية. من المنازل التقليدية الفاخرة بمدينة مراكش التي أنشئت في النصف الثاني من القرن التاسع عشر من طرف سعيد بن موسى الذي كان يمارس مهام وزير للحربية في عهد السلطان المولى عبد العزيز كما أنه أخ أحمد بن موسى الشرقي كبير وزراء السلطان آنذاك والمعروف بــ باحماد."
+      },
+      "short": {
+        "fr": "Le musée Dar Si Saïd est un musée situé à Marrakech, entièrement consacré à l'artisanat marocain du bois.",
+        "en": "Dar Si Said is a historic late 19th-century palace and present-day museum in Marrakesh, Morocco.",
+        "ar": "متحف دار السي سعيد يقع بمدينة مراكش المغربية."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_Dar_Si_Sa%C3%AFd",
+        "en": "https://en.wikipedia.org/wiki/Dar_Si_Said",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%AF%D8%A7%D8%B1_%D8%A7%D9%84%D8%B3%D9%8A_%D8%B3%D8%B9%D9%8A%D8%AF"
+      },
+      "wikipediaTitle": "Musée Dar Si Saïd"
+    },
+    {
+      "name": "Musée de la Femme de Marrakech",
+      "category": "musees",
+      "city": "Marrakech",
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Hafida_Zizi_au_mus%C3%A9e_de_la_femme_Marrakech.jpg/1920px-Hafida_Zizi_au_mus%C3%A9e_de_la_femme_Marrakech.jpg",
+        "/images/categories/musees-et-culture.jpg"
+      ],
+      "description": {
+        "fr": "Consacré aux savoir-faire et aux récits des femmes marocaines, ce musée de la médina présente costumes, bijoux, objets du quotidien et témoignages. Une visite intime qui éclaire une part essentielle de la culture du pays.",
+        "en": "Dedicated to the crafts and stories of Moroccan women, this medina museum presents costumes, jewellery, everyday objects and personal testimonies. An intimate visit that illuminates an essential part of the country’s culture.",
+        "ar": "متحف مخصص لحرف وحكايات المرأة المغربية، يعرض أزياء وحلياً وأدوات يومية وشهادات شخصية. زيارة حميمة تُضيء جانباً أساسياً من ثقافة البلاد."
+      },
+      "short": {
+        "fr": "Consacré aux savoir-faire et aux récits des femmes marocaines, ce musée de la médina présente costumes, bijoux, objets du quotidien et témoignages.",
+        "en": "Dedicated to the crafts and stories of Moroccan women, this medina museum presents costumes, jewellery, everyday objects and personal testimonies.",
+        "ar": "متحف مخصص لحرف وحكايات المرأة المغربية، يعرض أزياء وحلياً وأدوات يومية وشهادات شخصية."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Musée MACAAL",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.600248,
+      "lng": -7.949915,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/B%C3%A2timent_MACAAL.png/1400px-B%C3%A2timent_MACAAL.png",
+        "/images/categories/musees-et-culture.jpg"
+      ],
+      "description": {
+        "fr": "Le musée d'Art contemporain africain Al Maaden (MACAAL) de Marrakech est un musée d'art contemporain indépendant à but non lucratif, ouvert en novembre 2016 à l’occasion de la COP 22 et officiellement inauguré en février 2018. Il est présidé par Othman Lazraq.",
+        "en": "The Museum of African Contemporary Art Al Maaden or MACAAL, is an independent, nonprofit museum of contemporary art in Marrakesh, Morocco. The museum opened in November 2016 on the occasion of the 2016 United Nations Climate Change Conference, which was held in that city, and it was officially inaugurated in February 2018. It is overseen by the architect and real estate heir Othman Lazraq.",
+        "ar": "متحف المعدن للفن الأفريقي المعاصر ، ويعرف اختصارا ب(MACAAL)، هو متحف مستقل غير ربحي للفن المعاصر، يوجد بمراكش، وافتتح في نوفمبر 2016 بمناسبة الدورة الثانية والعشرين لمؤتمر الأمم المتحدة للتغير المناخي 2016، أما افتتاحه الدولي فكان في فبراير 2018. يترأسه عثمان لزرق."
+      },
+      "short": {
+        "fr": "Le musée d'Art contemporain africain Al Maaden (MACAAL) de Marrakech est un musée d'art contemporain indépendant à but non lucratif, ouvert en novembre 2016 à l’occasion de la COP 22 et…",
+        "en": "The Museum of African Contemporary Art Al Maaden or MACAAL, is an independent, nonprofit museum of contemporary art in Marrakesh, Morocco.",
+        "ar": "متحف المعدن للفن الأفريقي المعاصر ، ويعرف اختصارا ب(MACAAL)، هو متحف مستقل غير ربحي للفن المعاصر، يوجد بمراكش، وافتتح في نوفمبر 2016 بمناسبة الدورة الثانية والعشرين لمؤتمر الأمم المتحدة…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_d'Art_contemporain_africain_Al-Maaden",
+        "en": "https://en.wikipedia.org/wiki/Museum_of_African_Contemporary_Art_Al_Maaden",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D9%85%D8%B9%D8%AF%D9%86_%D9%84%D9%84%D9%81%D9%86_%D8%A7%D9%84%D8%A3%D9%81%D8%B1%D9%8A%D9%82%D9%8A_%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%B5%D8%B1"
+      },
+      "wikipediaTitle": "Musée d'Art contemporain africain Al-Maaden"
+    },
+    {
+      "name": "Musée Tiskiwin",
+      "category": "musees",
+      "city": "Marrakech",
+      "lat": 31.6222,
+      "lng": -7.98394,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Entr%C3%A9e_mus%C3%A9e_tiskiwin.JPG/1920px-Entr%C3%A9e_mus%C3%A9e_tiskiwin.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Affiche_tiskiwin_marrakech.JPG/1400px-Affiche_tiskiwin_marrakech.JPG"
+      ],
+      "description": {
+        "fr": "Le musée Bert Flint ou parfois connu sous le nom de musée Tiskiwin est situé à Marrakech près du palais de la Bahia. Ce musée est une ancienne demeure de Bert Flint, datant du début du XXe siècle, devenue un musée consacré à l'artisanat marocain depuis 1996.",
+        "en": "Housed in Bert Flint’s early-20th-century home near the Bahia Palace, the Tiskiwin museum displays Moroccan craft and the trans-Saharan links between Marrakech and West Africa. A small, atmospheric collection.",
+        "ar": "متحف بيرت فلينت أو متحف تيسكوين هو متحف يقع في مراكش بالقرب من قصر الباهية."
+      },
+      "short": {
+        "fr": "Le musée Bert Flint ou parfois connu sous le nom de musée Tiskiwin est situé à Marrakech près du palais de la Bahia.",
+        "en": "Housed in Bert Flint’s early-20th-century home near the Bahia Palace, the Tiskiwin museum displays Moroccan craft and the trans-Saharan links between Marrakech and West Africa.",
+        "ar": "متحف بيرت فلينت أو متحف تيسكوين هو متحف يقع في مراكش بالقرب من قصر الباهية."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_Bert-Flint",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D8%AD%D9%81_%D8%AA%D9%8A%D8%B3%D9%83%D9%8A%D9%88%D9%8A%D9%86"
+      },
+      "wikipediaTitle": "Musée Bert-Flint"
+    },
+    {
+      "name": "Désert d'Agafay",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.4374,
+      "lng": -8.1436,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Agafay_desert.jpg/1400px-Agafay_desert.jpg"
+      ],
+      "description": {
+        "fr": "Agafay est un reg qui se situe à une trentaine de kilomètres de la ville rouge de Marrakech, sur les premières hauteurs du massif du Haut-Atlas au Maroc, qui s'étend sur plusieurs centaines d'hectares. Il est couvert de pierres et de rocailles dans un environnement vallonné composé de collines aux tonalités blanches et ocre.",
+        "en": "A rocky reg about thirty kilometres from Marrakech, the Agafay desert spreads across rolling ochre hills at the foot of the High Atlas. Its stone desert, camel rides and starlit camps make an easy escape from the city.",
+        "ar": "صحراء أكفاي أو كما تنطق شعبيا صحراء أكَفاي هي صحراء أشبه برصيف صحراوي يمتد على عدة مئات من الهكتارات، مغطاة بالحجارة والحدائق تتخللها بيئة جبلية تتكون من كثبان رملية بدرجات متفرقة بين اللون الأبيض والطيني. وتقع على المرتفعات الأولى لجبال الأطلس الكبير على بعد حوالي ثلاثين كيلومترًا من مدينة مراكش المغربية؛ حيث يمكن الوصول إليها بسهولة من مراكش باتجاه بلدة تمصلوحت عبر الطريق الإقليمي P2014."
+      },
+      "short": {
+        "fr": "Agafay est un reg qui se situe à une trentaine de kilomètres de la ville rouge de Marrakech, sur les premières hauteurs du massif du Haut-Atlas au Maroc, qui s'étend sur plusieurs centaines…",
+        "en": "A rocky reg about thirty kilometres from Marrakech, the Agafay desert spreads across rolling ochre hills at the foot of the High Atlas.",
+        "ar": "صحراء أكفاي أو كما تنطق شعبيا صحراء أكَفاي هي صحراء أشبه برصيف صحراوي يمتد على عدة مئات من الهكتارات، مغطاة بالحجارة والحدائق تتخللها بيئة جبلية تتكون من كثبان رملية بدرجات متفرقة بين اللون…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/D%C3%A9sert_d'Agafay",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%B5%D8%AD%D8%B1%D8%A7%D8%A1_%D8%A3%D9%83%D9%81%D8%A7%D9%8A"
+      },
+      "wikipediaTitle": "Désert d'Agafay"
+    },
+    {
+      "name": "Vallée de l'Ourika",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.2957,
+      "lng": -7.71,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Ourika_River.jpg/1400px-Ourika_River.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/In_Setti_Fatma_Ourika_near_Marrakech_Maroc.jpg/1920px-In_Setti_Fatma_Ourika_near_Marrakech_Maroc.jpg"
+      ],
+      "description": {
+        "fr": "La vallée de l'Ourika – du nom de la rivière homonyme – est une vallée du Haut Atlas marocain située à 30 km au sud-est de Marrakech.",
+        "en": "Ourika Valley is a valley in the Moroccan High Atlas along the Ourika River. It is located around 30 km from Marrakesh, and is essentially populated by Berber people speaking Shilha. Despite its proximity to Marrakesh, it is still considered a relatively well-preserved valley, by its very nature it preserves the traditional mountain way of life.",
+        "ar": "وادي أوريكا هو واد يقع على سفوح جبال الأطلس الكبير في المغرب على طول نهر أوريكا."
+      },
+      "short": {
+        "fr": "La vallée de l'Ourika – du nom de la rivière homonyme – est une vallée du Haut Atlas marocain située à 30 km au sud-est de Marrakech.",
+        "en": "Ourika Valley is a valley in the Moroccan High Atlas along the Ourika River.",
+        "ar": "وادي أوريكا هو واد يقع على سفوح جبال الأطلس الكبير في المغرب على طول نهر أوريكا."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Vall%C3%A9e_de_l'Ourika",
+        "en": "https://en.wikipedia.org/wiki/Ourika_Valley",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%88%D8%A7%D8%AF%D9%8A_%D8%A3%D9%88%D8%B1%D9%8A%D9%83%D8%A7"
+      },
+      "wikipediaTitle": "Vallée de l'Ourika"
+    },
+    {
+      "name": "Setti Fatma",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.2256,
+      "lng": -7.6758,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Ourika_2016.jpg/1400px-Ourika_2016.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Ourika_-_Setti_Fatma_-_Maroc_01.jpg/1920px-Ourika_-_Setti_Fatma_-_Maroc_01.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Ourika_-_Setti_Fatma_-_Maroc_05.jpg/1920px-Ourika_-_Setti_Fatma_-_Maroc_05.jpg"
+      ],
+      "description": {
+        "fr": "Village accroché aux contreforts du Haut Atlas, Setti Fatma est la porte d'entrée de la vallée de l'Ourika. Ses sept cascades, ses terrasses irriguées et ses cafés au bord de l'eau en font une escapade fraîche et vivante.",
+        "en": "A village clinging to the High Atlas foothills, Setti Fatma is the gateway to the Ourika valley. Its seven waterfalls, irrigated terraces and riverside cafés make a cool, lively escape.",
+        "ar": "قرية معلقة على سفوح الأطلس الكبير، تُعد ستي فاطمة بوابة وادي أوريكة. شلالاتها السبع ومدرجاتها المروية ومقاهيها على ضفة النهر تجعلها رحلة منعشة ونابضة."
+      },
+      "short": {
+        "fr": "Village accroché aux contreforts du Haut Atlas, Setti Fatma est la porte d'entrée de la vallée de l'Ourika.",
+        "en": "A village clinging to the High Atlas foothills, Setti Fatma is the gateway to the Ourika valley.",
+        "ar": "قرية معلقة على سفوح الأطلس الكبير، تُعد ستي فاطمة بوابة وادي أوريكة."
+      },
+      "source": {
+        "fr": "https://en.wikipedia.org/wiki/Sti_Fadma",
+        "en": "https://en.wikipedia.org/wiki/Sti_Fadma",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%B3%D8%AA%D9%8A_%D9%81%D8%A7%D8%B7%D9%85%D8%A9"
+      },
+      "wikipediaTitle": "Sti Fadma"
+    },
+    {
+      "name": "Cascades d'Ouzoud",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 32.015233,
+      "lng": -6.71979,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Cascades_d%27Ouzoud_012.JPG/1400px-Cascades_d%27Ouzoud_012.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/2008_10_13_Marrakech_070.jpg/1920px-2008_10_13_Marrakech_070.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Cascade_dOuzoud_%288162781967%29.jpg/1920px-Cascade_dOuzoud_%288162781967%29.jpg"
+      ],
+      "description": {
+        "fr": "Les cascades d'Ouzoud sont des chutes d'eau d'environ 110 m de haut, sur trois paliers, sur un site géologique pittoresque de l'oued Tissakht, à 1 060 m d'altitude du massif de l'Atlas, dans le Haut Atlas central, au Maroc. Ce vaste site est un important lieu touristique marocain, à 15 km d'Azilal, 120 km de Béni Mellal, et 150 km au nord-est de Marrakech.",
+        "en": "Ouzoud Falls is the collective name for several waterfalls in Azilal Province, Morocco. The waterfalls empty into the El-Abid River's gorge. A popular tourism destination, they are located 36 kilometres (22 mi) from the town of Azilal and 150 kilometres (93 mi) from Marrakesh. 'Ouzoud' means \"the act of grinding grain\" in Berber.",
+        "ar": "تقع شلالات أوزود بجماعة أيت تكلا في إقليم أزيلال الذي يبعد 150 كيلومتر عن المنطقة الشمالية الشرقية في مراكش بالمغرب، و80 كم عن مدينة بني ملال، وأقرب منطقة لها قرية الأطلس الكبيرة لتاناجميلت، ويبلغ ارتفاع الشلالات حوالي 110 متر. تقع بإقليم أزيلال ويعتبر الموقع هو الأكثر زيارة في المنطقة. على مقربة من وديان خضراء وطواحين وبساتين وينابيع وادي العبيد."
+      },
+      "short": {
+        "fr": "Les cascades d'Ouzoud sont des chutes d'eau d'environ 110 m de haut, sur trois paliers, sur un site géologique pittoresque de l'oued Tissakht, à 1 060 m d'altitude du massif de l'Atlas,…",
+        "en": "Ouzoud Falls is the collective name for several waterfalls in Azilal Province, Morocco.",
+        "ar": "تقع شلالات أوزود بجماعة أيت تكلا في إقليم أزيلال الذي يبعد 150 كيلومتر عن المنطقة الشمالية الشرقية في مراكش بالمغرب، و80 كم عن مدينة بني ملال، وأقرب منطقة لها قرية الأطلس الكبيرة…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Cascades_d'Ouzoud",
+        "en": "https://en.wikipedia.org/wiki/Ouzoud_Falls",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%B4%D9%84%D8%A7%D9%84%D8%A7%D8%AA_%D8%A3%D9%88%D8%B2%D9%88%D8%AF"
+      },
+      "wikipediaTitle": "Cascades d'Ouzoud"
+    },
+    {
+      "name": "Lac Lalla Takerkoust",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.367,
+      "lng": -8.133,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6c/LallaTakerkoust%2Clake.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/LallaTakerkoust%2Ctown.jpg/1400px-LallaTakerkoust%2Ctown.jpg"
+      ],
+      "description": {
+        "fr": "Lalla Takerkoust ou Lalla Takarkoust, est une ville du Maroc ainsi que le centre de la commune rurale du même nom, dans la province d'Al Haouz, au sein la région de Marrakech-Safi, au Maroc.",
+        "en": "Lalla Takerkoust is a town in Al Haouz Province, Marrakesh-Safi, Morocco. According to the 2004 census it has a population of 3,348.",
+        "ar": "لالة تاكركوست هي مدينة في وسط المغرب وهي مركز الجماعة الريفية التي تحمل نفس الاسم بإقليم الحوز ضمن منطقة مراكش آسفي."
+      },
+      "short": {
+        "fr": "Lalla Takerkoust ou Lalla Takarkoust, est une ville du Maroc ainsi que le centre de la commune rurale du même nom, dans la province d'Al Haouz, au sein la région de Marrakech-Safi, au Maroc.",
+        "en": "Lalla Takerkoust is a town in Al Haouz Province, Marrakesh-Safi, Morocco.",
+        "ar": "لالة تاكركوست هي مدينة في وسط المغرب وهي مركز الجماعة الريفية التي تحمل نفس الاسم بإقليم الحوز ضمن منطقة مراكش آسفي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Lalla_Takerkoust_(ville)",
+        "en": "https://en.wikipedia.org/wiki/Lalla_Takerkoust",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%84%D8%A7%D9%84%D8%A9_%D8%AA%D8%A7%D9%83%D8%B1%D9%83%D9%88%D8%B3%D8%AA"
+      },
+      "wikipediaTitle": "Lalla Takerkoust (ville)"
+    },
+    {
+      "name": "Plateau du Kik",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.4167,
+      "lng": -7.9167,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6c/LallaTakerkoust%2Clake.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/9/9a/Lalla_takerkoust.jpg"
+      ],
+      "description": {
+        "fr": "À une trentaine de kilomètres de Marrakech, le plateau du Kik ouvre sur les contreforts de l'Atlas et le lac Lalla Takerkoust. Un paysage minéral prisé des amateurs de VTT, de quad et de déjeuners en plein air.",
+        "en": "About thirty kilometres from Marrakech, the Kik plateau opens onto the Atlas foothills and Lake Lalla Takerkoust. A mineral landscape loved by mountain bikers, quad riders and open-air lunches.",
+        "ar": "على بعد نحو ثلاثين كيلومتراً من مراكش، يطل هضبة الكيك على سفوح الأطلس وبحيرة للا تاكركوست. مشهد صخري يعشقه هواة الدراجات والرباعيات والغداء في الهواء الطلق."
+      },
+      "short": {
+        "fr": "À une trentaine de kilomètres de Marrakech, le plateau du Kik ouvre sur les contreforts de l'Atlas et le lac Lalla Takerkoust.",
+        "en": "About thirty kilometres from Marrakech, the Kik plateau opens onto the Atlas foothills and Lake Lalla Takerkoust.",
+        "ar": "على بعد نحو ثلاثين كيلومتراً من مراكش، يطل هضبة الكيك على سفوح الأطلس وبحيرة للا تاكركوست."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Imlil",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.126372,
+      "lng": -7.917829,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Imlil_.jpg/1400px-Imlil_.jpg",
+        "/images/categories/excursions.jpg"
+      ],
+      "description": {
+        "fr": "Ne doit pas être confondu avec Imlil dans la région Béni Mellal-Khénifra.",
+        "en": "Imlil is a small village in the high Atlas Mountains of Morocco. It is 1,800 metres (5,900 ft) above sea level. It is close to mount Toubkal, the highest peak in Northern Africa. Imlil makes a good base for attempting to summit Toubkal as it lies at the end of the tarmac road, and is a natural place to hire mountain guides and mules for the onward trek. Imlil is the centre of mountain tourism in Morocco due to its unique position. From here, 90% of visitors head up to Toubkal, the highest mountain in Morocco.",
+        "ar": "إمليل هي إحدى مشيخات المملكة المغربية، تتبع جغرافيا لإقليم الحوز وإداريًا لأسني. يقدر عدد سكانها بـ 8843 نسمة حسب الإحصاء الرسمي للسكان والسكنى لسنة 2004."
+      },
+      "short": {
+        "fr": "Ne doit pas être confondu avec Imlil dans la région Béni Mellal-Khénifra.",
+        "en": "Imlil is a small village in the high Atlas Mountains of Morocco.",
+        "ar": "إمليل هي إحدى مشيخات المملكة المغربية، تتبع جغرافيا لإقليم الحوز وإداريًا لأسني."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Imlil",
+        "en": "https://en.wikipedia.org/wiki/Imlil%2C_Al_Haouz",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A5%D9%85%D9%84%D9%8A%D9%84_(%D8%A3%D8%B3%D9%86%D9%8A)"
+      },
+      "wikipediaTitle": "Imlil"
+    },
+    {
+      "name": "Parc national du Toubkal",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.083333,
+      "lng": -7.833333,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Imlil%2C_Marrocos.jpg/1400px-Imlil%2C_Marrocos.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/d/df/Djebel_Toubkal_des_de_Ukaimeden.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/9/93/Ifni_Lake-321-notcreative123.jpg"
+      ],
+      "description": {
+        "fr": "Le parc national de Toubkal se situe à 70 km au sud de Marrakech, dans la partie centrale du Haut Atlas, entre les vallées du N'Fiss à l'ouest et celle de l'Ourika à l'est.",
+        "en": "Toubkal National Park is a national park in the High Atlas mountain range, 70 kilometres from Marrakesh in central-western Morocco. Established in 1942, it covers an area of 380 km2. Jbel Toubkal is the highest peak of the park at 4,167 metres.",
+        "ar": "منتزه توبقال الوطني هو منتزه يقع على بعد حوالي 70 كلم جنوب مدينة مراكش، بين وادي نفيس غربًا ووادي أوريكة شرقًا، يضم فضاءً للترفيه والترويح عن النفس واكتشاف ما تزخر به هذه المنطقة من تنوع الطبيعة وما تشتمل عليه من أنواع الحيوانات النادرة. وقد أحدث هذا المنتزه، الذي ينتمي إلى شبكة من 156 موقعًا ذات أهمية بيولوجية وإيكولوجية يرجع تسييرها للمندوبية السامية للمياه والغابات ومحاربة التصحر في 15 يناير 1942، وذلك تنفيذاً لتوصيات المؤتمر التاسع لمعهد الدراسات المغربية.. ويتميز هذا المنتزه بموقعه الجغرافي الكائن بالمنطقة التي يطلق عليها اسم «أدرار ندرن» التي توجد بها أعلى القمم بشمال افريقيا ، والمنطقة الأكثر ارتياداً والأسهل ولوجًا والأكثر جاذبية وروعة في كل مناطق الأطلس الكبير."
+      },
+      "short": {
+        "fr": "Le parc national de Toubkal se situe à 70 km au sud de Marrakech, dans la partie centrale du Haut Atlas, entre les vallées du N'Fiss à l'ouest et celle de l'Ourika à l'est.",
+        "en": "Toubkal National Park is a national park in the High Atlas mountain range, 70 kilometres from Marrakesh in central-western Morocco.",
+        "ar": "منتزه توبقال الوطني هو منتزه يقع على بعد حوالي 70 كلم جنوب مدينة مراكش، بين وادي نفيس غربًا ووادي أوريكة شرقًا، يضم فضاءً للترفيه والترويح عن النفس واكتشاف ما تزخر به هذه المنطقة من تنوع…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Parc_national_de_Toubkal",
+        "en": "https://en.wikipedia.org/wiki/Toubkal_National_Park",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%85%D8%AA%D9%86%D8%B2%D9%87_%D8%AA%D9%88%D8%A8%D9%82%D8%A7%D9%84_%D8%A7%D9%84%D9%88%D8%B7%D9%86%D9%8A"
+      },
+      "wikipediaTitle": "Parc national de Toubkal"
+    },
+    {
+      "name": "Asni",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.25,
+      "lng": -7.979167,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Asni-Nicolas_L%C5%93uillet-crop.jpg/1400px-Asni-Nicolas_L%C5%93uillet-crop.jpg"
+      ],
+      "description": {
+        "fr": "Asni est une commune rurale de la province d'Al Haouz, dans la région Marrakech-Safi, au Maroc.",
+        "en": "Asni is a small town and rural commune in the foothills of the High Atlas mountains near Marrakesh, Morocco.",
+        "ar": "أسني هي جماعة قروية مغربية بإقليم الحوز. تبعد جماعة أسني عن مدينة مراكش بحوالي 50 كيلومتر على الطريق الرابطة بين مراكش وتارودانت عبر تاحناوت. وتضم هذه القرية 25.153 نسمة . تعتبر اسني إحدى المناطق الساحرة باقليم الحوز وأجملها، تقع اسني في دائرة اسني المنشأة منذ 20 عاما. إضافة إلى ذلك فاسني من المناطق الغنية بالفواكه والثمرات الرائعة كالتفاح والبرقوق والإجاص والسفرجل والخوخ والجوز واللوز والكرز."
+      },
+      "short": {
+        "fr": "Asni est une commune rurale de la province d'Al Haouz, dans la région Marrakech-Safi, au Maroc.",
+        "en": "Asni is a small town and rural commune in the foothills of the High Atlas mountains near Marrakesh, Morocco.",
+        "ar": "أسني هي جماعة قروية مغربية بإقليم الحوز. تبعد جماعة أسني عن مدينة مراكش بحوالي 50 كيلومتر على الطريق الرابطة بين مراكش وتارودانت عبر تاحناوت. وتضم هذه القرية 25.153 نسمة . تعتبر اسني إحدى…"
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Asni",
+        "en": "https://en.wikipedia.org/wiki/Asni",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A3%D8%B3%D9%86%D9%8A"
+      },
+      "wikipediaTitle": "Asni"
+    },
+    {
+      "name": "Ouirgane",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.175727,
+      "lng": -8.0789,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Ouirgane_guide_2.jpg/1400px-Ouirgane_guide_2.jpg",
+        "/images/categories/excursions.jpg"
+      ],
+      "description": {
+        "fr": "Ouirgane est une commune rurale de la province d'Al Haouz, dans la région de Marrakech-Safi, au Maroc. Elle ne dispose pas de centre urbain, mais a pour chef-lieu un village du même nom.",
+        "en": "Ouirgane is a small town and rural commune in Al Haouz Province of the Marrakesh-Tensift-El Haouz region of Morocco. At the time of the 2024 census, the commune had a total population of 7,687 people living in 1,830 households. It is a Berber village.",
+        "ar": "ويركان هي جماعة قروية في إقليم الحوز بجهة مراكش آسفي. وهي تضم .. نسمة، حسب الإحصاء العام للسكان والسكنى لسنة 2014."
+      },
+      "short": {
+        "fr": "Ouirgane est une commune rurale de la province d'Al Haouz, dans la région de Marrakech-Safi, au Maroc.",
+        "en": "Ouirgane is a small town and rural commune in Al Haouz Province of the Marrakesh-Tensift-El Haouz region of Morocco.",
+        "ar": "ويركان هي جماعة قروية في إقليم الحوز بجهة مراكش آسفي."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Ouirgane",
+        "en": "https://en.wikipedia.org/wiki/Ouirgane",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%88%D9%8A%D8%B1%D9%83%D8%A7%D9%86"
+      },
+      "wikipediaTitle": "Ouirgane"
+    },
+    {
+      "name": "Aït Ben Haddou",
+      "category": "excursions",
+      "city": "Ouarzazate",
+      "lat": 31.0472,
+      "lng": -7.1319,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Ksar_A%C3%AFt_Benhaddou%2C_Marocco_%28%D8%A3%D9%8A%D8%AA_%D8%A8%D9%86_%D8%AD%D8%AF%D9%88%D8%8C_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%2C_%E2%B4%B0%E2%B5%A2%E2%B5%9C_%E2%B5%83%E2%B4%B0%E2%B4%B7%E2%B4%B7%E2%B5%93%29.jpg/1400px-Ksar_A%C3%AFt_Benhaddou%2C_Marocco_%28%D8%A3%D9%8A%D8%AA_%D8%A8%D9%86_%D8%AD%D8%AF%D9%88%D8%8C_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%2C_%E2%B4%B0%E2%B5%A2%E2%B5%9C_%E2%B5%83%E2%B4%B0%E2%B4%B7%E2%B4%B7%E2%B5%93%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/A%C3%AFt_Benhaddou.jpg/1920px-A%C3%AFt_Benhaddou.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/A%C3%AFt_Benhaddou_House.jpg/1920px-A%C3%AFt_Benhaddou_House.jpg"
+      ],
+      "description": {
+        "fr": "Le ksar d'Aït-ben-Haddou est un ksar au Maroc, situé dans la province de Ouarzazate. Il est inscrit sur la liste du patrimoine mondial de l'UNESCO.",
+        "en": "Aït Benhaddou is a historic ighrem or ksar along the former caravan route between the Sahara and Marrakesh in Morocco. It is considered a great example of Moroccan earthen clay architecture and has been a UNESCO World Heritage Site since 1987.",
+        "ar": "قصر آيت بن حدو هو تجمع بنايات تقليدية يقع بإقليم ورززات (المغرب)، شيدت من الطين ومحاطة بسور دفاعي مقوى بالأبراج، ويتميز بالبساطة والمتانة في وصف. ويعتبر هذا القصر، بهندسته المتميزة، نموذجا للسكن التقليدي بالجنوب المغربي. يندرج قصر آيت بن حدو ضمن قائمة مواقع التراث العالمي لليونيسكو."
+      },
+      "short": {
+        "fr": "Le ksar d'Aït-ben-Haddou est un ksar au Maroc, situé dans la province de Ouarzazate.",
+        "en": "Aït Benhaddou is a historic ighrem or ksar along the former caravan route between the Sahara and Marrakesh in Morocco.",
+        "ar": "قصر آيت بن حدو هو تجمع بنايات تقليدية يقع بإقليم ورززات (المغرب)، شيدت من الطين ومحاطة بسور دفاعي مقوى بالأبراج، ويتميز بالبساطة والمتانة في وصف."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Ksar_d'A%C3%AFt-ben-Haddou",
+        "en": "https://en.wikipedia.org/wiki/A%C3%AFt_Benhaddou",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%82%D8%B5%D8%B1_%D8%A2%D9%8A%D8%AA_%D8%A8%D9%86_%D8%AD%D8%AF%D9%88"
+      },
+      "wikipediaTitle": "Ksar d'Aït-ben-Haddou"
+    },
+    {
+      "name": "Ouarzazate",
+      "category": "excursions",
+      "city": "Ouarzazate",
+      "lat": 30.922991,
+      "lng": -6.904221,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Kasbah_Taourirt_in_Ouarzazate_2011.jpg/1400px-Kasbah_Taourirt_in_Ouarzazate_2011.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Fint2.JPG/1920px-Fint2.JPG"
+      ],
+      "description": {
+        "fr": "Ouarzazate est une ville et commune — municipalité — de la province de Ouarzazate (Maroc), dont elle est le chef-lieu, dans la région Drâa Tafilalet. La ville est surnommée « la Porte du désert ».",
+        "en": "Ouarzazate is a city and capital of Ouarzazate Province in the region of Drâa-Tafilalet, south-central Morocco.",
+        "ar": "ورزازات هي مدينة سياحية مغربية بجهة درعة تافيلالت، وتبعد عن مدينة مراكش بحوالي 200 كلم، وعن مدينة الرشيدية بحوالي 295 كلم. يحدها شمالا الجماعة القروية لغسات، وشرقا الجماعة القروية لادلسان، وجنوبا الجماعة القروية لتارميكت، وغربا الجماعة القروية لأيت زينب. وتشتهر ورزازات بمناظرها الطبيعية الخلابة المحيطة بها، كما تُعرف بتصوير أفلام سينمائية عالمية فيها وفي الإستوديوهات المتواجودة بها. وتقع بمدينة ورزازات محطة نور وهي أكبر محطة للطاقة الشمسية في العالم."
+      },
+      "short": {
+        "fr": "Ouarzazate est une ville et commune — municipalité — de la province de Ouarzazate (Maroc), dont elle est le chef-lieu, dans la région Drâa Tafilalet.",
+        "en": "Ouarzazate is a city and capital of Ouarzazate Province in the region of Drâa-Tafilalet, south-central Morocco.",
+        "ar": "ورزازات هي مدينة سياحية مغربية بجهة درعة تافيلالت، وتبعد عن مدينة مراكش بحوالي 200 كلم، وعن مدينة الرشيدية بحوالي 295 كلم."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Ouarzazate",
+        "en": "https://en.wikipedia.org/wiki/Ouarzazate",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%88%D8%B1%D8%B2%D8%A7%D8%B2%D8%A7%D8%AA"
+      },
+      "wikipediaTitle": "Ouarzazate"
+    },
+    {
+      "name": "Vallée du Zat",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.3167,
+      "lng": -7.6667,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Tighdouine.jpg/1400px-Tighdouine.jpg",
+        "/images/categories/excursions.jpg"
+      ],
+      "description": {
+        "fr": "Moins fréquentée que l'Ourika, la vallée du Zat déroule villages berbères, terrasses cultivées et eaux vives au pied du Haut Atlas. Une échappée paisible pour randonner et découvrir la vie de montagne.",
+        "en": "Less visited than the Ourika, the Zat valley unfolds Berber villages, cultivated terraces and rushing water at the foot of the High Atlas. A peaceful escape for walking and mountain life.",
+        "ar": "أقل ازدحاماً من وادي أوريكة، يمتد وادي زات بين قرى أمازيغية ومدرجات زراعية ومياه جارية عند سفوح الأطلس الكبير. وجهة هادئة للمشي واكتشاف حياة الجبل."
+      },
+      "short": {
+        "fr": "Moins fréquentée que l'Ourika, la vallée du Zat déroule villages berbères, terrasses cultivées et eaux vives au pied du Haut Atlas.",
+        "en": "Less visited than the Ourika, the Zat valley unfolds Berber villages, cultivated terraces and rushing water at the foot of the High Atlas.",
+        "ar": "أقل ازدحاماً من وادي أوريكة، يمتد وادي زات بين قرى أمازيغية ومدرجات زراعية ومياه جارية عند سفوح الأطلس الكبير."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Zat_(rivi%C3%A8re)",
+        "en": "",
+        "ar": "https://ar.wikipedia.org/wiki/%D9%88%D8%A7%D8%AF_%D8%A7%D9%84%D8%B2%D8%A7%D8%AA"
+      },
+      "wikipediaTitle": "Zat (rivière)"
+    },
+    {
+      "name": "Palmeraie de Marrakech",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.687568,
+      "lng": -7.973328,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Palmeraie_de_Marrakech.JPG/1400px-Palmeraie_de_Marrakech.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/06052012-Palmeraie_Marrakech_by_night_%287157746578%29.jpg/1920px-06052012-Palmeraie_Marrakech_by_night_%287157746578%29.jpg"
+      ],
+      "description": {
+        "fr": "La palmeraie de Marrakech est une importante palmeraie du XIe siècle du nord de Marrakech, au Maroc. Patrimoine naturel marocain de près de 100 000 palmiers, sur environ 15 000 hectares, elle est un des hauts lieux historiques de la culture, de l'économie, et du tourisme marocains.",
+        "en": "Palmeraie is a palm oasis of several hundred thousand trees outside of Marrakesh, Morocco. Situated at the edge of the city's northern section, it measures 5 miles (8.0 km) in length, and covers an area of 54 square miles (140 km2). It is known for its eponymous palm trees and resorts, as well as the Palmeraie Rotana Resort, and Nikki Beach. It is approached on the Circuit de la Palmeraie, which branches off from the N8 highway to Fez.",
+        "ar": "بستان النخيل في مراكش هي واحة نخيل تضم مئات الآلاف من الأشجار، ويقع البستان على حافة القسم الشمالي من مدينة مراكش في المغرب. ويبلغ طوله 5 ميل (8.0 كـم) في الطول وتغطي مساحة 54 ميل مربع (140 كـم2). تُعدّ واحة نخيل مراكش من أبرز الواحات في المغرب، وتمثل عنصرًا أساسيًا في الهوية التاريخية والمجالية لمدينة مراكش، إذ اضطلعت عبر مختلف الحقب بدور مهم في حياة سكان المدينة والمناطق القروية المحيطة بها. كما حافظت هذه المنظومة المجالية، بما تمثله من تراث بيئي وإيكولوجي ثمين، على قدر كبير من التوازن والاستقرار على مدى قرون، بفضل نمط من التدبير المحلي المتكامل الذي استطاع الإنسان التكيف معه وتطويره بما ينسجم مع خصوصيات المجال الطبيعي."
+      },
+      "short": {
+        "fr": "La palmeraie de Marrakech est une importante palmeraie du XIe siècle du nord de Marrakech, au Maroc.",
+        "en": "Palmeraie is a palm oasis of several hundred thousand trees outside of Marrakesh, Morocco.",
+        "ar": "بستان النخيل في مراكش هي واحة نخيل تضم مئات الآلاف من الأشجار، ويقع البستان على حافة القسم الشمالي من مدينة مراكش في المغرب."
+      },
+      "source": {
+        "fr": "https://fr.wikipedia.org/wiki/Palmeraie_de_Marrakech",
+        "en": "https://en.wikipedia.org/wiki/Palmeraie_(Marrakesh)",
+        "ar": "https://ar.wikipedia.org/wiki/%D8%A8%D8%B3%D8%AA%D8%A7%D9%86_%D8%A7%D9%84%D9%86%D8%AE%D9%8A%D9%84"
+      },
+      "wikipediaTitle": "Palmeraie de Marrakech"
+    },
+    {
+      "name": "Circuit en quad dans la Palmeraie",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.6693,
+      "lng": -7.9536,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/d/dd/Demi_journ%C3%A9e_Balade_Quad_%C3%A0_la_Palmeraie_de_Marrakech.jpg",
+        "/images/categories/excursions.jpg"
+      ],
+      "description": {
+        "fr": "Cap sur les pistes de la Palmeraie pour un circuit en quad entre palmiers, villages et chemins de terre. Une aventure poussiéreuse et ludique, encadrée par des guides locaux.",
+        "en": "Head for the Palmeraie tracks on a quad bike between palms, villages and dirt paths. A dusty, playful adventure led by local guides.",
+        "ar": "انطلق على مسارات النخيل بدراجة رباعية بين النخيل والقرى والطرق الترابية. مغامرة ممتعة ومغبرة بإشراف مرشدين محليين."
+      },
+      "short": {
+        "fr": "Cap sur les pistes de la Palmeraie pour un circuit en quad entre palmiers, villages et chemins de terre.",
+        "en": "Head for the Palmeraie tracks on a quad bike between palms, villages and dirt paths.",
+        "ar": "انطلق على مسارات النخيل بدراجة رباعية بين النخيل والقرى والطرق الترابية."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Balade à dos de chameau",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.6555,
+      "lng": -7.9634,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/La_Palmeraie_de_Marrakech_709.JPG/1920px-La_Palmeraie_de_Marrakech_709.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/La_Palmeraie_de_Marrakech_708.JPG/1920px-La_Palmeraie_de_Marrakech_708.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/La_Palmeraie_de_Marrakech_707.JPG/1920px-La_Palmeraie_de_Marrakech_707.JPG"
+      ],
+      "description": {
+        "fr": "Au rythme lent du dromadaire, la Palmeraie se découvre autrement. Une balade au coucher du soleil, entre palmiers et petites fermes, pour retrouver le calme du désert aux portes de la ville.",
+        "en": "At a dromedary’s slow pace, the Palmeraie reveals itself differently. A sunset ride between palms and small farms, finding desert calm at the edge of the city.",
+        "ar": "على إيقاع الجمل الهادئ، يُكتشف النخيل بطريقة أخرى. جولة عند الغروب بين النخيل والمزارع الصغيرة، لاستعادة سكينة الصحراء على أبواب المدينة."
+      },
+      "short": {
+        "fr": "Au rythme lent du dromadaire, la Palmeraie se découvre autrement.",
+        "en": "At a dromedary’s slow pace, the Palmeraie reveals itself differently.",
+        "ar": "على إيقاع الجمل الهادئ، يُكتشف النخيل بطريقة أخرى."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Vol en montgolfière autour de Marrakech",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.6628,
+      "lng": -7.9577,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/d/d5/Ballon_Ciel_d%27Afrique_%C3%A0_Marrakech.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/b/bd/Hot_air_balloon_ride_Marrakech_Morocco.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Ciel_d%27Afrique%2Cluchtballon_in_marrakech%2C_globo_en_marrakech%2C_ballonf%C3%A4hrt_marrakesch%2C_luftballon_marrakeschballonvaart_in_marrakech%2C.JPG"
+      ],
+      "description": {
+        "fr": "Au lever du jour, la montgolfière s'élève au-dessus de la Palmeraie et de l'Atlas. Une heure de vol silencieux, suivie d'un petit-déjeuner berbère : l'un des plus beaux points de vue sur Marrakech.",
+        "en": "At dawn, the balloon rises above the Palmeraie and the Atlas. An hour of silent flight followed by a Berber breakfast: one of the finest views over Marrakech.",
+        "ar": "عند الفجر، يرتفع المنطاد فوق النخيل والأطلس. ساعة من الطيران الصامت تليها فطور أمازيغي: من أجمل المناظر على مراكش."
+      },
+      "short": {
+        "fr": "Au lever du jour, la montgolfière s'élève au-dessus de la Palmeraie et de l'Atlas.",
+        "en": "At dawn, the balloon rises above the Palmeraie and the Atlas.",
+        "ar": "عند الفجر، يرتفع المنطاد فوق النخيل والأطلس."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Excursion en buggy",
+      "category": "excursions",
+      "city": "Marrakech",
+      "lat": 31.6693,
+      "lng": -7.9536,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/8/84/Agafay_desert.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Agafay_Desert%2C_Morocco%2C_20250125_1752_7275.jpg/1920px-Agafay_Desert%2C_Morocco%2C_20250125_1752_7275.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Agafay_Desert%2C_Morocco%2C_20250125_1759_7281.jpg/1920px-Agafay_Desert%2C_Morocco%2C_20250125_1759_7281.jpg"
+      ],
+      "description": {
+        "fr": "Le buggy trace sa route dans les chemins de la Palmeraie et du désert d'Agafay. Sensations, poussière et grands espaces : une excursion idéale à partager entre amis.",
+        "en": "The buggy carves its way through Palmeraie and Agafay desert tracks. Thrills, dust and wide open spaces: an excursion made for friends.",
+        "ar": "يشق الباغي طريقه في مسارات النخيل وصحراء أكافاي. إثارة وغبار وفضاءات واسعة: رحلة مثالية مع الأصدقاء."
+      },
+      "short": {
+        "fr": "Le buggy trace sa route dans les chemins de la Palmeraie et du désert d'Agafay.",
+        "en": "The buggy carves its way through Palmeraie and Agafay desert tracks.",
+        "ar": "يشق الباغي طريقه في مسارات النخيل وصحراء أكافاي."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Dîner traditionnel marocain",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6291,
+      "lng": -7.9878,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Moroccan_food-Chicken_tagine_with_preserved_lemons_and_olives-01.jpg/1920px-Moroccan_food-Chicken_tagine_with_preserved_lemons_and_olives-01.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Moroccan_food-Chicken_tagine_with_preserved_lemons_and_olives-02.jpg/1920px-Moroccan_food-Chicken_tagine_with_preserved_lemons_and_olives-02.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Tajines_in_a_pottery_shop_in_Morocco.jpg/1920px-Tajines_in_a_pottery_shop_in_Morocco.jpg"
+      ],
+      "description": {
+        "fr": "Un dîner marocain se vit comme un rituel : salades, tajine, couscous et pâtisseries au miel, servis dans un riad ou sous une tente. Musique, lanternes et hospitalité complètent l'expérience.",
+        "en": "A Moroccan dinner is a ritual: salads, tagine, couscous and honey pastries served in a riad or beneath a tent. Music, lanterns and hospitality complete the experience.",
+        "ar": "العشاء المغربي طقس بحد ذاته: سلطات وطاجين وكسكس وحلويات بالعسل، تُقدَّم في رياض أو تحت خيمة. الموسيقى والفوانيس وكرم الضيافة تكمل التجربة."
+      },
+      "short": {
+        "fr": "Un dîner marocain se vit comme un rituel : salades, tajine, couscous et pâtisseries au miel, servis dans un riad ou sous une tente.",
+        "en": "A Moroccan dinner is a ritual: salads, tagine, couscous and honey pastries served in a riad or beneath a tent.",
+        "ar": "العشاء المغربي طقس بحد ذاته: سلطات وطاجين وكسكس وحلويات بالعسل، تُقدَّم في رياض أو تحت خيمة."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Spectacle de fantasia",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6519,
+      "lng": -7.9817,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Barb_Horse_tbourida_Morocco.jpg/1920px-Barb_Horse_tbourida_Morocco.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Fantasia_during_a_Moroccan_royal_wedding%2C_1949.jpg/1920px-Fantasia_during_a_Moroccan_royal_wedding%2C_1949.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Fantasia_during_a_Moroccan_royal_wedding%2C_1949_%282%29.jpg/1920px-Fantasia_during_a_Moroccan_royal_wedding%2C_1949_%282%29.jpg"
+      ],
+      "description": {
+        "fr": "La fantasia fait revivre les traditions équestres marocaines : cavaliers en tenue traditionnelle, courses et salves de baroud. Un spectacle nocturne spectaculaire, souvent accompagné d'un dîner.",
+        "en": "Fantasia brings Moroccan equestrian traditions to life: riders in traditional dress, charges and baroud salvoes. A spectacular night show, often paired with dinner.",
+        "ar": "تُحيي الفانتازيا التقاليد الفروسية المغربية: فرسان بأزياء تقليدية وسباقات وطلقات بارود. عرض ليلي مبهر يرافقه غالباً عشاء."
+      },
+      "short": {
+        "fr": "La fantasia fait revivre les traditions équestres marocaines : cavaliers en tenue traditionnelle, courses et salves de baroud.",
+        "en": "Fantasia brings Moroccan equestrian traditions to life: riders in traditional dress, charges and baroud salvoes.",
+        "ar": "تُحيي الفانتازيا التقاليد الفروسية المغربية: فرسان بأزياء تقليدية وسباقات وطلقات بارود."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Hammam marocain traditionnel",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6297,
+      "lng": -7.9889,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Museum_hammam_2016-01-07_11-26-26_ILCE-6000_DSC01961_%2846515893521%29.jpg/1920px-Museum_hammam_2016-01-07_11-26-26_ILCE-6000_DSC01961_%2846515893521%29.jpg"
+      ],
+      "description": {
+        "fr": "Vapeur, savon noir, gant de kessa et huile d'argan : le hammam est un rituel de purification et de détente. Une expérience sensorielle incontournable, entre calme et chaleur.",
+        "en": "Steam, black soap, kessa glove and argan oil: the hammam is a ritual of cleansing and relaxation. An essential sensory experience, warm and calming.",
+        "ar": "بخار وصابون أسود وقفاز الكيس وزيت الأركان: الحمام طقس للتطهير والاسترخاء. تجربة حسية لا تُفوَّت بين الدفء والهدوء."
+      },
+      "short": {
+        "fr": "Vapeur, savon noir, gant de kessa et huile d'argan : le hammam est un rituel de purification et de détente.",
+        "en": "Steam, black soap, kessa glove and argan oil: the hammam is a ritual of cleansing and relaxation.",
+        "ar": "بخار وصابون أسود وقفاز الكيس وزيت الأركان: الحمام طقس للتطهير والاسترخاء."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Rooftop avec vue sur la médina",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6299,
+      "lng": -7.9873,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Marrakech_%2825561912075%29.jpg/1920px-Marrakech_%2825561912075%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/01_Marrakech_Medina_Rooftops.jpg/1920px-01_Marrakech_Medina_Rooftops.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/02_Marrakech_Medina_rooftops.jpg/1920px-02_Marrakech_Medina_rooftops.jpg"
+      ],
+      "description": {
+        "fr": "Depuis les terrasses de la médina, les minarets, les patios et l'Atlas se déploient à perte de vue. Un thé, la lumière du soir et le chant des oiseaux : Marrakech vue d'en haut.",
+        "en": "From medina rooftops, minarets, patios and the Atlas unfold as far as the eye can see. Tea, evening light and birdsong: Marrakech from above.",
+        "ar": "من أسطح المدينة القديمة، تمتد المآذن والأفنية وجبال الأطلس إلى أبعد مدى. شاي وضوء المساء وتغريد الطيور: مراكش من الأعلى."
+      },
+      "short": {
+        "fr": "Depuis les terrasses de la médina, les minarets, les patios et l'Atlas se déploient à perte de vue.",
+        "en": "From medina rooftops, minarets, patios and the Atlas unfold as far as the eye can see.",
+        "ar": "من أسطح المدينة القديمة، تمتد المآذن والأفنية وجبال الأطلس إلى أبعد مدى."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Coucher de soleil à Jemaa el-Fna",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6258,
+      "lng": -7.9891,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/3/31/Marrakech%2C_Morocco_%285422826266%29_%286%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Jemaa_el-Fnaa_%287160846079%29.jpg/1920px-Jemaa_el-Fnaa_%287160846079%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Place_Jemaa_el-Fna_-_Aicha_n%C2%B01_-_Marrakech_-_Morocco_-_Maroc_-_Maroko_-_%CE%9C%CE%B1%CF%81%CF%8C%CE%BA%CE%BF_-_Fas_-_Marruecos_-_Marokko_-_%D0%9C%D0%B0%D1%80%D0%BE%D0%BA%D0%BA_picture_image_photo_%289123932853%29.jpg/1920px-thumbnail.jpg"
+      ],
+      "description": {
+        "fr": "Quand le soleil descend, Jemaa el-Fna change de visage : conteurs, musiciens, cuisines ambulantes et fumées parfumées. Un moment suspendu, à vivre au milieu de la place.",
+        "en": "As the sun goes down, Jemaa el-Fna changes face: storytellers, musicians, food stalls and fragrant smoke. A suspended moment at the heart of the square.",
+        "ar": "عندما تغرب الشمس، يتغير وجه ساحة جامع الفنا: حكواتيون وموسيقيون ومطاعم متنقلة ودخان عطري. لحظة معلّقة تُعاش في قلب الساحة."
+      },
+      "short": {
+        "fr": "Quand le soleil descend, Jemaa el-Fna change de visage : conteurs, musiciens, cuisines ambulantes et fumées parfumées.",
+        "en": "As the sun goes down, Jemaa el-Fna changes face: storytellers, musicians, food stalls and fragrant smoke.",
+        "ar": "عندما تغرب الشمس، يتغير وجه ساحة جامع الفنا: حكواتيون وموسيقيون ومطاعم متنقلة ودخان عطري."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Dîner dans le désert d'Agafay",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.4374,
+      "lng": -8.1436,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/8/84/Agafay_desert.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Agafay_Desert%2C_Morocco%2C_20250125_1752_7275.jpg/1920px-Agafay_Desert%2C_Morocco%2C_20250125_1752_7275.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Agafay_Desert%2C_Morocco%2C_20250125_1759_7281.jpg/1920px-Agafay_Desert%2C_Morocco%2C_20250125_1759_7281.jpg"
+      ],
+      "description": {
+        "fr": "À quarante minutes de Marrakech, le désert d'Agafay accueille des dîners sous les étoiles. Tables dressées, lanternes, musique et horizon minéral : une soirée hors du temps.",
+        "en": "Forty minutes from Marrakech, the Agafay desert hosts dinners under the stars. Set tables, lanterns, music and a mineral horizon: an evening out of time.",
+        "ar": "على بعد أربعين دقيقة من مراكش، تستقبل صحراء أكافاي عشاءً تحت النجوم. موائد وفوانيس وموسيقى وأفق صخري: أمسية خارج الزمن."
+      },
+      "short": {
+        "fr": "À quarante minutes de Marrakech, le désert d'Agafay accueille des dîners sous les étoiles.",
+        "en": "Forty minutes from Marrakech, the Agafay desert hosts dinners under the stars.",
+        "ar": "على بعد أربعين دقيقة من مراكش، تستقبل صحراء أكافاي عشاءً تحت النجوم."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Balade en calèche",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6255,
+      "lng": -7.9895,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/b/bb/Caleches_in_Marrakech_%282901397989%29.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/3/3c/Caleche_in_Marrakech_%282902168814%29.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/2/25/Caleches_in_Marrakech_%282844987439%29.jpg"
+      ],
+      "description": {
+        "fr": "La calèche est une manière douce de découvrir Marrakech : remparts, jardins, quartiers périphériques et retour par les grands boulevards. Un rythme lent pour observer la ville.",
+        "en": "A horse-drawn calèche is a gentle way to discover Marrakech: ramparts, gardens, outer neighbourhoods and back along the boulevards. A slow pace for watching the city.",
+        "ar": "العربة التي تجرها الخيول وسيلة هادئة لاكتشاف مراكش: الأسوار والحدائق والأحياء المحيطة والعودة عبر الشوارع الكبرى. إيقاع بطيء لمشاهدة المدينة."
+      },
+      "short": {
+        "fr": "La calèche est une manière douce de découvrir Marrakech : remparts, jardins, quartiers périphériques et retour par les grands boulevards.",
+        "en": "A horse-drawn calèche is a gentle way to discover Marrakech: ramparts, gardens, outer neighbourhoods and back along the boulevards.",
+        "ar": "العربة التي تجرها الخيول وسيلة هادئة لاكتشاف مراكش: الأسوار والحدائق والأحياء المحيطة والعودة عبر الشوارع الكبرى."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Spa traditionnel marocain",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6306,
+      "lng": -7.9906,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6e/Piscine_Les_Bains_De_Marrakech.jpeg",
+        "https://upload.wikimedia.org/wikipedia/commons/4/4f/SPA_Les_Bains_De_Marrakech.jpg"
+      ],
+      "description": {
+        "fr": "Massages à l'huile d'argan, gommages et soins à la rose : les spas de Marrakech prolongent le rituel du hammam dans un cadre raffiné. Une parenthèse de bien-être après une journée de visites.",
+        "en": "Argan-oil massages, scrubs and rose treatments: Marrakech spas extend the hammam ritual in refined surroundings. A wellbeing pause after a day of visits.",
+        "ar": "تدليك بزيت الأركان وتقشير وعلاجات بالورد: تمتد منتجعات مراكش الصحية بطقس الحمام في إطار أنيق. استراحة عافية بعد يوم من الزيارات."
+      },
+      "short": {
+        "fr": "Massages à l'huile d'argan, gommages et soins à la rose : les spas de Marrakech prolongent le rituel du hammam dans un cadre raffiné.",
+        "en": "Argan-oil massages, scrubs and rose treatments: Marrakech spas extend the hammam ritual in refined surroundings.",
+        "ar": "تدليك بزيت الأركان وتقشير وعلاجات بالورد: تمتد منتجعات مراكش الصحية بطقس الحمام في إطار أنيق."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Dégustation de thé à la menthe",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6298,
+      "lng": -7.9872,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/6/6c/The_menthe.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Moroccan_mint_tea-01.jpg/1920px-Moroccan_mint_tea-01.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/7/72/Moroccan_mint_tea_on_a_traditional_tray.jpg"
+      ],
+      "description": {
+        "fr": "Le thé à la menthe est bien plus qu'une boisson : c'est un geste d'accueil. Versé de haut, sucré selon la tradition, il se partage sur une terrasse ou dans un riad, entre conversation et calme.",
+        "en": "Mint tea is far more than a drink: it is a gesture of welcome. Poured from a height, sweetened by tradition, it is shared on a terrace or in a riad, between conversation and calm.",
+        "ar": "الشاي بالنعناع أكثر من مجرد مشروب: إنه لفتة ترحيب. يُصبّ من علو ويُحلّى حسب التقليد، ويُشارك على شرفة أو في رياض بين الحديث والهدوء."
+      },
+      "short": {
+        "fr": "Le thé à la menthe est bien plus qu'une boisson : c'est un geste d'accueil.",
+        "en": "Mint tea is far more than a drink: it is a gesture of welcome.",
+        "ar": "الشاي بالنعناع أكثر من مجرد مشروب: إنه لفتة ترحيب."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Découverte de la cuisine de rue de la médina",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6271,
+      "lng": -7.9888,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Food_Stalls_Marrakech.JPG/1920px-Food_Stalls_Marrakech.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/f/f8/Food_stall%2C_Marrakech.JPG",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Marrakech_Food_Vendor_%282168052363%29.jpg/1920px-Marrakech_Food_Vendor_%282168052363%29.jpg"
+      ],
+      "description": {
+        "fr": "Msemen, harira, brochettes, olives et jus frais : la cuisine de rue raconte Marrakech mieux qu'un menu. Un parcours gourmand dans les ruelles, à faire l'estomac vide et l'esprit curieux.",
+        "en": "Msemen, harira, skewers, olives and fresh juice: street food tells the story of Marrakech better than any menu. A tasty walk through the alleys, best done hungry and curious.",
+        "ar": "مسمن وحريرة وأسياخ وزيتون وعصير طازج: طعام الشارع يحكي مراكش أفضل من أي قائمة. جولة لذيذة في الأزقة، تُعاش بمعدة خاوية وفضول."
+      },
+      "short": {
+        "fr": "Msemen, harira, brochettes, olives et jus frais : la cuisine de rue raconte Marrakech mieux qu'un menu.",
+        "en": "Msemen, harira, skewers, olives and fresh juice: street food tells the story of Marrakech better than any menu.",
+        "ar": "مسمن وحريرة وأسياخ وزيتون وعصير طازج: طعام الشارع يحكي مراكش أفضل من أي قائمة."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Balade nocturne dans la médina",
+      "category": "experiences",
+      "city": "Marrakech",
+      "lat": 31.6265,
+      "lng": -7.9885,
+      "images": [
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Marrakech%2C_Morocco_%285422849823%29_%286%29.jpg/1920px-Marrakech%2C_Morocco_%285422849823%29_%286%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Marrakech%2C_Morocco_%285422848001%29_%286%29.jpg/1920px-Marrakech%2C_Morocco_%285422848001%29_%286%29.jpg",
+        "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Medina_of_Marrakesh_-_panoramio.jpg/1920px-Medina_of_Marrakesh_-_panoramio.jpg"
+      ],
+      "description": {
+        "fr": "À la nuit tombée, la médina s'apaise et les lanternes s'allument. Une balade guidée entre places, fontaines et passages voûtés révèle une ville plus intime, loin de l'agitation du jour.",
+        "en": "After dark, the medina quiets and lanterns glow. A guided walk between squares, fountains and vaulted passages reveals a more intimate city, far from the daytime bustle.",
+        "ar": "بعد حلول الظلام، تهدأ المدينة القديمة وتضاء الفوانيس. جولة مرشدة بين الساحات والنوافير والممرات المقوّسة تكشف مدينة أكثر حميمية بعيداً عن صخب النهار."
+      },
+      "short": {
+        "fr": "À la nuit tombée, la médina s'apaise et les lanternes s'allument.",
+        "en": "After dark, the medina quiets and lanterns glow.",
+        "ar": "بعد حلول الظلام، تهدأ المدينة القديمة وتضاء الفوانيس."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Cafés",
+      "category": "autres",
+      "city": "Marrakech",
+      "images": [
+        "/images/categories/cafes.jpg",
+        "/images/categories/places.jpg"
+      ],
+      "description": {
+        "fr": "Des terrasses ombragées de la médina aux cafés contemporains de Gueliz, Marrakech cultive l'art de la pause. Un café, un jus d'orange frais et le spectacle de la rue : une institution locale.",
+        "en": "From shaded medina terraces to contemporary Gueliz cafés, Marrakech has turned the pause into an art. A coffee, a fresh orange juice and the street theatre: a local institution.",
+        "ar": "من شرفات المدينة القديمة المظللة إلى مقاهي جيليز العصرية، تجعل مراكش من الاستراحة فناً. قهوة وعصير برتقال طازج ومشهد الشارع: طقس محلي أصيل."
+      },
+      "short": {
+        "fr": "Des terrasses ombragées de la médina aux cafés contemporains de Gueliz, Marrakech cultive l'art de la pause.",
+        "en": "From shaded medina terraces to contemporary Gueliz cafés, Marrakech has turned the pause into an art.",
+        "ar": "من شرفات المدينة القديمة المظللة إلى مقاهي جيليز العصرية، تجعل مراكش من الاستراحة فناً."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Restaurants",
+      "category": "autres",
+      "city": "Marrakech",
+      "images": [
+        "/images/categories/restaurants.jpg",
+        "/images/categories/places.jpg"
+      ],
+      "description": {
+        "fr": "Tajines mijotés, couscous du vendredi, poissons grillés et cuisine de rue : Marrakech se découvre aussi à table. Des riads aux terrasses, chaque adresse raconte un terroir.",
+        "en": "Slow-cooked tagines, Friday couscous, grilled fish and street food: Marrakech is also a city to taste. From riads to rooftops, every address tells a story of terroir.",
+        "ar": "طواجن مطهوة ببطء، كسكس الجمعة، سمك مشوي وأطعمة الشارع: مراكش تُكتشف أيضاً على المائدة. من دور الضيافة إلى الشرفات، كل عنوان يحكي قصة أرض."
+      },
+      "short": {
+        "fr": "Tajines mijotés, couscous du vendredi, poissons grillés et cuisine de rue : Marrakech se découvre aussi à table.",
+        "en": "Slow-cooked tagines, Friday couscous, grilled fish and street food: Marrakech is also a city to taste.",
+        "ar": "طواجن مطهوة ببطء، كسكس الجمعة، سمك مشوي وأطعمة الشارع: مراكش تُكتشف أيضاً على المائدة."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Parcs",
+      "category": "autres",
+      "city": "Marrakech",
+      "images": [
+        "/images/categories/parcs.jpg",
+        "/images/categories/places.jpg"
+      ],
+      "description": {
+        "fr": "Entre les jardins historiques et les espaces verts contemporains, Marrakech offre de vraies respirations. Parcs ombragés, allées de palmiers et pelouses accueillent promenades et pique-niques.",
+        "en": "Between historic gardens and contemporary green spaces, Marrakech offers real breathing room. Shaded parks, palm-lined paths and lawns welcome walks and picnics.",
+        "ar": "بين الحدائق التاريخية والمساحات الخضراء المعاصرة، تمنح مراكش مساحات حقيقية للتنفس. حدائق مظللة وممرات نخيل ومساحات خضراء تستقبل التنزه والرحلات."
+      },
+      "short": {
+        "fr": "Entre les jardins historiques et les espaces verts contemporains, Marrakech offre de vraies respirations.",
+        "en": "Between historic gardens and contemporary green spaces, Marrakech offers real breathing room.",
+        "ar": "بين الحدائق التاريخية والمساحات الخضراء المعاصرة، تمنح مراكش مساحات حقيقية للتنفس."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Piscines",
+      "category": "autres",
+      "city": "Marrakech",
+      "images": [
+        "/images/categories/piscines.jpg",
+        "/images/categories/places.jpg"
+      ],
+      "description": {
+        "fr": "Riad, hôtel ou club : les piscines de Marrakech invitent à la fraîcheur entre deux visites. Eau turquoise, transats et palmiers composent une pause très locale.",
+        "en": "Riad, hotel or club: Marrakech pools invite a cool pause between visits. Turquoise water, sun loungers and palms make a very local ritual.",
+        "ar": "رياض أو فندق أو نادٍ: مسابح مراكش تدعو إلى الانتعاش بين الزيارات. مياه فيروزية وكراسي استلقاء ونخيل تصنع استراحة محلية بامتياز."
+      },
+      "short": {
+        "fr": "Riad, hôtel ou club : les piscines de Marrakech invitent à la fraîcheur entre deux visites.",
+        "en": "Riad, hotel or club: Marrakech pools invite a cool pause between visits.",
+        "ar": "رياض أو فندق أو نادٍ: مسابح مراكش تدعو إلى الانتعاش بين الزيارات."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Hôtels",
+      "category": "autres",
+      "city": "Marrakech",
+      "images": [
+        "/images/categories/hotels.jpg",
+        "/images/categories/places.jpg"
+      ],
+      "description": {
+        "fr": "Du riad caché dans la médina au resort des palmiers, Marrakech décline toutes les façons de séjourner. Patios, jardins et hospitalité marocaine composent une expérience à part entière.",
+        "en": "From a hidden medina riad to a palm-grove resort, Marrakech offers every way to stay. Patios, gardens and Moroccan hospitality make the stay an experience in itself.",
+        "ar": "من رياض مخفي في المدينة القديمة إلى منتجع وسط النخيل، تقدم مراكش كل طرق الإقامة. أفنية وحدائق وكرم ضيافة مغربي تجعل الإقامة تجربة بحد ذاتها."
+      },
+      "short": {
+        "fr": "Du riad caché dans la médina au resort des palmiers, Marrakech décline toutes les façons de séjourner.",
+        "en": "From a hidden medina riad to a palm-grove resort, Marrakech offers every way to stay.",
+        "ar": "من رياض مخفي في المدينة القديمة إلى منتجع وسط النخيل، تقدم مراكش كل طرق الإقامة."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    },
+    {
+      "name": "Salles de sport (Karaté, Yoga, Musculation)",
+      "category": "autres",
+      "city": "Marrakech",
+      "images": [
+        "/images/categories/salles-de-sport.jpg",
+        "/images/categories/places.jpg"
+      ],
+      "description": {
+        "fr": "Karaté, yoga, musculation : Marrakech compte de nombreuses salles et studios pour garder le rythme pendant le voyage. Une façon différente de rencontrer la ville et ses habitants.",
+        "en": "Karate, yoga, weight training: Marrakech has plenty of gyms and studios to keep your routine while travelling. A different way to meet the city and its people.",
+        "ar": "كاراتيه ويوغا وتمارين مقاومة: تضم مراكش العديد من القاعات والاستوديوهات للحفاظ على روتينك أثناء السفر. طريقة مختلفة للقاء المدينة وسكانها."
+      },
+      "short": {
+        "fr": "Karaté, yoga, musculation : Marrakech compte de nombreuses salles et studios pour garder le rythme pendant le voyage.",
+        "en": "Karate, yoga, weight training: Marrakech has plenty of gyms and studios to keep your routine while travelling.",
+        "ar": "كاراتيه ويوغا وتمارين مقاومة: تضم مراكش العديد من القاعات والاستوديوهات للحفاظ على روتينك أثناء السفر."
+      },
+      "source": {
+        "fr": "",
+        "en": "",
+        "ar": ""
+      },
+      "wikipediaTitle": ""
+    }
+  ]
+}

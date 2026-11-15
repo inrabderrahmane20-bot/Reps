@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { AdminNav } from './admin-nav';
 import { AdminLogin } from './admin-login';
+import { ScrollManager } from '@/components/layout/scroll-manager';
 import { getSessionUser } from '@/lib/auth';
 import '../globals.css';
 
@@ -17,6 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <html lang="en" dir="ltr">
       <body className="min-h-screen bg-ink-50 text-ink-900 antialiased" style={{ background: '#F4F3F0' }}>
+        <ScrollManager />
         {isAdmin ? <div className="flex min-h-screen">
           <AdminNav />
           <main className="flex-1 p-6 md:p-10">{children}</main>
