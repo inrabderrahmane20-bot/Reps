@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import Script from 'next/script';
 import { useLocale, useTranslations } from 'next-intl';
 import { ArrowRight, MapPin, Search } from 'lucide-react';
 import { api } from '@/lib/api-client';
@@ -53,13 +52,13 @@ export function PlacesExperience() {
   });
 
   const [apiPlaces, setApiPlaces] = useState<ApiPlaceLike[] | undefined>(undefined);
-  const [leafletReady, setLeafletReady] = useState(false);
-  const [leafletError, setLeafletError] = useState(false);
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [city, setCity] = useState('all');
   const [category, setCategory] = useState<'all' | CategoryKey>('all');
   const [chapterOpen, setChapterOpen] = useState(false);
   const [chapterRevealed, setChapterRevealed] = useState(false);
+  const [chapterFocusId, setChapterFocusId] = useState<string | null>(null);
   const [viewer, setViewer] = useState<ViewerState | null>(null);
 
   useEffect(() => {
@@ -128,7 +127,6 @@ export function PlacesExperience() {
     destinations.find((place) => place.name === 'Jardin Majorelle' && place.images[0]) ||
     destinations.find((place) => place.images[0]);
   const heroImage = heroPlace?.images[0] || CATEGORY_META.jardin.image;
-  const chapterIndex = category === 'all' ? 0 : CATEGORY_KEYS.indexOf(category);
 
   const openChapter = (key: CategoryKey) => {
     chapterTriggerRef.current =
@@ -138,12 +136,14 @@ export function PlacesExperience() {
     setCategory(key);
     setChapterOpen(true);
     setChapterRevealed(false);
+    setChapterFocusId(null);
     setViewer(null);
   };
 
   const closeChapter = useCallback(() => {
     setChapterOpen(false);
     setChapterRevealed(false);
+    setChapterFocusId(null);
     setCategory('all');
     window.setTimeout(() => {
       if (chapterTriggerRef.current?.isConnected) {
@@ -155,17 +155,11 @@ export function PlacesExperience() {
   const closeViewer = useCallback(() => {
     const trigger = viewerTriggerRef.current;
     setViewer(null);
+    if (chapterOpen && trigger.placeId) {
+      setChapterFocusId(trigger.placeId);
+      return;
+    }
     window.setTimeout(() => {
-      if (chapterOpen && trigger.placeId) {
-        const tile = document.querySelector<HTMLElement>(
-          `.chapter-shell .place-tile[data-place-id="${CSS.escape(trigger.placeId)}"]`,
-        );
-        if (tile) {
-          tile.focus({ preventScroll: true });
-          tile.scrollIntoView({ block: 'nearest' });
-          return;
-        }
-      }
       if (trigger.element?.isConnected) {
         trigger.element.focus({ preventScroll: true });
       }
@@ -178,6 +172,7 @@ export function PlacesExperience() {
     setCategory('all');
     setChapterOpen(false);
     setChapterRevealed(false);
+    setChapterFocusId(null);
   };
 
   const openFromList = (place: Destination) => {
@@ -185,7 +180,7 @@ export function PlacesExperience() {
       element: document.activeElement instanceof HTMLElement ? document.activeElement : null,
       placeId: place.id,
     };
-    mapRef.current?.focusPlace(place.id, { preview: false });
+    mapRef.current?.focusPlace(place.id);
     setViewer({
       placeId: place.id,
       source: 'list',
@@ -219,14 +214,6 @@ export function PlacesExperience() {
 
   return (
     <>
-      <Script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        strategy="afterInteractive"
-        onLoad={() => setLeafletReady(true)}
-        onError={() => setLeafletError(true)}
-      />
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
       <div className="places-experience">
         <header className="places-hero">
           <div className="places-hero-copy">
@@ -246,7 +233,7 @@ export function PlacesExperience() {
             <button
               type="button"
               className="places-hero-cta"
-              onClick={() => document.getElementById('places-atlas')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              onClick={() => document.getElementById('places-atlas')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}
             >
               {t('listingTitle')}
               <ArrowRight size={17} aria-hidden />
@@ -333,9 +320,7 @@ export function PlacesExperience() {
             <PlacesMap
               ref={mapRef}
               destinations={filtered}
-              category={category}
-              leafletReady={leafletReady}
-              leafletError={leafletError}
+              onSelect={setSelectedPlaceId}
               onOpen={openFromMap}
             />
           </div>
@@ -396,6 +381,7 @@ export function PlacesExperience() {
                     place={place}
                     locale={locale}
                     index={index}
+                    selected={place.id === selectedPlaceId}
                     onOpen={openFromList}
                   />
                 ))}
@@ -411,11 +397,15 @@ export function PlacesExperience() {
         <ChapterOverlay
           category={category}
           places={filtered}
-          chapterIndex={chapterIndex}
-          chapterTotal={CATEGORY_KEYS.length}
           locale={locale}
           revealed={chapterRevealed}
+          focusPlaceId={chapterFocusId}
           onReveal={() => setChapterRevealed(true)}
+          onCategoryChange={key => {
+            setCategory(key);
+            setChapterRevealed(false);
+            setChapterFocusId(null);
+          }}
           onClose={closeChapter}
           onOpen={openFromList}
         />
@@ -429,10 +419,12 @@ export function PlacesExperience() {
           locale={locale}
           returnToChapter={chapterOpen}
           onNavigate={(index) => {
+            const next = viewerSequence[index];
+            if (!next) return;
+            mapRef.current?.focusPlace(next.id);
             setViewer((previous) => {
               if (!previous) return previous;
-              const placeId = previous.sequenceIds[index];
-              return placeId ? { ...previous, placeId } : previous;
+              return { ...previous, placeId: next.id };
             });
           }}
           onClose={closeViewer}

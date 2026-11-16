@@ -60,13 +60,17 @@ export function useDialogBehavior(
       const items = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
         (element) =>
           element.getClientRects().length > 0 &&
+          element.tabIndex >= 0 &&
           !element.hasAttribute('disabled') &&
-          element.getAttribute('aria-hidden') !== 'true',
+          !element.closest('[aria-hidden="true"]'),
       );
       if (!items.length) return;
       const first = items[0];
       const last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
+      if (!container.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
       } else if (!event.shiftKey && document.activeElement === last) {

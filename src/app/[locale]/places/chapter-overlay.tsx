@@ -5,6 +5,7 @@ import { ArrowDown, ArrowLeft, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
   CATEGORY_META,
+  CATEGORY_KEYS,
   thumbnailUrl,
   type CategoryKey,
   type Destination,
@@ -16,33 +17,39 @@ import { PlaceTile } from './place-tile';
 interface ChapterOverlayProps {
   category: CategoryKey;
   places: Destination[];
-  chapterIndex: number;
-  chapterTotal: number;
   locale: PlaceLocale;
   revealed: boolean;
+  focusPlaceId: string | null;
   onReveal: () => void;
   onClose: () => void;
   onOpen: (place: Destination) => void;
+  onCategoryChange: (category: CategoryKey) => void;
 }
 
 export function ChapterOverlay({
   category,
   places,
-  chapterIndex,
-  chapterTotal,
   locale,
   revealed,
+  focusPlaceId,
   onReveal,
   onClose,
   onOpen,
+  onCategoryChange,
 }: ChapterOverlayProps) {
   const t = useTranslations('places');
   const shellRef = useRef<HTMLElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
+  const heroRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const closeTimer = useRef<number | null>(null);
   const closingRef = useRef(false);
   const [closing, setClosing] = useState(false);
+
+  useEffect(() => {
+    bodyRef.current?.scrollTo({ top: 0 });
+    heroRef.current?.scrollTo({ top: 0 });
+  }, [category]);
 
   const meta = CATEGORY_META[category];
   const heroImage = places.find((place) => place.images[0])?.images[0] || meta.image;
@@ -51,7 +58,7 @@ export function ChapterOverlay({
     if (closingRef.current) return;
     closingRef.current = true;
     setClosing(true);
-    closeTimer.current = window.setTimeout(onClose, 260);
+    closeTimer.current = window.setTimeout(onClose, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 260);
   }, [onClose]);
 
   useDialogBehavior(true, shellRef, requestClose);
@@ -63,9 +70,22 @@ export function ChapterOverlay({
     [],
   );
 
+  useEffect(() => {
+    if (!focusPlaceId) return;
+    const timer = window.setTimeout(() => {
+      const tile = gridRef.current?.querySelector<HTMLButtonElement>(
+        `[data-place-id="${CSS.escape(focusPlaceId)}"]`,
+      );
+      if (!tile) return;
+      tile.focus({ preventScroll: true });
+      tile.scrollIntoView({ block: 'nearest' });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [focusPlaceId]);
+
   const revealGrid = () => {
     onReveal();
-    bodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    bodyRef.current?.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     window.setTimeout(() => {
       gridRef.current?.querySelector<HTMLButtonElement>('.place-tile')?.focus({
         preventScroll: true,
@@ -91,8 +111,9 @@ export function ChapterOverlay({
           aria-modal="true"
           aria-labelledby="places-chapter-title"
         >
-          <div className="chapter-hero">
+          <div className="chapter-hero" ref={heroRef}>
             <img
+              key={category}
               className="chapter-hero-image"
               src={thumbnailUrl(heroImage, 1920)}
               alt=""
@@ -106,6 +127,14 @@ export function ChapterOverlay({
                 <ArrowLeft size={17} aria-hidden />
                 {t('allPlaces')}
               </button>
+              <select
+                className="chapter-category-select"
+                aria-label={t('categoryFilter')}
+                value={category}
+                onChange={event => onCategoryChange(event.target.value as CategoryKey)}
+              >
+                {CATEGORY_KEYS.map(key => <option key={key} value={key}>{t(key)}</option>)}
+              </select>
               <button
                 type="button"
                 className="chapter-close"
@@ -117,11 +146,11 @@ export function ChapterOverlay({
               </button>
             </div>
 
-            <div className="chapter-hero-copy">
+            <div className="chapter-hero-copy" key={category}>
               <p className="chapter-eyebrow">
                 <span>{t('chapterLabel', { number: meta.number })}</span>
                 <span aria-hidden>·</span>
-                <span>{t('chapterProgress', { current: chapterIndex + 1, total: chapterTotal })}</span>
+                <span>{t('resultsCount', { count: places.length })}</span>
               </p>
               <h2 id="places-chapter-title">{t(category)}</h2>
               <p className="chapter-intro">{t(`chapterIntro.${category}`)}</p>
@@ -130,9 +159,6 @@ export function ChapterOverlay({
                   {t('chapterCta')}
                   <ArrowDown size={16} aria-hidden />
                 </button>
-                <span className="chapter-count">
-                  {t('resultsCount', { count: places.length })}
-                </span>
               </div>
             </div>
           </div>

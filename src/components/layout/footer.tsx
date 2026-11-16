@@ -20,7 +20,7 @@ export function Footer({ content, style, visualId, previewPath }: { content?: Fo
   return (
     <footer style={style} data-visual-block={visualId} className={isHome ? 'home-footer' : 'site-footer mt-20 bg-wine-900 pb-24 md:pb-0'}>
       <div className="mx-auto max-w-[1720px] px-6 py-14 xl:px-8">
-        <div className={isHome ? 'home-footer-grid grid' : 'grid grid-cols-12 gap-10'}>
+        <div className={isHome ? 'home-footer-grid grid' : 'grid grid-cols-12 gap-x-4 gap-y-10 lg:gap-x-10'}>
           {/* Brand */}
           <div className="col-span-12 lg:col-span-4">
             <div className="annabid-footer-brand">

@@ -27,6 +27,7 @@ import {
   getSummary,
   mapsUrl,
   thumbnailUrl,
+  validCoordinates,
   type Destination,
   type PlaceLocale,
 } from '@/lib/places-catalogue';
@@ -73,7 +74,6 @@ export function DestinationViewer({
   const suppressClickRef = useRef(false);
   const gallerySwipe = useRef<SwipeState | null>(null);
   const headSwipe = useRef<SwipeState | null>(null);
-  const headMoved = useRef(false);
   const didSwipeRef = useRef(false);
 
   const [imageIndex, setImageIndex] = useState(0);
@@ -108,7 +108,7 @@ export function DestinationViewer({
     if (closingRef.current) return;
     closingRef.current = true;
     setClosing(true);
-    closeTimer.current = window.setTimeout(onClose, 240);
+    closeTimer.current = window.setTimeout(onClose, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 240);
   }, [onClose]);
 
   useDialogBehavior(true, shellRef, requestClose);
@@ -123,7 +123,7 @@ export function DestinationViewer({
         onNavigate(target);
         setImageIndex(0);
         setTransitioning(false);
-      }, 170);
+      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 170);
     },
     [canNavigate, index, onNavigate, sequence.length, transitioning],
   );
@@ -144,18 +144,24 @@ export function DestinationViewer({
   );
 
   useEffect(() => {
-    if (!canNavigate) return;
     const rtl = isRtl();
     const handleKey = (event: KeyboardEvent) => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       const forward = rtl ? event.key === 'ArrowLeft' : event.key === 'ArrowRight';
+      if (event.target instanceof Element && event.target.closest('.dv-media')) {
+        if (images.length < 2) return;
+        event.preventDefault();
+        setImageIndex(current => (current + (forward ? 1 : -1) + images.length) % images.length);
+        return;
+      }
+      if (!canNavigate) return;
       event.preventDefault();
       goTo(index + (forward ? 1 : -1));
     };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [canNavigate, goTo, index]);
+  }, [canNavigate, goTo, index, images.length]);
 
   useEffect(() => {
     const handleResize = () => setPanelHeight(null);
@@ -207,11 +213,9 @@ export function DestinationViewer({
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
     if (Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-      goPhoto(dx < 0 ? 1 : -1);
+      didSwipeRef.current = true;
+      goPhoto((dx < 0 ? 1 : -1) * (locale === 'ar' ? -1 : 1));
     }
-    window.setTimeout(() => {
-      didSwipeRef.current = false;
-    }, 0);
   };
 
   const galleryPointerCancel = () => {
@@ -230,15 +234,6 @@ export function DestinationViewer({
   const headPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     headSwipe.current = { x: event.clientX, y: event.clientY };
-    headMoved.current = false;
-  };
-
-  const headPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const start = headSwipe.current;
-    if (!start) return;
-    const dx = event.clientX - start.x;
-    const dy = event.clientY - start.y;
-    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) headMoved.current = true;
   };
 
   const headPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -248,10 +243,9 @@ export function DestinationViewer({
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
     if (canNavigate && Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-      goTo(index + (dx < 0 ? 1 : -1));
+      goTo(index + (dx < 0 ? 1 : -1) * (locale === 'ar' ? -1 : 1));
       return;
     }
-    if (!headMoved.current) setSheetExpanded((value) => !value);
   };
 
   const handleDragDown = (event: ReactPointerEvent<HTMLButtonElement>) => {
@@ -270,7 +264,7 @@ export function DestinationViewer({
       suppressClickRef.current = true;
     }
     const min = 168;
-    const max = window.innerHeight - 24;
+    const max = (shellRef.current?.clientHeight || window.innerHeight) - 72;
     setPanelHeight(Math.min(max, Math.max(min, drag.startHeight - delta)));
   };
 
@@ -288,7 +282,7 @@ export function DestinationViewer({
       return;
     }
     const height = panelRef.current?.getBoundingClientRect().height || drag.startHeight;
-    setSheetExpanded(height > window.innerHeight * 0.6);
+    setSheetExpanded(height > (shellRef.current?.clientHeight || window.innerHeight) * 0.6);
     setPanelHeight(null);
   };
 
@@ -324,6 +318,7 @@ export function DestinationViewer({
           <div
             className="dv-media"
             role="group"
+            tabIndex={0}
             aria-label={t('galleryRegion')}
             onPointerDown={galleryPointerDown}
             onPointerMove={galleryPointerMove}
@@ -333,13 +328,13 @@ export function DestinationViewer({
             <div
               key={place.id}
               className="dv-track"
-              dir="ltr"
-              style={{ transform: `translate3d(-${safeImageIndex * 100}%, 0, 0)` }}
+              dir={locale === 'ar' ? 'rtl' : 'ltr'}
+              style={{ direction: locale === 'ar' ? 'rtl' : 'ltr', transform: `translate3d(${locale === 'ar' ? '' : '-'}${safeImageIndex * 100}%, 0, 0)` }}
             >
               {images.map((url, imagePosition) => {
                 const failedImage = failed.has(url);
                 const resolved = failedImage ? fallbackImage : url;
-                const isLoaded = loaded.has(resolved);
+                const isLoaded = loaded.has(resolved) || failed.has(resolved);
                 const isActive = imagePosition === safeImageIndex;
                 return (
                   <figure
@@ -352,14 +347,14 @@ export function DestinationViewer({
                     <img
                       src={thumbnailUrl(resolved, 1920)}
                       alt={isActive ? place.name : ''}
-                      loading={imagePosition === 0 ? 'eager' : 'lazy'}
+                      loading={isActive ? 'eager' : 'lazy'}
                       decoding="async"
                       draggable={false}
                       onLoad={() => markLoaded(resolved)}
                       onError={() => {
-                        if (failedImage && resolved === fallbackImage) return;
                         if (resolved === fallbackImage) {
                           markFailed(fallbackImage);
+                          markLoaded(fallbackImage);
                           return;
                         }
                         markFailed(url);
@@ -382,7 +377,7 @@ export function DestinationViewer({
                 <button
                   type="button"
                   className="dv-photo-arrow dv-photo-prev"
-                  onClick={() => goPhoto(-1)}
+                  onClick={() => handleTap(-1)}
                   aria-label={t('previousPhoto')}
                 >
                   <ChevronLeft size={20} aria-hidden />
@@ -390,7 +385,7 @@ export function DestinationViewer({
                 <button
                   type="button"
                   className="dv-photo-arrow dv-photo-next"
-                  onClick={() => goPhoto(1)}
+                  onClick={() => handleTap(1)}
                   aria-label={t('nextPhoto')}
                 >
                   <ChevronRight size={20} aria-hidden />
@@ -491,11 +486,9 @@ export function DestinationViewer({
               <div
                 className="dv-head-copy"
                 onPointerDown={headPointerDown}
-                onPointerMove={headPointerMove}
                 onPointerUp={headPointerUp}
                 onPointerCancel={() => {
                   headSwipe.current = null;
-                  headMoved.current = false;
                 }}
               >
                 <h2 id="destination-viewer-title">{place.name}</h2>
@@ -517,7 +510,7 @@ export function DestinationViewer({
                   {t('openInMaps')}
                   <ExternalLink size={14} aria-hidden />
                 </a>
-                {!place.lat || !place.lng ? (
+                {!validCoordinates(place.lat, place.lng) ? (
                   <span className="dv-unmapped">{t('unmappedNote')}</span>
                 ) : null}
               </div>

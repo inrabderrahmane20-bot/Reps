@@ -4,6 +4,7 @@ import { memo, type CSSProperties } from 'react';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
+  CATEGORY_META,
   getSummary,
   thumbnailUrl,
   type Destination,
@@ -15,6 +16,7 @@ interface PlaceTileProps {
   locale: PlaceLocale;
   index?: number;
   variant?: 'grid' | 'chapter';
+  selected?: boolean;
   onOpen: (place: Destination) => void;
 }
 
@@ -32,6 +34,7 @@ export const PlaceTile = memo(function PlaceTile({
   locale,
   index = 0,
   variant = 'grid',
+  selected = false,
   onOpen,
 }: PlaceTileProps) {
   const t = useTranslations('places');
@@ -45,6 +48,7 @@ export const PlaceTile = memo(function PlaceTile({
       className={`place-tile place-tile--${variant}`}
       style={{ '--tile-index': Math.min(index, 12) } as CSSProperties}
       data-place-id={place.id}
+      data-selected={selected ? 'true' : undefined}
       onClick={() => onOpen(place)}
       aria-label={t('openPlace', { name: place.name })}
     >
@@ -56,6 +60,12 @@ export const PlaceTile = memo(function PlaceTile({
             loading="lazy"
             decoding="async"
             draggable={false}
+            onError={event => {
+              const image = event.currentTarget;
+              if (image.dataset.fallback) { image.style.visibility = 'hidden'; return; }
+              image.dataset.fallback = 'true';
+              image.src = CATEGORY_META[place.category].image;
+            }}
           />
         ) : (
           <span className="place-tile-media-fallback" aria-hidden />

@@ -138,7 +138,7 @@ function validImage(url: string): boolean {
   return typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/'));
 }
 
-function validCoordinates(lat?: number, lng?: number): boolean {
+export function validCoordinates(lat?: number, lng?: number): boolean {
   return (
     typeof lat === 'number' &&
     Number.isFinite(lat) &&
@@ -173,7 +173,7 @@ export function thumbnailUrl(url: string, width: number): string {
   if (upload) {
     return `https://upload.wikimedia.org/wikipedia/commons/thumb/${upload[1]}/${upload[2]}/${upload[3]}/${target}px-${upload[3]}`;
   }
-  return url.split('?')[0];
+  return url;
 }
 
 function imageKey(url: string): string {
@@ -224,13 +224,21 @@ export function getSourceUrl(destination: Destination, locale: PlaceLocale): str
   );
 }
 
-export function mapsUrl(destination: Destination): string {
+export function mapsQuery(destination: Destination): string {
   if (validCoordinates(destination.lat, destination.lng)) {
-    return `https://www.google.com/maps/search/?api=1&query=${destination.lat},${destination.lng}`;
+    return `${destination.lat},${destination.lng}`;
   }
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${destination.name}, ${destination.city}, Maroc`,
-  )}`;
+  return `${destination.name}, ${destination.city}, Maroc`;
+}
+
+export function mapsUrl(destination: Destination): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery(destination))}`;
+}
+
+/** Public Google Maps embed; no Platform API key or custom marker layer. */
+export function mapsEmbedUrl(destination: Destination, locale: PlaceLocale): string {
+  const params = new URLSearchParams({ q: mapsQuery(destination), output: 'embed', hl: locale, z: '15' });
+  return `https://www.google.com/maps?${params}`;
 }
 
 export function sortDestinations(list: Destination[], locale: PlaceLocale): Destination[] {

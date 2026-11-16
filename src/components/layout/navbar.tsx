@@ -62,15 +62,15 @@ export function Navbar({ content, style, visualId, previewPath }: { content?: Na
       {/* the LEFT in Arabic too, so the bar is never mirrored.           */}
       <div
         dir="ltr"
-        className={`mobile-navbar-bar mx-auto flex h-16 max-w-[1720px] items-center gap-2 px-3 lg:hidden${
+        className={`mobile-navbar-bar mx-auto flex h-16 max-w-[1720px] items-center gap-1.5 px-3 min-[420px]:gap-2 lg:hidden${
           isHome ? ' home-compact-bar' : ''
         }`}
       >
         <MobileNavMenu content={content} />
 
-        <Brand name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} />
+        <Brand name={content?.brandName} arabicName={content?.arabicName} image={content?.brandImage} className="[&_.annabid-wordmark]:hidden min-[420px]:[&_.annabid-wordmark]:flex" />
 
-        <div className="ms-auto flex items-center gap-1.5">
+        <div className="ms-auto flex shrink-0 items-center gap-1.5">
           <Link
             href="/favorites"
             aria-label={t('favorites')}
