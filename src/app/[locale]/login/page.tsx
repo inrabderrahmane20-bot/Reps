@@ -22,7 +22,8 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const u = await login(email, password);
-      router.push(u.role === 'admin' ? '/admin' : '/profile');
+      if (u.role === 'admin') window.location.assign('/admin/');
+      else router.push('/profile');
     } catch (err) {
       if(err instanceof ApiError && err.status===202)return;
       setError(t(err instanceof ApiError && err.status === 401 ? 'invalidCredentials' : err instanceof ApiError && err.status === 403 ? 'suspended' : 'unavailable'));

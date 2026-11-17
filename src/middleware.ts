@@ -4,13 +4,22 @@ import {locales,defaultLocale} from './i18n/config';
 
 const internationalize=createMiddleware({locales,defaultLocale,localePrefix:'always',localeDetection:true});
 export default function middleware(request:NextRequest){
+ // Administration has one canonical, non-localized URL namespace.
+ const localizedAdmin = request.nextUrl.pathname.match(/^\/(en|fr|ar)(\/admin(?:\/.*)?$)/);
+ const adminPath = localizedAdmin?.[2] ?? request.nextUrl.pathname;
+ const legacyLogin = /^\/admin\/login\/?$/.test(adminPath);
+ if (localizedAdmin || legacyLogin) {
+  const destination = new URL(request.url);
+  destination.pathname = legacyLogin ? '/admin/' : `${adminPath.replace(/\/$/, '')}/`;
+  return NextResponse.redirect(destination, 308);
+ }
  const nonce=btoa(crypto.randomUUID());
  const dev=process.env.NODE_ENV==='development';
  const policy=["default-src 'self'",`script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev?" 'unsafe-eval'":''}`,"style-src 'self' 'unsafe-inline'","img-src 'self' https: data: blob:","font-src 'self' data:",`connect-src 'self'${dev?' ws: http:':''}`,"frame-src 'self' https://www.google.com https://maps.google.com","object-src 'none'","base-uri 'self'","form-action 'self'","frame-ancestors 'self'",...(dev?[]:['upgrade-insecure-requests'])].join('; ');
  const requestHeaders=new Headers(request.headers);
  requestHeaders.set('x-nonce',nonce);requestHeaders.set('Content-Security-Policy',policy);
  const secured=new NextRequest(request,{headers:requestHeaders});
- const response=request.nextUrl.pathname.startsWith('/admin')?NextResponse.next({request:{headers:requestHeaders}}):internationalize(secured);
+ const response=/^\/admin(?:\/|$)/.test(request.nextUrl.pathname)?NextResponse.next({request:{headers:requestHeaders}}):internationalize(secured);
  const overrides=new Set((response.headers.get('x-middleware-override-headers')||'').split(',').filter(Boolean));
  for(const key of ['x-nonce','content-security-policy']){overrides.add(key);response.headers.set(`x-middleware-request-${key}`,requestHeaders.get(key)!);}
  response.headers.set('x-middleware-override-headers',[...overrides].join(','));

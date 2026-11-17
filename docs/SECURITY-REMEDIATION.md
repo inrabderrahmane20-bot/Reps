@@ -1,6 +1,6 @@
 # Security remediation — 17 November 2026
 
-Scope: the security findings in `reports/investor-2026-11-16/ANNABID_PLATFORM_ANALYSIS.pdf`. The French PDF is preserved. This is a source-code remediation, not evidence that the deployed site has already been upgraded.
+Scope: the security findings in `reports/investor-2026-11-16/ANNABID_PLATFORM_ANALYSIS.pdf`. The French PDF was subsequently updated on 17 November to distinguish current source controls, public observations and deployment prerequisites. Source remediation alone does not prove the deployed version or its hosting configuration.
 
 ## Implemented controls
 

@@ -1,7 +1,7 @@
 import {loadEnvConfig} from '@next/env';
 loadEnvConfig(process.cwd());
 async function main(){
- const email=process.env.ADMIN_EMAIL?.trim().toLowerCase(),password=process.env.ADMIN_PASSWORD;
+ const email=(process.env.ADMIN_EMAIL||'admin@annabid.com').trim().toLowerCase(),password=process.env.ADMIN_PASSWORD;
  if(!email||!password||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw new Error('Set ADMIN_EMAIL and ADMIN_PASSWORD using your secret manager.');
  const {assertStrongPassword}=await import('../src/lib/security/password');await assertStrongPassword(password);
  const {hashPassword}=await import('../src/lib/security/crypto');const next=await hashPassword(password);

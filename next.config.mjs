@@ -1,10 +1,19 @@
 import createNextIntlPlugin from 'next-intl/plugin';
+import { fileURLToPath } from 'node:url';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const isGithubPages = process.env.GITHUB_PAGES === 'true';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /node_modules[\\/]@measured[\\/]puck[\\/]dist[\\/]index\.css$/,
+      enforce: 'pre',
+      use: [{ loader: fileURLToPath(new URL('./scripts/puck-css-loader.cjs', import.meta.url)) }],
+    });
+    return config;
+  },
   // NOTE: `output: 'export'` must stay off. This app relies on middleware
   // (locale routing, auth) and on API routes (/api/search, /api/promotions,
   // /api/providers, ...), and `src/i18n/request.ts` reads `headers()`. Static

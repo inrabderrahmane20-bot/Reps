@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BadgeCheck, Users, Flag, Newspaper, ExternalLink, CalendarDays, MapPin, Megaphone, FolderTree, LogIn } from 'lucide-react';
+import { LayoutDashboard, BadgeCheck, Users, Flag, Newspaper, ExternalLink, CalendarDays, MapPin, Megaphone, FolderTree } from 'lucide-react';
 
 const links = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
@@ -44,9 +44,6 @@ export function AdminNav() {
           );
         })}
       </ul>
-      <Link href="/admin/login" className="mb-2 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-700 hover:bg-sand-100">
-        <LogIn size={16} /> Admin sign in
-      </Link>
       <Link href="/en" className="mb-2 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-700 hover:bg-sand-100">
         <ExternalLink size={16} /> View public site
       </Link>
