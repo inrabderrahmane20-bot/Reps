@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import {
   CalendarDays,
   Compass,
@@ -333,9 +334,9 @@ export function MobileNavMenu({ content }: { content?: NavbarContent } = {}) {
                       </Link>
                     ) : null}
                     {user.role === 'admin' ? (
-                      <a href="/admin" onClick={() => closeDrawer(false)}>
+                      <NextLink href="/admin" onClick={() => closeDrawer(false)}>
                         {common('adminPanel')}
-                      </a>
+                      </NextLink>
                     ) : null}
                   </div>
 

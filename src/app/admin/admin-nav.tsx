@@ -47,9 +47,9 @@ export function AdminNav() {
       <Link href="/admin/login" className="mb-2 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-700 hover:bg-sand-100">
         <LogIn size={16} /> Admin sign in
       </Link>
-      <a href="/en" className="mb-2 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-700 hover:bg-sand-100">
+      <Link href="/en" className="mb-2 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-700 hover:bg-sand-100">
         <ExternalLink size={16} /> View public site
-      </a>
+      </Link>
     </nav>
   );
 }

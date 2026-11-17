@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { ChevronDown, LogOut, ShieldCheck, User as UserIcon, Wrench } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useAuth } from '@/context/auth-context';
@@ -114,9 +115,9 @@ export function AccountMenu({ compact = false }: { compact?: boolean }) {
             </Link>
           )}
           {user.role === 'admin' && (
-            <a href="/admin" role="menuitem" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-wine-50">
+            <NextLink href="/admin" role="menuitem" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-700 transition-colors hover:bg-wine-50">
               <ShieldCheck size={15} aria-hidden /> {common('adminPanel')}
-            </a>
+            </NextLink>
           )}
           <button
             type="button"
