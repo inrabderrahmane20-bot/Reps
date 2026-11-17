@@ -8,18 +8,30 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "db:migrate": "node scripts/migrate-supabase.mjs"
+    "db:migrate": "node scripts/migrate-supabase.mjs",
+    "security:migrate": "tsx scripts/migrate-security.ts",
+    "security:admin": "tsx scripts/provision-admin.ts",
+    "security:maintenance": "tsx scripts/security-maintenance.ts",
+    "test:security": "tsx --test tests/security.test.ts tests/security-routes.test.cjs",
+    "test:security:browser": "node scripts/test-security-browser.cjs"
   },
   "dependencies": {
     "@measured/puck": "^0.20.2",
-    "@next/env": "^14.2.35",
+    "@next/env": "^15.5.29",
     "lucide-react": "0.462.0",
-    "next": "14.2.35",
-    "next-intl": "3.26.5",
+    "next": "^15.5.29",
+    "next-intl": "^4.15.1",
     "pg": "^8.13.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "sanitize-html": "^2.18.2"
+    "sanitize-html": "^2.18.2",
+    "sharp": "^0.35.5"
+  },
+  "overrides": {
+    "postcss": "$postcss",
+    "uuid": "^11.1.1",
+    "minimatch": "^11.0.1",
+    "postcss-selector-parser": "^7.1.0"
   },
   "devDependencies": {
     "@types/node": "20.17.9",
@@ -29,9 +41,11 @@
     "@types/sanitize-html": "^2.16.2",
     "autoprefixer": "10.4.20",
     "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.35",
-    "postcss": "8.4.49",
+    "eslint-config-next": "^15.5.29",
+    "playwright": "^1.65.1",
+    "postcss": "^8.5.33",
     "tailwindcss": "3.4.15",
+    "tsx": "^4.23.15",
     "typescript": "5.6.3"
   }
 }

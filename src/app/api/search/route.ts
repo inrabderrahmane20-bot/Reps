@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { getTranslations } from 'next-intl/server';
 import { readDb } from '@/lib/db';
@@ -131,7 +132,7 @@ async function buildSuggestions(
   ];
 }
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const raw = (searchParams.get('q') ?? '').trim();
 
@@ -265,3 +266,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ query: raw, groups, total });
 }
+
+export const GET = secureRoute(handleGET);

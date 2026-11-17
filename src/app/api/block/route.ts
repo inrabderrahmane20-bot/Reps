@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { updateDb } from '@/lib/db';
@@ -6,7 +7,7 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 // Toggle blocking another user (SRS §53).
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
   return withErrors(async () => {
     const me = await requireUser();
     const { userId } = await req.json();
@@ -20,3 +21,5 @@ export async function POST(req: Request) {
     return NextResponse.json(result);
   });
 }
+
+export const POST = secureRoute(handlePOST);

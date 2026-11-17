@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
@@ -26,7 +27,8 @@ async function findCampaign(id: string) {
 }
 
 /** GET /api/admin/campaigns/:id — a single campaign. */
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+async function handleGET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     await requireAdmin();
     const denied = await requireAdminSession();
@@ -47,7 +49,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
  *
  * `{"action": "enable" | "disable"}` is a shortcut for the switch.
  */
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+async function handlePATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     await requireAdmin();
     const denied = await requireAdminSession();
@@ -92,7 +95,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 /** DELETE /api/admin/campaigns/:id — removes the campaign object entirely. */
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+async function handleDELETE(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     await requireAdmin();
     const denied = await requireAdminSession();
@@ -109,3 +113,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
     return NextResponse.json(removed);
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const PATCH = secureRoute(handlePATCH);
+export const DELETE = secureRoute(handleDELETE);

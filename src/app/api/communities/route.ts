@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -9,7 +10,7 @@ function enrich(c: any) {
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   const category = new URL(req.url).searchParams.get('category');
   const db = await readDb();
   let list = db.communities;
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ communities: list.map(enrich) });
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { name, description, city, category, cover, rules } = await req.json();
@@ -43,3 +44,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

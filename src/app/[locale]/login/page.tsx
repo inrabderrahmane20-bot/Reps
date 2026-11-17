@@ -24,6 +24,7 @@ export default function LoginPage() {
       const u = await login(email, password);
       router.push(u.role === 'admin' ? '/admin' : '/profile');
     } catch (err) {
+      if(err instanceof ApiError && err.status===202)return;
       setError(t(err instanceof ApiError && err.status === 401 ? 'invalidCredentials' : err instanceof ApiError && err.status === 403 ? 'suspended' : 'unavailable'));
     } finally {
       setLoading(false);
@@ -70,7 +71,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <details className="mt-4 text-sm text-ink-700"><summary className="cursor-pointer">{t('recovery')}</summary><p className="mt-2">{t('recoveryPending')}</p></details>
+      <Link href="/account-security" className="mt-4 text-sm underline">{t('recovery')}</Link>
 
       <p className="mt-6 text-center text-sm text-ink-500">
         {t('noAccount')}{' '}

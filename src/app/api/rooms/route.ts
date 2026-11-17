@@ -1,10 +1,13 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   const db = await readDb();
   const rooms = db.rooms.map((r) => ({ ...r, online: r.memberIds.length }));
   return NextResponse.json({ rooms });
 }
+
+export const GET = secureRoute(handleGET);

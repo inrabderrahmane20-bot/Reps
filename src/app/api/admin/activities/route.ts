@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -10,7 +11,7 @@ function enrich(a: any) {
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const { searchParams } = new URL(req.url);
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
   });
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const admin = await requireAdmin();
     const body = await req.json();
@@ -56,3 +57,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

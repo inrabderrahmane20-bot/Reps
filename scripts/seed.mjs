@@ -1,15 +1,9 @@
 // Generates src/data/db.seed.json — plain Node script, no deps beyond built-ins,
 // so it can run without `npm install`. Passwords are hashed with the same
 // scrypt scheme as src/lib/auth.ts (kept duplicated here to stay dependency-free).
-import { randomBytes, scryptSync } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
-function hash(password) {
-  const salt = randomBytes(16).toString('hex');
-  const h = scryptSync(password, salt, 64).toString('hex');
-  return { salt, hash: h };
-}
 
 const now = new Date();
 const iso = (daysAgo = 0, hoursAgo = 0) =>
@@ -54,11 +48,13 @@ const users = [];
 const notifications = [];
 
 function addUser(u) {
-  const { salt, hash: h } = hash(u.password);
+  // Seed data is non-authenticating. Provision real accounts separately.
+  const salt = '', h = '';
   const user = {
     id: u.id,
     email: u.email,
     passwordHash: h,
+    passwordResetRequired: true,
     salt,
     firstName: u.firstName,
     lastName: u.lastName,
@@ -83,7 +79,7 @@ function addUser(u) {
 addUser({
   id: 'u_admin',
   email: 'admin@medina.ma',
-  password: 'admin123',
+
   firstName: 'Yasmine',
   lastName: 'Admin',
   role: 'admin',
@@ -96,7 +92,7 @@ addUser({
 addUser({
   id: 'u_demo',
   email: 'demo@medina.ma',
-  password: 'demo1234',
+
   firstName: 'Abdou',
   lastName: 'Demo',
   neighborhood: 'Guéliz',
@@ -109,7 +105,7 @@ addUser({
 addUser({
   id: 'u_p1',
   email: 'rachid.plumber@medina.ma',
-  password: 'demo1234',
+
   firstName: 'Rachid',
   lastName: 'B.',
   neighborhood: 'Sidi Youssef Ben Ali',
@@ -139,7 +135,7 @@ addUser({
 addUser({
   id: 'u_p2',
   email: 'amal.electric@medina.ma',
-  password: 'demo1234',
+
   firstName: 'Amal',
   lastName: 'E.',
   neighborhood: 'Semlalia',
@@ -165,7 +161,7 @@ addUser({
 addUser({
   id: 'u_p3',
   email: 'karim.cleaning@medina.ma',
-  password: 'demo1234',
+
   firstName: 'Karim',
   lastName: 'T.',
   neighborhood: 'Medina',
@@ -192,7 +188,7 @@ addUser({
 addUser({
   id: 'u_p4',
   email: 'nadia.photo@medina.ma',
-  password: 'demo1234',
+
   firstName: 'Nadia',
   lastName: 'K.',
   neighborhood: 'Guéliz',
@@ -218,7 +214,7 @@ addUser({
 addUser({
   id: 'u_p5',
   email: 'hicham.moving@medina.ma',
-  password: 'demo1234',
+
   firstName: 'Hicham',
   lastName: 'L.',
   neighborhood: 'Sidi Ghanem',
@@ -264,7 +260,7 @@ catalogServices.forEach((service, serviceIndex) => {
     addUser({
       id,
       email: `${id}@medina.ma`,
-      password: 'demo1234',
+
       firstName,
       lastName,
       neighborhood: zone.name,
@@ -299,7 +295,7 @@ catalogServices.forEach((service, serviceIndex) => {
     addUser({
       id,
       email: `${id}@medina.ma`,
-      password: 'demo1234',
+
       firstName,
       lastName,
       neighborhood: zone.name,
@@ -338,7 +334,7 @@ catalogServices.forEach((service, serviceIndex) => {
   addUser({
     id,
     email: `${id.slice(2)}@medina.ma`,
-    password: 'demo1234',
+
     firstName: first,
     lastName: last,
     neighborhood: hood,

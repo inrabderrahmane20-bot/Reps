@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { updateDb } from '@/lib/db';
 
@@ -17,7 +18,7 @@ function sanitize(event: string | undefined): EventName | null {
  *
  * POST { providerId, event[] } — event[] is a list of event names to apply.
  */
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   let body: { providerId?: string; event?: string; events?: string[] };
   try {
     body = await req.json();
@@ -44,3 +45,4 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(result ?? { ok: false }, { status: result ? 200 : 404 });
 }
+export const POST = secureRoute(handlePOST);

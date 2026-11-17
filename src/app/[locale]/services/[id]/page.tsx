@@ -56,6 +56,8 @@ export async function generateMetadata({
   return { ...metadata, other: { 'script:ld+json': JSON.stringify(jsonLd) } };
 }
 
-export default function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params: pendingparams }: { params: Promise<{ id: string }> }) {
+  const params = await pendingparams;
+
   return <ServiceDetailClient params={params} />;
 }

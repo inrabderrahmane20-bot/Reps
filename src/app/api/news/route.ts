@@ -1,9 +1,10 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   const category = new URL(req.url).searchParams.get('category');
   const db = await readDb();
   let list = db.news.filter((n) => n.status === 'published');
@@ -11,3 +12,5 @@ export async function GET(req: NextRequest) {
   list = list.sort((a, b) => (a.date < b.date ? 1 : -1));
   return NextResponse.json({ news: list });
 }
+
+export const GET = secureRoute(handleGET);

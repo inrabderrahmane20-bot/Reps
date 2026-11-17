@@ -4,7 +4,10 @@ import { readDb } from '@/lib/db';
 import { Link } from '@/i18n/navigation';
 
 export const dynamic = 'force-dynamic';
-export default async function NewsPage({ params, searchParams }: { params: { locale: string }; searchParams: { category?: string } }) {
+export default async function NewsPage({ params: pendingparams, searchParams: pendingsearchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ category?: string }> }) {
+  const params = await pendingparams;
+  const searchParams = await pendingsearchParams;
+
   const t = await getTranslations({ locale: params.locale, namespace: 'news' });
   const common = await getTranslations({ locale: params.locale, namespace: 'common' });
   const search = await getTranslations({ locale: params.locale, namespace: 'search' });

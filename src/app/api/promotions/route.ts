@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
@@ -57,7 +58,7 @@ type Scored = {
   };
 };
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q')?.trim() ?? '';
   const cat = searchParams.get('cat');
@@ -211,3 +212,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ providers: page, total, categories, priceRange });
 }
+
+export const GET = secureRoute(handleGET);

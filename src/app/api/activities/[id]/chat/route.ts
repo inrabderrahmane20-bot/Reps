@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -16,7 +17,8 @@ function ensureConversation(db: any, activityId: string, activity: any) {
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+async function handleGET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     const me = await requireUser();
     const db = await readDb();
@@ -41,7 +43,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   });
 }
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+async function handlePOST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     const me = await requireUser();
     const { content } = await req.json();
@@ -59,3 +62,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ ok: true }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

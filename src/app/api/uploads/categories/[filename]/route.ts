@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -20,10 +21,11 @@ const MIME_BY_EXTENSION: Record<string, string> = {
  * uploads are written to `public/uploads/categories`, which Next.js serves
  * directly, but we also fall back to disk here so both paths keep working.
  */
-export async function GET(
+async function handleGET(
   _req: Request,
-  { params }: { params: { filename: string } }
+  context: { params: Promise<{ filename: string }> }
 ) {
+  const params=await context.params;
   const filename = params.filename;
   if (!filename || !SAFE_FILENAME.test(filename)) {
     return NextResponse.json({ error: 'Invalid filename.' }, { status: 400 });
@@ -76,3 +78,5 @@ export async function GET(
     return NextResponse.json({ error: 'Unable to load image.' }, { status: 500 });
   }
 }
+
+export const GET = secureRoute(handleGET);

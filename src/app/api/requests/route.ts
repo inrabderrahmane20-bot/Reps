@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -7,7 +8,7 @@ import { pushNotification } from '@/lib/notify';
 // GET ?role=client|provider — list my requests either as the person asking, or the provider receiving them.
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const role = new URL(req.url).searchParams.get('role') || 'client';
@@ -28,7 +29,7 @@ export async function GET(req: NextRequest) {
 }
 
 // Step 1-6 of the service request workflow: client describes need, picks provider, sends request.
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { providerId, category, description, location, date } = await req.json();
@@ -58,3 +59,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

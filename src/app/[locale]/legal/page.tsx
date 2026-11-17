@@ -1,9 +1,13 @@
 import { TrustPage, trustMetadata } from '@/components/trust-page';
 
-export function generateMetadata({ params }: { params: { locale: string } }) {
+export async function generateMetadata({ params: pendingparams }: { params: Promise<{ locale: string }> }) {
+  const params = await pendingparams;
+
   return trustMetadata(params.locale, 'legal');
 }
 
-export default function Page({ params }: { params: { locale: string } }) {
+export default async function Page({ params: pendingparams }: { params: Promise<{ locale: string }> }) {
+  const params = await pendingparams;
+
   return <TrustPage locale={params.locale} kind="legal" />;
 }

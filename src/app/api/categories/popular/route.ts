@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 ﻿import { NextRequest,NextResponse } from 'next/server';
 import { getCategoryTree } from '@/lib/category-store';
 import { readCategorySearchCounts,incrementCategorySearchCount } from '@/lib/db';
@@ -8,11 +9,11 @@ async function counts() {
   const allowed=new Set(flattenServiceCategories(serviceRoots(await getCategoryTree())).map(node=>node.id));
   return Object.fromEntries(Object.entries(await readCategorySearchCounts()).filter(([id])=>allowed.has(id)));
 }
-export async function GET() {
+async function handleGET() {
   try {return NextResponse.json({counts:await counts()},{headers:{'Cache-Control':'no-store'}});}
   catch {return NextResponse.json({counts:{}},{status:503});}
 }
-export async function POST(request:NextRequest) {
+async function handlePOST(request:NextRequest) {
   if(request.headers.get('origin') && request.headers.get('origin')!==request.nextUrl.origin) return NextResponse.json({error:'Invalid origin'},{status:403});
   const now=Date.now();
   for(const [key,bucket] of buckets) if(bucket.expires<now) buckets.delete(key);
@@ -28,3 +29,6 @@ export async function POST(request:NextRequest) {
     return NextResponse.json({counts:await counts()});
   } catch {return NextResponse.json({error:'Search statistics unavailable'},{status:400});}
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

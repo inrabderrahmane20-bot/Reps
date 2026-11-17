@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { classifyZone } from '@/lib/zones';
@@ -9,7 +10,7 @@ import { classifyZone } from '@/lib/zones';
 // `zone` query param to narrow points to one neighborhood zone.
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   const zone = new URL(req.url).searchParams.get('zone');
   const forZone = (lat: number, lng: number, label?: string) =>
     !zone || zone === 'all' || classifyZone(lat, lng, label) === zone;
@@ -56,3 +57,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ providers, activities, communities });
 }
+
+export const GET = secureRoute(handleGET);

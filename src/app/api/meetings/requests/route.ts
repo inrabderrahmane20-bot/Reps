@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -6,7 +7,7 @@ import { pushNotification } from '@/lib/notify';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     const me = await requireUser();
     const db = await readDb();
@@ -25,7 +26,7 @@ function publicName(db: any, id: string) {
   return u ? { id: u.id, name: `${u.firstName} ${u.lastName}`, avatar: u.avatar } : null;
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { receiverId } = await req.json();
@@ -45,3 +46,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

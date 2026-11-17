@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
@@ -7,7 +8,8 @@ import { pushNotification } from '@/lib/notify';
 // Steps 8-11: provider accepts/refuses, mission runs, client confirms completion.
 export const dynamic = 'force-dynamic';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+async function handlePATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     const me = await requireUser();
     const { status } = await req.json();
@@ -41,3 +43,5 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ ok: true });
   });
 }
+
+export const PATCH = secureRoute(handlePATCH);

@@ -26,6 +26,7 @@ export function AdminLogin({ signedInNonAdmin }: { signedInNonAdmin?: boolean })
         setError(data.error ?? 'Login failed. Check your credentials.');
         return;
       }
+      if(data.nextStep){window.location.assign(`/en/account-security/#step=${data.nextStep}`);return;}
       if (data.user?.role !== 'admin') {
         setError('This account does not have administrator access.');
         return;

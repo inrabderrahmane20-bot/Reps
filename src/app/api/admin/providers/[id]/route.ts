@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { updateDb } from '@/lib/db';
@@ -21,7 +22,8 @@ const AVAILABILITY = ['available', 'later', 'offline'];
  */
 export const dynamic = 'force-dynamic';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+async function handlePATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     await requireAdmin();
     const denied = await requireAdminSession();
@@ -114,3 +116,5 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json(result);
   });
 }
+
+export const PATCH = secureRoute(handlePATCH);

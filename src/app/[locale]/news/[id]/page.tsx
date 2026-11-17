@@ -10,10 +10,12 @@ import { FavoriteButton } from '@/components/ui/favorite-button';
 export const dynamic = 'force-dynamic';
 
 export default async function NewsArticlePage({
-  params,
+  params: pendingparams,
 }: {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }) {
+  const params = await pendingparams;
+
   setRequestLocale(params.locale);
   const newsItems = (await readDb()).news.filter(item => item.status === 'published');
   const article = newsItems.find((item) => item.id === params.id);

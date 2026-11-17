@@ -19,6 +19,8 @@ export async function generateMetadata({
   });
 }
 
-export default function Page({ params }: { params: { locale: Locale } }) {
+export default async function Page({ params: pendingparams }: { params: Promise<{ locale: Locale }> }) {
+  const params = await pendingparams;
+
   return <GlobalDocument id="home" locale={params.locale}><HomeClient /></GlobalDocument>;
 }

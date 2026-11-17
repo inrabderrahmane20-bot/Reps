@@ -91,6 +91,15 @@ export interface ProviderProfile {
 }
 
 export interface User {
+  emailVerifiedAt?: string;
+  credentialsRotatedAt?: string;
+  passwordResetRequired?: boolean;
+  verifyTokenHash?: string;
+  verifyTokenExpiresAt?: string;
+  resetTokenHash?: string;
+  resetTokenExpiresAt?: string;
+  mfaSecret?: string;
+  mfaLastCounter?: number;
   id: string;
   email: string;
   passwordHash: string;
@@ -115,6 +124,12 @@ export interface User {
 }
 
 export interface Session {
+  securityVersion?: number;
+  lastSeenAt?: string;
+  absoluteExpiresAt?: string;
+  pending?: 'verify-email' | 'mfa' | 'mfa-setup';
+  mfaVerifiedAt?: string;
+  mfaSetupSecret?: string;
   token: string;
   userId: string;
   createdAt: string;

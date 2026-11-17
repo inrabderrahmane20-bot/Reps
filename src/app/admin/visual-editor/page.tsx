@@ -7,7 +7,9 @@ import { locales, type Locale } from '@/i18n/config';
 
 export const dynamic = 'force-dynamic';
 const pages = ['Home','Discover','Search','Map','Services','Provider detail','Promotions','Communities','Community detail','Activities','Activity detail','Meetings','News','News detail','Places','Sell','Login','Register','Profile','Favorites','Messages','Provider dashboard','Privacy','Terms','Rules'];
-export default async function VisualEditorIndex({ searchParams }: { searchParams: { locale?: string } }) {
+export default async function VisualEditorIndex({ searchParams: pendingsearchParams }: { searchParams: Promise<{ locale?: string }> }) {
+  const searchParams = await pendingsearchParams;
+
   if (await requireAdminSession()) redirect('/admin');
   const locale = locales.includes(searchParams.locale as Locale) ? searchParams.locale as Locale : 'en';
   const documents = await Promise.all(DOCUMENTS.map(async entry => ({ ...entry, state: await readDocument(entry.id, locale) })));

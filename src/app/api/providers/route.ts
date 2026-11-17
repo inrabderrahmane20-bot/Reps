@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
@@ -32,7 +33,7 @@ export const dynamic = 'force-dynamic';
 //   (the public metadata of the running campaign — title, image, priority,
 //   placement, href) and `promotion` (PromotionInfo, only while active) so
 //   clients can render badges without re-deriving date logic.
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = normalizeCategory(searchParams.get('q') ?? '').trim();
   const cat = searchParams.get('cat');
@@ -167,3 +168,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ providers: page, total });
 }
+
+export const GET = secureRoute(handleGET);

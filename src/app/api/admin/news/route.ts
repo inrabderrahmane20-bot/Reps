@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -5,14 +6,14 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     await requireAdmin();
     return NextResponse.json({ news: (await readDb()).news });
   });
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const body = await req.json();
@@ -38,3 +39,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

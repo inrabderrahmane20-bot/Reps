@@ -1,0 +1,20 @@
+import {NextRequest,NextResponse} from 'next/server';
+import {secureRoute} from '@/lib/security/route';
+import {requireUser,verifyPassword,clearSessionCookie} from '@/lib/auth';
+import {readDb,updateDb,getDatabasePool} from '@/lib/db';
+import {limit} from '@/lib/security/rate-limit';
+import {exportAccount,eraseAccount} from '@/lib/security/privacy';
+import {appendAudit} from '@/lib/security/audit';
+import {jsonError} from '@/lib/api-helpers';
+export const POST=secureRoute(async(req:NextRequest)=>{
+ const me=await requireUser();await limit(`account:${me.id}`,5,900);
+ const body=await req.json();
+ if(typeof body.password!=='string'||!await verifyPassword(body.password,me.salt,me.passwordHash))return jsonError('Current password is incorrect.',401);
+ if(body.action==='export')return NextResponse.json(exportAccount(await readDb(),me),{headers:{'Content-Disposition':'attachment; filename="annabid-account.json"'}});
+ if(body.action!=='delete'||body.confirmation!=='DELETE')return jsonError('Confirm account deletion.');
+ if(me.role==='admin')return jsonError('Transfer administrator access before deleting this account.',403);
+ const removed=await updateDb(db=>{if(!db.users.some(u=>u.id===me.id&&u.passwordHash===me.passwordHash))return false;eraseAccount(db,me.id);return true;});
+ if(!removed)return jsonError('Sign in again.',401);
+ await clearSessionCookie();await appendAudit(getDatabasePool(),'account.deleted',{userId:me.id});
+ return NextResponse.json({ok:true});
+});

@@ -1,10 +1,11 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   try {
     const user = await requireUser();
     const { searchParams } = new URL(req.url);
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   try {
     const user = await requireUser();
     const body = await req.json();
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
+async function handlePATCH(req: NextRequest) {
   try {
     const user = await requireUser();
     const body = await req.json();
@@ -73,3 +74,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'error' }, { status: 500 });
   }
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);
+export const PATCH = secureRoute(handlePATCH);

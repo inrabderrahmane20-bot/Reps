@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { withErrors, jsonError } from '@/lib/api-helpers';
@@ -6,14 +7,14 @@ import type { SearchCategoryNode } from '@/lib/category-tree';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     await requireAdmin();
     return NextResponse.json({ categories: await getCategoryTree() });
   });
 }
 
-export async function PUT(req: NextRequest) {
+async function handlePUT(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const body: unknown = await req.json();
@@ -106,3 +107,6 @@ function normalizeCategoryTree(nodes: SearchCategoryNode[]): SearchCategoryNode[
     };
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const PUT = secureRoute(handlePUT);

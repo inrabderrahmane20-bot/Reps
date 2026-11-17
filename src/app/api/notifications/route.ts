@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
@@ -5,7 +6,7 @@ import { withErrors } from '@/lib/api-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     const me = await requireUser();
     const list = (await readDb()).notifications.filter((n) => n.userId === me.id).sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
@@ -14,7 +15,7 @@ export async function GET() {
 }
 
 // Mark all as read.
-export async function PATCH() {
+async function handlePATCH() {
   return withErrors(async () => {
     const me = await requireUser();
     await updateDb((db) => {
@@ -23,3 +24,6 @@ export async function PATCH() {
     return NextResponse.json({ ok: true });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const PATCH = secureRoute(handlePATCH);

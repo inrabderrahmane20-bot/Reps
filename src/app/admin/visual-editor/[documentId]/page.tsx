@@ -8,7 +8,10 @@ import { locales, type Locale } from '@/i18n/config';
 import VisualEditorClient from '../visual-editor-client';
 
 export const dynamic = 'force-dynamic';
-export default async function VisualDocumentPage({ params, searchParams }: { params: { documentId: string }; searchParams: { locale?: string } }) {
+export default async function VisualDocumentPage({ params: pendingparams, searchParams: pendingsearchParams }: { params: Promise<{ documentId: string }>; searchParams: Promise<{ locale?: string }> }) {
+  const params = await pendingparams;
+  const searchParams = await pendingsearchParams;
+
   if (await requireAdminSession()) redirect('/admin');
   if (!isDocumentId(params.documentId)) notFound();
   const locale = (searchParams.locale ?? 'en') as Locale;

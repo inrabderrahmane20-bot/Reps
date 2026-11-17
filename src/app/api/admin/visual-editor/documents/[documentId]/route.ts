@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { requireAdminSession } from '@/lib/admin-api';
@@ -12,16 +13,17 @@ function localeFrom(req: NextRequest): Locale | null {
   const locale = req.nextUrl.searchParams.get('locale') ?? 'en';
   return locales.includes(locale as Locale) ? locale as Locale : null;
 }
-export async function GET(req: NextRequest, { params }: { params: { documentId: string } }) {
+async function handleGET(req: NextRequest, context: { params: Promise<{ documentId: string }> }) {
+  const params = await context.params;
   const denied = await requireAdminSession(); if (denied) return denied;
   const locale = localeFrom(req);
   if (!locale || !isDocumentId(params.documentId)) return NextResponse.json({ error: 'Unknown document or locale.' }, { status: 404 });
   try { return NextResponse.json({ document: await readDocument(params.documentId, locale), defaults: defaultDocument(params.documentId, locale) }); }
-  catch (error) { console.error('Visual editor read failed', error); return NextResponse.json({ error: 'The document could not be loaded.' }, { status: 500 }); }
+  catch (error) { throw error; }
 }
-export async function PUT(req: NextRequest, { params }: { params: { documentId: string } }) {
+async function handlePUT(req: NextRequest, context: { params: Promise<{ documentId: string }> }) {
+  const params = await context.params;
   const denied = await requireAdminSession(); if (denied) return denied;
-  if (req.headers.get('origin') && req.headers.get('origin') !== req.nextUrl.origin) return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 });
   const locale = localeFrom(req);
   if (!locale || !isDocumentId(params.documentId)) return NextResponse.json({ error: 'Unknown document or locale.' }, { status: 404 });
   try {
@@ -40,8 +42,11 @@ export async function PUT(req: NextRequest, { params }: { params: { documentId: 
     return NextResponse.json({ document, defaults: defaultDocument(params.documentId, locale) });
   } catch (error) {
     if (error instanceof RevisionConflict) return NextResponse.json({ error: error.message }, { status: 409 });
-    if (error instanceof SyntaxError || error instanceof EditorValidationError) return NextResponse.json({ error: error.message }, { status: 400 });
-    console.error('Visual editor save failed', error);
-    return NextResponse.json({ error: 'The document could not be saved.' }, { status: 500 });
+    if (error instanceof SyntaxError) return NextResponse.json({error:'Invalid JSON.'},{status:400});
+    if (error instanceof EditorValidationError) return NextResponse.json({ error: error.message }, { status: 400 });
+    throw error;
   }
 }
+
+export const GET = secureRoute(handleGET);
+export const PUT = secureRoute(handlePUT);

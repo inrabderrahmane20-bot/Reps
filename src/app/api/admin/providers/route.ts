@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb } from '@/lib/db';
@@ -6,7 +7,7 @@ import { toPublicUser } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const status = new URL(req.url).searchParams.get('status');
@@ -16,3 +17,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ providers: list.map((user) => toPublicUser(user, true)) });
   });
 }
+
+export const GET = secureRoute(handleGET);

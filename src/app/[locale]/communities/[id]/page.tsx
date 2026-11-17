@@ -10,10 +10,12 @@ import { ReportButton } from '@/components/ui/report-modal';
 export const dynamic = 'force-dynamic';
 
 export default async function CommunityDetailPage({
-  params,
+  params: pendingparams,
 }: {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }) {
+  const params = await pendingparams;
+
   setRequestLocale(params.locale);
   const db = await readDb();
   const record = db.communities.find(c => c.id === params.id);

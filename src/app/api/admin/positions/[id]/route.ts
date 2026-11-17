@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { updateDb } from '@/lib/db';
@@ -8,7 +9,8 @@ const IN_RANGE = { lat: (v: number) => Math.abs(v) <= 90, lng: (v: number) => Ma
 
 export const dynamic = 'force-dynamic';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+async function handlePATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     await requireAdmin();
     const { lat, lng } = await req.json();
@@ -30,3 +32,4 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json(result);
   });
 }
+export const PATCH = secureRoute(handlePATCH);

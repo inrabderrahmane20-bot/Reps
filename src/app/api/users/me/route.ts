@@ -1,16 +1,19 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
-import { withErrors } from '@/lib/api-helpers';
+import { withErrors, jsonError } from '@/lib/api-helpers';
+import { validProfile } from '@/lib/security/profile';
 import { toPublicUser } from '@/lib/types';
 import { zoneFromNeighborhood } from '@/lib/zones';
 
 export const dynamic = 'force-dynamic';
 
-export async function PATCH(req: NextRequest) {
+async function handlePATCH(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const body = await req.json();
+    if(!body||typeof body!=='object'||Array.isArray(body)||!validProfile(body))return jsonError('Invalid profile fields.');
     const allowed = ['firstName', 'lastName', 'city', 'neighborhood', 'bio', 'languages', 'interests', 'avatar', 'homeLat', 'homeLng', 'zoneId'] as const;
 
     await updateDb((db) => {
@@ -29,3 +32,5 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ user: toPublicUser(updated, true) });
   });
 }
+
+export const PATCH = secureRoute(handlePATCH);

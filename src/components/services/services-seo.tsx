@@ -7,6 +7,7 @@ import { serviceCategoryHref } from '@/lib/services-browser';
 import { categoryBranchValues } from '@/lib/service-selection';
 import { normalizeCategory } from '@/lib/service-categories';
 import { readDb } from '@/lib/db';
+import {headers} from 'next/headers';
 
 export async function hasPublicProviders(node: SearchCategoryNode): Promise<boolean> {
   const values=categoryBranchValues(node);
@@ -24,7 +25,8 @@ export async function servicesMetadata(locale:Locale, roots:SearchCategoryNode[]
   const metadata = await buildMetadata({locale,path:route,title,description,image:`${SITE_URL}/images/services/marrakech-hero-panoramic.jpg`,robots:{index,follow:true},includeSiteName:false});
   return {...metadata,title:`${title} | Annabid`,openGraph:{...metadata.openGraph,title:`${title} | Annabid`,siteName:'Annabid',images:[{url:`${SITE_URL}/images/services/marrakech-hero-panoramic.jpg`,width:2172,height:724,alt:title}]},twitter:{...metadata.twitter,title:`${title} | Annabid`}};
 }
-export function ServicesStructuredData({locale,roots,path=[]}:{locale:Locale;roots:SearchCategoryNode[];path?:SearchCategoryNode[]}) {
+export async function ServicesStructuredData({locale,roots,path=[]}:{locale:Locale;roots:SearchCategoryNode[];path?:SearchCategoryNode[]}) {
+  const nonce=(await headers()).get('x-nonce')||undefined;
   const copy=servicesCopy(locale);
   const node=path.at(-1);
   const route=node?serviceCategoryHref(roots,node.id):'/services';
@@ -36,7 +38,7 @@ export function ServicesStructuredData({locale,roots,path=[]}:{locale:Locale;roo
     {'@type':'ItemList','@id':`${url}#categories`,itemListElement:items.map((item,index)=>({'@type':'ListItem',position:index+1,name:getCategoryLabel(item,locale),url:localizedUrl(locale,serviceCategoryHref(roots,item.id))}))},
     {'@type':'BreadcrumbList',itemListElement:crumbs.map((crumb,index)=>({'@type':'ListItem',position:index+1,name:crumb.name,item:crumb.url}))},
   ]};
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(graph).replace(/</g,'\\u003c')}}/>;
+  return <script nonce={nonce} type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(graph).replace(/</g,'\\u003c')}}/>;
 }
 export function ServicesLocalGuide({locale,roots,path=[]}:{locale:Locale;roots:SearchCategoryNode[];path?:SearchCategoryNode[]}) {
   const copy=servicesCopy(locale);

@@ -10,10 +10,12 @@ import { ReportButton } from '@/components/ui/report-modal';
 export const dynamic = 'force-dynamic';
 
 export default async function ActivityDetailPage({
-  params,
+  params: pendingparams,
 }: {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }) {
+  const params = await pendingparams;
+
   setRequestLocale(params.locale);
   const db = await readDb();
   const record = db.activities.find(a => a.id === params.id && a.status !== 'cancelled');

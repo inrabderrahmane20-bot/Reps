@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { hashPassword } from '@/lib/auth';
@@ -5,10 +6,12 @@ import { readDb, updateDb, newId } from '@/lib/db';
 import { withErrors, jsonError } from '@/lib/api-helpers';
 import { toPublicUser } from '@/lib/types';
 import { zoneFromNeighborhood } from '@/lib/zones';
+import { assertStrongPassword } from '@/lib/security/password';
+import {validProfile} from '@/lib/security/profile';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const q = new URL(req.url).searchParams.get('q')?.toLowerCase();
@@ -18,10 +21,11 @@ export async function GET(req: NextRequest) {
   });
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const body = await req.json();
+    if(!body||typeof body!=='object'||Array.isArray(body)||!validProfile(body))return jsonError('Invalid profile fields.');
     const { firstName, lastName, email, password, city, neighborhood, role, interests } = body ?? {};
     if (!firstName || !lastName || !email) return jsonError('First name, last name and email are required.');
 
@@ -31,10 +35,12 @@ export async function POST(req: NextRequest) {
 
     const finalRole = role === 'admin' ? 'admin' : 'user';
     if (typeof password !== 'string' || password.length < 12 || password.length > 128) return jsonError('Provide a password with 12 to 128 characters.');
-    const { salt, hash } = hashPassword(password);
+    await assertStrongPassword(password);
+    const { salt, hash } = await hashPassword(password);
     const id = newId('u');
 
     await updateDb((db) => {
+      if(db.users.some(u=>u.email.toLowerCase()===normalizedEmail))throw Object.assign(new Error('Duplicate email.'),{status:409});
       db.users.push({
         id,
         email: normalizedEmail,
@@ -62,3 +68,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ user: { ...toPublicUser(user, true), email: user.email } }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

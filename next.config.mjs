@@ -14,15 +14,17 @@ const nextConfig = {
   assetPrefix: isGithubPages ? '/Reps/' : undefined,
   images: {
     unoptimized: isGithubPages,
-    remotePatterns: [{ protocol: 'https', hostname: '**' }],
+    remotePatterns: ['images.unsplash.com','i.pravatar.cc','upload.wikimedia.org','thumb.wikimedia.org',...(process.env.SUPABASE_URL?[new URL(process.env.SUPABASE_URL).hostname]:[])].map(hostname=>({protocol:'https',hostname,port:'',pathname:'/**'})),
+    dangerouslyAllowSVG: false,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'none'; sandbox;",
   },
-  experimental: {
     // The PostgreSQL pool reads the pinned Supabase CA certificate at runtime.
     // Include it in every traced server bundle so TLS verification works on Vercel.
     outputFileTracingIncludes: {
       '/*': ['./supabase/prod-ca-2021.crt'],
     },
-  },
+  poweredByHeader: false,
   async headers() {
     return [
       {
@@ -32,13 +34,16 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self)' },
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
         ],
       },
       {
         // API responses are per-user/admin data and can expose transient
         // failures. Never let a browser or shared cache replay them.
         source: '/api/:path*',
-        headers: [{ key: 'Cache-Control', value: 'no-store, max-age=0' }],
+        headers: [{ key: 'Cache-Control', value: 'no-store, max-age=0' },{key:'Content-Security-Policy',value:"default-src 'none'; frame-ancestors 'none'; sandbox;"}],
       },
     ];
   },

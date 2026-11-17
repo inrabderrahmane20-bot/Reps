@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb } from '@/lib/db';
@@ -6,7 +7,7 @@ import { classifyZone, getZone } from '@/lib/zones';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     await requireAdmin();
     const db = await readDb();
@@ -27,3 +28,4 @@ export async function GET() {
     return NextResponse.json({ positions });
   });
 }
+export const GET = secureRoute(handleGET);

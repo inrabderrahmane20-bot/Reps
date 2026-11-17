@@ -3,6 +3,8 @@ import path from 'node:path';
 import { rootCertificates } from 'node:tls';
 import { Pool, type PoolClient, type QueryResult, type QueryResultRow } from 'pg';
 import type { Db, Session, User } from './types';
+import { appendAudit } from './security/audit';
+import { securityContext } from './security/context';
 
 export interface AdminStats {
   totalUsers: number;
@@ -599,6 +601,10 @@ async function persistDbDiff(client: PoolClient, previous: Db, next: Db): Promis
       .filter(([key, record]) => JSON.stringify(oldRecords.get(key)) !== JSON.stringify(record))
       .map(([record_key, data]) => ({ record_key, data }));
     const removed = [...oldRecords.keys()].filter((key) => !newRecords.has(key));
+    if (securityContext.getStore()?.actorId && securityContext.getStore()?.path.startsWith('/api/admin/')) {
+      for (const record of changed) await appendAudit(client, `${collection}.write`, {key:record.record_key,before:oldRecords.get(record.record_key),after:record.data});
+      for (const key of removed) await appendAudit(client, `${collection}.delete`, {key,before:oldRecords.get(key),after:null});
+    }
 
     if (changed.length) {
       await client.query(
@@ -641,6 +647,9 @@ export async function readDb(): Promise<Db> {
   return pool ? readCachedPostgresDb(pool) : readLocalDb();
 }
 
+/** Shared pool for atomic security counters and append-only audit records. */
+export const getDatabasePool = getPool;
+
 export async function writeDb(db: Db): Promise<void> {
   const pool = getPool();
   if (!pool) {
@@ -682,6 +691,7 @@ export async function updateDb<T>(mutator: (db: Db) => T): Promise<T> {
   if (!pool) {
     const db = readLocalDb();
     const result = mutator(db);
+    if(securityContext.getStore()?.actorId&&securityContext.getStore()?.path.startsWith('/api/admin/'))await appendAudit(null,'admin.local.write',{result});
     const tmpPath = `${DB_PATH}.tmp`;
     retryOnLock(() => fs.writeFileSync(tmpPath, JSON.stringify(db, null, 2)));
     retryOnLock(() => fs.renameSync(tmpPath, DB_PATH));
@@ -849,6 +859,7 @@ export async function mutateVisualEditorRecord<T>(id: string, mutate: (current: 
       await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1, 0))', [`visual-editor:${id}`]);
       const result = await client.query<{ data: T }>('SELECT data FROM public.visual_editor_documents WHERE id = $1 FOR UPDATE', [id]);
       const next = mutate(result.rows[0]?.data ?? null);
+      await appendAudit(client,'visual-editor.write',{id,before:result.rows[0]?.data,after:next});
       await client.query('INSERT INTO public.visual_editor_documents (id,data) VALUES ($1,$2::jsonb) ON CONFLICT (id) DO UPDATE SET data=EXCLUDED.data, updated_at=now()', [id, JSON.stringify(next)]);
       await client.query('COMMIT');
       return next;
@@ -867,6 +878,7 @@ export async function mutateVisualEditorRecord<T>(id: string, mutate: (current: 
     let current: T | null = null;
     try { current = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error; }
     const next = mutate(current);
+    await appendAudit(null,'visual-editor.write',{id,before:current,after:next});
     fs.writeFileSync(temporary, JSON.stringify(next, null, 2));
     retryOnLock(() => fs.renameSync(temporary, file));
     return next;

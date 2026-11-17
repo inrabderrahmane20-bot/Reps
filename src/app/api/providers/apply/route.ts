@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
@@ -10,7 +11,7 @@ import { toPublicUser } from '@/lib/types';
 // marketplace once an admin approves it (see /api/admin/providers/[id]).
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const body = await req.json();
@@ -53,3 +54,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ user: toPublicUser(updated, true) });
   });
 }
+
+export const POST = secureRoute(handlePOST);

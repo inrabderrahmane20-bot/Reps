@@ -1,89 +1,55 @@
 import { cookies } from 'next/headers';
-import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { readSessionUser, updateDb, newId } from './db';
-import type { User } from './types';
+import { tokenHash, randomToken } from './security/crypto';
+import type { User, Session } from './types';
+export { hashPassword, verifyPassword } from './security/crypto';
 
 export const SESSION_COOKIE = 'medina_session';
-const SESSION_DAYS = 30;
-
-export function hashPassword(password: string): { salt: string; hash: string } {
-  const salt = randomBytes(16).toString('hex');
-  const hash = scryptSync(password, salt, 64).toString('hex');
-  return { salt, hash };
-}
-
-export function verifyPassword(password: string, salt: string, hash: string): boolean {
-  try {
-    const candidate = scryptSync(password, salt, 64);
-    const stored = Buffer.from(hash, 'hex');
-    if (candidate.length !== stored.length) return false;
-    return timingSafeEqual(candidate, stored);
-  } catch {
-    return false;
-  }
-}
-
-/** Create a session for a user and set the session cookie. Call from a Route Handler. */
-export async function createSessionCookie(userId: string): Promise<string> {
-  const token = randomBytes(24).toString('hex');
-  const now = new Date();
-  const expires = new Date(now.getTime() + SESSION_DAYS * 24 * 60 * 60 * 1000);
-  await updateDb((db) => {
-    db.sessions.push({
-      token,
-      userId,
-      createdAt: now.toISOString(),
-      expiresAt: expires.toISOString(),
-    });
+const SESSION_MS=8*60*60*1000;
+export async function createSessionCookie(userId: string, options: Partial<Session> = {}, expected?: {sessionToken?:string;passwordHash?:string}): Promise<string> {
+  const token=randomToken(), now=Date.now();
+  const jar=await cookies(); const old=jar.get(SESSION_COOKIE)?.value;
+  const expires=new Date(options.pending ? now+10*60*1000 : Math.min(now+SESSION_MS,options.absoluteExpiresAt?Date.parse(options.absoluteExpiresAt):Infinity));
+  await updateDb(db=>{
+    const user=db.users.find(u=>u.id===userId&&u.status==='active');
+    if(!user||(expected?.passwordHash&&user.passwordHash!==expected.passwordHash)||(expected?.sessionToken&&!db.sessions.some(s=>s.token===expected.sessionToken&&s.userId===userId&&Date.parse(s.expiresAt)>now)))throw Object.assign(new Error('UNAUTHENTICATED'),{status:401});
+    db.sessions=db.sessions.filter(s=>Date.parse(s.expiresAt)>now && s.token!==tokenHash(old||''));
+    db.sessions.push({...options,token:tokenHash(token),userId,securityVersion:2,createdAt:options.createdAt||new Date(now).toISOString(),lastSeenAt:new Date(now).toISOString(),expiresAt:expires.toISOString(),absoluteExpiresAt:options.absoluteExpiresAt||expires.toISOString()});
+    const own=db.sessions.filter(s=>s.userId===userId).sort((a,b)=>a.createdAt.localeCompare(b.createdAt));
+    const excess=new Set(own.slice(0,Math.max(0,own.length-5)).map(s=>s.token));
+    db.sessions=db.sessions.filter(s=>!excess.has(s.token));
   });
-  cookies().set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    expires,
-    path: '/',
-  });
+  jar.set(SESSION_COOKIE,token,{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',expires,path:'/'});
   return token;
 }
-
 export async function clearSessionCookie(): Promise<void> {
-  const token = cookies().get(SESSION_COOKIE)?.value;
-  if (token) {
-    await updateDb((db) => {
-      db.sessions = db.sessions.filter((s) => s.token !== token);
-    });
-  }
-  cookies().delete(SESSION_COOKIE);
+  const jar=await cookies(); const token=jar.get(SESSION_COOKIE)?.value;
+  if(token) await updateDb(db=>{db.sessions=db.sessions.filter(s=>s.token!==tokenHash(token));});
+  jar.delete(SESSION_COOKIE);
 }
-
-/** Read the current user from the session cookie. Safe to call from Server Components,
- *  Route Handlers, and Server Actions. */
-export async function getSessionUser(): Promise<User | null> {
-  const token = cookies().get(SESSION_COOKIE)?.value;
-  if (!token) return null;
-  const sessionUser = await readSessionUser(token);
-  if (!sessionUser) return null;
-  if (!(new Date(sessionUser.session.expiresAt).getTime() > Date.now())) return null;
-  if (sessionUser.user.status !== 'active') return null;
-  return sessionUser.user;
+export async function getAuthSession(): Promise<{session:Session;user:User}|null> {
+  const token=(await cookies()).get(SESSION_COOKIE)?.value;
+  if(!token||!/^[a-f0-9]{64}$/.test(token))return null;
+  const record=await readSessionUser(tokenHash(token));
+  if(!record||record.session.securityVersion!==2||record.user.status!=='active')return null;
+  const now=Date.now(),s=record.session;
+  if(Date.parse(s.expiresAt)<=now||Date.parse(s.absoluteExpiresAt||s.expiresAt)<=now||now-Date.parse(s.lastSeenAt||s.createdAt)>60*60*1000)return null;
+  return record;
 }
-
+export async function getSessionUser(): Promise<User|null> {
+  const record=await getAuthSession();
+  if(!record||record.session.pending||!record.user.emailVerifiedAt)return null;
+  if(record.user.role==='admin'&&(!record.user.mfaSecret||!record.session.mfaVerifiedAt))return null;
+  return record.user;
+}
 export async function requireUser(): Promise<User> {
-  const user = await getSessionUser();
-  if (!user) {
-    const err = new Error('UNAUTHENTICATED');
-    (err as any).status = 401;
-    throw err;
-  }
+  const user=await getSessionUser();
+  if(!user)throw Object.assign(new Error('UNAUTHENTICATED'),{status:401});
   return user;
 }
-
 export async function requireAdmin(): Promise<User> {
-  const admin = await requireUser();
-  if (admin.role !== 'admin') throw Object.assign(new Error('FORBIDDEN'), { status: 403 });
-  return admin;
+  const user=await requireUser();
+  if(user.role!=='admin')throw Object.assign(new Error('FORBIDDEN'),{status:403});
+  return user;
 }
-
-export function newUserId(): string {
-  return newId('u');
-}
+export function newUserId(): string {return newId('u');}

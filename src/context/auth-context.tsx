@@ -41,16 +41,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refresh();
+    const interval=setInterval(()=>{api.post('/auth/sessions',{action:'refresh'}).catch(()=>{});},10*60*1000);
+    return ()=>clearInterval(interval);
   }, [refresh]);
 
   const login = useCallback(async (email: string, password: string) => {
-    const res = await api.post<{ user: PublicUser }>('/auth/login', { email, password });
+    const res = await api.post<{ user: PublicUser; nextStep?: string }>('/auth/login', { email, password });
+    if(res.nextStep){window.location.assign(`/${document.documentElement.lang||'fr'}/account-security/#step=${res.nextStep}`);throw new ApiError('Additional verification required.',202);}
     setUser(res.user);
     return res.user;
   }, []);
 
   const register = useCallback(async (data: Parameters<AuthContextValue['register']>[0]) => {
-    const res = await api.post<{ user: PublicUser }>('/auth/register', data);
+    const res = await api.post<{ user: PublicUser; nextStep?: string }>('/auth/register', data);
+    if(res.nextStep){window.location.assign(`/${document.documentElement.lang||'fr'}/account-security/#step=${res.nextStep}`);throw new ApiError('Check your email to verify your account.',202);}
     setUser(res.user);
   }, []);
 

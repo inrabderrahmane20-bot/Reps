@@ -4,7 +4,10 @@ import { Link } from '@/i18n/navigation';
 import { FavoriteButton } from '@/components/ui/favorite-button';
 
 export const dynamic = 'force-dynamic';
-export default async function SellPage({ params, searchParams }: { params: { locale: string }; searchParams: { cat?: string } }) {
+export default async function SellPage({ params: pendingparams, searchParams: pendingsearchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ cat?: string }> }) {
+  const params = await pendingparams;
+  const searchParams = await pendingsearchParams;
+
   const t = await getTranslations({ locale: params.locale, namespace: 'sell' });
   const empty = await getTranslations({ locale: params.locale, namespace: 'favorites' });
   const db = await readDb();

@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -24,7 +25,7 @@ function enrich(db: any, convo: any, meId: string) {
 // retro MSN-style UI on the client.
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const typeFilter = new URL(req.url).searchParams.get('type');
@@ -36,7 +37,7 @@ export async function GET(req: NextRequest) {
   });
 }
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { userId } = await req.json();
@@ -60,3 +61,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id: convo.id }, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

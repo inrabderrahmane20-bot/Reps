@@ -1,10 +1,12 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { toPublicUser } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+async function handleGET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   const db = await readDb();
   const u = db.users.find((x) => x.id === params.id);
   if (!u || !u.provider || u.providerStatus !== 'approved' || u.status !== 'active') {
@@ -20,3 +22,5 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
   return NextResponse.json({ provider: { ...toPublicUser(u), rating, reviews } });
 }
+
+export const GET = secureRoute(handleGET);

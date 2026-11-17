@@ -15,6 +15,8 @@ import { FloatingSearch } from '@/components/search/floating-search';
 import { CategorySearchRoot } from '@/components/search/category-search-root';
 import { AuthProvider } from '@/context/auth-context';
 import '../globals.css';
+// Per-response CSP nonces require dynamic HTML rather than cached static shells.
+export const dynamic = 'force-dynamic';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
@@ -5,7 +6,7 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     const me = await requireUser();
     const profile = (await readDb()).meetingProfiles.find((p) => p.userId === me.id) || null;
@@ -16,7 +17,7 @@ export async function GET() {
 // Create or update the user's separate Meetings profile (SRS §28). Kept
 // distinct from the main profile — sensitive fields are opt-in and only
 // used inside the Meetings section.
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const body = await req.json();
@@ -44,3 +45,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

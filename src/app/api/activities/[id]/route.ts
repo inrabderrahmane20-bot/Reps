@@ -1,10 +1,12 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { readDb } from '@/lib/db';
 import { getSessionUser } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+async function handleGET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   const db = await readDb();
   const a = db.activities.find((x) => x.id === params.id);
   if (!a) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
@@ -23,3 +25,5 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     },
   });
 }
+
+export const GET = secureRoute(handleGET);

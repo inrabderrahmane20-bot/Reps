@@ -7,14 +7,19 @@ import { GlobalDocument } from '@/components/visual-editor/global-document';
 import { ServicesStructuredData,ServicesLocalGuide,servicesMetadata } from '@/components/services/services-seo';
 import ServicesClient from '../../services-client';
 export const dynamic='force-dynamic';
-type Props={params:{locale:Locale;slug:string[]};searchParams:Record<string,string|undefined>};
-export async function generateMetadata({params,searchParams}:Props):Promise<Metadata> {
+type Props={params:Promise<{locale:Locale;slug:string[]}>;searchParams:Promise<Record<string,string|undefined>>};
+export async function generateMetadata({params: pendingparams,searchParams: pendingsearchParams}:Props):Promise<Metadata> {
+  const params = await pendingparams;
+  const searchParams = await pendingsearchParams;
+
   const roots=serviceRoots(await getCategoryTree());
   const path=resolveServiceCategory(roots,params.slug);
   if(!path) notFound();
   return servicesMetadata(params.locale,roots,path,Object.keys(searchParams).some(key=>['q','sort','zone','availability','minRating','offset'].includes(key)));
 }
-export default async function ServiceCategoryPage({params}:Props) {
+export default async function ServiceCategoryPage({params: pendingparams}:Props) {
+  const params = await pendingparams;
+
   const categories=await getCategoryTree();
   const roots=serviceRoots(categories);
   const path=resolveServiceCategory(roots,params.slug);

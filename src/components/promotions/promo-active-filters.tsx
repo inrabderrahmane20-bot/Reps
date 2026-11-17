@@ -42,7 +42,7 @@ export function PromoActiveFilters({
         ? t('discountBetween', { min: value.minDiscount, max: value.maxDiscount })
         : value.minDiscount !== null
           ? t('discountAndMore', { value: value.minDiscount })
-          : t('discountUpTo', { value: value.maxDiscount });
+          : t('discountUpTo', { value: value.maxDiscount! });
     chips.push({
       key: 'discount',
       label,
@@ -55,7 +55,7 @@ export function PromoActiveFilters({
         ? t('priceBetween', { min: value.minPrice, max: value.maxPrice })
         : value.minPrice !== null
           ? t('priceFrom', { value: value.minPrice })
-          : t('priceUpTo', { value: value.maxPrice });
+          : t('priceUpTo', { value: value.maxPrice! });
     chips.push({
       key: 'price',
       label,

@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { updateDb, newId } from '@/lib/db';
@@ -6,7 +7,7 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 // Universal report button (SRS §52).
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { targetType, targetId, reason, details } = await req.json();
@@ -27,3 +28,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+
+export const POST = secureRoute(handlePOST);

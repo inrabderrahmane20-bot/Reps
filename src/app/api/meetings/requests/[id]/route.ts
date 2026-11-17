@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -7,7 +8,8 @@ import { pushNotification } from '@/lib/notify';
 // Accept/decline (SRS §31). On accept, opens the retro Meetings conversation.
 export const dynamic = 'force-dynamic';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+async function handlePATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     const me = await requireUser();
     const { status } = await req.json();
@@ -43,3 +45,5 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ ok: true, conversationId });
   });
 }
+
+export const PATCH = secureRoute(handlePATCH);

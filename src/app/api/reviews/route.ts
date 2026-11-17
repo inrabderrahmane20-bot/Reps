@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb, updateDb, newId } from '@/lib/db';
@@ -7,7 +8,7 @@ import { pushNotification } from '@/lib/notify';
 // Step 13: client leaves a review after a completed mission.
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     const me = await requireUser();
     const { requestId, rating, content } = await req.json();
@@ -38,3 +39,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   });
 }
+
+export const POST = secureRoute(handlePOST);

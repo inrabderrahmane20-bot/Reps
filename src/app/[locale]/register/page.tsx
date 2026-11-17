@@ -26,6 +26,7 @@ export default function RegisterPage() {
       await register(form);
       router.push('/profile');
     } catch (err) {
+      if(err instanceof ApiError && err.status===202)return;
       setError(err instanceof ApiError ? err.message : 'Something went wrong.');
     } finally {
       setLoading(false);
@@ -54,7 +55,7 @@ export default function RegisterPage() {
         </div>
         <div>
           <label htmlFor="register-password" className="text-xs font-semibold text-ink-700">{t('passwordLabel')}</label>
-          <input type="password" required minLength={6} id="register-password" autoComplete="new-password" value={form.password} onChange={(e) => set('password', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
+          <input type="password" required minLength={12} maxLength={128} id="register-password" autoComplete="new-password" value={form.password} onChange={(e) => set('password', e.target.value)} className="mt-1 w-full rounded-xl border border-ink-900/10 px-3.5 py-2.5 text-sm focus:border-majorelle-500 focus:outline-none" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>

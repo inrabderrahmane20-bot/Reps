@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb, updateDb } from '@/lib/db';
@@ -38,7 +39,7 @@ export interface CampaignProvider {
  * that are disabled, expired or scheduled for the future — plus the approved
  * providers that can still receive a campaign.
  */
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     await requireAdmin();
     const denied = await requireAdminSession();
@@ -93,7 +94,7 @@ export async function GET() {
  * Creates (or replaces) the sponsored campaign of one provider. The payload
  * is validated with exactly the same rules as the provider PATCH route.
  */
-export async function POST(req: NextRequest) {
+async function handlePOST(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const denied = await requireAdminSession();
@@ -119,3 +120,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(result, { status: 201 });
   });
 }
+
+export const GET = secureRoute(handleGET);
+export const POST = secureRoute(handlePOST);

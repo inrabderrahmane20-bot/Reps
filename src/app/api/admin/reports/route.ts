@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { readDb } from '@/lib/db';
@@ -5,7 +6,7 @@ import { withErrors } from '@/lib/api-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+async function handleGET(req: NextRequest) {
   return withErrors(async () => {
     await requireAdmin();
     const status = new URL(req.url).searchParams.get('status');
@@ -22,3 +23,5 @@ function nameOf(db: any, id: string) {
   const u = db.users.find((x: any) => x.id === id);
   return u ? `${u.firstName} ${u.lastName}` : 'Unknown';
 }
+
+export const GET = secureRoute(handleGET);

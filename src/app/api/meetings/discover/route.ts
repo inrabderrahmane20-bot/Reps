@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { readDb } from '@/lib/db';
@@ -16,7 +17,7 @@ function score(mine: any, other: any, meInterests: string[], otherInterests: str
 }
 
 // Suggested/compatible profiles — deliberately not swipe-based (SRS §29-30).
-export async function GET() {
+async function handleGET() {
   return withErrors(async () => {
     const me = await requireUser();
     const db = await readDb();
@@ -54,3 +55,5 @@ export async function GET() {
     return NextResponse.json({ profiles: results, needsProfile: false });
   });
 }
+
+export const GET = secureRoute(handleGET);

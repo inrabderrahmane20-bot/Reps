@@ -1,3 +1,4 @@
+import { secureRoute } from '@/lib/security/route';
 import { NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { updateDb, newId } from '@/lib/db';
@@ -5,7 +6,8 @@ import { withErrors, jsonError } from '@/lib/api-helpers';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: Request, { params }: { params: { id: string; postId: string } }) {
+async function handlePOST(req: Request, context: { params: Promise<{ id: string; postId: string }> }) {
+  const params = await context.params;
   return withErrors(async () => {
     const me = await requireUser();
     const { content } = await req.json();
@@ -21,3 +23,5 @@ export async function POST(req: Request, { params }: { params: { id: string; pos
     return NextResponse.json(result, { status: 201 });
   });
 }
+
+export const POST = secureRoute(handlePOST);

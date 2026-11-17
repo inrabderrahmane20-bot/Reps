@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
-import { useRouter } from '@/i18n/navigation';
+import { useRouter, Link } from '@/i18n/navigation';
 import { BadgeCheck, Clock, XCircle } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { api, ApiError } from '@/lib/api-client';
@@ -24,6 +24,7 @@ interface ServiceRequestRow {
 export default function ProfilePage() {
   const { user, loading, setUser } = useAuth();
   const router = useRouter();
+  const locale=useLocale();
   const t = useTranslations('profile');
   const common = useTranslations('common');
   const providerT = useTranslations('provider');
@@ -79,6 +80,7 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 md:px-8">
+      <Link href="/account-security" className="mb-4 block text-sm underline">{locale==='ar'?'أمان الحساب والبيانات':locale==='fr'?'Sécurité du compte et données personnelles':'Account security and personal data'}</Link>
       <div className="flex items-center gap-4" data-tour-target="profile-details">
         <Image src={user.avatar} alt="" width={80} height={80} className="h-20 w-20 rounded-full object-cover" />
         <div className="min-w-0 flex-1">
