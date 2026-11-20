@@ -112,7 +112,7 @@ export default function PromotionsPage() {
     setLoading(true);
     setError(false);
 
-    fetch(`/api/promotions?${queryString}&limit=${PAGE_SIZE}`, {
+    fetch(`/api/promotions/?${queryString}&limit=${PAGE_SIZE}`, {
       credentials: 'same-origin',
     })
       .then(async (res) => {
@@ -141,7 +141,7 @@ export default function PromotionsPage() {
     const key = requestKey;
     setLoadingMore(true);
     try {
-      const res = await fetch(`/api/promotions?${queryString}&limit=${PAGE_SIZE}&offset=${items.length}`, {
+      const res = await fetch(`/api/promotions/?${queryString}&limit=${PAGE_SIZE}&offset=${items.length}`, {
         credentials: 'same-origin',
       });
       if (!res.ok) throw new Error('request failed');

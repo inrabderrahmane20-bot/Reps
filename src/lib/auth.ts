@@ -9,7 +9,9 @@ const SESSION_MS=8*60*60*1000;
 export async function createSessionCookie(userId: string, options: Partial<Session> = {}, expected?: {sessionToken?:string;passwordHash?:string}): Promise<string> {
   const token=randomToken(), now=Date.now();
   const jar=await cookies(); const old=jar.get(SESSION_COOKIE)?.value;
-  const expires=new Date(options.pending ? now+10*60*1000 : Math.min(now+SESSION_MS,options.absoluteExpiresAt?Date.parse(options.absoluteExpiresAt):Infinity));
+  // Pending MFA/email steps need enough time to open an authenticator app or inbox.
+  const pendingMs=30*60*1000;
+  const expires=new Date(options.pending ? now+pendingMs : Math.min(now+SESSION_MS,options.absoluteExpiresAt?Date.parse(options.absoluteExpiresAt):Infinity));
   await updateDb(db=>{
     const user=db.users.find(u=>u.id===userId&&u.status==='active');
     if(!user||(expected?.passwordHash&&user.passwordHash!==expected.passwordHash)||(expected?.sessionToken&&!db.sessions.some(s=>s.token===expected.sessionToken&&s.userId===userId&&Date.parse(s.expiresAt)>now)))throw Object.assign(new Error('UNAUTHENTICATED'),{status:401});
@@ -19,7 +21,11 @@ export async function createSessionCookie(userId: string, options: Partial<Sessi
     const excess=new Set(own.slice(0,Math.max(0,own.length-5)).map(s=>s.token));
     db.sessions=db.sessions.filter(s=>!excess.has(s.token));
   });
-  jar.set(SESSION_COOKIE,token,{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',expires,path:'/'});
+  // Safari 16.4+ intermittently omits SameSite=lax cookies on fetch() requests.
+  // Use SameSite=none in production (Secure is required by the browser spec);
+  // the server's Origin check still blocks cross-site state changes.
+  const production=process.env.NODE_ENV==='production';
+  jar.set(SESSION_COOKIE,token,{httpOnly:true,sameSite:production?'none':'lax',secure:production,expires,path:'/'});
   return token;
 }
 export async function clearSessionCookie(): Promise<void> {

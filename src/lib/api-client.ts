@@ -51,6 +51,15 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// The app uses trailingSlash: true. Calling the non-slashed URL makes Next.js
+// issue a 308 before the route runs; WebKit can drop the session cookie across
+// that redirect. Normalize here so every request goes straight to the canonical URL.
+function apiUrl(path: string): string {
+  const [pathname, ...query] = path.split('?');
+  const slashed = pathname.endsWith('/') ? pathname : `${pathname}/`;
+  return query.length ? `/api${slashed}?${query.join('?')}` : `/api${slashed}`;
+}
+
 function retryDelay(attempt: number): number {
   return 250 * 2 ** attempt + Math.floor(Math.random() * 150);
 }
@@ -64,7 +73,7 @@ async function fetchOnce(
   const timeout = isAdminRequest ? ADMIN_REQUEST_TIMEOUT_MS : REQUEST_TIMEOUT_MS;
   const timer = setTimeout(() => controller.abort(), timeout);
   try {
-    const response = await fetch(`/api${path}`, {
+    const response = await fetch(apiUrl(path), {
       ...options,
       cache: 'no-store',
       credentials: 'same-origin',

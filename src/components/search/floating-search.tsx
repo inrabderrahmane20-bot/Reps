@@ -225,7 +225,7 @@ export function FloatingSearch() {
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query.trim())}&locale=${encodeURIComponent(locale)}`,
+          `/api/search/?q=${encodeURIComponent(query.trim())}&locale=${encodeURIComponent(locale)}`,
           {
             signal: controller.signal,
             credentials: 'same-origin',

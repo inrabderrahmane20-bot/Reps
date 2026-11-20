@@ -195,7 +195,7 @@ export default function AdminCategoriesPage() {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const res = await fetch('/api/admin/upload-image', {
+      const res = await fetch('/api/admin/upload-image/', {
         method: 'POST',
         credentials: 'same-origin',
         body: formData,

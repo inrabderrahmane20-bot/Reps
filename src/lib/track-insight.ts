@@ -22,7 +22,7 @@ function flush() {
   const batch = queue;
   queue = [];
   try {
-    void fetch('/api/insights', {
+    void fetch('/api/insights/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ providerId: batch[0].providerId, events: batch.flatMap((p) => p.events) }),
